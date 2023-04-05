@@ -1,0 +1,6 @@
+package com.bitmovin.player_example
+
+import io.flutter.embedding.android.FlutterActivity
+
+class MainActivity: FlutterActivity() {
+}
