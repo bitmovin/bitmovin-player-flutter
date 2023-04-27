@@ -1,16 +1,10 @@
 # Examples
 
-## Basic
+## Basic Playback
 
 ```dart
 class PlayerScreen extends StatelessWidget {
   Player _player = Player();
-
-  PlayerConfig _playerConfig = const PlayerConfig(
-    playbackConfig: PlaybackConfig(
-      isAutoplayEnabled: false,
-    ),
-  )
 
   SourceConfig _sourceConfig = SourceConfig(
     url: Platform.isAndroid ? "https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd" : 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8',
@@ -23,16 +17,19 @@ class PlayerScreen extends StatelessWidget {
 
   @override
   void build(BuildContent context) {
-    return PlayerView(
-      player: _player,
-      playerConfig: _playerConfig,
-      onViewCreated: _onViewCreated,
+    return SizeBox.from(
+      size: Size.fromHeight(230),
+      child: PlayerView(
+        player: _player,
+      ),
     );
   }
 }
 ```
 
 ---
+
+</br>
 
 ## Basic Controls (Manual)
 
@@ -134,15 +131,52 @@ class PlayerScreen extends StatelessWidget {
 
 ---
 
-## Basic Fullscreen Handling
+</br>
 
-TODO: Add basic fullscreen handling here
+## Subcring to Events
+
 
 ```dart
 class PlayerScreen extends StatelessWidget {
+  Player _player = Player();
+
+  SourceConfig _sourceConfig = SourceConfig(
+    url: Platform.isAndroid ? "https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd" : 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8',
+    type: Platform.isAndroid ? SourceType.dash : SourceType.hls,
+  ),
+
+  void listToEvent() {
+    _player.onReady = (data) {
+      print('Got on ready event');
+    }
+    _player.onTimeChanged = (data) {
+      print('Got on time changed event');
+    }
+    _player.onPause = (data) {
+      print('Got on pause event');
+    }
+    _player.onMute = (data) {
+      print('Got on mute event');
+    }
+    _player.onUnmute = (data) {
+      print('Got on unmute event');
+    }
+  }
+
+  @override
+  void initState() {
+    listenToEvent();
+    super.initState();
+  }
+
   @override
   void build(BuildContent context) {
-    return const Container();
+    return SizeBox.from(
+      size: Size.fromHeight(230),
+      child: PlayerView(
+        player: _player,
+      ),
+    );
   }
 }
 ```
