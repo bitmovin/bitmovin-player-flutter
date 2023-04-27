@@ -48,6 +48,14 @@ class SubtitleTrack extends Equatable {
   Map<String, dynamic> toJson() => _$SubtitleTrackToJson(this);
 
   @override
-  List<Object?> get props =>
-      [id, mimeType, label, url, isDefault, language, isForced, roles];
+  List<Object?> get props => [
+        id,
+        mimeType,
+        label,
+        url,
+        isDefault,
+        language,
+        isForced,
+        roles,
+      ];
 }

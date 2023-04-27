@@ -1,12 +1,14 @@
 // Helper.kt
 // Created by Vijae Manlapaz
-package com.bitmovin.core
+package com.bitmovin
 
 import android.content.Context
 import android.content.Intent
 import android.media.AudioManager
 import android.net.Uri
+import android.os.Build
 import android.provider.Settings
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import com.bitmovin.player.api.PlaybackConfig
 import com.bitmovin.player.api.SeekMode
@@ -109,9 +111,13 @@ class Helper {
 //        return PlaylistOptions(preloadAllSources = preloadSource, replayMode = replayMode)
 //    }
 
+        fun parsePlayerPayload(params: Map<*, *>): PlayerPayload {
+            return PlayerPayload(params["id"] as String, params["data"])
+        }
+
         fun buildSource(params: Map<*, *>): Source {
-            Source
-            return Source.create(buildSourceConfig(params))
+            return Source.create(SourceConfig("", SourceType.Dash))
+//            return Source.create(buildSourceConfig(params))
         }
 
         fun buildSourceConfig(params: Map<*, *>): SourceConfig {
@@ -146,14 +152,16 @@ class Helper {
             )
         }
 
-        fun buildPlayerConfig(params: Map<*, *>): PlayerConfig {
-            val styleConfig = params["styleConfig"] as Map<*, *>
-            val buildPlaybackConfig = params["playbackConfig"] as Map<*, *>
-            return PlayerConfig(
-                key = params["key"] as String?,
-                styleConfig = buildStyleConfig(styleConfig),
-                playbackConfig = buildPlaybackConfig(buildPlaybackConfig)
-            )
+        fun buildPlayerConfig(params: Map<*, *>?): PlayerConfig? {
+            return params?.let {
+                val styleConfig = params["styleConfig"] as Map<*, *>
+                val buildPlaybackConfig = params["playbackConfig"] as Map<*, *>
+                return PlayerConfig(
+                    key = params["key"] as String?,
+                    styleConfig = buildStyleConfig(styleConfig),
+                    playbackConfig = buildPlaybackConfig(buildPlaybackConfig)
+                )
+            }
         }
 
         fun secondsToMillis(seconds: Double) : Double = seconds * 1000
@@ -172,6 +180,7 @@ class Helper {
         fun getSystemBrightness(context: Context) : Float {
             return Settings.System.getInt(context.contentResolver, Settings.System.SCREEN_BRIGHTNESS, 0).toFloat()
         }
+        @RequiresApi(Build.VERSION_CODES.M)
         fun canWriteSystemSettings(context: Context) : Boolean {
             return Settings.System.canWrite(context)
         }

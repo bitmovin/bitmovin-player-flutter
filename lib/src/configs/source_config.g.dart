@@ -13,15 +13,15 @@ SourceConfig _$SourceConfigFromJson(Map<String, dynamic> json) {
   );
   return SourceConfig(
     url: json['url'] as String,
-    type: $enumDecodeNullable(_$SourceTypeEnumMap, json['type']),
-    title: json['title'] as String?,
-    description: json['description'] as String?,
+    type: $enumDecode(_$SourceTypeEnumMap, json['type']),
+    title: json['title'] as String? ?? '',
+    description: json['description'] as String? ?? '',
     audioCodecPriority: (json['audioCodecPriority'] as List<dynamic>?)
             ?.map((e) => e as String)
             .toList() ??
         [],
     isPosterPersistent: json['isPosterPersistent'] as bool? ?? false,
-    posterSource: json['posterSource'] as String?,
+    posterSource: json['posterSource'] as String? ?? '',
     subtitleTracks: (json['subtitleTracks'] as List<dynamic>?)
             ?.map((e) => SubtitleTrack.fromJson(e as Map<String, dynamic>))
             .toList() ??
@@ -43,7 +43,7 @@ SourceConfig _$SourceConfigFromJson(Map<String, dynamic> json) {
 Map<String, dynamic> _$SourceConfigToJson(SourceConfig instance) =>
     <String, dynamic>{
       'url': instance.url,
-      'type': _$SourceTypeEnumMap[instance.type],
+      'type': _$SourceTypeEnumMap[instance.type]!,
       'title': instance.title,
       'description': instance.description,
       'posterSource': instance.posterSource,

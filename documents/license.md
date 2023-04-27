@@ -8,7 +8,7 @@ first will be via your **Platform Manifest** file `info.plist` for **iOS** and `
 
 ## Option 1
 
-**For android**
+For android
 
 Open `/android/src/main/AndroidManifest.xml` and add the following code.
 
@@ -20,7 +20,9 @@ Open `/android/src/main/AndroidManifest.xml` and add the following code.
 
 </br>
 
-**For ios**
+---
+
+For ios
 
 Open `/ios/Runner/info.plist` and add the following code.
 
@@ -39,12 +41,21 @@ Programmatically set your **License Key**
 
 ```dart
 class PlayerScreen extends StatelessWidget {
+
+  Player _player = Player();
+  
+  PlayerConfig _playerConfig = const PlayerConfig(
+    key: "<YOUR LICENSE KEY>",
+    playbackConfig: PlaybackConfig(
+      isAutoplayEnabled: false,
+    ),
+  );
+
   build(BuildContent context) {
-    return Player(
-      url: 'url/to/your/video',
-      playerConfig: PlayerConfig(
-        licenseKey: '<YOUR LICENSE KEY>'
-      ),
+    return PlayerView(
+      player: _player,
+      playerConfig: _playerConfig,
+      onViewCreated: _onViewCreated,
     );
   }
 }
