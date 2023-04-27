@@ -15,7 +15,6 @@ class PlayerViewFactory(
     private val tag: String = PlayerViewFactory::class.java.simpleName
 
     override fun create(context: Context?, viewId: Int, args: Any?): PlatformView {
-        val creationParams = args as Map<*, *>?
-        return PlayerViewMethod(context!!, creationParams, registrar.binaryMessenger, viewId)
+        return PlayerViewMethod(context!!, args, registrar.binaryMessenger, viewId)
     }
 }
