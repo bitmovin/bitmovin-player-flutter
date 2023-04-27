@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:player_example/home.dart';
+import 'package:player_example/pages/basic_playback.dart';
+import 'package:player_example/pages/basic_player_only.dart';
+import 'package:player_example/pages/home.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,14 +16,17 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: HomePage(),
+    return MaterialApp(
+      initialRoute: '/',
+      routes: {
+        Home.routeName: (_) => const Home(),
+        BasicPlayback.routeName: (_) => const BasicPlayback(),
+        BasicPlayerOnly.routeName: (_) => const BasicPlayerOnly(),
+      },
+      home: const Scaffold(
+        body: Home(),
+      ),
     );
   }
 }

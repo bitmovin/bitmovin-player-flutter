@@ -1,69 +1,69 @@
 import 'dart:io';
 
-import 'package:bitmovin_sdk/player.dart';
-import 'package:bitmovin_sdk/src/channels.dart';
+import 'package:bitmovin_sdk/src/channel_manager.dart';
+import 'package:bitmovin_sdk/src/player.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 
-typedef PlayerCreatedCallback = void Function(PlayerController controller);
-typedef EventHandler = void Function(dynamic value);
+typedef PlayerCallback = void Function();
 
 class PlayerView extends StatefulWidget {
   const PlayerView({
-    required this.onPlayerCreated,
     super.key,
-    this.playerConfig,
-    // this.sourceConfig,
+    this.player,
+    this.onViewCreated,
   });
-
-  final PlayerCreatedCallback onPlayerCreated;
-
-  // final SourceConfig? sourceConfig;
-
-  final PlayerConfig? playerConfig;
+  final Player? player;
+  final PlayerCallback? onViewCreated;
 
   @override
-  State<PlayerView> createState() => _PlayerViewState();
+  State<StatefulWidget> createState() => _PlayerViewState();
 }
 
 class _PlayerViewState extends State<PlayerView> {
-  final stream = const EventChannel(Channels.events);
+  late final MethodChannel _methodChannel;
+  final ChannelManager _channelManager = ChannelManager();
 
-  // Map<String, dynamic>? buildSourceConfig(String? url) {
-  //   if (url != null) {
-  //     return SourceConfig(url: url, type: SourceType.dash).toJson();
-  //   }
-  //   return widget.sourceConfig?.toJson();
-  // }
-
-  /// Creates the required parameters to be use by the Native Code.
-  Map<String, dynamic> _buildParams() {
-    return <String, dynamic>{
-      // 'sourceConfig': widget.sourceConfig?.toJson(),
-      'playerConfig': widget.playerConfig!.toJson(),
-    };
+  @override
+  void initState() {
+    _channelManager.method.invokeMethod(
+      'CREATE_PLAYER_VIEW',
+      Map<String, dynamic>.from({
+        'playerId': widget.player?.id,
+      }),
+    );
+    super.initState();
   }
 
-  void _startListener() {
-    stream.receiveBroadcastStream().listen(_listenStream);
-  }
-
-  void _listenStream(dynamic value) {
-    debugPrint('Received From Native:  $value\n');
-    // widget.eventHandler?.call(value);
-  }
-
-  /// [id] parameter is the native view id that can be use to identify the view
-  /// from the native view.
   void _onPlatformViewCreated(int id) {
-    widget.onPlayerCreated(PlayerController(id: id));
+    _methodChannel = MethodChannel('player-view-$id');
+
+    if (widget.player != null) {
+      _methodChannel.invokeMethod(
+        'BIND_PLAYER',
+        Map<String, dynamic>.from({
+          'playerId': widget.player!.id,
+          'viewId': id,
+        }),
+      );
+    }
+
+    widget.onViewCreated?.call();
   }
 
   @override
   void dispose() {
+    if (widget.player != null) {
+      _methodChannel.invokeMethod(
+        'UNBIND_PLAYER',
+        Map<String, dynamic>.from({
+          'playerId': widget.player!.id,
+        }),
+      );
+    }
     super.dispose();
   }
 
@@ -71,20 +71,21 @@ class _PlayerViewState extends State<PlayerView> {
   Widget build(BuildContext context) {
     return Platform.isAndroid
         ? PlatformViewLink(
-            viewType: Channels.type,
+            viewType: 'player-view',
             surfaceFactory: (context, controller) {
               return AndroidViewSurface(
                 controller: controller as ExpensiveAndroidViewController,
-                gestureRecognizers: const <Factory<OneSequenceGestureRecognizer>>{},
+                gestureRecognizers: const <
+                    Factory<OneSequenceGestureRecognizer>>{},
                 hitTestBehavior: PlatformViewHitTestBehavior.opaque,
               );
             },
             onCreatePlatformView: (PlatformViewCreationParams params) {
               return PlatformViewsService.initExpensiveAndroidView(
                 id: params.id,
-                viewType: Channels.type,
+                viewType: 'player-view',
                 layoutDirection: TextDirection.ltr,
-                creationParams: _buildParams(),
+                creationParams: widget.player?.id,
                 creationParamsCodec: const StandardMessageCodec(),
                 onFocus: () {
                   params.onFocusChanged(true);
@@ -96,9 +97,9 @@ class _PlayerViewState extends State<PlayerView> {
             },
           )
         : UiKitView(
-            viewType: Channels.type,
+            viewType: 'player-view',
             layoutDirection: TextDirection.ltr,
-            creationParams: _buildParams(),
+            creationParams: widget.player?.id,
             onPlatformViewCreated: _onPlatformViewCreated,
             creationParamsCodec: const StandardMessageCodec(),
           );

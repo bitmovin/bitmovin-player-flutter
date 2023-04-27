@@ -6,16 +6,14 @@ part of 'source.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Source _$SourceFromJson(Map<String, dynamic> json) {
-  $checkKeys(
-    json,
-    disallowNullValues: const ['sourceConfig'],
-  );
-  return Source(
-    SourceConfig.fromJson(json['sourceConfig'] as Map<String, dynamic>),
-  );
-}
+Source _$SourceFromJson(Map<String, dynamic> json) => Source(
+      sourceConfig: json['sourceConfig'] == null
+          ? null
+          : SourceConfig.fromJson(json['sourceConfig'] as Map<String, dynamic>),
+      id: json['id'] as String?,
+    );
 
 Map<String, dynamic> _$SourceToJson(Source instance) => <String, dynamic>{
-      'sourceConfig': instance.sourceConfig.toJson(),
+      'id': instance.id,
+      'sourceConfig': instance.sourceConfig?.toJson(),
     };

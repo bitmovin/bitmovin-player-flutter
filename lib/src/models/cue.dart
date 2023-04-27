@@ -46,11 +46,11 @@ class Cue extends Equatable {
   // final int windowColor;
   // final VerticalType verticalType;
 
-  // factory Cue.fromJson(Map<String, dynamic> json) {
-  //   return _$CueFromJson(json);
-  // }
+  factory Cue.fromJson(Map<String, dynamic> json) {
+    return _$CueFromJson(json);
+  }
 
-  // Map<String, dynamic> toJson() => _$CueToJson(this);
+  Map<String, dynamic> toJson() => _$CueToJson(this);
 }
 
 enum VerticalType {

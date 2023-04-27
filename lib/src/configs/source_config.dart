@@ -18,7 +18,7 @@ class SourceConfig extends Equatable {
     this.audioCodecPriority = const [],
     this.isPosterPersistent = false,
     // this.labelConfig,
-    this.posterSource,
+    this.posterSource = '',
     this.subtitleTracks = const [],
     this.thumbnailTrack,
     this.videoCodecPriority = const [],
@@ -32,19 +32,19 @@ class SourceConfig extends Equatable {
   @JsonKey(name: 'url', disallowNullValue: true)
   final String url;
 
-  @JsonKey(name: 'type', defaultValue: null)
-  final SourceType? type;
+  @JsonKey(name: 'type')
+  final SourceType type;
 
-  @JsonKey(name: 'title', defaultValue: null)
+  @JsonKey(name: 'title', defaultValue: '')
   final String? title;
 
-  @JsonKey(name: 'description', defaultValue: null)
+  @JsonKey(name: 'description', defaultValue: '')
   final String? description;
 
-  @JsonKey(name: 'posterSource', defaultValue: null)
+  @JsonKey(name: 'posterSource', defaultValue: '')
   final String? posterSource;
 
-  @JsonKey(name: 'isPosterPersistent', defaultValue: null)
+  @JsonKey(name: 'isPosterPersistent', defaultValue: false)
   final bool isPosterPersistent;
 
   @JsonKey(name: 'subtitleTracks', defaultValue: [])

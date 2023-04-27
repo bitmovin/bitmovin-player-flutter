@@ -47,5 +47,7 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>BitmovinPlayerLicenseKey</key>
+	<string>dad76518-41bb-4105-9712-153c98ba337b</string>
 </dict>
 </plist>

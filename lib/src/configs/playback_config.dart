@@ -23,7 +23,7 @@ class PlaybackConfig extends Equatable {
       'mp4a.a6',
       'ac-3',
       'mp4a.a5',
-      'mp4a.40'
+      'mp4a.40',
     ],
     this.isTunneledPlaybackEnabled = false,
     this.seekMode = SeekMode.exact,
