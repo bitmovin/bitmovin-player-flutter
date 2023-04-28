@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bitmovin_sdk/player.dart';
 import 'package:flutter/material.dart';
 import 'package:player_example/controls.dart';
+import 'package:player_example/pages/shared_event_listener.dart';
 
 class BasicPlayback extends StatefulWidget {
   static String routeName = 'BasicPlayback';
@@ -13,80 +14,25 @@ class BasicPlayback extends StatefulWidget {
 }
 
 class _BasicPlaybackState extends State<BasicPlayback> {
-  String _player1Event = '';
+  String eventData = '';
   final sourceConfig = SourceConfig(
     url: Platform.isAndroid
         ? 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd'
         : 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8',
     type: Platform.isAndroid ? SourceType.dash : SourceType.hls,
   );
-  final _player1 = Player();
+  final _player = Player();
 
   String _toString(Map<String, dynamic> event) {
     return event.toString();
   }
 
   void listen() {
-    _player1.onLoad = (data) {
+    SharedEventListener(_player, (data) {
       setState(() {
-        _player1Event = _toString(data);
+        eventData = _toString(data as Map<String, dynamic>);
       });
-    };
-    _player1.onLoaded = (data) {
-      setState(() {
-        _player1Event = _toString(data);
-      });
-    };
-    _player1.onTimeChanged = (data) {
-      setState(() {
-        _player1Event = _toString(data);
-      });
-    };
-    _player1.onPlay = (data) {
-      setState(() {
-        _player1Event = _toString(data);
-      });
-    };
-    _player1.onPlaying = (data) {
-      setState(() {
-        _player1Event = _toString(data);
-      });
-    };
-    _player1.onPaused = (data) {
-      setState(() {
-        _player1Event = _toString(data);
-      });
-    };
-    _player1.onMuted = (data) {
-      setState(() {
-        _player1Event = _toString(data);
-      });
-    };
-    _player1.onUnMuted = (data) {
-      setState(() {
-        _player1Event = _toString(data);
-      });
-    };
-    _player1.onSourceAdded = (data) {
-      setState(() {
-        _player1Event = _toString(data);
-      });
-    };
-    _player1.onSourceRemoved = (data) {
-      setState(() {
-        _player1Event = _toString(data);
-      });
-    };
-    _player1.onSeeked = (data) {
-      setState(() {
-        _player1Event = _toString(data);
-      });
-    };
-    _player1.onSeek = (data) {
-      setState(() {
-        _player1Event = _toString(data);
-      });
-    };
+    });
   }
 
   @override
@@ -97,7 +43,7 @@ class _BasicPlaybackState extends State<BasicPlayback> {
 
   @override
   void dispose() {
-    _player1.dispose();
+    _player.dispose();
     super.dispose();
   }
 
@@ -111,20 +57,20 @@ class _BasicPlaybackState extends State<BasicPlayback> {
         children: [
           Controls(
             onLoadPressed: () {
-              _player1.loadWithSourceConfig(sourceConfig);
+              _player.loadWithSourceConfig(sourceConfig);
             },
-            onPlayPressed: () => _player1.play(),
-            onPausePressed: () => _player1.pause(),
-            onMutePressed: () => _player1.mute(),
-            onUnmutePressed: () => _player1.unmute(),
+            onPlayPressed: () => _player.play(),
+            onPausePressed: () => _player.pause(),
+            onMutePressed: () => _player.mute(),
+            onUnmutePressed: () => _player.unmute(),
           ),
           SizedBox.fromSize(
-            size: const Size.fromHeight(180),
+            size: const Size.fromHeight(226),
             child: PlayerView(
-              player: _player1,
+              player: _player,
             ),
           ),
-          Text(_player1Event),
+          Text(eventData),
         ],
       ),
     );
