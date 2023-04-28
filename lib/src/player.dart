@@ -8,9 +8,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:logger/logger.dart';
 
-class Player
-    with WidgetsBindingObserver, PlayerEventListener
-    implements PlayerInterface {
+class Player with WidgetsBindingObserver, PlayerEventListener implements PlayerInterface {
   Player([
     this.playerConfig = const PlayerConfig(),
   ]) {
@@ -38,7 +36,7 @@ class Player
   }
 
   final PlayerConfig? playerConfig;
-  final Logger logger = Logger(printer: PrettyPrinter(noBoxingByDefault: true));
+  final Logger logger = Logger(printer: PrettyPrinter(noBoxingByDefault: false));
   late String _uuid;
   final ChannelManager _channelManager = ChannelManager();
   late MethodChannel _methodChannel;

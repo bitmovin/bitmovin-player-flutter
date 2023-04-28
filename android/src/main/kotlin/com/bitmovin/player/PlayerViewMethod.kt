@@ -10,7 +10,7 @@ import io.flutter.plugin.platform.PlatformView
 
 class PlayerViewMethod(
     context: Context,
-    params: Map<*, *>?,
+    params: Any?,
     messenger: BinaryMessenger,
     id: Int,
 ) : MethodChannel.MethodCallHandler, PlatformView {
