@@ -1,6 +1,5 @@
 package com.bitmovin
 
-import android.util.Log
 import com.bitmovin.core.Channels
 import com.bitmovin.core.data.Methods
 import com.bitmovin.player.PlayerMethod
@@ -25,8 +24,6 @@ class PlayerPlugin: FlutterPlugin, ActivityAware, MethodCallHandler {
   }
 
   override fun onMethodCall(call: MethodCall, result: Result) {
-    Log.e(tag, "====== onMethodCall ======")
-    Log.e(tag, "Method ==> ${call.method}")
     when (call.method) {
       Methods.CREATE_PLAYER -> {
         val id = ((call.arguments as Map<*, *>)["id"]) as String

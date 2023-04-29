@@ -8,7 +8,6 @@ import android.media.AudioManager
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import com.bitmovin.core.PlayerPayload
@@ -22,7 +21,6 @@ import com.bitmovin.player.api.source.SourceOptions
 import com.bitmovin.player.api.source.SourceType
 import com.bitmovin.player.api.ui.ScalingMode
 import com.bitmovin.player.api.ui.StyleConfig
-import io.flutter.Log
 
 class Helper {
     companion object {
@@ -36,7 +34,6 @@ class Helper {
         }
 
         fun buildSourceConfig(params: Map<*, *>): SourceConfig {
-            Log.e("HELPER", "CONFIG ==> $params")
             return SourceConfig(
                 url = params["url"] as String,
                 type = buildSourceType(params["type"] as String),
