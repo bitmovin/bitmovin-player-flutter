@@ -24,6 +24,8 @@ class PlayerPlugin: FlutterPlugin, ActivityAware, MethodCallHandler {
   }
 
   override fun onMethodCall(call: MethodCall, result: Result) {
+    Log.e(tag, "====== onMethodCall ======")
+    Log.e(tag, "Method ==> ${call.method}")
     when (call.method) {
       Methods.CREATE_PLAYER -> {
         val id = ((call.arguments as Map<*, *>)["id"]) as String

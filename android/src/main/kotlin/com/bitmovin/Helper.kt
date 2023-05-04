@@ -8,6 +8,7 @@ import android.media.AudioManager
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import com.bitmovin.core.PlayerPayload
@@ -34,6 +35,7 @@ class Helper {
         }
 
         fun buildSourceConfig(params: Map<*, *>): SourceConfig {
+            Log.e("HELPER", "CONFIG ==> $params")
             return SourceConfig(
                 url = params["url"] as String,
                 type = buildSourceType(params["type"] as String),
