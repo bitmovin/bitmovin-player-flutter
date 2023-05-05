@@ -1,6 +1,5 @@
 package com.bitmovin
 
-import android.util.Log
 import com.bitmovin.core.Channels
 import com.bitmovin.core.data.Methods
 import com.bitmovin.player.PlayerMethod
