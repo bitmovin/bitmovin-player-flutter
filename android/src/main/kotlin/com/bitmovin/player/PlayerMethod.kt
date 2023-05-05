@@ -28,17 +28,10 @@ class PlayerMethod(
     private val tag: String = this::class.java.simpleName
 
     init {
-//        EventChannel(messenger, "player-events-$id").apply {
-//            this.setStreamHandler(this@PlayerMethod)
-//        }
-//        MethodChannel(messenger,"player-$id").apply {
-//            this.setMethodCallHandler(this@PlayerMethod)
-//        }
         ChannelManager.registerEventChannel("${Channels.PLAYER_EVENT}-$id", this@PlayerMethod, messenger)
         ChannelManager.registerMethodChannel("${Channels.PLAYER}-$id", this@PlayerMethod, messenger)
         PlayerManager.create(id, context, config)
     }
-
     private fun getPlayer() : Player? = PlayerManager.players[id]
 
     override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {

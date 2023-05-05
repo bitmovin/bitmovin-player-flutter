@@ -22,7 +22,6 @@ import com.bitmovin.player.api.source.SourceOptions
 import com.bitmovin.player.api.source.SourceType
 import com.bitmovin.player.api.ui.ScalingMode
 import com.bitmovin.player.api.ui.StyleConfig
-import io.flutter.Log
 
 class Helper {
     companion object {

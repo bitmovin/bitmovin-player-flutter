@@ -15,10 +15,8 @@ class SourceConfig extends Equatable {
     required this.type,
     this.title,
     this.description,
-    // this.drmConfig,
     this.audioCodecPriority,
     this.isPosterPersistent,
-    // this.labelConfig,
     this.posterSource,
     this.subtitleTracks,
     this.thumbnailTrack,
@@ -71,14 +69,6 @@ class SourceConfig extends Equatable {
   @JsonKey(name: 'thumbnailTrack', defaultValue: null)
   final ThumbnailTrack? thumbnailTrack;
 
-  // @JsonKey(name: 'drmConfig', defaultValue: null)
-  // final DrmConfig? drmConfig;
-
-  // @JsonKey(name: 'labelConfig', defaultValue:  null)
-  // final LabelConfig? labelConfig;
-
-  // final VrConfig? vrConfig:
-
   /// The video codec priority for the [Source].
   /// First index has the highest priority.
   @JsonKey(name: 'videoCodecPriority', defaultValue: [])
@@ -105,8 +95,6 @@ class SourceConfig extends Equatable {
         posterSource,
         isPosterPersistent,
         subtitleTracks,
-        thumbnailTrack,
-        // drmConfig,
         videoCodecPriority,
         audioCodecPriority,
       ];

@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.ArrayMap
 import com.bitmovin.player.api.Player
 import com.bitmovin.player.api.PlayerConfig
-import io.flutter.Log
 
 object PlayerManager {
     val players: ArrayMap<String, Player> = ArrayMap<String, Player>()
