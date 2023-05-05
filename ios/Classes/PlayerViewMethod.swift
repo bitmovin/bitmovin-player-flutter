@@ -34,7 +34,7 @@ class PlayerViewMethod: NSObject, FlutterPlatformView {
 		self.frame = frame
 		self.messager = messenger
 		self.arguments = arguments
-		self._methodChannel = FlutterMethodChannel(name: "player-view-\(String(describing: viewIdentifier))", binaryMessenger: messenger);
+		self._methodChannel = FlutterMethodChannel(name: Channels.PLAYER_VIEW + "-\(String(describing: viewIdentifier))", binaryMessenger: messenger);
 		self._methodChannel?.setMethodCallHandler(self.handleMethodCall)
   }
 	
@@ -55,7 +55,7 @@ class PlayerViewMethod: NSObject, FlutterPlatformView {
 	
 	private func handleMethodCall(call: FlutterMethodCall, result: @escaping FlutterResult) {
 		let args = call.arguments as! [String : Any?]
-		if (call.method == "BIND_PLAYER") {
+		if (call.method == Methods.BIND_PLAYER) {
 			createPlayerView(playerId: args["playerId"] as! String, playerViewConfig: nil)
 		}
 	}

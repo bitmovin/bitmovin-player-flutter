@@ -1,50 +1,52 @@
 // ignore_for_file: avoid_setters_without_getters
 
-import 'package:bitmovin_sdk/src/configs/source_config.dart';
-import 'package:bitmovin_sdk/src/models/source.dart';
+import 'package:bitmovin_sdk/src/api/player_event.dart';
+import 'package:bitmovin_sdk/src/api/source/source.dart';
+import 'package:bitmovin_sdk/src/api/source_config.dart';
+import 'package:bitmovin_sdk/src/api/source_event.dart';
 
 abstract class PlayerEventsInterface {
-  set onTimeChanged(void Function(dynamic data) func);
+  set onSourceAdded(void Function(SourceAddedEvent data) func);
 
-  set onLoad(void Function(dynamic data) func);
+  set onSourceRemoved(void Function(SourceRemovedEvent data) func);
 
-  set onLoaded(void Function(dynamic data) func);
+  set onSourceLoad(void Function(SourceLoadEvent data) func);
 
-  set onSourceUnLoaded(void Function(dynamic data) func);
+  set onSourceLoaded(void Function(SourceLoadedEvent data) func);
 
-  set onPlay(void Function(dynamic data) func);
+  set onSourceUnloaded(void Function(SourceUnloadedEvent data) func);
 
-  set onPlaying(void Function(dynamic data) func);
+  set onSourceWarning(void Function(SourceWarningEvent data) func);
 
-  set onPaused(void Function(dynamic data) func);
+  set onSourceError(void Function(SourceErrorEvent data) func);
 
-  set onMuted(void Function(dynamic data) func);
+  set onSourceInfo(void Function(SourceInfoEvent data) func);
 
-  set onUnMuted(void Function(dynamic data) func);
+  set onPlay(void Function(PlayEvent data) func);
 
-  set onSourceAdded(void Function(dynamic data) func);
+  set onPlaying(void Function(PlayingEvent data) func);
 
-  set onSourceRemoved(void Function(dynamic data) func);
+  set onPaused(void Function(PausedEvent data) func);
 
-  set onSeek(void Function(dynamic data) func);
+  set onMuted(void Function(MutedEvent data) func);
 
-  set onSeeked(void Function(dynamic data) func);
+  set onUnmuted(void Function(UnmutedEvent data) func);
 
-  set onPlaybackFinished(void Function(dynamic data) func);
+  set onSeek(void Function(SeekEvent data) func);
 
-  set onSourceWarning(void Function(dynamic data) func);
+  set onSeeked(void Function(SeekedEvent data) func);
 
-  set onSourceError(void Function(dynamic data) func);
+  set onTimeChanged(void Function(TimeChangedEvent data) func);
 
-  set onSourceInfo(void Function(dynamic data) func);
+  set onPlaybackFinished(void Function(PlaybackFinishedEvent data) func);
 
-  set onError(void Function(dynamic data) func);
+  set onError(void Function(ErrorEvent data) func);
 
-  set onInfo(void Function(dynamic data) func);
+  set onInfo(void Function(InfoEvent data) func);
 
-  set onWarning(void Function(dynamic data) func);
+  set onWarning(void Function(WarningEvent data) func);
 
-  set onReady(void Function(dynamic data) func);
+  set onReady(void Function(ReadyEvent data) func);
 }
 
 abstract class PlayerInterface {

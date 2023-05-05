@@ -31,8 +31,9 @@ class PlayerScreen extends StatelessWidget {
 
 </br>
 
-## Basic Controls (Manual)
+## Basic Playback (Audio Only)
 
+`control.dart`
 ```dart
 typedef ControlAction = void Function()?;
 
@@ -90,17 +91,14 @@ class Controls extends StatelessWidget {
     );
   }
 }
+```
 
-
+`playerscreen.dart`
+```dart
 class PlayerScreen extends StatelessWidget {
   build(BuildContent context) {
     
     Player _player = Player();
-    PlayerConfig _playerConfig = const PlayerConfig(
-      playbackConfig: PlaybackConfig(
-        isAutoplayEnabled: false,
-      ),
-    );
     SourceConfig _sourceConfig = SourceConfig(
       url: Platform.isAndroid ? "https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd" : 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8',
       type: Platform.isAndroid ? SourceType.dash : SourceType.hls,
@@ -121,7 +119,6 @@ class PlayerScreen extends StatelessWidget {
         ),
         PlayerView(
           player: _player,
-          playerConfig: _playerConfig,
         ),
       ]
     )
@@ -133,8 +130,7 @@ class PlayerScreen extends StatelessWidget {
 
 </br>
 
-## Subcring to Events
-
+## Subscribing to Events
 
 ```dart
 class PlayerScreen extends StatelessWidget {
@@ -146,19 +142,19 @@ class PlayerScreen extends StatelessWidget {
   ),
 
   void listToEvent() {
-    _player.onReady = (data) {
+    _player.onReady = (ReadyEvent data) {
       print('Got on ready event');
     }
-    _player.onTimeChanged = (data) {
+    _player.onTimeChanged = (TimeChangedEvent data) {
       print('Got on time changed event');
     }
-    _player.onPause = (data) {
+    _player.onPause = (PausedEventdata) {
       print('Got on pause event');
     }
-    _player.onMute = (data) {
+    _player.onMute = (MutedEvent data) {
       print('Got on mute event');
     }
-    _player.onUnmute = (data) {
+    _player.onUnmute = (UnmutedEvent data) {
       print('Got on unmute event');
     }
   }
@@ -180,3 +176,25 @@ class PlayerScreen extends StatelessWidget {
   }
 }
 ```
+
+## Addind license key programmatically
+
+```dart
+class PlayerScreen extends StatelessWidget {
+  build(BuildContent context) {
+    
+    PlayerConfig _playerConfig = const PlayerConfig(
+      licenseKey: '<LICENSE_KEY>',
+    );
+    Player _player = Player(_playerConfig);
+
+    return Column(
+      children: [
+        PlayerView(
+          player: _player,
+        ),
+      ]
+    )
+  }
+}
+``

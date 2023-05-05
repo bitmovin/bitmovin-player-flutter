@@ -7,20 +7,15 @@ public class PlayerManager {
 
   private init() {}
 
-    func createPlayer(id: String, config: PlayerConfig?) {
-        let player = PlayerFactory.create(playerConfig: config ?? PlayerConfig())
-        players[id] = player
+	func createPlayer(id: String, config: PlayerConfig?) {
+		let player = PlayerFactory.create(playerConfig: config ?? PlayerConfig())
+		players[id] = player
   }
     
-    
-    
-    func destroy(id: String) {
-        let player = players[id]
-        if ((player?.isPlaying) != nil) {
-            player?.destroy()
-            
-            let target = players.index(forKey: id)
-            players.remove(at: target!)
-        }
-    }
+	func destroy(id: String) {
+		if let player = players[id] {
+			player.destroy()
+    	players.removeValue(forKey: id)
+		}
+	}
 }

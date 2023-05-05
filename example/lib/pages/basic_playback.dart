@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:bitmovin_sdk/player.dart';
 import 'package:flutter/material.dart';
 import 'package:player_example/controls.dart';
-import 'package:player_example/pages/shared_event_listener.dart';
 
 class BasicPlayback extends StatefulWidget {
   static String routeName = 'BasicPlayback';
@@ -23,24 +22,6 @@ class _BasicPlaybackState extends State<BasicPlayback> {
   );
   final _player = Player();
 
-  String _toString(Map<String, dynamic> event) {
-    return event.toString();
-  }
-
-  void listen() {
-    SharedEventListener(_player, (data) {
-      setState(() {
-        eventData = _toString(data as Map<String, dynamic>);
-      });
-    });
-  }
-
-  @override
-  void initState() {
-    listen();
-    super.initState();
-  }
-
   @override
   void dispose() {
     _player.dispose();
@@ -54,6 +35,7 @@ class _BasicPlaybackState extends State<BasicPlayback> {
         title: const Text('Basic Playback'),
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Controls(
             onLoadPressed: () {
