@@ -1,6 +1,8 @@
 package com.bitmovin
 
-import android.app.Activity
+import android.util.Log
+import com.bitmovin.core.Channels
+import com.bitmovin.core.data.Methods
 import com.bitmovin.player.PlayerMethod
 import com.bitmovin.player.PlayerViewFactory
 
@@ -16,38 +18,38 @@ class PlayerPlugin: FlutterPlugin, ActivityAware, MethodCallHandler {
   private val tag: String = this::class.java.simpleName
   private var flutterPluginBindingReference = WeakReference<FlutterPlugin.FlutterPluginBinding>(null)
 
-  private fun register(registrar: FlutterPlugin.FlutterPluginBinding, activity: Activity) {
+  private fun register(registrar: FlutterPlugin.FlutterPluginBinding) {
     registrar
       .platformViewRegistry
-      .registerViewFactory("player-view", PlayerViewFactory(registrar, activity))
+      .registerViewFactory("player-view", PlayerViewFactory(registrar))
   }
 
   override fun onMethodCall(call: MethodCall, result: Result) {
+    Log.e(tag, "====== onMethodCall ======")
+    Log.e(tag, "Method ==> ${call.method}")
     when (call.method) {
-      "CREATE_PLAYER" -> {
+      Methods.CREATE_PLAYER -> {
         val id = ((call.arguments as Map<*, *>)["id"]) as String
         val config = ((call.arguments as Map<*, *>)["playerConfig"]) as Map<*, *>?
         val playerConfig = Helper.buildPlayerConfig(config)
-        val target = PlayerMethod(
-          flutterPluginBindingReference.get()!!.applicationContext,
-          id,
-          flutterPluginBindingReference.get()!!.binaryMessenger,
-          playerConfig
-        )
-        result.success(true)
-//        MethodChannel(flutterPluginBindingReference.get()!!.binaryMessenger,"player-$id").apply {
-//          this.setMethodCallHandler(target)
-//        }
-//        EventChannel(flutterPluginBindingReference.get()!!.binaryMessenger, "player-events-$id").apply {
-//          this.setStreamHandler(target)
-//        }
+        flutterPluginBindingReference.get()?.let {
+          PlayerMethod(
+            it.applicationContext,
+            id,
+            it.binaryMessenger,
+            playerConfig
+          )
+          result.success(true)
+          return
+        }
+        result.success(false)
       }
     }
   }
 
   override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
     flutterPluginBindingReference = WeakReference(flutterPluginBinding)
-    ChannelManager.register(flutterPluginBinding, this@PlayerPlugin)
+    ChannelManager.registerMethodChannel(Channels.MAIN, this@PlayerPlugin, flutterPluginBinding)
   }
 
   override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
@@ -55,7 +57,9 @@ class PlayerPlugin: FlutterPlugin, ActivityAware, MethodCallHandler {
   }
 
   override fun onAttachedToActivity(binding: ActivityPluginBinding) {
-    register(flutterPluginBindingReference.get()!!, binding.activity)
+    flutterPluginBindingReference.get()?.let {
+      register(it)
+    }
   }
 
   override fun onDetachedFromActivityForConfigChanges() {}

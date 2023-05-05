@@ -1,204 +1,250 @@
 import 'dart:convert';
+import 'dart:developer';
 
+import 'package:bitmovin_sdk/src/api/player_event.dart';
+import 'package:bitmovin_sdk/src/api/source_event.dart';
 import 'package:bitmovin_sdk/src/interfaces/player_event_interface.dart';
 
 typedef Callback<T> = void Function(T data);
 
 mixin PlayerEventListener implements PlayerEventsInterface {
-  Callback<dynamic>? _onSourceLoad;
-  Callback<dynamic>? _onSourceLoaded;
-  Callback<dynamic>? _onSourceUnLoaded;
-  Callback<dynamic>? _onPlay;
-  Callback<dynamic>? _onPlaying;
-  Callback<dynamic>? _onTimeChanged;
-  Callback<dynamic>? _onPaused;
-  Callback<dynamic>? _onMuted;
-  Callback<dynamic>? _onUnmuted;
-  Callback<dynamic>? _onSourceAdded;
-  Callback<dynamic>? _onSourceRemoved;
-  Callback<dynamic>? _onSeek;
-  Callback<dynamic>? _onSeeked;
-  Callback<dynamic>? _onPlaybackFinished;
-  Callback<dynamic>? _onSourceError;
-  Callback<dynamic>? _onSourceWarning;
-  Callback<dynamic>? _onSourceInfo;
-  Callback<dynamic>? _onError;
-  Callback<dynamic>? _onWarning;
-  Callback<dynamic>? _onInfo;
-  Callback<dynamic>? _onReady;
+  Callback<SourceErrorEvent>? _onSourceError;
+  Callback<SourceWarningEvent>? _onSourceWarning;
+  Callback<SourceInfoEvent>? _onSourceInfo;
+  Callback<SourceLoadEvent>? _onSourceLoad;
+  Callback<SourceLoadedEvent>? _onSourceLoaded;
+  Callback<SourceUnloadedEvent>? _onSourceUnloaded;
+  Callback<SourceAddedEvent>? _onSourceAdded;
+  Callback<SourceRemovedEvent>? _onSourceRemoved;
+
+  Callback<PlayEvent>? _onPlay;
+  Callback<PlayingEvent>? _onPlaying;
+  Callback<TimeChangedEvent>? _onTimeChanged;
+  Callback<PausedEvent>? _onPaused;
+  Callback<MutedEvent>? _onMuted;
+  Callback<UnmutedEvent>? _onUnmuted;
+  Callback<SeekEvent>? _onSeek;
+  Callback<SeekedEvent>? _onSeeked;
+  Callback<PlaybackFinishedEvent>? _onPlaybackFinished;
+  Callback<ReadyEvent>? _onReady;
+  Callback<ErrorEvent>? _onError;
+  Callback<WarningEvent>? _onWarning;
+  Callback<InfoEvent>? _onInfo;
 
   void onEvent(dynamic event) {
     final target = jsonDecode(event as String) as Map<String, dynamic>;
     final data = jsonDecode(target['data'] as String) as Map<String, dynamic>?;
     switch (target['event']) {
       case 'onSourceAdded':
-        _onSourceAdded?.call(data);
+        if (data != null) {
+          _onSourceAdded?.call(SourceEvent.SourceAdded(data));
+        }
         break;
       case 'onSourceRemoved':
-        _onSourceRemoved?.call(data);
+        if (data != null) {
+          _onSourceRemoved?.call(SourceEvent.SourceRemoved(data));
+        }
         break;
       case 'onSourceLoad':
-        _onSourceLoad?.call(data);
+        if (data != null) {
+          _onSourceLoad?.call(SourceEvent.Load(data));
+        }
         break;
       case 'onSourceLoaded':
-        _onSourceLoaded?.call(data);
+        if (data != null) {
+          _onSourceLoaded?.call(SourceEvent.Loaded(data));
+        }
         break;
-      case 'onSourceUnLoaded':
-        _onSourceUnLoaded?.call(data);
+      case 'onSourceUnloaded':
+        if (data != null) {
+          _onSourceUnloaded?.call(SourceEvent.Unloaded(data));
+        }
         break;
       case 'onSourceWarning':
-        _onSourceWarning?.call(data);
+        if (data != null) {
+          _onSourceWarning?.call(SourceEvent.SourceWarning(data));
+        }
         break;
       case 'onSourceError':
-        _onSourceError?.call(data);
+        if (data != null) {
+          _onSourceError?.call(SourceEvent.SourceError(data));
+        }
         break;
       case 'onSourceInfo':
-        _onSourceInfo?.call(data);
+        if (data != null) {
+          _onSourceInfo?.call(SourceEvent.SourceInfo(data));
+        }
         break;
       case 'onTimeChanged':
-        _onTimeChanged?.call(data);
+        if (data != null) {
+          _onTimeChanged?.call(PlayerEvent.TimeChanged(data));
+        }
         break;
       case 'onPlay':
-        _onPlay?.call(data);
+        if (data != null) {
+          _onPlay?.call(PlayerEvent.Play(data));
+        }
         break;
       case 'onPlaying':
-        _onPlaying?.call(data);
+        if (data != null) {
+          _onPlaying?.call(PlayerEvent.Playing(data));
+        }
         break;
       case 'onPaused':
-        _onPaused?.call(data);
+        if (data != null) {
+          _onPaused?.call(PlayerEvent.Paused(data));
+        }
         break;
       case 'onMuted':
-        _onMuted?.call(data);
+        if (data != null) {
+          _onMuted?.call(PlayerEvent.Muted(data));
+        }
         break;
       case 'onUnmuted':
-        _onUnmuted?.call(data);
+        if (data != null) {
+          _onUnmuted?.call(PlayerEvent.Unmuted(data));
+        }
         break;
       case 'onSeeked':
-        _onSeeked?.call(data);
+        if (data != null) {
+          _onSeeked?.call(PlayerEvent.Seeked(data));
+        }
         break;
       case 'onSeek':
-        _onSeek?.call(data);
+        if (data != null) {
+          _onSeek?.call(PlayerEvent.Seek(data));
+        }
         break;
       case 'onPlaybackFinished':
-        _onPlaybackFinished?.call(data);
+        if (data != null) {
+          _onPlaybackFinished?.call(PlayerEvent.PlaybackFinished(data));
+        }
         break;
       case 'onError':
-        _onError?.call(data);
+        if (data != null) {
+          _onError?.call(PlayerEvent.Error(data));
+        }
         break;
       case 'onInfo':
-        _onInfo?.call(data);
+        if (data != null) {
+          _onInfo?.call(PlayerEvent.Info(data));
+        }
         break;
       case 'onWarning':
-        _onWarning?.call(data);
+        if (data != null) {
+          _onWarning?.call(PlayerEvent.Warning(data));
+        }
         break;
       case 'onReady':
-        _onReady?.call(data);
+        if (data != null) {
+          _onReady?.call(PlayerEvent.Ready(data));
+        }
         break;
     }
   }
 
   @override
-  set onTimeChanged(void Function(dynamic data) func) {
+  set onTimeChanged(void Function(TimeChangedEvent data) func) {
     _onTimeChanged = func;
   }
 
   @override
-  set onLoad(void Function(dynamic data) func) {
+  set onSourceLoad(void Function(SourceLoadEvent data) func) {
     _onSourceLoad = func;
   }
 
   @override
-  set onLoaded(void Function(dynamic data) func) {
+  set onSourceLoaded(void Function(SourceLoadedEvent data) func) {
     _onSourceLoaded = func;
   }
 
   @override
-  set onSourceUnLoaded(void Function(dynamic data) func) {
-    _onSourceUnLoaded = func;
+  set onSourceUnloaded(void Function(SourceUnloadedEvent data) func) {
+    _onSourceUnloaded = func;
   }
 
   @override
-  set onPlay(void Function(dynamic data) func) {
+  set onPlay(void Function(PlayEvent data) func) {
     _onPlay = func;
   }
 
   @override
-  set onPlaying(void Function(dynamic data) func) {
+  set onPlaying(void Function(PlayingEvent data) func) {
     _onPlaying = func;
   }
 
   @override
-  set onPaused(void Function(dynamic data) func) {
+  set onPaused(void Function(PausedEvent data) func) {
     _onPaused = func;
   }
 
   @override
-  set onMuted(void Function(dynamic data) func) {
+  set onMuted(void Function(MutedEvent data) func) {
     _onMuted = func;
   }
 
   @override
-  set onUnMuted(void Function(dynamic data) func) {
+  set onUnmuted(void Function(UnmutedEvent data) func) {
     _onUnmuted = func;
   }
 
   @override
-  set onSourceAdded(void Function(dynamic data) func) {
+  set onSourceAdded(void Function(SourceAddedEvent data) func) {
     _onSourceAdded = func;
   }
 
   @override
-  set onSourceRemoved(void Function(dynamic data) func) {
+  set onSourceRemoved(void Function(SourceRemovedEvent data) func) {
     _onSourceRemoved = func;
   }
 
   @override
-  set onSeek(void Function(dynamic data) func) {
+  set onSeek(void Function(SeekEvent data) func) {
     _onSeek = func;
   }
 
   @override
-  set onSeeked(void Function(dynamic data) func) {
+  set onSeeked(void Function(SeekedEvent data) func) {
     _onSeeked = func;
   }
 
   @override
-  set onPlaybackFinished(void Function(dynamic data) func) {
+  set onPlaybackFinished(void Function(PlaybackFinishedEvent data) func) {
     _onPlaybackFinished = func;
   }
 
   @override
-  set onSourceWarning(void Function(dynamic data) func) {
+  set onSourceWarning(void Function(SourceWarningEvent data) func) {
     _onSourceWarning = func;
   }
 
   @override
-  set onSourceError(void Function(dynamic data) func) {
+  set onSourceError(void Function(SourceErrorEvent data) func) {
     _onSourceError = func;
   }
 
   @override
-  set onSourceInfo(void Function(dynamic data) func) {
+  set onSourceInfo(void Function(SourceInfoEvent data) func) {
     _onSourceInfo = func;
   }
 
   @override
-  set onError(void Function(dynamic data) func) {
+  set onError(void Function(ErrorEvent data) func) {
     _onError = func;
   }
 
   @override
-  set onInfo(void Function(dynamic data) func) {
+  set onInfo(void Function(InfoEvent data) func) {
     _onInfo = func;
   }
 
   @override
-  set onWarning(void Function(dynamic data) func) {
+  set onWarning(void Function(WarningEvent data) func) {
     _onWarning = func;
   }
 
   @override
-  set onReady(void Function(dynamic data) func) {
+  set onReady(void Function(ReadyEvent data) func) {
     _onReady = func;
   }
 }

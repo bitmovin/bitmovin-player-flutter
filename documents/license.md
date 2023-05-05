@@ -1,4 +1,4 @@
-# Configure your License key
+# Setting up the Player License Key
 
 There are two ways to add your **License Key**
 
@@ -33,4 +33,9 @@ Open `/ios/Runner/info.plist` and add the following code.
 
 ## Adding license key programmatically
 
-Under development
+You can add your license key via the `PlayerConfig` object
+
+example
+```dart
+final player = Player(PlayerConfig(licenseKey: '<LICENSE_KEY>'))
+```

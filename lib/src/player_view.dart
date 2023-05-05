@@ -1,6 +1,8 @@
 import 'dart:io';
 
 import 'package:bitmovin_sdk/src/channel_manager.dart';
+import 'package:bitmovin_sdk/src/channels.dart';
+import 'package:bitmovin_sdk/src/methods.dart';
 import 'package:bitmovin_sdk/src/player.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -25,12 +27,14 @@ class PlayerView extends StatefulWidget {
 
 class _PlayerViewState extends State<PlayerView> {
   late final MethodChannel _methodChannel;
-  final ChannelManager _channelManager = ChannelManager();
 
   @override
   void initState() {
-    _channelManager.method.invokeMethod(
-      'CREATE_PLAYER_VIEW',
+    final MethodChannel channelManager = ChannelManager.registerMethodChannel(
+      name: Channels.MAIN,
+    );
+    channelManager.invokeMethod(
+      Methods.CREATE_PLAYER_VIEW,
       Map<String, dynamic>.from({
         'playerId': widget.player?.id,
       }),
@@ -39,11 +43,13 @@ class _PlayerViewState extends State<PlayerView> {
   }
 
   void _onPlatformViewCreated(int id) {
-    _methodChannel = MethodChannel('player-view-$id');
+    _methodChannel = ChannelManager.registerMethodChannel(
+      name: '${Channels.PLAYER_VIEW}-$id',
+    );
 
     if (widget.player != null) {
       _methodChannel.invokeMethod(
-        'BIND_PLAYER',
+        Methods.BIND_PLAYER,
         Map<String, dynamic>.from({
           'playerId': widget.player!.id,
           'viewId': id,
@@ -58,7 +64,7 @@ class _PlayerViewState extends State<PlayerView> {
   void dispose() {
     if (widget.player != null) {
       _methodChannel.invokeMethod(
-        'UNBIND_PLAYER',
+        Methods.UNBIND_PLAYER,
         Map<String, dynamic>.from({
           'playerId': widget.player!.id,
         }),
@@ -71,7 +77,7 @@ class _PlayerViewState extends State<PlayerView> {
   Widget build(BuildContext context) {
     return Platform.isAndroid
         ? PlatformViewLink(
-            viewType: 'player-view',
+            viewType: Channels.PLAYER_VIEW,
             surfaceFactory: (context, controller) {
               return AndroidViewSurface(
                 controller: controller as ExpensiveAndroidViewController,
@@ -83,7 +89,7 @@ class _PlayerViewState extends State<PlayerView> {
             onCreatePlatformView: (PlatformViewCreationParams params) {
               return PlatformViewsService.initExpensiveAndroidView(
                 id: params.id,
-                viewType: 'player-view',
+                viewType: Channels.PLAYER_VIEW,
                 layoutDirection: TextDirection.ltr,
                 creationParams: widget.player?.id,
                 creationParamsCodec: const StandardMessageCodec(),
@@ -97,7 +103,7 @@ class _PlayerViewState extends State<PlayerView> {
             },
           )
         : UiKitView(
-            viewType: 'player-view',
+            viewType: Channels.PLAYER_VIEW,
             layoutDirection: TextDirection.ltr,
             creationParams: widget.player?.id,
             onPlatformViewCreated: _onPlatformViewCreated,

@@ -1,53 +1,54 @@
+import 'package:bitmovin_sdk/src/api/player/player_config.dart';
+import 'package:bitmovin_sdk/src/api/source/source.dart';
+import 'package:bitmovin_sdk/src/api/source_config.dart';
 import 'package:bitmovin_sdk/src/channel_manager.dart';
-import 'package:bitmovin_sdk/src/configs/player_config.dart';
-import 'package:bitmovin_sdk/src/configs/source_config.dart';
+import 'package:bitmovin_sdk/src/channels.dart';
 import 'package:bitmovin_sdk/src/interfaces/player_event_interface.dart';
-import 'package:bitmovin_sdk/src/models/source.dart';
+import 'package:bitmovin_sdk/src/methods.dart';
 import 'package:bitmovin_sdk/src/player_event_listener.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:logger/logger.dart';
 
-class Player with WidgetsBindingObserver, PlayerEventListener implements PlayerInterface {
+class Player with PlayerEventListener implements PlayerInterface {
   Player([
     this.playerConfig = const PlayerConfig(),
   ]) {
     _uuid = hashCode.toString();
-    WidgetsBinding.instance.addObserver(this);
 
-    _channelManager.method
+    final mainChannel = ChannelManager.registerMethodChannel(
+      name: Channels.MAIN,
+    );
+
+    mainChannel
         .invokeMethod<bool>(
-      'CREATE_PLAYER',
-      Map<String, dynamic>.from({
-        'id': _uuid,
-        'playerConfig': playerConfig?.toJson(),
-      }),
+      Methods.CREATE_PLAYER,
+      Map<String, dynamic>.from(
+        {
+          'id': _uuid,
+          'playerConfig': playerConfig?.toJson(),
+        },
+      ),
     )
         .then((value) {
       if (value != null && value == true) {
-        _methodChannel = MethodChannel('player-$_uuid');
-        _playerViewEventChannel = EventChannel('player-events-$_uuid');
-        _playerViewEventChannel.receiveBroadcastStream().listen((e) {
-          logger.e(e);
-          onEvent(e);
-        });
+        _methodChannel = ChannelManager.registerMethodChannel(
+          name: '${Channels.PLAYER}-$_uuid',
+        );
+
+        _eventChannel = ChannelManager.registerEventChannel(
+          name: '${Channels.PLAYER_EVENT}-$_uuid',
+        );
+        _eventChannel.receiveBroadcastStream().listen(onEvent);
       }
     });
   }
 
   final PlayerConfig? playerConfig;
-  final Logger logger = Logger(printer: PrettyPrinter(noBoxingByDefault: false));
+  final Logger logger = Logger(printer: PrettyPrinter());
   late String _uuid;
-  final ChannelManager _channelManager = ChannelManager();
   late MethodChannel _methodChannel;
-  late EventChannel _playerViewEventChannel;
-
+  late EventChannel _eventChannel;
   String get id => _uuid;
-  String get channelName => 'player-$_uuid';
-
-  Future<void> dispose() async {
-    return _invokeMethod('destroy');
-  }
 
   Map<String, dynamic> _buildPayload([dynamic data]) {
     return Map<String, dynamic>.from({
@@ -62,42 +63,57 @@ class Player with WidgetsBindingObserver, PlayerEventListener implements PlayerI
   ]) =>
       _methodChannel.invokeMethod<T>(methodName, _buildPayload(data));
 
+  /// Starts a new playback session consisting of a [Source] based
+  /// on the provided [SourceConfig].
   @override
   Future<void> loadWithSourceConfig(
     SourceConfig sourceConfig,
   ) async =>
-      _invokeMethod('loadWithSourceConfig', sourceConfig.toJson());
+      _invokeMethod(Methods.LOAD_WITH_SOURCE_CONFIG, sourceConfig.toJson());
 
+  /// Starts a new playback session consisting of the [Source].
   @override
   Future<void> loadWithSource(Source source) async {
-    return _invokeMethod<void>('loadWithSource', source.toJson());
+    return _invokeMethod<void>(Methods.LOAD_WITH_SOURCE, source.toJson());
   }
 
+  /// Starts or resumes playback.
   @override
-  Future<void> play() async => _invokeMethod<void>('play');
+  Future<void> play() async => _invokeMethod<void>(Methods.PLAY);
 
+  /// Mutes the player.
   @override
-  Future<void> mute() async => _invokeMethod<void>('mute');
+  Future<void> mute() async => _invokeMethod<void>(Methods.MUTE);
 
+  /// Unmutes the player.
   @override
-  Future<void> pause() async => _invokeMethod<void>('pause');
+  Future<void> unmute() async => _invokeMethod<void>(Methods.UNMUTE);
 
+  /// Pauses playback.
   @override
-  Future<void> unmute() async => _invokeMethod<void>('unmute');
+  Future<void> pause() async => _invokeMethod<void>(Methods.PAUSE);
 
+  /// Seeks to the given playback time in seconds.
+  /// Must not be greater than the duration of the active [Source].
   @override
-  Future<void> seek(double time) async => _invokeMethod<void>('seek', time);
+  Future<void> seek(double time) async =>
+      _invokeMethod<void>(Methods.SEEK, time);
 
+  /// The current playback time of the active [Source] or ad in seconds.
   @override
   Future<double> currentTime() async {
-    return await _invokeMethod<double>('current_time') ?? 0.0;
+    return await _invokeMethod<double>(Methods.CURRENT_TIME) ?? 0.0;
   }
 
+  /// The duration of the active [Source] in seconds.
+  ///
+  /// If it's a VoD or Double.POSITIVE_INFINITY if it's a live stream.
+  ///
+  /// If isAd is true the duration of the current ad is returned.
   @override
   Future<double> duration() async {
-    return await _invokeMethod<double>('duration') ?? 0.0;
+    return await _invokeMethod<double>(Methods.DURATION) ?? 0.0;
   }
 
-  @override
-  void didChangeAccessibilityFeatures() {}
+  Future<void> dispose() async => _invokeMethod(Methods.DESTROY);
 }

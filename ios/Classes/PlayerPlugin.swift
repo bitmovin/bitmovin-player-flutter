@@ -7,12 +7,12 @@ public class PlayerPlugin: NSObject, FlutterPlugin {
   public static func register(with registrar: FlutterPluginRegistrar) {
 		
 		let viewFactory = PlayerNativeViewFactory(messenger: registrar.messenger())
-		registrar.register(viewFactory, withId: "player-view")
+		registrar.register(viewFactory, withId: Channels.PLAYER_VIEW)
 		
 		let instance = PlayerPlugin()
 		instance.registrar = registrar
 		
-    let channel = FlutterMethodChannel(name: "channel-manager", binaryMessenger: registrar.messenger())
+		let channel = FlutterMethodChannel(name: Channels.MAIN, binaryMessenger: registrar.messenger())
     registrar.addMethodCallDelegate(instance, channel: channel)
   }
 
@@ -21,7 +21,7 @@ public class PlayerPlugin: NSObject, FlutterPlugin {
 	
 		let arguments = call.arguments as? [String : Any]
 		
-		if (call.method == "CREATE_PLAYER") {
+		if (call.method == Methods.CREATE_PLAYER) {
 			let config = Helper.playerConfig(arguments?["playerConfig"] as? [AnyHashable: Any])
 			let id = arguments?["id"] as! String
 			

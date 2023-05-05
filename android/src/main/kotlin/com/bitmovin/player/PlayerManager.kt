@@ -13,17 +13,15 @@ object PlayerManager {
         context: Context,
         playerConfig: PlayerConfig?,
     ): Player {
-        val target = if (playerConfig !== null) Player.create(context, playerConfig) else Player.create(context)
+        val target = playerConfig?.let { Player.create(context, it) } ?: Player.create(context)
         players[id] = target
         return target
     }
 
     fun destroy(id: String) {
-        val target = players[id]
-        if (target != null) {
-            if (target.isPlaying) {
-                target.destroy()
-            }
+        players[id]?.let {
+            it.onStop()
+            it.destroy()
             players.remove(id)
         }
     }

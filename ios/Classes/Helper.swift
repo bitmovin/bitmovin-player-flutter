@@ -285,10 +285,10 @@ public class Helper {
             return .none
         }
         switch json {
-        case "None": return .none
-        case "Hls": return .hls
-        case "Dash": return .dash
-        case "Progressive": return .progressive
+        case "none": return .none
+        case "hls": return .hls
+        case "dash": return .dash
+        case "progressive": return .progressive
         default: return .none
         }
     }
