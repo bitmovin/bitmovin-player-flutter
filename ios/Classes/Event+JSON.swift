@@ -218,42 +218,87 @@ extension DeficiencyData {
 	}
 }
 
-protocol ErrorEventType: Event {
-	associatedtype Code
-	var code: Code { get }
+protocol PlayerErrorEventType: Event {
+	var code: PlayerError.Code { get }
 	var data: DeficiencyData? { get }
 	var message: String { get }
 }
 
-extension ErrorEventType {
-    func toJSON() -> [String: Any] {
-        var json: [String: Any] = [
-            "event": name,
-            "timestamp": Int(timestamp),
-            "code": code,
-            "message": message
-        ]
-        if let data = data {
-            json["data"] = data.toJSON()
-        }
-        return json
-    }
+protocol PlayerWarningEventType: Event {
+	var code: PlayerWarning.Code { get }
+	var data: DeficiencyData? { get }
+	var message: String { get }
 }
 
-extension PlayerErrorEvent: ErrorEventType {
-    typealias Code = PlayerError.Code
+protocol SourceErrorEventType: Event {
+	var code: SourceError.Code { get }
+	var data: DeficiencyData? { get }
+	var message: String { get }
 }
 
-extension PlayerWarningEvent: ErrorEventType {
-    typealias Code = PlayerWarning.Code
+protocol SourceWarningEventType: Event {
+	var code: SourceWarning.Code { get }
+	var data: DeficiencyData? { get }
+	var message: String { get }
 }
 
-extension SourceErrorEvent: ErrorEventType {
-    typealias Code = SourceError.Code
+extension PlayerErrorEvent: PlayerErrorEventType {
+	func toJSON() -> [String: Any] {
+			var json: [String: Any] = [
+					"event": name,
+					"timestamp": Int(timestamp),
+					"code": code.rawValue,
+					"message": message
+			]
+			if let data = data {
+					json["data"] = data.toJSON()
+			}
+			return json
+	}
 }
 
-extension SourceWarningEvent: ErrorEventType {
-    typealias Code = SourceWarning.Code
+extension PlayerWarningEvent: PlayerWarningEventType {
+	func toJSON() -> [String: Any] {
+			var json: [String: Any] = [
+					"event": name,
+					"timestamp": Int(timestamp),
+					"code": code.rawValue,
+					"message": message
+			]
+			if let data = data {
+					json["data"] = data.toJSON()
+			}
+			return json
+	}
+}
+
+extension SourceErrorEvent: SourceErrorEventType {
+	func toJSON() -> [String: Any] {
+			var json: [String: Any] = [
+					"event": name,
+					"timestamp": Int(timestamp),
+					"code": code.rawValue,
+					"message": message
+			]
+			if let data = data {
+					json["data"] = data.toJSON()
+			}
+			return json
+	}
+}
+extension SourceWarningEvent: SourceWarningEventType {
+	func toJSON() -> [String: Any] {
+			var json: [String: Any] = [
+					"event": name,
+					"timestamp": Int(timestamp),
+					"code": code.rawValue,
+					"message": message
+			]
+			if let data = data {
+					json["data"] = data.toJSON()
+			}
+			return json
+	}
 }
 
 protocol SourceEventType: Event {

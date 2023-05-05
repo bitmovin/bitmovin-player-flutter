@@ -7,7 +7,7 @@ part 'source_error_event.g.dart';
 @JsonSerializable(explicitToJson: true)
 class SourceErrorEvent extends Event with EquatableMixin {
   const SourceErrorEvent({
-    this.code,
+    required this.code,
     this.data,
     this.message,
     super.timestamp,
@@ -26,7 +26,7 @@ class SourceErrorEvent extends Event with EquatableMixin {
       ];
 
   @JsonKey(name: 'code', defaultValue: null)
-  final num? code;
+  final int code;
 
   @JsonKey(name: 'data', defaultValue: null)
   final dynamic data;

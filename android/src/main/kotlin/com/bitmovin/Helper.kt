@@ -8,7 +8,6 @@ import android.media.AudioManager
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import com.bitmovin.core.PlayerPayload
@@ -16,6 +15,10 @@ import com.bitmovin.player.api.PlaybackConfig
 import com.bitmovin.player.api.SeekMode
 import com.bitmovin.player.api.media.MediaFilter
 import com.bitmovin.player.api.PlayerConfig
+import com.bitmovin.player.api.deficiency.PlayerErrorCode
+import com.bitmovin.player.api.deficiency.PlayerWarningCode
+import com.bitmovin.player.api.deficiency.SourceErrorCode
+import com.bitmovin.player.api.deficiency.SourceWarningCode
 import com.bitmovin.player.api.source.Source
 import com.bitmovin.player.api.source.SourceConfig
 import com.bitmovin.player.api.source.SourceOptions
@@ -25,7 +28,6 @@ import com.bitmovin.player.api.ui.StyleConfig
 
 class Helper {
     companion object {
-
         fun parsePlayerPayload(params: Map<*, *>): PlayerPayload {
             return PlayerPayload(params["id"] as String, params["data"])
         }
@@ -35,7 +37,6 @@ class Helper {
         }
 
         fun buildSourceConfig(params: Map<*, *>): SourceConfig {
-            Log.e("HELPER", "CONFIG ==> $params")
             return SourceConfig(
                 url = params["url"] as String,
                 type = buildSourceType(params["type"] as String),
