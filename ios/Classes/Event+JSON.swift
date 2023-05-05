@@ -218,31 +218,7 @@ extension DeficiencyData {
 	}
 }
 
-protocol PlayerErrorEventType: Event {
-	var code: PlayerError.Code { get }
-	var data: DeficiencyData? { get }
-	var message: String { get }
-}
-
-protocol PlayerWarningEventType: Event {
-	var code: PlayerWarning.Code { get }
-	var data: DeficiencyData? { get }
-	var message: String { get }
-}
-
-protocol SourceErrorEventType: Event {
-	var code: SourceError.Code { get }
-	var data: DeficiencyData? { get }
-	var message: String { get }
-}
-
-protocol SourceWarningEventType: Event {
-	var code: SourceWarning.Code { get }
-	var data: DeficiencyData? { get }
-	var message: String { get }
-}
-
-extension PlayerErrorEvent: PlayerErrorEventType {
+extension PlayerErrorEvent {
 	func toJSON() -> [String: Any] {
 			var json: [String: Any] = [
 					"event": name,
@@ -257,7 +233,7 @@ extension PlayerErrorEvent: PlayerErrorEventType {
 	}
 }
 
-extension PlayerWarningEvent: PlayerWarningEventType {
+extension PlayerWarningEvent {
 	func toJSON() -> [String: Any] {
 			var json: [String: Any] = [
 					"event": name,
@@ -272,7 +248,7 @@ extension PlayerWarningEvent: PlayerWarningEventType {
 	}
 }
 
-extension SourceErrorEvent: SourceErrorEventType {
+extension SourceErrorEvent {
 	func toJSON() -> [String: Any] {
 			var json: [String: Any] = [
 					"event": name,
@@ -286,7 +262,7 @@ extension SourceErrorEvent: SourceErrorEventType {
 			return json
 	}
 }
-extension SourceWarningEvent: SourceWarningEventType {
+extension SourceWarningEvent {
 	func toJSON() -> [String: Any] {
 			var json: [String: Any] = [
 					"event": name,
