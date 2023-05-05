@@ -20,12 +20,10 @@ class PlayerPlugin: FlutterPlugin, ActivityAware, MethodCallHandler {
   private fun register(registrar: FlutterPlugin.FlutterPluginBinding) {
     registrar
       .platformViewRegistry
-      .registerViewFactory("player-view", PlayerViewFactory(registrar))
+      .registerViewFactory(Channels.PLAYER_VIEW, PlayerViewFactory(registrar))
   }
 
   override fun onMethodCall(call: MethodCall, result: Result) {
-    Log.e(tag, "====== onMethodCall ======")
-    Log.e(tag, "Method ==> ${call.method}")
     when (call.method) {
       Methods.CREATE_PLAYER -> {
         val id = ((call.arguments as Map<*, *>)["id"]) as String

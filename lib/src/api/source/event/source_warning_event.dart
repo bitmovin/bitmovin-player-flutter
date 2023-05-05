@@ -7,9 +7,9 @@ part 'source_warning_event.g.dart';
 @JsonSerializable(explicitToJson: true)
 class SourceWarningEvent extends Event with EquatableMixin {
   const SourceWarningEvent({
-    super.timestamp,
-    this.code,
+    required this.code,
     this.message,
+    super.timestamp,
   });
 
   factory SourceWarningEvent.fromJson(Map<String, dynamic> json) {
@@ -23,7 +23,7 @@ class SourceWarningEvent extends Event with EquatableMixin {
   List<Object?> get props => [code, message, timestamp];
 
   @JsonKey(name: 'code', defaultValue: null)
-  final int? code;
+  final int code;
 
   @JsonKey(name: 'message', defaultValue: null)
   final String? message;

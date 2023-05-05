@@ -8,9 +8,9 @@ part of 'source_warning_event.dart';
 
 SourceWarningEvent _$SourceWarningEventFromJson(Map<String, dynamic> json) =>
     SourceWarningEvent(
-      timestamp: json['timestamp'] as int?,
-      code: json['code'] as int?,
+      code: json['code'] as int,
       message: json['message'] as String?,
+      timestamp: json['timestamp'] as int?,
     );
 
 Map<String, dynamic> _$SourceWarningEventToJson(SourceWarningEvent instance) =>

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:bitmovin_sdk/src/api/player_event.dart';
 import 'package:bitmovin_sdk/src/api/source_event.dart';
@@ -120,17 +119,17 @@ mixin PlayerEventListener implements PlayerEventsInterface {
           _onPlaybackFinished?.call(PlayerEvent.PlaybackFinished(data));
         }
         break;
-      case 'onError':
+      case 'onPlayerError':
         if (data != null) {
           _onError?.call(PlayerEvent.Error(data));
         }
         break;
-      case 'onInfo':
+      case 'onPlayerInfo':
         if (data != null) {
           _onInfo?.call(PlayerEvent.Info(data));
         }
         break;
-      case 'onWarning':
+      case 'onPlayerWarning':
         if (data != null) {
           _onWarning?.call(PlayerEvent.Warning(data));
         }

@@ -26,13 +26,24 @@ open class EventListener {
              * Source Events
              */
             on(SourceEvent.Warning::class) {
-                broadcast("onSourceWarning", it)
+                val target = mapOf<String, Any?>(
+                    "code" to it.code.value,
+                    "message" to it.message,
+                    "timestamp" to it.timestamp,
+                )
+                broadcast("onSourceWarning", target)
             }
             on(SourceEvent.Info::class) {
                 broadcast("onSourceInfo", it)
             }
             on(SourceEvent.Error::class) {
-                broadcast("onSourceError", it)
+                val target = mapOf<String, Any?>(
+                    "code" to it.code.value,
+                    "message" to it.message,
+                    "timestamp" to it.timestamp,
+                    "data" to it.data
+                )
+                broadcast("onSourceError", target)
             }
             on(SourceEvent.Load::class) {
                 broadcast("onSourceLoad", it)
@@ -83,13 +94,24 @@ open class EventListener {
                 broadcast("onSeeked", it)
             }
             on(PlayerEvent.Info::class) {
-                broadcast("onInfo", it)
+                broadcast("onPlayerInfo", it)
             }
             on(PlayerEvent.Warning::class) {
-                broadcast("onWarning", it)
+                val target = mapOf<String, Any?>(
+                    "code" to it.code.value,
+                    "message" to it.message,
+                    "timestamp" to it.timestamp,
+                )
+                broadcast("onPlayerWarning", target)
             }
             on(PlayerEvent.Error::class) {
-                broadcast("onError", it)
+                val target = mapOf<String, Any?>(
+                    "code" to it.code.value,
+                    "message" to it.message,
+                    "timestamp" to it.timestamp,
+                    "data" to it.data,
+                )
+                broadcast("onPlayerError", target)
             }
         }
     }

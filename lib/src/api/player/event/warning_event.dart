@@ -7,7 +7,7 @@ part 'warning_event.g.dart';
 @JsonSerializable(explicitToJson: true)
 class WarningEvent extends Event with EquatableMixin {
   const WarningEvent({
-    this.code,
+    required this.code,
     this.message,
     super.timestamp,
   });
@@ -17,7 +17,7 @@ class WarningEvent extends Event with EquatableMixin {
   }
 
   @JsonKey(name: 'code', defaultValue: null)
-  final num? code;
+  final int code;
 
   @JsonKey(name: 'message', defaultValue: null)
   final String? message;
