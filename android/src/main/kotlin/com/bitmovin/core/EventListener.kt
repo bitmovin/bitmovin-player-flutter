@@ -1,5 +1,6 @@
 package com.bitmovin.core
 
+import com.bitmovin.android.exoplayer2.upstream.HttpDataSource.HttpDataSourceException
 import com.bitmovin.player.api.Player
 import com.bitmovin.player.api.event.PlayerEvent
 import com.bitmovin.player.api.event.SourceEvent
@@ -37,11 +38,11 @@ open class EventListener {
                 broadcast("onSourceInfo", it)
             }
             on(SourceEvent.Error::class) {
-                val target = mapOf<String, Any?>(
+                val target = mapOf(
                     "code" to it.code.value,
                     "message" to it.message,
                     "timestamp" to it.timestamp,
-                    "data" to it.data
+                    "data" to (it.data as Exception).message
                 )
                 broadcast("onSourceError", target)
             }
@@ -105,11 +106,11 @@ open class EventListener {
                 broadcast("onPlayerWarning", target)
             }
             on(PlayerEvent.Error::class) {
-                val target = mapOf<String, Any?>(
+                val target = mapOf(
                     "code" to it.code.value,
                     "message" to it.message,
                     "timestamp" to it.timestamp,
-                    "data" to it.data,
+                    "data" to (it.data as Exception).message,
                 )
                 broadcast("onPlayerError", target)
             }
