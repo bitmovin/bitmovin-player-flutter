@@ -47,7 +47,7 @@ class PlayerViewMethod: NSObject, FlutterPlatformView {
 
     private func handleMethodCall(call: FlutterMethodCall, result: @escaping FlutterResult) {
         let args = call.arguments as! [String: Any?]
-        if call.method == Methods.BIND_PLAYER {
+        if call.method == Methods.bindPlayer {
             createPlayerView(playerId: args["playerId"] as! String, playerViewConfig: nil)
         }
     }

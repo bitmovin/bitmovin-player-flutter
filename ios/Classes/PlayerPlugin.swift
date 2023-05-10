@@ -20,7 +20,7 @@ public class PlayerPlugin: NSObject, FlutterPlugin {
 
         let arguments = call.arguments as? [String: Any]
 
-        if call.method == Methods.CREATE_PLAYER {
+        if call.method == Methods.createPlayer {
             let config = Helper.playerConfig(arguments?["playerConfig"] as? [AnyHashable: Any])
             let id = arguments?["id"] as! String
 
