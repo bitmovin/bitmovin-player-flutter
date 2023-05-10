@@ -1,18 +1,18 @@
 class Methods {
-  static final String CREATE_PLAYER = 'create-player';
-  static final String BIND_PLAYER = 'bind-player';
-  static final String UNBIND_PLAYER = 'unbind-player';
-  static final String CREATE_PLAYER_VIEW = 'create-player-view';
+  static const String createPlayer = 'create-player';
+  static const String bindPlayer = 'bind-player';
+  static const String unbindPlayer = 'unbind-player';
+  static const String createPlayerView = 'create-player-view';
 
   /// For player methods only
-  static final String LOAD_WITH_SOURCE_CONFIG = 'loadWithSourceConfig';
-  static final String LOAD_WITH_SOURCE = 'loadWithSource';
-  static final String PLAY = 'play';
-  static final String PAUSE = 'pause';
-  static final String MUTE = 'mute';
-  static final String UNMUTE = 'unmute';
-  static final String SEEK = 'seek';
-  static final String CURRENT_TIME = 'current_time';
-  static final String DURATION = 'duration';
-  static final String DESTROY = 'destroy';
+  static const String loadWithSourceConfig = 'loadWithSourceConfig';
+  static const String loadWithSource = 'loadWithSource';
+  static const String play = 'play';
+  static const String pause = 'pause';
+  static const String mute = 'mute';
+  static const String unmute = 'unmute';
+  static const String seek = 'seek';
+  static const String currentTime = 'current_time';
+  static const String duration = 'duration';
+  static const String destroy = 'destroy';
 }
