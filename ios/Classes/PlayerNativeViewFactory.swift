@@ -1,10 +1,3 @@
-//
-//  PlayerNativeViewFactory.swift
-//  Runner
-//
-//  Created by Vijae Manlapaz on 4/27/23.
-//
-
 import Flutter
 import UIKit
 
@@ -21,15 +14,15 @@ class PlayerNativeViewFactory: NSObject, FlutterPlatformViewFactory {
         viewIdentifier viewId: Int64,
         arguments args: Any?
     ) -> FlutterPlatformView {
-			return PlayerViewMethod(
-				viewIdentifier: viewId,
-				frame: frame,
-				arguments: args,
-				binaryMessenger: messenger
-			)
+        return PlayerViewMethod(
+            viewIdentifier: viewId,
+            frame: frame,
+            arguments: args,
+            binaryMessenger: messenger
+        )
     }
-    
+
     public func createArgsCodec() -> FlutterMessageCodec & NSObjectProtocol {
-          return FlutterStandardMessageCodec.sharedInstance()
+        return FlutterStandardMessageCodec.sharedInstance()
     }
 }

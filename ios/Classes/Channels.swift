@@ -1,15 +1,8 @@
-//
-//  Channels.swift
-//  bitmovin_sdk
-//
-//  Created by Vijae Manlapaz on 5/4/23.
-//
-
 import Foundation
 
 class Channels {
-		static let MAIN = "channel-manager"
-		static let PLAYER = "player"
-		static let PLAYER_EVENT = "player-events"
-		static let PLAYER_VIEW = "player-view"
+    static let main = "channel-manager"
+    static let player = "player"
+    static let playerEvent = "player-events"
+    static let playerView = "player-view"
 }

@@ -3,6 +3,9 @@
 - Install `Node.js` and `npm` on your machine if you haven't already
 - Enter the repo and run `npm ci`
 
+For iOS development
+- Install `Mint` on your machine if you haven't already (`brew install mint`)
+
 # Bitmovin Flutter SDK
 
 Flutter plugin for bitmovin.
