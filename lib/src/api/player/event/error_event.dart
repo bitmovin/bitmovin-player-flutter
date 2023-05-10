@@ -7,10 +7,10 @@ part 'error_event.g.dart';
 @JsonSerializable(explicitToJson: true)
 class ErrorEvent extends Event with EquatableMixin {
   const ErrorEvent({
+    required super.timestamp,
     required this.code,
     this.message,
     this.data,
-    required super.timestamp,
   });
 
   factory ErrorEvent.fromJson(Map<String, dynamic> json) {

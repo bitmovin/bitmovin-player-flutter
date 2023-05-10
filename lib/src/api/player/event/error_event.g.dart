@@ -7,10 +7,10 @@ part of 'error_event.dart';
 // **************************************************************************
 
 ErrorEvent _$ErrorEventFromJson(Map<String, dynamic> json) => ErrorEvent(
+      timestamp: json['timestamp'] as int?,
       code: json['code'] as int,
       message: json['message'] as String?,
       data: json['data'],
-      timestamp: json['timestamp'] as int?,
     );
 
 Map<String, dynamic> _$ErrorEventToJson(ErrorEvent instance) =>

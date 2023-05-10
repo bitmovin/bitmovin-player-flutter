@@ -7,8 +7,8 @@ part 'info_event.g.dart';
 @JsonSerializable(explicitToJson: true)
 class InfoEvent extends Event with EquatableMixin {
   const InfoEvent({
-    this.message,
     required super.timestamp,
+    this.message,
   });
   factory InfoEvent.fromJson(Map<String, dynamic> json) {
     return _$InfoEventFromJson(json);
