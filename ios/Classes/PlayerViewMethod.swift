@@ -5,7 +5,7 @@ import BitmovinPlayer
 class PlayerViewMethod: NSObject, FlutterPlatformView {
     private var viewIdentifier: Int64?
     private var frame: CGRect?
-    private var messager: FlutterBinaryMessenger?
+    private var messenger: FlutterBinaryMessenger?
     private var arguments: Any?
 
     private var _view: UIView = UIView()
@@ -24,9 +24,12 @@ class PlayerViewMethod: NSObject, FlutterPlatformView {
 
         self.viewIdentifier = viewIdentifier
         self.frame = frame
-        self.messager = messenger
+        self.messenger = messenger
         self.arguments = arguments
-        self._methodChannel = FlutterMethodChannel(name: Channels.playerView + "-\(String(describing: viewIdentifier))", binaryMessenger: messenger)
+        self._methodChannel = FlutterMethodChannel(
+            name: Channels.playerView + "-\(String(describing: viewIdentifier))",
+            binaryMessenger: messenger
+        )
         self._methodChannel?.setMethodCallHandler(self.handleMethodCall)
     }
 
@@ -46,9 +49,10 @@ class PlayerViewMethod: NSObject, FlutterPlatformView {
     }
 
     private func handleMethodCall(call: FlutterMethodCall, result: @escaping FlutterResult) {
-        let args = call.arguments as! [String: Any?]
-        if call.method == Methods.bindPlayer {
-            createPlayerView(playerId: args["playerId"] as! String, playerViewConfig: nil)
+        guard let args = call.arguments as? [String: Any?] else { return }
+
+        if call.method == Methods.bindPlayer, let playerId = args["playerId"] as? String {
+            createPlayerView(playerId: playerId, playerViewConfig: nil)
         }
     }
 }

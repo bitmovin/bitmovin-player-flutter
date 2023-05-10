@@ -5,7 +5,6 @@ public class PlayerPlugin: NSObject, FlutterPlugin {
     weak var registrar: FlutterPluginRegistrar?
 
     public static func register(with registrar: FlutterPluginRegistrar) {
-
         let viewFactory = PlayerNativeViewFactory(messenger: registrar.messenger())
         registrar.register(viewFactory, withId: Channels.playerView)
 
@@ -17,12 +16,10 @@ public class PlayerPlugin: NSObject, FlutterPlugin {
     }
 
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-
         let arguments = call.arguments as? [String: Any]
 
-        if call.method == Methods.createPlayer {
+        if call.method == Methods.createPlayer, let id = arguments?["id"] as? String {
             let config = Helper.playerConfig(arguments?["playerConfig"] as? [AnyHashable: Any])
-            let id = arguments?["id"] as! String
 
             PlayerMethod.create(id: id, playerConfig: config, messenger: registrar!.messenger())
 
