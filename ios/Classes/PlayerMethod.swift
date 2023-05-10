@@ -45,31 +45,22 @@ class PlayerMethod: NSObject, FlutterStreamHandler {
         case Methods.LOAD_WITH_SOURCE_CONFIG:
             let config: SourceConfig? = Helper.sourceConfig(payload.data)
             getPlayer()?.load(sourceConfig: config!)
-            break
         case Methods.PLAY:
             getPlayer()?.play()
-            break
         case Methods.PAUSE:
             getPlayer()?.pause()
-            break
         case Methods.MUTE:
             getPlayer()?.mute()
-            break
         case Methods.UNMUTE:
             getPlayer()?.unmute()
-            break
         case Methods.SEEK:
             getPlayer()?.seek(time: 1)
-            break
         case Methods.CURRENT_TIME:
             result(getPlayer()?.currentTime)
-            break
         case Methods.DURATION:
             result(getPlayer()?.duration)
-            break
         case Methods.DESTROY:
             PlayerManager.shared.destroy(id: self.id)
-            break
         default:
             result(FlutterMethodNotImplemented)
         }
