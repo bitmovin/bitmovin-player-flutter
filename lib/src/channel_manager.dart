@@ -11,8 +11,10 @@ class ChannelManager {
 
   MethodChannel get method => _method;
 
-  static MethodChannel registerMethodChannel(
-      {required String name, Future<dynamic> Function(MethodCall)? handler}) {
+  static MethodChannel registerMethodChannel({
+    required String name,
+    Future<dynamic> Function(MethodCall)? handler,
+  }) {
     final target = MethodChannel(name);
     if (handler != null) {
       target.setMethodCallHandler(handler);
