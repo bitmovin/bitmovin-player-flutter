@@ -28,7 +28,7 @@ extension Source {
 			"isActive": isActive,
 			"loadingState": loadingState.toValue(),
 			"isAttachedToPlayer": isAttachedToPlayer,
-			"sourceConfig": sourceConfig.toJSON(),
+			"sourceConfig": sourceConfig.toJSON()
 		]
 		if let metadata = metadata {
 			json["metadata"] = metadata
@@ -50,13 +50,13 @@ extension SourceConfig {
 		json["tracks"] = self.tracks.map({ track in
 			return track.toJSON()
 		})
-		
+
 		if let target = self.sourceDescription {
 			json["sourceDescription"] = target
 		} else {
 			json["sourceDescription"] = nil
 		}
-		
+
 		if let target = self.posterSource {
 			json["posterSource"] = target.absoluteString
 		} else {
@@ -339,7 +339,6 @@ extension AudioChangedEvent {
         ]
     }
 }
-
 
 extension SubtitleAddedEvent {
     func toJSON() -> [String: Any] {

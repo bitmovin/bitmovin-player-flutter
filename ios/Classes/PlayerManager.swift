@@ -11,7 +11,7 @@ public class PlayerManager {
 		let player = PlayerFactory.create(playerConfig: config ?? PlayerConfig())
 		players[id] = player
   }
-    
+
 	func destroy(id: String) {
 		if let player = players[id] {
 			player.destroy()
