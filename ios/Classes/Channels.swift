@@ -1,10 +1,3 @@
-//
-//  Channels.swift
-//  bitmovin_sdk
-//
-//  Created by Vijae Manlapaz on 5/4/23.
-//
-
 import Foundation
 
 class Channels {

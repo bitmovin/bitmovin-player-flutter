@@ -1,19 +1,11 @@
-//
-//  swift
-//  bitmovin_sdk
-//
-//  Created by Vijae Manlapaz on 4/26/23.
-//
-
 import Foundation
 import BitmovinPlayer
 
 public class Helper {
-
     static func playerPayload(_ json: Any?) -> PlayerPayload {
         let playerPayload = PlayerPayload()
         guard let json = json as? [String: Any?] else {
-                return playerPayload
+            return playerPayload
         }
         if let id = json["id"] as? Int {
             playerPayload.id = id
@@ -24,8 +16,8 @@ public class Helper {
         }
 
         return playerPayload
-
     }
+
     /**
      Utility method to instantiate a `PlayerConfig` from a JS object.
      - Parameter json: JS object
@@ -96,15 +88,15 @@ public class Helper {
             styleConfig.isUiEnabled = isUiEnabled
         }
 #if !os(tvOS)
-//        if let playerUiCss = json["playerUiCss"] as? String {
-//            styleConfig.playerUiCss = URL(string: playerUiCss)
-//        }
-//        if let supplementalPlayerUiCss = json["supplementalPlayerUiCss"] as? String {
-//            styleConfig.supplementalPlayerUiCss = URL(string: supplementalPlayerUiCss)
-//        }
-//        if let playerUiJs = json["playerUiJs"] as? String {
-//            styleConfig.playerUiJs = URL(string: playerUiJs)
-//        }
+        //        if let playerUiCss = json["playerUiCss"] as? String {
+        //            styleConfig.playerUiCss = URL(string: playerUiCss)
+        //        }
+        //        if let supplementalPlayerUiCss = json["supplementalPlayerUiCss"] as? String {
+        //            styleConfig.supplementalPlayerUiCss = URL(string: supplementalPlayerUiCss)
+        //        }
+        //        if let playerUiJs = json["playerUiJs"] as? String {
+        //            styleConfig.playerUiJs = URL(string: playerUiJs)
+        //        }
 #endif
         if let scalingMode = json["scalingMode"] as? String {
             switch scalingMode {
@@ -589,94 +581,95 @@ public class Helper {
             "minBitrate": adData.minBitrate
         ]
     }
+
     /**
      Utility method to get a `BitmovinAnalyticsConfig` value from a JS object.
      - Parameter json: JS object.
      - Returns: The associated `BitmovinAnalyticsConfig` value or nil.
      */
-//    static func analyticsConfig(_ json: Any?) -> BitmovinAnalyticsConfig? {
-//        guard
-//            let json = json as? [String: Any?],
-//            let key = json["key"] as? String
-//        else {
-//            return nil
-//        }
-//        let config: BitmovinAnalyticsConfig
-//        if let playerKey = json["playerKey"] as? String {
-//            config = BitmovinAnalyticsConfig(key: key, playerKey: playerKey)
-//        } else {
-//            config = BitmovinAnalyticsConfig(key: key)
-//        }
-//        if let cdnProvider = json["cdnProvider"] as? String {
-//            config.cdnProvider = cdnProvider
-//        }
-//        if let customerUserId = json["customUserId"] as? String {
-//            config.customerUserId = customerUserId
-//        }
-//        if let experimentName = json["experimentName"] as? String {
-//            config.experimentName = experimentName
-//        }
-//        if let videoId = json["videoId"] as? String {
-//            config.videoId = videoId
-//        }
-//        if let title = json["title"] as? String {
-//            config.title = title
-//        }
-//        if let path = json["path"] as? String {
-//            config.path = path
-//        }
-//        if let isLive = json["isLive"] as? Bool {
-//            config.isLive = isLive
-//        }
-//        if let ads = json["ads"] as? Bool {
-//            config.ads = ads
-//        }
-//        if let randomizeUserId = json["randomizeUserId"] as? Bool {
-//            config.randomizeUserId = randomizeUserId
-//        }
-//        for n in 1..<30 {
-//            if let customDataN = json["customData\(n)"] as? String {
-//                config.setValue(customDataN, forKey: "customData\(n)")
-//            }
-//        }
-//        return config
-//    }
-//
-//    /**
-//     Utility method to get an analytics `CustomData` value from a JS object.
-//     - Parameter json: JS object.
-//     - Returns: The associated `CustomData` value or nil.
-//     */
-//    static func analyticsCustomData(_ json: Any?) -> CustomData? {
-//        guard let json = json as? [String: Any?] else {
-//            return nil
-//        }
-//        let customData = CustomData()
-//        for n in 1..<30 {
-//            if let customDataN = json["customData\(n)"] as? String {
-//                customData.setValue(customDataN, forKey: "customData\(n)")
-//            }
-//        }
-//        return customData
-//    }
-//
-//    /**
-//     Utility method to get a JS value from a `CustomData` object.
-//     - Parameter analyticsCustomData: Analytics custom data object.
-//     - Returns: The JS value representing the given object.
-//     */
-//    static func toJson(analyticsCustomData: CustomData?) -> [String: Any?]? {
-//        guard let analyticsCustomData = analyticsCustomData else {
-//            return nil
-//        }
-//        var json: [String: Any?] = [:]
-//        for n in 1..<30 {
-//            if let customDataN = analyticsCustomData.value(forKey: "customData\(n)") {
-//                json["customData\(n)"] = customDataN
-//            }
-//        }
-//        return json
-//    }
+    //    static func analyticsConfig(_ json: Any?) -> BitmovinAnalyticsConfig? {
+    //        guard
+    //            let json = json as? [String: Any?],
+    //            let key = json["key"] as? String
+    //        else {
+    //            return nil
+    //        }
+    //        let config: BitmovinAnalyticsConfig
+    //        if let playerKey = json["playerKey"] as? String {
+    //            config = BitmovinAnalyticsConfig(key: key, playerKey: playerKey)
+    //        } else {
+    //            config = BitmovinAnalyticsConfig(key: key)
+    //        }
+    //        if let cdnProvider = json["cdnProvider"] as? String {
+    //            config.cdnProvider = cdnProvider
+    //        }
+    //        if let customerUserId = json["customUserId"] as? String {
+    //            config.customerUserId = customerUserId
+    //        }
+    //        if let experimentName = json["experimentName"] as? String {
+    //            config.experimentName = experimentName
+    //        }
+    //        if let videoId = json["videoId"] as? String {
+    //            config.videoId = videoId
+    //        }
+    //        if let title = json["title"] as? String {
+    //            config.title = title
+    //        }
+    //        if let path = json["path"] as? String {
+    //            config.path = path
+    //        }
+    //        if let isLive = json["isLive"] as? Bool {
+    //            config.isLive = isLive
+    //        }
+    //        if let ads = json["ads"] as? Bool {
+    //            config.ads = ads
+    //        }
+    //        if let randomizeUserId = json["randomizeUserId"] as? Bool {
+    //            config.randomizeUserId = randomizeUserId
+    //        }
+    //        for n in 1..<30 {
+    //            if let customDataN = json["customData\(n)"] as? String {
+    //                config.setValue(customDataN, forKey: "customData\(n)")
+    //            }
+    //        }
+    //        return config
+    //    }
+    //
+    //    /**
+    //     Utility method to get an analytics `CustomData` value from a JS object.
+    //     - Parameter json: JS object.
+    //     - Returns: The associated `CustomData` value or nil.
+    //     */
+    //    static func analyticsCustomData(_ json: Any?) -> CustomData? {
+    //        guard let json = json as? [String: Any?] else {
+    //            return nil
+    //        }
+    //        let customData = CustomData()
+    //        for n in 1..<30 {
+    //            if let customDataN = json["customData\(n)"] as? String {
+    //                customData.setValue(customDataN, forKey: "customData\(n)")
+    //            }
+    //        }
+    //        return customData
+    //    }
+    //
+    //    /**
+    //     Utility method to get a JS value from a `CustomData` object.
+    //     - Parameter analyticsCustomData: Analytics custom data object.
+    //     - Returns: The JS value representing the given object.
+    //     */
+    //    static func toJson(analyticsCustomData: CustomData?) -> [String: Any?]? {
+    //        guard let analyticsCustomData = analyticsCustomData else {
+    //            return nil
+    //        }
+    //        var json: [String: Any?] = [:]
+    //        for n in 1..<30 {
+    //            if let customDataN = analyticsCustomData.value(forKey: "customData\(n)") {
+    //                json["customData\(n)"] = customDataN
+    //            }
+    //        }
+    //        return json
+    //    }
     /**
      Utility method to compute a JS value from a `VideoQuality` object.
      - Parameter videoQuality `VideoQuality` object to be converted.
