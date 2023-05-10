@@ -28,7 +28,7 @@ class PlayerNativeViewFactory: NSObject, FlutterPlatformViewFactory {
 				binaryMessenger: messenger
 			)
     }
-    
+
     public func createArgsCodec() -> FlutterMessageCodec & NSObjectProtocol {
           return FlutterStandardMessageCodec.sharedInstance()
     }

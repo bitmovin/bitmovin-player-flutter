@@ -18,13 +18,13 @@ public class Helper {
 		if let id = json["id"] as? Int {
 			playerPayload.id = id
 		}
-		
+
 		if let data = json["data"] as? [String: Any] {
 			playerPayload.data = data
 		}
-		
+
 		return playerPayload
-				
+
 	}
     /**
      Utility method to instantiate a `PlayerConfig` from a JS object.
@@ -451,7 +451,7 @@ public class Helper {
                 case .webVtt: return "vtt"
                 case .ttml: return "ttml"
                 }
-            }(),
+            }()
         ]
     }
 
@@ -692,7 +692,7 @@ public class Helper {
             "height": videoQuality.height,
             "width": videoQuality.width,
             "codec": videoQuality.codec,
-            "bitrate": videoQuality.bitrate,
+            "bitrate": videoQuality.bitrate
         ]
     }
 }

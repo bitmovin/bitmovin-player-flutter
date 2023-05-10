@@ -12,7 +12,7 @@ class Methods {
 		static let BIND_PLAYER = "bind-player"
 		static let UNBIND_PLAYER = "unbind-player"
 		static let CREATE_PLAYER_VIEW = "create-player-view"
-		
+
 		// For player methods only
 		static let LOAD_WITH_SOURCE_CONFIG = "loadWithSourceConfig"
 		static let LOAD_WITH_SOURCE = "loadWithSource"
