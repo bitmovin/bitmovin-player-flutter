@@ -1,3 +1,8 @@
+# Get Started
+- Install `flutter` on your machine if you haven't already
+- Install `Node.js` and `npm` on your machine if you haven't already
+- Enter the repo and run `npm ci`
+
 # Bitmovin Flutter SDK
 
 Flutter plugin for bitmovin.
