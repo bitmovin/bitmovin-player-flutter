@@ -7,12 +7,12 @@ public class PlayerPlugin: NSObject, FlutterPlugin {
     public static func register(with registrar: FlutterPluginRegistrar) {
 
         let viewFactory = PlayerNativeViewFactory(messenger: registrar.messenger())
-        registrar.register(viewFactory, withId: Channels.PLAYER_VIEW)
+        registrar.register(viewFactory, withId: Channels.playerView)
 
         let instance = PlayerPlugin()
         instance.registrar = registrar
 
-        let channel = FlutterMethodChannel(name: Channels.MAIN, binaryMessenger: registrar.messenger())
+        let channel = FlutterMethodChannel(name: Channels.main, binaryMessenger: registrar.messenger())
         registrar.addMethodCallDelegate(instance, channel: channel)
     }
 

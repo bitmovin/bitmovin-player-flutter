@@ -26,7 +26,7 @@ class PlayerViewMethod: NSObject, FlutterPlatformView {
         self.frame = frame
         self.messager = messenger
         self.arguments = arguments
-        self._methodChannel = FlutterMethodChannel(name: Channels.PLAYER_VIEW + "-\(String(describing: viewIdentifier))", binaryMessenger: messenger)
+        self._methodChannel = FlutterMethodChannel(name: Channels.playerView + "-\(String(describing: viewIdentifier))", binaryMessenger: messenger)
         self._methodChannel?.setMethodCallHandler(self.handleMethodCall)
     }
 

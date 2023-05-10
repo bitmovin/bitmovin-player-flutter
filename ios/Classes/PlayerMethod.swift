@@ -14,10 +14,10 @@ class PlayerMethod: NSObject, FlutterStreamHandler {
 
     static func create(id: String, playerConfig: PlayerConfig?, messenger: FlutterBinaryMessenger) {
         let instance = PlayerMethod(id: id)
-        instance._methodChannel = FlutterMethodChannel(name: Channels.PLAYER + "-\(id)", binaryMessenger: messenger)
+        instance._methodChannel = FlutterMethodChannel(name: Channels.player + "-\(id)", binaryMessenger: messenger)
         instance._methodChannel?.setMethodCallHandler(instance.handleMethodCall)
 
-        instance._eventChannel = FlutterEventChannel(name: Channels.PLAYER_EVENT + "-\(id)", binaryMessenger: messenger)
+        instance._eventChannel = FlutterEventChannel(name: Channels.playerEvent + "-\(id)", binaryMessenger: messenger)
         instance._eventChannel?.setStreamHandler(instance)
 
         PlayerManager.shared.createPlayer(id: id, config: playerConfig)
