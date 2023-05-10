@@ -21,12 +21,12 @@ class PlayerNativeViewFactory: NSObject, FlutterPlatformViewFactory {
         viewIdentifier viewId: Int64,
         arguments args: Any?
     ) -> FlutterPlatformView {
-			return PlayerViewMethod(
-				viewIdentifier: viewId,
-				frame: frame,
-				arguments: args,
-				binaryMessenger: messenger
-			)
+            return PlayerViewMethod(
+                viewIdentifier: viewId,
+                frame: frame,
+                arguments: args,
+                binaryMessenger: messenger
+            )
     }
 
     public func createArgsCodec() -> FlutterMessageCodec & NSObjectProtocol {

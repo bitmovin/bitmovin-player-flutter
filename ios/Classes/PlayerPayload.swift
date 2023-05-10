@@ -8,13 +8,13 @@
 import Foundation
 
 class PlayerPayload {
-	var id: Int?
-	var data: Any?
+    var id: Int?
+    var data: Any?
 
-	init() {}
+    init() {}
 
-	init(id: Int, data: Any?) {
-		self.id = id
-		self.data = data
-	}
+    init(id: Int, data: Any?) {
+        self.id = id
+        self.data = data
+    }
 }
