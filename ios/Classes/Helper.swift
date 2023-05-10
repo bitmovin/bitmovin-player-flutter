@@ -1,31 +1,25 @@
-//
-//  swift
-//  bitmovin_sdk
-//
-//  Created by Vijae Manlapaz on 4/26/23.
-//
-
 import Foundation
 import BitmovinPlayer
 
+// swiftlint:disable file_length
+// swiftlint:disable:next type_body_length
 public class Helper {
+    static func playerPayload(_ json: Any?) -> PlayerPayload {
+        let playerPayload = PlayerPayload()
+        guard let json = json as? [String: Any?] else {
+            return playerPayload
+        }
+        if let id = json["id"] as? Int {
+            playerPayload.id = id
+        }
 
-	static func playerPayload(_ json: Any?) -> PlayerPayload {
-		let playerPayload = PlayerPayload()
-		guard let json = json as? [String: Any?] else {
-				return playerPayload
-		}
-		if let id = json["id"] as? Int {
-			playerPayload.id = id
-		}
-		
-		if let data = json["data"] as? [String: Any] {
-			playerPayload.data = data
-		}
-		
-		return playerPayload
-				
-	}
+        if let data = json["data"] as? [String: Any] {
+            playerPayload.data = data
+        }
+
+        return playerPayload
+    }
+
     /**
      Utility method to instantiate a `PlayerConfig` from a JS object.
      - Parameter json: JS object
@@ -96,15 +90,15 @@ public class Helper {
             styleConfig.isUiEnabled = isUiEnabled
         }
 #if !os(tvOS)
-//        if let playerUiCss = json["playerUiCss"] as? String {
-//            styleConfig.playerUiCss = URL(string: playerUiCss)
-//        }
-//        if let supplementalPlayerUiCss = json["supplementalPlayerUiCss"] as? String {
-//            styleConfig.supplementalPlayerUiCss = URL(string: supplementalPlayerUiCss)
-//        }
-//        if let playerUiJs = json["playerUiJs"] as? String {
-//            styleConfig.playerUiJs = URL(string: playerUiJs)
-//        }
+        //        if let playerUiCss = json["playerUiCss"] as? String {
+        //            styleConfig.playerUiCss = URL(string: playerUiCss)
+        //        }
+        //        if let supplementalPlayerUiCss = json["supplementalPlayerUiCss"] as? String {
+        //            styleConfig.supplementalPlayerUiCss = URL(string: supplementalPlayerUiCss)
+        //        }
+        //        if let playerUiJs = json["playerUiJs"] as? String {
+        //            styleConfig.playerUiJs = URL(string: playerUiJs)
+        //        }
 #endif
         if let scalingMode = json["scalingMode"] as? String {
             switch scalingMode {
@@ -116,7 +110,6 @@ public class Helper {
                 styleConfig.scalingMode = .zoom
             default:
                 styleConfig.scalingMode = .fit
-                break
             }
         }
         return styleConfig
@@ -127,23 +120,29 @@ public class Helper {
      - Parameter json: JS object.
      - Returns: The produced `TweaksConfig` object.
      */
-    static func tweaksConfig(_ json: Any?) -> TweaksConfig? {
+    static func tweaksConfig(_ json: Any?) -> TweaksConfig? { // swiftlint:disable:this cyclomatic_complexity
         guard let json = json as? [String: Any?] else {
             return nil
         }
+
         let tweaksConfig = TweaksConfig()
+
         if let isNativeHlsParsingEnabled = json["isNativeHlsParsingEnabled"] as? Bool {
             tweaksConfig.isNativeHlsParsingEnabled = isNativeHlsParsingEnabled
         }
+
         if let isCustomHlsLoadingEnabled = json["isCustomHlsLoadingEnabled"] as? Bool {
             tweaksConfig.isCustomHlsLoadingEnabled = isCustomHlsLoadingEnabled
         }
+
         if let timeChangedInterval = json["timeChangedInterval"] as? NSNumber {
             tweaksConfig.timeChangedInterval = timeChangedInterval.doubleValue
         }
+
         if let seekToEndThreshold = json["seekToEndThreshold"] as? NSNumber {
             tweaksConfig.seekToEndThreshold = seekToEndThreshold.doubleValue
         }
+
         if let playbackStartBehaviour = json["playbackStartBehaviour"] as? String {
             switch playbackStartBehaviour {
             case "relaxed":
@@ -154,6 +153,7 @@ public class Helper {
                 break
             }
         }
+
         if let unstallingBehaviour = json["unstallingBehaviour"] as? String {
             switch unstallingBehaviour {
             case "relaxed":
@@ -164,6 +164,7 @@ public class Helper {
                 break
             }
         }
+
         return tweaksConfig
     }
 
@@ -206,13 +207,13 @@ public class Helper {
      - Returns: The produced `AdSource` object.
      */
     static func adSource(_ json: Any?) -> AdSource? {
-        guard
-            let json = json as? [String: Any?],
-            let tag = URL(string: json["tag"] as! String),
-            let type = adSourceType(json["type"])
-        else {
+        guard let json = json as? [String: Any?],
+              let tagString = json["tag"] as? String,
+              let tag = URL(string: tagString),
+              let type = adSourceType(json["type"]) else {
             return nil
         }
+
         return AdSource(tag: tag, ofType: type)
     }
 
@@ -246,22 +247,33 @@ public class Helper {
         guard let json = json as? [String: Any?] else {
             return nil
         }
+
+        guard let sourceUrlString = json["url"] as? String,
+              let sourceUrl = URL(string: sourceUrlString) else {
+            return nil
+        }
+
         let sourceConfig = SourceConfig(
-            url: URL(string: json["url"] as! String)!,
+            url: sourceUrl,
             type: sourceType(json["type"] as Any?)
         )
+
         if let drmConfig = drmConfig {
             sourceConfig.drmConfig = drmConfig
         }
+
         if let title = json["title"] as? String {
             sourceConfig.title = title
         }
+
         if let poster = json["poster"] as? String {
             sourceConfig.posterSource = URL(string: poster)
         }
+
         if let isPosterPersistent = json["isPosterPersistent"] as? Bool {
             sourceConfig.isPosterPersistent = isPosterPersistent
         }
+
         if let subtitleTracks = json["subtitleTracks"] as? [[String: Any]] {
             subtitleTracks.forEach {
                 if let track = subtitleTrack($0) {
@@ -269,9 +281,11 @@ public class Helper {
                 }
             }
         }
+
         if let thumbnailTrack = json["thumbnailTrack"] as? String {
             sourceConfig.thumbnailTrack = Helper.thumbnailTrack(thumbnailTrack)
         }
+
         return sourceConfig
     }
 
@@ -285,11 +299,16 @@ public class Helper {
             return .none
         }
         switch json {
-        case "none": return .none
-        case "hls": return .hls
-        case "dash": return .dash
-        case "progressive": return .progressive
-        default: return .none
+        case "none":
+            return .none
+        case "hls":
+            return .hls
+        case "dash":
+            return .dash
+        case "progressive":
+            return .progressive
+        default:
+            return .none
         }
     }
 
@@ -303,9 +322,12 @@ public class Helper {
             return .absoluteTime
         }
         switch json {
-        case "absolute": return .absoluteTime
-        case "relative": return .relativeTime
-        default: return .absoluteTime
+        case "absolute":
+            return .absoluteTime
+        case "relative":
+            return .relativeTime
+        default:
+            return .absoluteTime
         }
     }
 
@@ -315,24 +337,26 @@ public class Helper {
      - Returns: The generated `FairplayConfig` object
      */
     static func fairplayConfig(_ json: Any?) -> FairplayConfig? {
-        guard
-            let json = json as? [String: Any?],
-            let fairplayJson = json["fairplay"] as? [String: Any?],
-            let licenseURL = fairplayJson["licenseUrl"] as? String,
-            let certificateURL = fairplayJson["certificateUrl"] as? String
-        else {
+        guard let json = json as? [String: Any?],
+              let fairplayJson = json["fairplay"] as? [String: Any?],
+              let licenseURL = fairplayJson["licenseUrl"] as? String,
+              let certificateURL = fairplayJson["certificateUrl"] as? String else {
             return nil
         }
+
         let fairplayConfig = FairplayConfig(
             license: URL(string: licenseURL),
             certificateURL: URL(string: certificateURL)!
         )
+
         if let licenseRequestHeaders = fairplayJson["licenseRequestHeaders"] as? [String: String] {
             fairplayConfig.licenseRequestHeaders = licenseRequestHeaders
         }
+
         if let certificateRequestHeaders = fairplayJson["certificateRequestHeaders"] as? [String: String] {
             fairplayConfig.certificateRequestHeaders = certificateRequestHeaders
         }
+
         return fairplayConfig
     }
 
@@ -365,11 +389,11 @@ public class Helper {
             return nil
         }
         return [
-            "url": audioTrack.url?.absoluteString,
+            "url": audioTrack.url?.absoluteString ?? "",
             "label": audioTrack.label,
             "isDefault": audioTrack.isDefaultTrack,
             "identifier": audioTrack.identifier,
-            "language": audioTrack.language
+            "language": audioTrack.language ?? ""
         ]
     }
 
@@ -379,10 +403,9 @@ public class Helper {
      - Returns: The generated `SubtitleTrack`.
      */
     static func subtitleTrack(_ json: [String: Any]) -> SubtitleTrack? {
-        guard
-            let url = URL(string: json["url"] as! String),
-            let label = json["label"] as? String
-        else {
+        guard let urlString = json["url"] as? String,
+              let url = URL(string: urlString),
+              let label = json["label"] as? String else {
             return nil
         }
 
@@ -402,6 +425,7 @@ public class Helper {
                 forced: isForced
             )
         }
+
         return SubtitleTrack(
             url: url,
             label: label,
@@ -435,23 +459,29 @@ public class Helper {
      - Returns: The generated json dictionary.
      */
     static func subtitleTrackJson(_ subtitleTrack: SubtitleTrack?) -> [AnyHashable: Any]? {
-        guard let subtitleTrack = subtitleTrack else {
+        guard let subtitleTrack else {
             return nil
         }
+
         return [
-            "url": subtitleTrack.url?.absoluteString,
+            "url": subtitleTrack.url?.absoluteString ?? "",
             "label": subtitleTrack.label,
             "isDefault": subtitleTrack.isDefaultTrack,
             "identifier": subtitleTrack.identifier,
-            "language": subtitleTrack.language,
+            "language": subtitleTrack.language ?? "",
             "isForced": subtitleTrack.isForced,
             "format": {
                 switch subtitleTrack.format {
-                case .cea: return "cea"
-                case .webVtt: return "vtt"
-                case .ttml: return "ttml"
+                case .cea:
+                    return "cea"
+                case .webVtt:
+                    return "vtt"
+                case .ttml:
+                    return "ttml"
+                default:
+                    return ""
                 }
-            }(),
+            }()
         ]
     }
 
@@ -534,6 +564,8 @@ public class Helper {
             return "mid_point"
         case .thirdQuartile:
             return "third"
+        default:
+            return nil
         }
     }
 
@@ -558,7 +590,8 @@ public class Helper {
      - Parameter ad: `Ad` object to be converted.
      - Returns: The produced JS object.
      */
-    static func toJson(ad: Ad?) -> [String: Any?]? {
+    static func toJson(ad: Ad?) -> [String: Any?]? { // swiftlint:disable:this identifier_name
+        // swiftlint:disable:next identifier_name
         guard let ad = ad else {
             return nil
         }
@@ -589,94 +622,7 @@ public class Helper {
             "minBitrate": adData.minBitrate
         ]
     }
-    /**
-     Utility method to get a `BitmovinAnalyticsConfig` value from a JS object.
-     - Parameter json: JS object.
-     - Returns: The associated `BitmovinAnalyticsConfig` value or nil.
-     */
-//    static func analyticsConfig(_ json: Any?) -> BitmovinAnalyticsConfig? {
-//        guard
-//            let json = json as? [String: Any?],
-//            let key = json["key"] as? String
-//        else {
-//            return nil
-//        }
-//        let config: BitmovinAnalyticsConfig
-//        if let playerKey = json["playerKey"] as? String {
-//            config = BitmovinAnalyticsConfig(key: key, playerKey: playerKey)
-//        } else {
-//            config = BitmovinAnalyticsConfig(key: key)
-//        }
-//        if let cdnProvider = json["cdnProvider"] as? String {
-//            config.cdnProvider = cdnProvider
-//        }
-//        if let customerUserId = json["customUserId"] as? String {
-//            config.customerUserId = customerUserId
-//        }
-//        if let experimentName = json["experimentName"] as? String {
-//            config.experimentName = experimentName
-//        }
-//        if let videoId = json["videoId"] as? String {
-//            config.videoId = videoId
-//        }
-//        if let title = json["title"] as? String {
-//            config.title = title
-//        }
-//        if let path = json["path"] as? String {
-//            config.path = path
-//        }
-//        if let isLive = json["isLive"] as? Bool {
-//            config.isLive = isLive
-//        }
-//        if let ads = json["ads"] as? Bool {
-//            config.ads = ads
-//        }
-//        if let randomizeUserId = json["randomizeUserId"] as? Bool {
-//            config.randomizeUserId = randomizeUserId
-//        }
-//        for n in 1..<30 {
-//            if let customDataN = json["customData\(n)"] as? String {
-//                config.setValue(customDataN, forKey: "customData\(n)")
-//            }
-//        }
-//        return config
-//    }
-//
-//    /**
-//     Utility method to get an analytics `CustomData` value from a JS object.
-//     - Parameter json: JS object.
-//     - Returns: The associated `CustomData` value or nil.
-//     */
-//    static func analyticsCustomData(_ json: Any?) -> CustomData? {
-//        guard let json = json as? [String: Any?] else {
-//            return nil
-//        }
-//        let customData = CustomData()
-//        for n in 1..<30 {
-//            if let customDataN = json["customData\(n)"] as? String {
-//                customData.setValue(customDataN, forKey: "customData\(n)")
-//            }
-//        }
-//        return customData
-//    }
-//
-//    /**
-//     Utility method to get a JS value from a `CustomData` object.
-//     - Parameter analyticsCustomData: Analytics custom data object.
-//     - Returns: The JS value representing the given object.
-//     */
-//    static func toJson(analyticsCustomData: CustomData?) -> [String: Any?]? {
-//        guard let analyticsCustomData = analyticsCustomData else {
-//            return nil
-//        }
-//        var json: [String: Any?] = [:]
-//        for n in 1..<30 {
-//            if let customDataN = analyticsCustomData.value(forKey: "customData\(n)") {
-//                json["customData\(n)"] = customDataN
-//            }
-//        }
-//        return json
-//    }
+
     /**
      Utility method to compute a JS value from a `VideoQuality` object.
      - Parameter videoQuality `VideoQuality` object to be converted.
@@ -692,7 +638,7 @@ public class Helper {
             "height": videoQuality.height,
             "width": videoQuality.width,
             "codec": videoQuality.codec,
-            "bitrate": videoQuality.bitrate,
+            "bitrate": videoQuality.bitrate
         ]
     }
 }
