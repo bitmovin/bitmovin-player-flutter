@@ -7,8 +7,8 @@ part of 'info_event.dart';
 // **************************************************************************
 
 InfoEvent _$InfoEventFromJson(Map<String, dynamic> json) => InfoEvent(
-      message: json['message'] as String?,
       timestamp: json['timestamp'] as int?,
+      message: json['message'] as String?,
     );
 
 Map<String, dynamic> _$InfoEventToJson(InfoEvent instance) => <String, dynamic>{
