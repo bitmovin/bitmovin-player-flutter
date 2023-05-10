@@ -16,12 +16,12 @@ class Player with PlayerEventListener implements PlayerInterface {
     _uuid = hashCode.toString();
 
     final mainChannel = ChannelManager.registerMethodChannel(
-      name: Channels.MAIN,
+      name: Channels.main,
     );
 
     mainChannel
         .invokeMethod<bool>(
-      Methods.CREATE_PLAYER,
+      Methods.createPlayer,
       Map<String, dynamic>.from(
         {
           'id': _uuid,
@@ -32,11 +32,11 @@ class Player with PlayerEventListener implements PlayerInterface {
         .then((value) {
       if (value != null && value == true) {
         _methodChannel = ChannelManager.registerMethodChannel(
-          name: '${Channels.PLAYER}-$_uuid',
+          name: '${Channels.player}-$_uuid',
         );
 
         _eventChannel = ChannelManager.registerEventChannel(
-          name: '${Channels.PLAYER_EVENT}-$_uuid',
+          name: '${Channels.playerEvent}-$_uuid',
         );
         _eventChannel.receiveBroadcastStream().listen(onEvent);
       }
@@ -69,40 +69,40 @@ class Player with PlayerEventListener implements PlayerInterface {
   Future<void> loadWithSourceConfig(
     SourceConfig sourceConfig,
   ) async =>
-      _invokeMethod(Methods.LOAD_WITH_SOURCE_CONFIG, sourceConfig.toJson());
+      _invokeMethod(Methods.loadWithSourceConfig, sourceConfig.toJson());
 
   /// Starts a new playback session consisting of the [Source].
   @override
   Future<void> loadWithSource(Source source) async {
-    return _invokeMethod<void>(Methods.LOAD_WITH_SOURCE, source.toJson());
+    return _invokeMethod<void>(Methods.loadWithSource, source.toJson());
   }
 
   /// Starts or resumes playback.
   @override
-  Future<void> play() async => _invokeMethod<void>(Methods.PLAY);
+  Future<void> play() async => _invokeMethod<void>(Methods.play);
 
   /// Mutes the player.
   @override
-  Future<void> mute() async => _invokeMethod<void>(Methods.MUTE);
+  Future<void> mute() async => _invokeMethod<void>(Methods.mute);
 
   /// Unmutes the player.
   @override
-  Future<void> unmute() async => _invokeMethod<void>(Methods.UNMUTE);
+  Future<void> unmute() async => _invokeMethod<void>(Methods.unmute);
 
   /// Pauses playback.
   @override
-  Future<void> pause() async => _invokeMethod<void>(Methods.PAUSE);
+  Future<void> pause() async => _invokeMethod<void>(Methods.pause);
 
   /// Seeks to the given playback time in seconds.
   /// Must not be greater than the duration of the active [Source].
   @override
   Future<void> seek(double time) async =>
-      _invokeMethod<void>(Methods.SEEK, time);
+      _invokeMethod<void>(Methods.seek, time);
 
   /// The current playback time of the active [Source] or ad in seconds.
   @override
   Future<double> currentTime() async {
-    return await _invokeMethod<double>(Methods.CURRENT_TIME) ?? 0.0;
+    return await _invokeMethod<double>(Methods.currentTime) ?? 0.0;
   }
 
   /// The duration of the active [Source] in seconds.
@@ -112,8 +112,8 @@ class Player with PlayerEventListener implements PlayerInterface {
   /// If isAd is true the duration of the current ad is returned.
   @override
   Future<double> duration() async {
-    return await _invokeMethod<double>(Methods.DURATION) ?? 0.0;
+    return await _invokeMethod<double>(Methods.duration) ?? 0.0;
   }
 
-  Future<void> dispose() async => _invokeMethod(Methods.DESTROY);
+  Future<void> dispose() async => _invokeMethod(Methods.destroy);
 }

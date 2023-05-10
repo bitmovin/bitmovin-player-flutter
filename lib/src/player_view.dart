@@ -30,11 +30,13 @@ class _PlayerViewState extends State<PlayerView> {
 
   @override
   void initState() {
-    final MethodChannel channelManager = ChannelManager.registerMethodChannel(
-      name: Channels.MAIN,
+    final channelManager = ChannelManager.registerMethodChannel(
+      name: Channels.main,
     );
+
+    // ignore: cascade_invocations
     channelManager.invokeMethod(
-      Methods.CREATE_PLAYER_VIEW,
+      Methods.createPlayerView,
       Map<String, dynamic>.from({
         'playerId': widget.player?.id,
       }),
@@ -44,12 +46,12 @@ class _PlayerViewState extends State<PlayerView> {
 
   void _onPlatformViewCreated(int id) {
     _methodChannel = ChannelManager.registerMethodChannel(
-      name: '${Channels.PLAYER_VIEW}-$id',
+      name: '${Channels.playerView}-$id',
     );
 
     if (widget.player != null) {
       _methodChannel.invokeMethod(
-        Methods.BIND_PLAYER,
+        Methods.bindPlayer,
         Map<String, dynamic>.from({
           'playerId': widget.player!.id,
           'viewId': id,
@@ -64,7 +66,7 @@ class _PlayerViewState extends State<PlayerView> {
   void dispose() {
     if (widget.player != null) {
       _methodChannel.invokeMethod(
-        Methods.UNBIND_PLAYER,
+        Methods.unbindPlayer,
         Map<String, dynamic>.from({
           'playerId': widget.player!.id,
         }),
@@ -77,7 +79,7 @@ class _PlayerViewState extends State<PlayerView> {
   Widget build(BuildContext context) {
     return Platform.isAndroid
         ? PlatformViewLink(
-            viewType: Channels.PLAYER_VIEW,
+            viewType: Channels.playerView,
             surfaceFactory: (context, controller) {
               return AndroidViewSurface(
                 controller: controller as ExpensiveAndroidViewController,
@@ -89,7 +91,7 @@ class _PlayerViewState extends State<PlayerView> {
             onCreatePlatformView: (PlatformViewCreationParams params) {
               return PlatformViewsService.initExpensiveAndroidView(
                 id: params.id,
-                viewType: Channels.PLAYER_VIEW,
+                viewType: Channels.playerView,
                 layoutDirection: TextDirection.ltr,
                 creationParams: widget.player?.id,
                 creationParamsCodec: const StandardMessageCodec(),
@@ -103,7 +105,7 @@ class _PlayerViewState extends State<PlayerView> {
             },
           )
         : UiKitView(
-            viewType: Channels.PLAYER_VIEW,
+            viewType: Channels.playerView,
             layoutDirection: TextDirection.ltr,
             creationParams: widget.player?.id,
             onPlatformViewCreated: _onPlatformViewCreated,
