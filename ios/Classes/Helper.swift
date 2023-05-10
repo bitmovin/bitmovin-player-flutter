@@ -10,22 +10,22 @@ import BitmovinPlayer
 
 public class Helper {
 
-	static func playerPayload(_ json: Any?) -> PlayerPayload {
-		let playerPayload = PlayerPayload()
-		guard let json = json as? [String: Any?] else {
-				return playerPayload
-		}
-		if let id = json["id"] as? Int {
-			playerPayload.id = id
-		}
+    static func playerPayload(_ json: Any?) -> PlayerPayload {
+        let playerPayload = PlayerPayload()
+        guard let json = json as? [String: Any?] else {
+                return playerPayload
+        }
+        if let id = json["id"] as? Int {
+            playerPayload.id = id
+        }
 
-		if let data = json["data"] as? [String: Any] {
-			playerPayload.data = data
-		}
+        if let data = json["data"] as? [String: Any] {
+            playerPayload.data = data
+        }
 
-		return playerPayload
+        return playerPayload
 
-	}
+    }
     /**
      Utility method to instantiate a `PlayerConfig` from a JS object.
      - Parameter json: JS object
