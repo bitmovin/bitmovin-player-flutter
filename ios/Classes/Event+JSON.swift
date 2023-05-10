@@ -1,26 +1,20 @@
-//
-//  Event_JSON.swift
-//  bitmovin_sdk
-//
-//  Created by Vijae Manlapaz on 4/26/23.
-//
-
 import BitmovinPlayer
 
 extension LoadingState {
     func toValue() -> String {
         switch self {
-            case .loaded:
-                return "loaded"
-            case .loading:
-                return "loading"
-            case .unloaded:
-                return "unloaded"
-            @unknown default:
-                return "unknown"
+        case .loaded:
+            return "loaded"
+        case .loading:
+            return "loading"
+        case .unloaded:
+            return "unloaded"
+        @unknown default:
+            return "unknown"
         }
     }
 }
+
 extension Source {
     func toJSON() -> [String: Any] {
         var json: [String: Any] = [
@@ -81,18 +75,18 @@ extension SourceConfig {
 extension SourceType {
     func toValue() -> String {
         switch self {
-            case .none:
-                return "none"
-            case .hls:
-                return "hls"
-            case .dash:
-                return "dash"
-            case .progressive:
-                return "progressive"
-            case .movpkg:
-                return "movpkg"
-            @unknown default:
-                return "unknown"
+        case .none:
+            return "none"
+        case .hls:
+            return "hls"
+        case .dash:
+            return "dash"
+        case .progressive:
+            return "progressive"
+        case .movpkg:
+            return "movpkg"
+        @unknown default:
+            return "unknown"
         }
     }
 }
@@ -109,14 +103,14 @@ extension DrmConfig {
 extension TimelineReferencePoint {
     func toValue() -> String? {
         switch self {
-            case .auto:
-                return "auto"
-            case .end:
-                return "end"
-            case .start:
-                return "start"
-            @unknown default:
-                return "auto"
+        case .auto:
+            return "auto"
+        case .end:
+            return "end"
+        case .start:
+            return "start"
+        @unknown default:
+            return "auto"
         }
     }
 }
@@ -142,16 +136,16 @@ extension LabelingConfig {
 extension TrackType {
     func toValue() -> String {
         switch self {
-            case .audio:
-                return "audio"
-            case .thumbnail:
-                return "thumbnail"
-            case .text:
-                return "text"
-            case .none:
-                return "none"
-            @unknown default:
-                return "unknown"
+        case .audio:
+            return "audio"
+        case .thumbnail:
+            return "thumbnail"
+        case .text:
+            return "text"
+        case .none:
+            return "none"
+        @unknown default:
+            return "unknown"
         }
     }
 }
@@ -220,60 +214,60 @@ extension DeficiencyData {
 
 extension PlayerErrorEvent {
     func toJSON() -> [String: Any] {
-            var json: [String: Any] = [
-                    "event": name,
-                    "timestamp": Int(timestamp),
-                    "code": code.rawValue,
-                    "message": message
-            ]
-            if let data = data {
-                    json["data"] = data.toJSON()
-            }
-            return json
+        var json: [String: Any] = [
+            "event": name,
+            "timestamp": Int(timestamp),
+            "code": code.rawValue,
+            "message": message
+        ]
+        if let data = data {
+            json["data"] = data.toJSON()
+        }
+        return json
     }
 }
 
 extension PlayerWarningEvent {
     func toJSON() -> [String: Any] {
-            var json: [String: Any] = [
-                    "event": name,
-                    "timestamp": Int(timestamp),
-                    "code": code.rawValue,
-                    "message": message
-            ]
-            if let data = data {
-                    json["data"] = data.toJSON()
-            }
-            return json
+        var json: [String: Any] = [
+            "event": name,
+            "timestamp": Int(timestamp),
+            "code": code.rawValue,
+            "message": message
+        ]
+        if let data = data {
+            json["data"] = data.toJSON()
+        }
+        return json
     }
 }
 
 extension SourceErrorEvent {
     func toJSON() -> [String: Any] {
-            var json: [String: Any] = [
-                    "event": name,
-                    "timestamp": Int(timestamp),
-                    "code": code.rawValue,
-                    "message": message
-            ]
-            if let data = data {
-                    json["data"] = data.toJSON()
-            }
-            return json
+        var json: [String: Any] = [
+            "event": name,
+            "timestamp": Int(timestamp),
+            "code": code.rawValue,
+            "message": message
+        ]
+        if let data = data {
+            json["data"] = data.toJSON()
+        }
+        return json
     }
 }
 extension SourceWarningEvent {
     func toJSON() -> [String: Any] {
-            var json: [String: Any] = [
-                    "event": name,
-                    "timestamp": Int(timestamp),
-                    "code": code.rawValue,
-                    "message": message
-            ]
-            if let data = data {
-                    json["data"] = data.toJSON()
-            }
-            return json
+        var json: [String: Any] = [
+            "event": name,
+            "timestamp": Int(timestamp),
+            "code": code.rawValue,
+            "message": message
+        ]
+        if let data = data {
+            json["data"] = data.toJSON()
+        }
+        return json
     }
 }
 
@@ -311,7 +305,7 @@ extension AudioAddedEvent {
     func toJSON() -> [String: Any] {
         [
             "event": name,
-                        "timestamp": Int(timestamp),
+            "timestamp": Int(timestamp),
             "audioTrack": Helper.audioTrackJson(audioTrack),
             "time": time
         ]

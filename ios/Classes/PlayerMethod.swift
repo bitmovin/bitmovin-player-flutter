@@ -1,16 +1,8 @@
-//
-//  PlayerMethod.swift
-//  bitmovin_sdk
-//
-//  Created by Vijae Manlapaz on 4/26/23.
-//
-
 import Foundation
 import Flutter
 import BitmovinPlayer
 
 class PlayerMethod: NSObject, FlutterStreamHandler {
-
     private var id: String
     private var _methodChannel: FlutterMethodChannel?
     private var _eventChannel: FlutterEventChannel?
@@ -50,42 +42,41 @@ class PlayerMethod: NSObject, FlutterStreamHandler {
     private func handleMethodCall(call: FlutterMethodCall, result: @escaping FlutterResult) {
         let payload = Helper.playerPayload(call.arguments)
         switch call.method {
-            case Methods.LOAD_WITH_SOURCE_CONFIG:
-                    let config: SourceConfig? = Helper.sourceConfig(payload.data)
-                    getPlayer()?.load(sourceConfig: config!)
-                    break
-            case Methods.PLAY:
-                    getPlayer()?.play()
-                    break
-            case Methods.PAUSE:
-                    getPlayer()?.pause()
-                    break
-            case Methods.MUTE:
-                    getPlayer()?.mute()
-                    break
-            case Methods.UNMUTE:
-                    getPlayer()?.unmute()
-                    break
-            case Methods.SEEK:
-                    getPlayer()?.seek(time: 1)
-                    break
-            case Methods.CURRENT_TIME:
-                    result(getPlayer()?.currentTime)
-                    break
-            case Methods.DURATION:
-                    result(getPlayer()?.duration)
-                    break
-            case Methods.DESTROY:
-                    PlayerManager.shared.destroy(id: self.id)
-                    break
-            default:
-                    result(FlutterMethodNotImplemented)
+        case Methods.LOAD_WITH_SOURCE_CONFIG:
+            let config: SourceConfig? = Helper.sourceConfig(payload.data)
+            getPlayer()?.load(sourceConfig: config!)
+            break
+        case Methods.PLAY:
+            getPlayer()?.play()
+            break
+        case Methods.PAUSE:
+            getPlayer()?.pause()
+            break
+        case Methods.MUTE:
+            getPlayer()?.mute()
+            break
+        case Methods.UNMUTE:
+            getPlayer()?.unmute()
+            break
+        case Methods.SEEK:
+            getPlayer()?.seek(time: 1)
+            break
+        case Methods.CURRENT_TIME:
+            result(getPlayer()?.currentTime)
+            break
+        case Methods.DURATION:
+            result(getPlayer()?.duration)
+            break
+        case Methods.DESTROY:
+            PlayerManager.shared.destroy(id: self.id)
+            break
+        default:
+            result(FlutterMethodNotImplemented)
         }
     }
 }
 
 extension PlayerMethod: PlayerListener {
-
     func _toJSONString(_ dictionary: [String: Any]) -> String? {
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: dictionary, options: [.prettyPrinted])
