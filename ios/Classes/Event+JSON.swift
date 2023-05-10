@@ -1,5 +1,6 @@
 import BitmovinPlayer
 
+// swiftlint:disable file_length
 extension LoadingState {
     func toValue() -> String {
         switch self {
