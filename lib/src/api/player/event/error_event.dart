@@ -10,7 +10,6 @@ class ErrorEvent extends Event with EquatableMixin {
     required super.timestamp,
     required this.code,
     this.message,
-    this.data,
   });
 
   factory ErrorEvent.fromJson(Map<String, dynamic> json) {
@@ -20,9 +19,6 @@ class ErrorEvent extends Event with EquatableMixin {
   @JsonKey(name: 'code', defaultValue: null)
   final int code;
 
-  @JsonKey(name: 'data', defaultValue: null)
-  final dynamic data;
-
   @JsonKey(name: 'message', defaultValue: null)
   final String? message;
 
@@ -30,7 +26,6 @@ class ErrorEvent extends Event with EquatableMixin {
   List<Object?> get props => [
         code,
         message,
-        data,
         timestamp,
       ];
 
