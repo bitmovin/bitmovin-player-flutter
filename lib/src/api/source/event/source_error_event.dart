@@ -8,7 +8,6 @@ part 'source_error_event.g.dart';
 class SourceErrorEvent extends Event with EquatableMixin {
   const SourceErrorEvent({
     required this.code,
-    this.data,
     this.message,
     super.timestamp,
   });
@@ -20,16 +19,12 @@ class SourceErrorEvent extends Event with EquatableMixin {
   @override
   List<Object?> get props => [
         code,
-        data,
         message,
         timestamp,
       ];
 
   @JsonKey(name: 'code', defaultValue: null)
   final int code;
-
-  @JsonKey(name: 'data', defaultValue: null)
-  final dynamic data;
 
   @JsonKey(name: 'message', defaultValue: null)
   final String? message;
