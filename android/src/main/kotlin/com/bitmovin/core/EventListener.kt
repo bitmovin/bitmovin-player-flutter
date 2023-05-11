@@ -39,7 +39,7 @@ open class EventListener {
                 broadcast("onSourceInfo", it)
             }
             on(SourceEvent.Error::class) {
-                val target = mapOf(
+                val target = mapOf<String, Any?>(
                     "code" to it.code.value,
                     "message" to it.message,
                     "timestamp" to it.timestamp,
@@ -106,7 +106,7 @@ open class EventListener {
                 broadcast("onPlayerWarning", target)
             }
             on(PlayerEvent.Error::class) {
-                val target = mapOf(
+                val target = mapOf<String, Any?>(
                     "code" to it.code.value,
                     "message" to it.message,
                     "timestamp" to it.timestamp,
