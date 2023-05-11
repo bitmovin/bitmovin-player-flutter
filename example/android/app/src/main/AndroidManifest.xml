@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.bitmovin.player_example">
+    package="com.bitmovin.player.flutter.example">
    <application
         android:label="player_example"
         android:name="${applicationName}"

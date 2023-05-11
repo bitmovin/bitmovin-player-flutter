@@ -3,8 +3,11 @@
 - Install `Node.js` and `npm` on your machine if you haven't already
 - Enter the repo and run `npm ci`
 
-For iOS development
+**For iOS development**
 - Install `Mint` on your machine if you haven't already (`brew install mint`)
+
+**For Android development**
+- Install `ktlint` (`brew install ktlint`)
 
 # Bitmovin Flutter SDK
 
