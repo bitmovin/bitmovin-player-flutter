@@ -12,13 +12,9 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import com.bitmovin.core.PlayerPayload
 import com.bitmovin.player.api.PlaybackConfig
+import com.bitmovin.player.api.PlayerConfig
 import com.bitmovin.player.api.SeekMode
 import com.bitmovin.player.api.media.MediaFilter
-import com.bitmovin.player.api.PlayerConfig
-import com.bitmovin.player.api.deficiency.PlayerErrorCode
-import com.bitmovin.player.api.deficiency.PlayerWarningCode
-import com.bitmovin.player.api.deficiency.SourceErrorCode
-import com.bitmovin.player.api.deficiency.SourceWarningCode
 import com.bitmovin.player.api.source.Source
 import com.bitmovin.player.api.source.SourceConfig
 import com.bitmovin.player.api.source.SourceOptions
@@ -78,7 +74,7 @@ class Helper {
                 audioFilter = MediaFilter.valueOf(params["audioFilter"] as String),
                 videoFilter = MediaFilter.valueOf(params["videoFilter"] as String),
                 forcedSubtitleCallback = null,
-                seekMode = SeekMode.valueOf(params["seekMode"] as String)
+                seekMode = SeekMode.valueOf(params["seekMode"] as String),
             )
         }
 
@@ -89,33 +85,33 @@ class Helper {
                 return PlayerConfig(
                     key = params["key"] as String?,
                     styleConfig = buildStyleConfig(styleConfig),
-                    playbackConfig = buildPlaybackConfig(buildPlaybackConfig)
+                    playbackConfig = buildPlaybackConfig(buildPlaybackConfig),
                 )
             }
         }
 
-        fun secondsToMillis(seconds: Double) : Double = seconds * 1000
+        fun secondsToMillis(seconds: Double): Double = seconds * 1000
 
-        fun millisToSeconds(millis: Double) : Double = millis / 1000
+        fun millisToSeconds(millis: Double): Double = millis / 1000
 
         fun normalize(
             x: Float,
             inMin: Float,
             inMax: Float,
             outMin: Float,
-            outMax: Float
+            outMax: Float,
         ): Float {
             val outRange = outMax - outMin
             val inRange = inMax - inMin
             return (x - inMin) * outRange / inRange + outMin
         }
 
-        fun getSystemBrightness(context: Context) : Float {
+        fun getSystemBrightness(context: Context): Float {
             return Settings.System.getInt(context.contentResolver, Settings.System.SCREEN_BRIGHTNESS, 0).toFloat()
         }
 
         @RequiresApi(Build.VERSION_CODES.M)
-        fun canWriteSystemSettings(context: Context) : Boolean {
+        fun canWriteSystemSettings(context: Context): Boolean {
             return Settings.System.canWrite(context)
         }
 
@@ -126,8 +122,8 @@ class Helper {
             ContextCompat.startActivity(context, intent, null)
         }
 
-        fun getAudio(context: Context) : AudioManager {
-            return context.getSystemService(Context.AUDIO_SERVICE) as AudioManager;
+        fun getAudio(context: Context): AudioManager {
+            return context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
         }
     }
 }
