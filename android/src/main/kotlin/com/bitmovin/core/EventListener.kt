@@ -43,7 +43,6 @@ open class EventListener {
                     "code" to it.code.value,
                     "message" to it.message,
                     "timestamp" to it.timestamp,
-                    "data" to it.data,
                 )
                 broadcast("onSourceError", target)
             }
@@ -111,7 +110,6 @@ open class EventListener {
                     "code" to it.code.value,
                     "message" to it.message,
                     "timestamp" to it.timestamp,
-                    "data" to it.data,
                 )
                 broadcast("onPlayerError", target)
             }
