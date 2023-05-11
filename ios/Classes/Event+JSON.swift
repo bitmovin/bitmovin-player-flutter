@@ -257,6 +257,7 @@ extension SourceErrorEvent {
         return json
     }
 }
+
 extension SourceWarningEvent {
     func toJSON() -> [String: Any] {
         var json: [String: Any] = [
