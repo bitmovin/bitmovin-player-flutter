@@ -3,3 +3,4 @@
 
 flutter analyze
 mint run swiftlint
+ktlint
