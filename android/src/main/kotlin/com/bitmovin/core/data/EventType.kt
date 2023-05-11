@@ -21,5 +21,5 @@ enum class EventType(val printableName: String) {
     NETWORK_ERROR("network_error"),
     BUFFERRING_STARTED("buffering_started"),
     BUFFERRING_ENDED("buffering_ended"),
-    RENDERED_FIRST_FRAME("rendered_first_frame")
+    RENDERED_FIRST_FRAME("rendered_first_frame"),
 }

@@ -22,7 +22,7 @@ class PlayerMethod(
     context: Context,
     private val id: String,
     messenger: BinaryMessenger,
-    config: PlayerConfig?
+    config: PlayerConfig?,
 ) : MethodCallHandler, StreamHandler, EventListener() {
     @Suppress("unused")
     private val tag: String = this::class.java.simpleName
@@ -32,7 +32,7 @@ class PlayerMethod(
         ChannelManager.registerMethodChannel("${Channels.PLAYER}-$id", this@PlayerMethod, messenger)
         PlayerManager.create(id, context, config)
     }
-    private fun getPlayer() : Player? = PlayerManager.players[id]
+    private fun getPlayer(): Player? = PlayerManager.players[id]
 
     override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
         val params = call.arguments as Map<*, *>

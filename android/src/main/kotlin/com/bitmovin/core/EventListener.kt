@@ -12,16 +12,18 @@ open class EventListener {
     private fun broadcast(eventName: String, data: Any?) {
         data?.let {
             val mapper = jacksonObjectMapper()
-            val payload = mapper.writeValueAsString(mapOf(
-                "event" to eventName,
-                "data" to mapper.writeValueAsString(data),
-            ))
+            val payload = mapper.writeValueAsString(
+                mapOf(
+                    "event" to eventName,
+                    "data" to mapper.writeValueAsString(data),
+                ),
+            )
             sink?.success(payload)
         }
     }
 
     open fun listenToEvent(player: Player) {
-        with (player) {
+        with(player) {
             /**
              * Source Events
              */
@@ -41,7 +43,7 @@ open class EventListener {
                     "code" to it.code.value,
                     "message" to it.message,
                     "timestamp" to it.timestamp,
-                    "data" to it.data
+                    "data" to it.data,
                 )
                 broadcast("onSourceError", target)
             }
