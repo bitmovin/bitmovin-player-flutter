@@ -1,6 +1,7 @@
 import Flutter
 import UIKit
 
+@objc(PlayerPlugin)
 public class PlayerPlugin: NSObject, FlutterPlugin {
     weak var registrar: FlutterPluginRegistrar?
 
