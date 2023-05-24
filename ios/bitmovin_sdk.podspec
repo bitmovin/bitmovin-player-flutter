@@ -5,11 +5,11 @@
 Pod::Spec.new do |s|
   s.name             = 'bitmovin_sdk'
   s.version          = '0.0.1'
-  s.summary          = 'Bitmovin flutter plugin'
+  s.summary          = 'Bitmovin Player Flutter plugin'
   s.description      = <<-DESC
-A flutter plugin for Bitmovin.
+Flutter plugin for Bitmovin Player.
                        DESC
-  s.homepage         = 'http://bitmovin.com'
+  s.homepage         = 'https://bitmovin.com'
   s.license          = { :file => '../LICENSE' }
   s.author           = { 'Bitmovin Inc.' => 'hardknockrabbit@gmail.com' }
   s.source           = { :path => '.' }
