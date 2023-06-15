@@ -21,6 +21,7 @@ class SourceConfig extends Equatable {
     this.thumbnailTrack,
     this.videoCodecPriority,
     this.options = const SourceOptions(),
+    this.drmConfig,
   });
 
   /// Creates a [SourceConfig] from the given [url] and [type]
@@ -82,6 +83,10 @@ class SourceConfig extends Equatable {
   @JsonKey(name: 'sourceOptions', defaultValue: null)
   final SourceOptions? options;
 
+  /// The [DrmConfig] for the [Source].
+  @JsonKey(name: 'drmConfig', defaultValue: null)
+  final DrmConfig? drmConfig;
+
   /// Converts this [SourceConfig] into JSON friendly Map<String, dynamic>
   Map<String, dynamic> toJson() => _$SourceConfigToJson(this);
 
@@ -96,5 +101,6 @@ class SourceConfig extends Equatable {
         subtitleTracks,
         videoCodecPriority,
         audioCodecPriority,
+        drmConfig,
       ];
 }
