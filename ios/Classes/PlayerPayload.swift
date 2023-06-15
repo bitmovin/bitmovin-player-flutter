@@ -1,12 +1,10 @@
 import Foundation
 
 class PlayerPayload {
-    var id: Int?
-    var data: Any?
+    let id: Int
+    let data: [String: Any]?
 
-    init() {}
-
-    init(id: Int, data: Any?) {
+    init(id: Int, data: [String: Any]? = nil) {
         self.id = id
         self.data = data
     }
