@@ -7,20 +7,11 @@ part of 'drm_config.dart';
 // **************************************************************************
 
 DrmConfig _$DrmConfigFromJson(Map<String, dynamic> json) => DrmConfig(
-      licenseUrl: json['license_url'] as String,
-      drmLicenseType:
-          $enumDecode(_$DrmLicenseTypeEnumMap, json['license_type']),
-      hlsCertificateUrl: json['hls_certificate'] as String?,
+      fairplay: json['fairplay'] == null
+          ? null
+          : FairplayConfig.fromJson(json['fairplay'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$DrmConfigToJson(DrmConfig instance) => <String, dynamic>{
-      'license_url': instance.licenseUrl,
-      'license_type': _$DrmLicenseTypeEnumMap[instance.drmLicenseType]!,
-      'hls_certificate': instance.hlsCertificateUrl,
+      'fairplay': instance.fairplay?.toJson(),
     };
-
-const _$DrmLicenseTypeEnumMap = {
-  DrmLicenseType.fairplay: 'fairplay',
-  DrmLicenseType.widevine: 'widevine',
-  DrmLicenseType.playready: 'playready',
-};
