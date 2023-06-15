@@ -40,25 +40,33 @@ class PlayerMethod: NSObject, FlutterStreamHandler {
     }
 
     private func handleMethodCall(call: FlutterMethodCall, result: @escaping FlutterResult) {
-        let payload = Helper.playerPayload(call.arguments)
+        guard let player = getPlayer(),
+              let payload = Helper.playerPayload(call.arguments) else {
+            result(FlutterError())
+            return
+        }
+
         switch call.method {
         case Methods.loadWithSourceConfig:
-            let config: SourceConfig? = Helper.sourceConfig(payload.data)
-            getPlayer()?.load(sourceConfig: config!)
+            if let payloadData = payload.data, let config = Helper.sourceConfig(payloadData) {
+                player.load(sourceConfig: config)
+            } else {
+                result(FlutterError())
+            }
         case Methods.play:
-            getPlayer()?.play()
+            player.play()
         case Methods.pause:
-            getPlayer()?.pause()
+            player.pause()
         case Methods.mute:
-            getPlayer()?.mute()
+            player.mute()
         case Methods.unmute:
-            getPlayer()?.unmute()
+            player.unmute()
         case Methods.seek:
-            getPlayer()?.seek(time: 1)
+            player.seek(time: 1)
         case Methods.currentTime:
-            result(getPlayer()?.currentTime)
+            result(player.currentTime)
         case Methods.duration:
-            result(getPlayer()?.duration)
+            result(player.duration)
         case Methods.destroy:
             PlayerManager.shared.destroy(id: self.id)
         default:
