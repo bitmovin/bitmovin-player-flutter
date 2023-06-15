@@ -16,14 +16,26 @@ public class PlayerPlugin: NSObject, FlutterPlugin {
     }
 
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-        let arguments = call.arguments as? [String: Any]
-
-        if call.method == Methods.createPlayer, let id = arguments?["id"] as? String {
-            let config = Helper.playerConfig(arguments?["playerConfig"] as? [AnyHashable: Any])
-
-            PlayerMethod.create(id: id, playerConfig: config, messenger: registrar!.messenger())
-
-            result(true)
+        guard let arguments = call.arguments as? [String: Any] else {
+            result(FlutterError())
+            return
         }
+
+        if call.method == Methods.createPlayer {
+            handleCreatePlayer(arguments: arguments, result: result)
+        }
+    }
+
+    private func handleCreatePlayer(arguments: [String: Any], result: @escaping FlutterResult) {
+        guard let id = arguments["id"] as? String,
+              let playerConfigJson = arguments["playerConfig"] as? [AnyHashable: Any],
+              let registrar else {
+            result(FlutterError())
+            return
+        }
+
+        let config = Helper.playerConfig(playerConfigJson)
+        PlayerMethod.create(id: id, playerConfig: config, messenger: registrar.messenger())
+        result(true)
     }
 }
