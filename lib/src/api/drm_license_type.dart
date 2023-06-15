@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 
-// TODO: remove as it is not needed
+// TODO(mario): remove as it is not needed
 enum DrmLicenseType {
   @JsonValue('fairplay')
   fairplay,
