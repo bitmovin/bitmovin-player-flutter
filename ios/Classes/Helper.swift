@@ -9,7 +9,7 @@ public class Helper {
             return nil
         }
 
-        guard let id = json["id"] as? Int else {
+        guard let idString = json["id"] as? String, let id = Int(idString) else {
             return nil
         }
 
@@ -180,26 +180,6 @@ public class Helper {
         return AdvertisingConfig(schedule: schedule.compactMap { adItem($0) })
     }
 
-    static func fairplayConfig(_ json: [AnyHashable: Any]) -> FairplayConfig? {
-        guard let json = json as? [String: Any] else { return nil }
-
-        guard let certificateUrlString = json["certificateUrl"] as? String,
-              let certificateUrl = URL(string: certificateUrlString) else {
-            return nil
-        }
-
-        var licenseUrl: URL?
-        if let licenseUrlString = json["licenseUrl"] as? String {
-            licenseUrl = URL(string: licenseUrlString)
-        }
-
-        let fairplayConfig = FairplayConfig(license: licenseUrl, certificateURL: certificateUrl)
-
-        // TODO: support all missing properties
-
-        return fairplayConfig
-    }
-
     /**
      Utility method to instantiate an `AdItem` from a JS object.
      - Parameter json: JS object.
@@ -271,10 +251,10 @@ public class Helper {
             type: sourceType(json["type"] as Any?)
         )
 
-        // TODO
-//        if let drmConfig = drmConfig {
-//            sourceConfig.drmConfig = drmConfig
-//        }
+        if let drmConfig = json["drmConfig"] as? [String: Any],
+           let fairplayConfigJson = drmConfig["fairplay"] as? [String: Any] {
+            sourceConfig.drmConfig = fairplayConfig(fairplayConfigJson)
+        }
 
         if let title = json["title"] as? String {
             sourceConfig.title = title
@@ -350,26 +330,34 @@ public class Helper {
      - Parameter json: JS object
      - Returns: The generated `FairplayConfig` object
      */
-    static func fairplayConfig(_ json: Any?) -> FairplayConfig? {
-        guard let json = json as? [String: Any?],
-              let fairplayJson = json["fairplay"] as? [String: Any?],
-              let licenseURL = fairplayJson["licenseUrl"] as? String,
-              let certificateURL = fairplayJson["certificateUrl"] as? String else {
+    static func fairplayConfig(_ json: [String: Any]) -> FairplayConfig? {
+        guard let certificateUrlString = json["certificateUrl"] as? String,
+              let certificateUrl = URL(string: certificateUrlString) else {
             return nil
         }
 
-        let fairplayConfig = FairplayConfig(
-            license: URL(string: licenseURL),
-            certificateURL: URL(string: certificateURL)!
-        )
+        var licenseUrl: URL?
+        if let licenseUrlString = json["licenseUrl"] as? String {
+            licenseUrl = URL(string: licenseUrlString)
+        }
 
-        if let licenseRequestHeaders = fairplayJson["licenseRequestHeaders"] as? [String: String] {
+        let fairplayConfig = FairplayConfig(license: licenseUrl, certificateURL: certificateUrl)
+
+        if let licenseRequestHeaders = json["licenseRequestHeaders"] as? [String: String] {
             fairplayConfig.licenseRequestHeaders = licenseRequestHeaders
         }
 
-        if let certificateRequestHeaders = fairplayJson["certificateRequestHeaders"] as? [String: String] {
+        if let certificateRequestHeaders = json["certificateRequestHeaders"] as? [String: String] {
             fairplayConfig.certificateRequestHeaders = certificateRequestHeaders
         }
+
+        // TODO: support all missing properties (callbacks)
+
+        // HACK
+        fairplayConfig.prepareMessage = { spcData, _ in
+            spcData
+        }
+        // END HACK
 
         return fairplayConfig
     }
