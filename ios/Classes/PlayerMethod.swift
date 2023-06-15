@@ -4,24 +4,22 @@ import BitmovinPlayer
 
 class PlayerMethod: NSObject, FlutterStreamHandler {
     private var id: String
-    private var methodChannel: FlutterMethodChannel?
-    private var eventChannel: FlutterEventChannel?
     private var eventSink: FlutterEventSink?
 
-    init(id: String) {
+    init(
+        id: String,
+        playerConfig: PlayerConfig?,
+        messenger: FlutterBinaryMessenger
+    ) {
         self.id = id
-    }
 
-    // TODO: Should probably become the initializer
-    static func create(id: String, playerConfig: PlayerConfig?, messenger: FlutterBinaryMessenger) {
-        let instance = PlayerMethod(id: id)
-        instance.methodChannel = FlutterMethodChannel(name: Channels.player + "-\(id)", binaryMessenger: messenger)
-        instance.methodChannel?.setMethodCallHandler(instance.handleMethodCall)
+        super.init()
 
-        instance.eventChannel = FlutterEventChannel(name: Channels.playerEvent + "-\(id)", binaryMessenger: messenger)
-        // TODO: Check if this is a retain cycle and this is the reason why the `PlayerMethod` instance is not
-        // deallocated. It is not retained anywhere else.
-        instance.eventChannel?.setStreamHandler(instance)
+        let methodChannel = FlutterMethodChannel(name: Channels.player + "-\(id)", binaryMessenger: messenger)
+        methodChannel.setMethodCallHandler(handleMethodCall)
+
+        let eventChannel = FlutterEventChannel(name: Channels.playerEvent + "-\(id)", binaryMessenger: messenger)
+        eventChannel.setStreamHandler(self)
 
         PlayerManager.shared.createPlayer(id: id, config: playerConfig)
     }
