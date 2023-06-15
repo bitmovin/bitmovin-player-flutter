@@ -35,7 +35,7 @@ public class PlayerPlugin: NSObject, FlutterPlugin {
         }
 
         let config = Helper.playerConfig(playerConfigJson)
-        PlayerMethod.create(id: id, playerConfig: config, messenger: registrar.messenger())
+        let _ = PlayerMethod(id: id, playerConfig: config, messenger: registrar.messenger())
         result(true)
     }
 }
