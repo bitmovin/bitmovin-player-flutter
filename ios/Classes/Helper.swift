@@ -4,30 +4,28 @@ import BitmovinPlayer
 // swiftlint:disable file_length
 // swiftlint:disable:next type_body_length
 public class Helper {
-    static func playerPayload(_ json: Any?) -> PlayerPayload {
-        let playerPayload = PlayerPayload()
-        guard let json = json as? [String: Any?] else {
-            return playerPayload
-        }
-        if let id = json["id"] as? Int {
-            playerPayload.id = id
+    static func playerPayload(_ payload: Any?) -> PlayerPayload? {
+        guard let json = payload as? [String: Any] else {
+            return nil
         }
 
-        if let data = json["data"] as? [String: Any] {
-            playerPayload.data = data
+        guard let id = json["id"] as? Int else {
+            return nil
         }
 
-        return playerPayload
+        let data = json["data"] as? [String: Any]
+
+        return PlayerPayload(id: id, data: data)
     }
 
     /**
      Utility method to instantiate a `PlayerConfig` from a JS object.
      - Parameter json: JS object
-     - Returns: The produced `Playerconfig` object
+     - Returns: The produced `PlayerConfig` object
      */
-    static func playerConfig(_ json: Any?) -> PlayerConfig? {
+    static func playerConfig(_ json: [AnyHashable: Any]) -> PlayerConfig {
         let playerConfig = PlayerConfig()
-        guard let json = json as? [String: Any?] else {
+        guard let json = json as? [String: Any] else {
             return playerConfig
         }
         if let licenseKey = json["licenseKey"] as? String {
@@ -174,13 +172,32 @@ public class Helper {
      - Returns: The produced `AdvertisingConfig` object.
      */
     static func advertisingConfig(_ json: Any?) -> AdvertisingConfig? {
-        guard
-            let json = json as? [String: Any?],
-            let schedule = json["schedule"] as? [[String: Any?]]
-        else {
+        guard let json = json as? [String: Any?],
+              let schedule = json["schedule"] as? [[String: Any?]] else {
             return nil
         }
+
         return AdvertisingConfig(schedule: schedule.compactMap { adItem($0) })
+    }
+
+    static func fairplayConfig(_ json: [AnyHashable: Any]) -> FairplayConfig? {
+        guard let json = json as? [String: Any] else { return nil }
+
+        guard let certificateUrlString = json["certificateUrl"] as? String,
+              let certificateUrl = URL(string: certificateUrlString) else {
+            return nil
+        }
+
+        var licenseUrl: URL?
+        if let licenseUrlString = json["licenseUrl"] as? String {
+            licenseUrl = URL(string: licenseUrlString)
+        }
+
+        let fairplayConfig = FairplayConfig(license: licenseUrl, certificateURL: certificateUrl)
+
+        // TODO: support all missing properties
+
+        return fairplayConfig
     }
 
     /**
@@ -243,11 +260,7 @@ public class Helper {
      - Parameter json: JS object
      - Returns: The produced `SourceConfig` object
      */
-    static func sourceConfig(_ json: Any?, drmConfig: FairplayConfig? = nil) -> SourceConfig? {
-        guard let json = json as? [String: Any?] else {
-            return nil
-        }
-
+    static func sourceConfig(_ json: [String: Any]) -> SourceConfig? {
         guard let sourceUrlString = json["url"] as? String,
               let sourceUrl = URL(string: sourceUrlString) else {
             return nil
@@ -258,9 +271,10 @@ public class Helper {
             type: sourceType(json["type"] as Any?)
         )
 
-        if let drmConfig = drmConfig {
-            sourceConfig.drmConfig = drmConfig
-        }
+        // TODO
+//        if let drmConfig = drmConfig {
+//            sourceConfig.drmConfig = drmConfig
+//        }
 
         if let title = json["title"] as? String {
             sourceConfig.title = title
