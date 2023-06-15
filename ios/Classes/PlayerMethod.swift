@@ -77,13 +77,19 @@ class PlayerMethod: NSObject, FlutterStreamHandler {
 
 extension PlayerMethod: PlayerListener {
     func toJSONString(_ dictionary: [String: Any]) -> String? {
+        guard JSONSerialization.isValidJSONObject(dictionary) else {
+            // TODO: fix all occurrences of this error
+            print("[error] invalid json object found")
+            return nil
+        }
+
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: dictionary, options: [.prettyPrinted])
             if let jsonString = String(data: jsonData, encoding: .utf8) {
                 return jsonString
             }
         } catch {
-            print("Error converting dictionary to JSON string: \(error.localizedDescription)")
+            print("[error] converting dictionary to JSON string: \(error.localizedDescription)")
         }
         return nil
     }
