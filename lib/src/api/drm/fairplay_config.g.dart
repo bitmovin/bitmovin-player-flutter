@@ -8,7 +8,7 @@ part of 'fairplay_config.dart';
 
 FairplayConfig _$FairplayConfigFromJson(Map<String, dynamic> json) =>
     FairplayConfig(
-      licenseUrl: json['licenseUrl'] as String,
+      licenseUrl: json['licenseUrl'] as String?,
       certificateUrl: json['certificateUrl'] as String?,
     );
 

@@ -13,6 +13,7 @@ class DrmConfig extends Equatable {
   factory DrmConfig.fromJson(Map<String, dynamic> json) =>
       _$DrmConfigFromJson(json);
 
+  @JsonKey(name: 'fairplay')
   final FairplayConfig? fairplay;
 
   Map<String, dynamic> toJson() => _$DrmConfigToJson(this);
