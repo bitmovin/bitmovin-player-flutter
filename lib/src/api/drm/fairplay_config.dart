@@ -6,7 +6,7 @@ part 'fairplay_config.g.dart';
 @JsonSerializable(explicitToJson: true)
 class FairplayConfig extends Equatable {
   const FairplayConfig({
-    required this.licenseUrl,
+    this.licenseUrl,
     this.certificateUrl,
     this.licenseRequestHeaders,
     this.certificateRequestHeaders,
@@ -23,7 +23,7 @@ class FairplayConfig extends Equatable {
 
   /// The DRM license acquisition URL.
   @JsonKey(name: 'licenseUrl')
-  final String licenseUrl;
+  final String? licenseUrl;
 
   /// The URL to the FairPlay Streaming certificate of the license server.
   @JsonKey(name: 'certificateUrl')
