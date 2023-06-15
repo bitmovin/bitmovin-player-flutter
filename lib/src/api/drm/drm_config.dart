@@ -10,9 +10,8 @@ class DrmConfig extends Equatable {
     this.fairplay,
   });
 
-  factory DrmConfig.fromJson(Map<String, dynamic> json) {
-    return _$DrmConfigFromJson(json);
-  }
+  factory DrmConfig.fromJson(Map<String, dynamic> json) =>
+      _$DrmConfigFromJson(json);
 
   final FairplayConfig? fairplay;
 
