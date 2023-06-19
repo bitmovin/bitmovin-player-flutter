@@ -2,6 +2,7 @@ import Foundation
 import Flutter
 import BitmovinPlayer
 
+// TODO: Refactor this class
 class PlayerViewMethod: NSObject, FlutterPlatformView {
     private var viewIdentifier: Int64?
     private var frame: CGRect?
