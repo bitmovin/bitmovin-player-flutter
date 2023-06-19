@@ -79,7 +79,7 @@ class PlayerMethod: NSObject, FlutterStreamHandler {
 extension PlayerMethod: PlayerListener {
     func toJSONString(_ dictionary: [String: Any]) -> String? {
         guard JSONSerialization.isValidJSONObject(dictionary) else {
-            // TODO: fix all occurrences of this error
+            // TODO: fix all runtime occurrences of this error
             print("[error] invalid json object found")
             return nil
         }
@@ -96,11 +96,17 @@ extension PlayerMethod: PlayerListener {
     }
 
     func broadCast(name: String, data: [String: Any], sink: FlutterEventSink?) {
+        guard let sink else {
+            print("[error] no sink found")
+            return
+        }
+
         let target = [
             "event": name,
             "data": toJSONString(data)
         ]
-        sink?(toJSONString(target as [String: Any]))
+
+        sink(toJSONString(target as [String: Any]))
     }
 
     func onSourceAdded(_ event: SourceAddedEvent, player: Player) {
