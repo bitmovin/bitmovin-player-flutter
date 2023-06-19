@@ -3,6 +3,7 @@ import 'package:bitmovin_sdk/src/api/source/source.dart';
 import 'package:bitmovin_sdk/src/api/source_config.dart';
 import 'package:bitmovin_sdk/src/channel_manager.dart';
 import 'package:bitmovin_sdk/src/channels.dart';
+import 'package:bitmovin_sdk/src/drm/fairplay_handler.dart';
 import 'package:bitmovin_sdk/src/interfaces/player_event_interface.dart';
 import 'package:bitmovin_sdk/src/methods.dart';
 import 'package:bitmovin_sdk/src/player_event_listener.dart';
@@ -33,7 +34,7 @@ class Player with PlayerEventListener implements PlayerInterface {
       if (value != null && value == true) {
         _methodChannel = ChannelManager.registerMethodChannel(
           name: '${Channels.player}-$_uuid',
-          handler: playerMethodCallHandler,
+          handler: _playerMethodCallHandler,
         );
 
         _eventChannel = ChannelManager.registerEventChannel(
@@ -44,25 +45,6 @@ class Player with PlayerEventListener implements PlayerInterface {
     });
   }
 
-  Future<dynamic> playerMethodCallHandler(MethodCall methodCall) {
-    final arguments =
-        (methodCall.arguments as Map<dynamic, dynamic>).cast<String, String>();
-
-    if (methodCall.method == 'prepareMessage') {
-      final spcDataBase64 = arguments['spcData'] ?? '';
-      final assetId = arguments['assetId'] ?? '';
-
-      final prepareMessageResult = _currentSource
-          ?.sourceConfig.drmConfig?.fairplay?.prepareMessage
-          ?.call(spcDataBase64, assetId);
-
-      return Future.value(prepareMessageResult);
-    }
-
-    // TODO(mario): How to handle this?
-    return Future.value(false);
-  }
-
   final PlayerConfig? playerConfig;
   final Logger logger = Logger(printer: PrettyPrinter());
   late String _uuid;
@@ -71,7 +53,23 @@ class Player with PlayerEventListener implements PlayerInterface {
   // Private method channel for this player instance to receive events
   late EventChannel _eventChannel;
   String get id => _uuid;
-  Source? _currentSource;
+  FairplayHandler? fairplayHandler;
+
+  Future<dynamic> _playerMethodCallHandler(MethodCall methodCall) {
+    dynamic result;
+
+    switch (methodCall.method) {
+      case Methods.fairplayPrepareMessage:
+        result = fairplayHandler?.handleMethodCall(methodCall);
+        break;
+    }
+
+    if (result == null) {
+      return Future.error('playerMethodCallHandler was unsuccessful');
+    }
+
+    return Future.value(result);
+  }
 
   Map<String, dynamic> _buildPayload([dynamic data]) {
     return Map<String, dynamic>.from({
@@ -100,7 +98,11 @@ class Player with PlayerEventListener implements PlayerInterface {
   // TODO(mario): Rename as the "with" naming seems to be uncommon in dart
   @override
   Future<void> loadWithSource(Source source) async {
-    _currentSource = source;
+    final fairplayConfig = source.sourceConfig.drmConfig?.fairplay;
+    if (fairplayConfig != null) {
+      fairplayHandler = FairplayHandler(fairplayConfig);
+    }
+
     return _invokeMethod<void>(Methods.loadWithSource, source.toJson());
   }
 

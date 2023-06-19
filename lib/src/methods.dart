@@ -4,7 +4,7 @@ class Methods {
   static const String unbindPlayer = 'unbind-player';
   static const String createPlayerView = 'create-player-view';
 
-  /// For player methods only
+  /// Player related methods
   static const String loadWithSourceConfig = 'loadWithSourceConfig';
   static const String loadWithSource = 'loadWithSource';
   static const String play = 'play';
@@ -15,4 +15,7 @@ class Methods {
   static const String currentTime = 'current_time';
   static const String duration = 'duration';
   static const String destroy = 'destroy';
+
+  /// Fairplay related methods
+  static const String fairplayPrepareMessage = 'fairplay_prepare_message';
 }

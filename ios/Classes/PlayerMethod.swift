@@ -101,7 +101,7 @@ class PlayerMethod: NSObject, FlutterStreamHandler {
                     "assetId": assetId
                 ]
 
-                methodChannel.invokeMethod("prepareMessage", arguments: payload) { result in
+                methodChannel.invokeMethod(Methods.fairplayPrepareMessage, arguments: payload) { result in
                     guard let resultString = result as? String,
                           let resultData = Data(base64Encoded: resultString) else {
                         dispatchGroup.leave()
