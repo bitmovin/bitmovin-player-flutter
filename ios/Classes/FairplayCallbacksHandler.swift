@@ -83,8 +83,28 @@ internal class FairplayCallbacksHandler {
         return prepareMessageResult
     }
 
-    private func handlePrepareContentId(contentId: String) -> String {
-        "" // TODO: implement
+    private func handlePrepareContentId(contentId: String) -> String? {
+        var prepareContentIdResult: String?
+
+        let dispatchGroup = DispatchGroup()
+        dispatchGroup.enter()
+
+        let payload = [
+            "contentId": contentId
+        ]
+
+        methodChannel.invokeMethod(Methods.fairplayPrepareContentId, arguments: payload) { result in
+            guard let resultString = result as? String else {
+                dispatchGroup.leave()
+                return
+            }
+
+            prepareContentIdResult = resultString
+            dispatchGroup.leave()
+        }
+
+        dispatchGroup.wait()
+        return prepareContentIdResult
     }
 
     private func handlePrepareCertificate(certificate: Data) -> Data {
