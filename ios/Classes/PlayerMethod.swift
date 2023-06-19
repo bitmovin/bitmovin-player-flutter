@@ -5,6 +5,7 @@ import BitmovinPlayer
 class PlayerMethod: NSObject, FlutterStreamHandler {
     private var id: String
     private var eventSink: FlutterEventSink?
+    private var playerMethodChannel: FlutterMethodChannel
 
     init(
         id: String,
@@ -12,11 +13,11 @@ class PlayerMethod: NSObject, FlutterStreamHandler {
         messenger: FlutterBinaryMessenger
     ) {
         self.id = id
+        self.playerMethodChannel = FlutterMethodChannel(name: Channels.player + "-\(id)", binaryMessenger: messenger)
 
         super.init()
 
-        let methodChannel = FlutterMethodChannel(name: Channels.player + "-\(id)", binaryMessenger: messenger)
-        methodChannel.setMethodCallHandler(handleMethodCall)
+        playerMethodChannel.setMethodCallHandler(handleMethodCall)
 
         let eventChannel = FlutterEventChannel(name: Channels.playerEvent + "-\(id)", binaryMessenger: messenger)
         eventChannel.setStreamHandler(self)
@@ -49,8 +50,8 @@ class PlayerMethod: NSObject, FlutterStreamHandler {
 
         switch call.method {
         case Methods.loadWithSourceConfig:
-            if let payloadData = payload.data, let config = Helper.sourceConfig(payloadData) {
-                player.load(sourceConfig: config)
+            if let payloadData = payload.data, let sourceConfig = Helper.sourceConfig(payloadData) {
+                handleLoadWithSourceConfig(sourceConfig)
             } else {
                 result(FlutterError())
             }
@@ -73,6 +74,44 @@ class PlayerMethod: NSObject, FlutterStreamHandler {
         default:
             result(FlutterMethodNotImplemented)
         }
+    }
+
+    private func handleLoadWithSourceConfig(_ sourceConfig: SourceConfig) {
+        guard let player = getPlayer() else { return }
+
+        // TODO: Do not directly register callbacks here, move to own class
+
+        if let fairplayConfig = sourceConfig.drmConfig as? FairplayConfig {
+            fairplayConfig.prepareMessage = { [weak self] spcData, assetId in
+                guard let methodChannel = self?.playerMethodChannel else { return Data() }
+
+                var prepareMessageResult: Data?
+
+                let dispatchGroup = DispatchGroup()
+                dispatchGroup.enter()
+
+                let payload = [
+                    "spcData": spcData.base64EncodedString(),
+                    "assetId": assetId
+                ]
+
+                methodChannel.invokeMethod("prepareMessage", arguments: payload) { result in
+                    guard let resultString = result as? String,
+                          let resultData = Data(base64Encoded: resultString) else {
+                        dispatchGroup.leave()
+                        return
+                    }
+
+                    prepareMessageResult = resultData
+                    dispatchGroup.leave()
+                }
+
+                dispatchGroup.wait()
+                return prepareMessageResult ?? Data()
+            }
+        }
+
+        player.load(sourceConfig: sourceConfig)
     }
 }
 

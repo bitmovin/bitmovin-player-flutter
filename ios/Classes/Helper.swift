@@ -351,14 +351,6 @@ public class Helper {
             fairplayConfig.certificateRequestHeaders = certificateRequestHeaders
         }
 
-        // TODO: support all missing properties (callbacks)
-
-        // HACK
-        fairplayConfig.prepareMessage = { spcData, _ in
-            spcData
-        }
-        // END HACK
-
         return fairplayConfig
     }
 
