@@ -49,9 +49,14 @@ class Player with PlayerEventListener implements PlayerInterface {
         (methodCall.arguments as Map<dynamic, dynamic>).cast<String, String>();
 
     if (methodCall.method == 'prepareMessage') {
-      final spcDataBase64 = arguments['spcData'];
+      final spcDataBase64 = arguments['spcData'] ?? '';
+      final assetId = arguments['assetId'] ?? '';
 
-      return Future.value(spcDataBase64);
+      final prepareMessageResult = _currentSource
+          ?.sourceConfig.drmConfig?.fairplay?.prepareMessage
+          ?.call(spcDataBase64, assetId);
+
+      return Future.value(prepareMessageResult);
     }
 
     // TODO(mario): How to handle this?
@@ -66,6 +71,7 @@ class Player with PlayerEventListener implements PlayerInterface {
   // Private method channel for this player instance to receive events
   late EventChannel _eventChannel;
   String get id => _uuid;
+  Source? _currentSource;
 
   Map<String, dynamic> _buildPayload([dynamic data]) {
     return Map<String, dynamic>.from({
@@ -82,15 +88,19 @@ class Player with PlayerEventListener implements PlayerInterface {
 
   /// Starts a new playback session consisting of a [Source] based
   /// on the provided [SourceConfig].
+  // TODO(mario): Rename as the "with" naming seems to be uncommon in dart
   @override
   Future<void> loadWithSourceConfig(
     SourceConfig sourceConfig,
-  ) async =>
-      _invokeMethod(Methods.loadWithSourceConfig, sourceConfig.toJson());
+  ) async {
+    return loadWithSource(Source(sourceConfig: sourceConfig));
+  }
 
   /// Starts a new playback session consisting of the [Source].
+  // TODO(mario): Rename as the "with" naming seems to be uncommon in dart
   @override
   Future<void> loadWithSource(Source source) async {
+    _currentSource = source;
     return _invokeMethod<void>(Methods.loadWithSource, source.toJson());
   }
 
