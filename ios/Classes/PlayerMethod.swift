@@ -51,14 +51,16 @@ class PlayerMethod: NSObject, FlutterStreamHandler {
 
         switch call.method {
         case Methods.loadWithSourceConfig:
-            if let payloadData = payload.data, let sourceConfig = Helper.sourceConfig(payloadData) {
-                handleLoadWithSourceConfig(sourceConfig)
+            if let payloadData = payload.data,
+               let (sourceConfig, metadata) = Helper.sourceConfig(payloadData) {
+                handleLoadWithSourceConfig(sourceConfig, metadata: metadata)
             } else {
                 result(FlutterError())
             }
         case Methods.loadWithSource:
-            if let payloadData = payload.data, let source = Helper.source(payloadData) {
-                handleLoadWithSourceConfig(source.sourceConfig)
+            if let payloadData = payload.data,
+               let (source, metadata) = Helper.source(payloadData) {
+                handleLoadWithSourceConfig(source.sourceConfig, metadata: metadata)
             } else {
                 result(FlutterError())
             }
@@ -71,6 +73,7 @@ class PlayerMethod: NSObject, FlutterStreamHandler {
         case Methods.unmute:
             player.unmute()
         case Methods.seek:
+            // TODO: pass correct argument
             player.seek(time: 1)
         case Methods.currentTime:
             result(player.currentTime)
@@ -83,12 +86,16 @@ class PlayerMethod: NSObject, FlutterStreamHandler {
         }
     }
 
-    private func handleLoadWithSourceConfig(_ sourceConfig: SourceConfig) {
+    private func handleLoadWithSourceConfig(
+        _ sourceConfig: SourceConfig,
+        metadata: FairplayConfig.Metadata?
+    ) {
         guard let player = getPlayer() else { return }
 
-        if let fairplayConfig = sourceConfig.drmConfig as? FairplayConfig {
+        if let fairplayConfig = sourceConfig.drmConfig as? FairplayConfig, let metadata {
             self.fairplayCallbacksHandler = FairplayCallbacksHandler(
                 fairplayConfig: fairplayConfig,
+                metadata: metadata,
                 methodChannel: playerMethodChannel
             )
         }
