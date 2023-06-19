@@ -6,6 +6,7 @@ class PlayerMethod: NSObject, FlutterStreamHandler {
     private var id: String
     private var eventSink: FlutterEventSink?
     private var playerMethodChannel: FlutterMethodChannel
+    private var fairplayCallbacksHandler: FairplayCallbacksHandler?
 
     init(
         id: String,
@@ -85,36 +86,11 @@ class PlayerMethod: NSObject, FlutterStreamHandler {
     private func handleLoadWithSourceConfig(_ sourceConfig: SourceConfig) {
         guard let player = getPlayer() else { return }
 
-        // TODO: Do not directly register callbacks here, move to own class
-
         if let fairplayConfig = sourceConfig.drmConfig as? FairplayConfig {
-            fairplayConfig.prepareMessage = { [weak self] spcData, assetId in
-                guard let methodChannel = self?.playerMethodChannel else { return Data() }
-
-                var prepareMessageResult: Data?
-
-                let dispatchGroup = DispatchGroup()
-                dispatchGroup.enter()
-
-                let payload = [
-                    "spcData": spcData.base64EncodedString(),
-                    "assetId": assetId
-                ]
-
-                methodChannel.invokeMethod(Methods.fairplayPrepareMessage, arguments: payload) { result in
-                    guard let resultString = result as? String,
-                          let resultData = Data(base64Encoded: resultString) else {
-                        dispatchGroup.leave()
-                        return
-                    }
-
-                    prepareMessageResult = resultData
-                    dispatchGroup.leave()
-                }
-
-                dispatchGroup.wait()
-                return prepareMessageResult ?? Data()
-            }
+            self.fairplayCallbacksHandler = FairplayCallbacksHandler(
+                fairplayConfig: fairplayConfig,
+                methodChannel: playerMethodChannel
+            )
         }
 
         player.load(sourceConfig: sourceConfig)
