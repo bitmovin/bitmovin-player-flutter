@@ -17,5 +17,6 @@ class Methods {
   static const String destroy = 'destroy';
 
   /// Fairplay related methods
-  static const String fairplayPrepareMessage = 'fairplay_prepare_message';
+  static const String fairplayPrepareMessage = 'fairplayPrepareMessage';
+  static const String fairplayPrepareContentId = 'fairplayPrepareContentId';
 }

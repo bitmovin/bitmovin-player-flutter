@@ -19,5 +19,6 @@ class Methods {
     static let destroy = "destroy"
 
     // Fairplay related methods
-    static let fairplayPrepareMessage = "fairplay_prepare_message"
+    static let fairplayPrepareMessage = "fairplayPrepareMessage"
+    static let fairplayPrepareContentId = "fairplayPrepareContentId"
 }
