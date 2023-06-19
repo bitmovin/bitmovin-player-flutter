@@ -13,7 +13,7 @@ class DrmPlayback extends StatefulWidget {
 
 class _DrmPlaybackState extends State<DrmPlayback> {
   String eventData = '';
-  final sourceConfig = const SourceConfig(
+  final sourceConfig = SourceConfig(
     url: 'https://fps.ezdrm.com/demo/video/ezdrm.m3u8',
     type: SourceType.hls,
     drmConfig: DrmConfig(
@@ -21,6 +21,7 @@ class _DrmPlaybackState extends State<DrmPlayback> {
         licenseUrl:
             'https://fps.ezdrm.com/api/licenses/09cc0377-6dd4-40cb-b09d-b582236e70fe',
         certificateUrl: 'https://fps.ezdrm.com/demo/video/eleisure.cer',
+        prepareMessage: (spcData, _) => spcData,
       ),
     ),
   );

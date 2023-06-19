@@ -235,6 +235,15 @@ public class Helper {
         }
     }
 
+    static func source(_ json: [String: Any]) -> Source? {
+        guard let sourceConfigJson = json["sourceConfig"] as? [String: Any],
+              let sourceConfig = sourceConfig(sourceConfigJson) else {
+            return nil
+        }
+
+        return SourceFactory.create(from: sourceConfig)
+    }
+
     /**
      Utility method to instantiate a `SourceConfig` from a JS object.
      - Parameter json: JS object

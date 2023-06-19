@@ -55,6 +55,12 @@ class PlayerMethod: NSObject, FlutterStreamHandler {
             } else {
                 result(FlutterError())
             }
+        case Methods.loadWithSource:
+            if let payloadData = payload.data, let source = Helper.source(payloadData) {
+                handleLoadWithSourceConfig(source.sourceConfig)
+            } else {
+                result(FlutterError())
+            }
         case Methods.play:
             player.play()
         case Methods.pause:
