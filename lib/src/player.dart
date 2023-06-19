@@ -33,6 +33,7 @@ class Player with PlayerEventListener implements PlayerInterface {
       if (value != null && value == true) {
         _methodChannel = ChannelManager.registerMethodChannel(
           name: '${Channels.player}-$_uuid',
+          handler: playerMethodCallHandler,
         );
 
         _eventChannel = ChannelManager.registerEventChannel(
@@ -43,10 +44,26 @@ class Player with PlayerEventListener implements PlayerInterface {
     });
   }
 
+  Future<dynamic> playerMethodCallHandler(MethodCall methodCall) {
+    final arguments =
+        (methodCall.arguments as Map<dynamic, dynamic>).cast<String, String>();
+
+    if (methodCall.method == 'prepareMessage') {
+      final spcDataBase64 = arguments['spcData'];
+
+      return Future.value(spcDataBase64);
+    }
+
+    // TODO(mario): How to handle this?
+    return Future.value(false);
+  }
+
   final PlayerConfig? playerConfig;
   final Logger logger = Logger(printer: PrettyPrinter());
   late String _uuid;
+  // Private method channel for this player instance
   late MethodChannel _methodChannel;
+  // Private method channel for this player instance to receive events
   late EventChannel _eventChannel;
   String get id => _uuid;
 
