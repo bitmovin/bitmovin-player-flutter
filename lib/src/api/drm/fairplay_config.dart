@@ -120,7 +120,18 @@ class FairplayConfig extends Equatable {
   final String Function(String)? prepareContentId;
 
   /// Converts this [FairplayConfig] into JSON friendly Map<String, dynamic>
-  Map<String, dynamic> toJson() => _$FairplayConfigToJson(this);
+  Map<String, dynamic> toJson() {
+    final jsonData = _$FairplayConfigToJson(this);
+
+    jsonData['prepareMessage'] = prepareMessage != null;
+    jsonData['prepareContentId'] = prepareContentId != null;
+    jsonData['prepareCertificate'] = prepareCertificate != null;
+    jsonData['prepareLicense'] = prepareLicense != null;
+    jsonData['prepareLicenseServerUrl'] = prepareLicenseServerUrl != null;
+    jsonData['prepareSyncMessage'] = prepareSyncMessage != null;
+
+    return jsonData;
+  }
 
   @override
   List<Object?> get props => [

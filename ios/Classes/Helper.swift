@@ -235,13 +235,16 @@ public class Helper {
         }
     }
 
-    static func source(_ json: [String: Any]) -> Source? {
+    static func source(_ json: [String: Any]) -> (Source, FairplayConfig.Metadata?)? {
         guard let sourceConfigJson = json["sourceConfig"] as? [String: Any],
-              let sourceConfig = sourceConfig(sourceConfigJson) else {
+              let (sourceConfig, fairplayConfigMetadata) = sourceConfig(sourceConfigJson) else {
             return nil
         }
 
-        return SourceFactory.create(from: sourceConfig)
+        return (
+            SourceFactory.create(from: sourceConfig),
+            fairplayConfigMetadata
+        )
     }
 
     /**
@@ -249,7 +252,7 @@ public class Helper {
      - Parameter json: JS object
      - Returns: The produced `SourceConfig` object
      */
-    static func sourceConfig(_ json: [String: Any]) -> SourceConfig? {
+    static func sourceConfig(_ json: [String: Any]) -> (SourceConfig, FairplayConfig.Metadata?)? {
         guard let sourceUrlString = json["url"] as? String,
               let sourceUrl = URL(string: sourceUrlString) else {
             return nil
@@ -260,9 +263,12 @@ public class Helper {
             type: sourceType(json["type"] as Any?)
         )
 
+        var fairplayConfigMetadata: FairplayConfig.Metadata?
+
         if let drmConfig = json["drmConfig"] as? [String: Any],
            let fairplayConfigJson = drmConfig["fairplay"] as? [String: Any] {
             sourceConfig.drmConfig = fairplayConfig(fairplayConfigJson)
+            fairplayConfigMetadata = Self.fairplayConfigMetadata(fairplayConfigJson)
         }
 
         if let title = json["title"] as? String {
@@ -289,7 +295,7 @@ public class Helper {
             sourceConfig.thumbnailTrack = Helper.thumbnailTrack(thumbnailTrack)
         }
 
-        return sourceConfig
+        return (sourceConfig, fairplayConfigMetadata)
     }
 
     /**
@@ -361,6 +367,22 @@ public class Helper {
         }
 
         return fairplayConfig
+    }
+
+    /// Returns a `FairplayConfig.Metadata` object that tells which callbacks from `FairplayConfig` are implemented
+    /// on the Dart side.
+    ///
+    /// - Parameter json: JSON representation of `FairplayConfig`.
+    /// - Returns: The created `FairplayConfig.Metadata` object.
+    private static func fairplayConfigMetadata(_ fairplayConfig: [String: Any]) -> FairplayConfig.Metadata {
+        return FairplayConfig.Metadata(
+            hasPrepareMessage: fairplayConfig["prepareMessage"] as? Bool ?? false,
+            hasPrepareContentId: fairplayConfig["prepareContentId"] as? Bool ?? false,
+            hasPrepareCertificate: fairplayConfig["prepareCertificate"] as? Bool ?? false,
+            hasPrepareLicense: fairplayConfig["prepareLicense"] as? Bool ?? false,
+            hasPrepareLicenseServerUrl: fairplayConfig["prepareLicenseServerUrl"] as? Bool ?? false,
+            hasPrepareSyncMessage: fairplayConfig["prepareSyncMessage"] as? Bool ?? false
+        )
     }
 
     /**
