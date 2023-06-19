@@ -4,15 +4,18 @@ import UIKit
 public class PlayerPlugin: NSObject, FlutterPlugin {
     weak var registrar: FlutterPluginRegistrar?
 
-    public static func register(with registrar: FlutterPluginRegistrar) {
-        let viewFactory = PlayerNativeViewFactory(messenger: registrar.messenger())
-        registrar.register(viewFactory, withId: Channels.playerView)
+    public init(registrar: FlutterPluginRegistrar) {
+        self.registrar = registrar
 
-        let instance = PlayerPlugin()
-        instance.registrar = registrar
+        super.init()
 
         let channel = FlutterMethodChannel(name: Channels.main, binaryMessenger: registrar.messenger())
-        registrar.addMethodCallDelegate(instance, channel: channel)
+        registrar.addMethodCallDelegate(self, channel: channel)
+    }
+
+    public static func register(with registrar: FlutterPluginRegistrar) {
+        let _ = PlayerNativeViewFactory(registrar: registrar)
+        let _ = PlayerPlugin(registrar: registrar)
     }
 
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
