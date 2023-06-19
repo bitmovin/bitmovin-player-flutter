@@ -18,8 +18,8 @@ internal class FairplayCallbacksHandler {
         }
     }
 
-    private func handlePrepareMessage(spcData: Data, assetId: String) -> Data {
-        var prepareMessageResult: Data = Data()
+    private func handlePrepareMessage(spcData: Data, assetId: String) -> Data? {
+        var prepareMessageResult: Data?
 
         let dispatchGroup = DispatchGroup()
         dispatchGroup.enter()
