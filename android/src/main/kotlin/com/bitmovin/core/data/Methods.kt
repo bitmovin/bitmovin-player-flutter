@@ -18,5 +18,9 @@ class Methods {
         const val CURRENT_TIME = "currentTime"
         const val DURATION = "duration"
         const val DESTROY = "destroy"
+
+        // Widevine DRM related methods
+        const val WIDEVINE_PREPARE_MESSAGE = "widevinePrepareMessage"
+        const val WIDEVINE_PREPARE_LICENSE = "widevinePrepareLicense"
     }
 }
