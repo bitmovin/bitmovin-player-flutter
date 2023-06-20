@@ -1,4 +1,5 @@
 import 'package:bitmovin_sdk/src/api/drm/fairplay_config.dart';
+import 'package:bitmovin_sdk/src/api/drm/widevine_config.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -8,6 +9,7 @@ part 'drm_config.g.dart';
 class DrmConfig extends Equatable {
   const DrmConfig({
     this.fairplay,
+    this.widevine,
   });
 
   factory DrmConfig.fromJson(Map<String, dynamic> json) =>
@@ -16,8 +18,11 @@ class DrmConfig extends Equatable {
   @JsonKey(name: 'fairplay')
   final FairplayConfig? fairplay;
 
+  @JsonKey(name: 'widevine')
+  final WidevineConfig? widevine;
+
   Map<String, dynamic> toJson() => _$DrmConfigToJson(this);
 
   @override
-  List<Object?> get props => [fairplay];
+  List<Object?> get props => [fairplay, widevine];
 }
