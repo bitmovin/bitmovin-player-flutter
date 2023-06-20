@@ -32,7 +32,7 @@ Together, these classes form the core architecture of the Bitmovin Player Plugin
         - mute
         - unmute
         - seek
-        - current_time
+        - currentTime
         - duration
         - loadWithSourceConfig
         - loadWithSource

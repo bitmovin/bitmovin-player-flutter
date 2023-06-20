@@ -7,7 +7,7 @@ class Methods {
         const val BIND_PLAYER = "bind-player"
         const val UNBIND_PLAYER = "unbind-player"
 
-        // For player only
+        // Player related methods
         const val LOAD_WITH_SOURCE_CONFIG = "loadWithSourceConfig"
         const val LOAD_WITH_SOURCE = "loadWithSource"
         const val PLAY = "play"
@@ -15,7 +15,7 @@ class Methods {
         const val MUTE = "mute"
         const val UNMUTE = "unmute"
         const val SEEK = "seek"
-        const val CURRENT_TIME = "current_time"
+        const val CURRENT_TIME = "currentTime"
         const val DURATION = "duration"
         const val DESTROY = "destroy"
     }
