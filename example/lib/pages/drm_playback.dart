@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:player_example/controls.dart';
 
@@ -14,14 +16,27 @@ class DrmPlayback extends StatefulWidget {
 class _DrmPlaybackState extends State<DrmPlayback> {
   String eventData = '';
   final sourceConfig = SourceConfig(
-    url: 'https://fps.ezdrm.com/demo/video/ezdrm.m3u8',
-    type: SourceType.hls,
+    url: Platform.isAndroid
+        ? 'https://bitmovin-a.akamaihd.net/content/art-of-motion_drm/mpds/11331.mpd'
+        : 'https://fps.ezdrm.com/demo/video/ezdrm.m3u8',
+    type: Platform.isAndroid ? SourceType.dash : SourceType.hls,
     drmConfig: DrmConfig(
       fairplay: FairplayConfig(
         licenseUrl:
             'https://fps.ezdrm.com/api/licenses/09cc0377-6dd4-40cb-b09d-b582236e70fe',
         certificateUrl: 'https://fps.ezdrm.com/demo/video/eleisure.cer',
         prepareMessage: (spcData, _) => spcData,
+      ),
+      widevine: WidevineConfig(
+        licenseUrl: 'https://cwip-shaka-proxy.appspot.com/no_auth',
+        prepareMessage: (keyMessage) => keyMessage,
+        prepareLicense: (licenseResponse) => licenseResponse,
+        preferredSecurityLevel: 'L3',
+        shouldKeepDrmSessionsAlive: true,
+        httpHeaders: const {
+          'test-header': 'test header value',
+          'different-header': 'different value',
+        },
       ),
     ),
   );
