@@ -24,4 +24,8 @@ class Methods {
   static const String fairplayPrepareLicenseServerUrl =
       'fairplayPrepareLicenseServerUrl';
   static const String fairplayPrepareSyncMessage = 'fairplayPrepareSyncMessage';
+
+  /// Widevine DRM related methods
+  static const String widevinePrepareMessage = 'widevinePrepareMessage';
+  static const String widevinePrepareLicense = 'widevinePrepareLicense';
 }
