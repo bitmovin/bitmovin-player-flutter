@@ -14,7 +14,7 @@ class Methods {
     static let mute = "mute"
     static let unmute = "unmute"
     static let seek = "seek"
-    static let currentTime = "current_time"
+    static let currentTime = "currentTime"
     static let duration = "duration"
     static let destroy = "destroy"
 
