@@ -9,7 +9,7 @@ part 'source.g.dart';
 @JsonSerializable(explicitToJson: true)
 class Source extends Equatable {
   const Source({
-    this.sourceConfig,
+    required this.sourceConfig,
     this.id,
   });
 
@@ -26,7 +26,7 @@ class Source extends Equatable {
 
   /// Configuration that will be used by this [Source]
   @JsonKey(name: 'sourceConfig', defaultValue: null)
-  final SourceConfig? sourceConfig;
+  final SourceConfig sourceConfig;
 
   @override
   List<Object?> get props => [id, sourceConfig];

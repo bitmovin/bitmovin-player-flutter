@@ -2,17 +2,20 @@ PODS:
   - bitmovin_sdk (0.0.1):
     - BitmovinPlayer
     - Flutter
-  - BitmovinPlayer (3.37.1)
+  - BitmovinPlayer (3.40.0):
+    - BitmovinPlayerCore (= 3.40.0)
+  - BitmovinPlayerCore (3.40.0)
   - Flutter (1.0.0)
 
 DEPENDENCIES:
   - bitmovin_sdk (from `.symlinks/plugins/bitmovin_sdk/ios`)
-  - BitmovinPlayer (= 3.37.1)
+  - BitmovinPlayer (= 3.40.0)
   - Flutter (from `Flutter`)
 
 SPEC REPOS:
   https://github.com/bitmovin/cocoapod-specs.git:
     - BitmovinPlayer
+    - BitmovinPlayerCore
 
 EXTERNAL SOURCES:
   bitmovin_sdk:
@@ -21,10 +24,11 @@ EXTERNAL SOURCES:
     :path: Flutter
 
 SPEC CHECKSUMS:
-  bitmovin_sdk: 2aa8cf893b93e9a6f366374f9dd562f37b2e5087
-  BitmovinPlayer: 3cec10ad5603d6807ad5b8c4217aa554c1377219
+  bitmovin_sdk: ab26fde76abf41a02b5d81053edd94bfc57000d4
+  BitmovinPlayer: 57266ccab7d2fbc15144b422e4b0137c7dc373dc
+  BitmovinPlayerCore: f53717bbedf58ce9b34b0c257a93c5ddd2869e99
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
 
-PODFILE CHECKSUM: 04b041c2b926347dd8d649c97c7a3663a1a5e069
+PODFILE CHECKSUM: 14582cf9bb7a2ba890de65008b7724c36b43736a
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.11.3

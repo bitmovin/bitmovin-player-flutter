@@ -4,30 +4,28 @@ import BitmovinPlayer
 // swiftlint:disable file_length
 // swiftlint:disable:next type_body_length
 public class Helper {
-    static func playerPayload(_ json: Any?) -> PlayerPayload {
-        let playerPayload = PlayerPayload()
-        guard let json = json as? [String: Any?] else {
-            return playerPayload
-        }
-        if let id = json["id"] as? Int {
-            playerPayload.id = id
+    static func playerPayload(_ payload: Any?) -> PlayerPayload? {
+        guard let json = payload as? [String: Any] else {
+            return nil
         }
 
-        if let data = json["data"] as? [String: Any] {
-            playerPayload.data = data
+        guard let idString = json["id"] as? String, let id = Int(idString) else {
+            return nil
         }
 
-        return playerPayload
+        let data = json["data"] as? [String: Any]
+
+        return PlayerPayload(id: id, data: data)
     }
 
     /**
      Utility method to instantiate a `PlayerConfig` from a JS object.
      - Parameter json: JS object
-     - Returns: The produced `Playerconfig` object
+     - Returns: The produced `PlayerConfig` object
      */
-    static func playerConfig(_ json: Any?) -> PlayerConfig? {
+    static func playerConfig(_ json: [AnyHashable: Any]) -> PlayerConfig {
         let playerConfig = PlayerConfig()
-        guard let json = json as? [String: Any?] else {
+        guard let json = json as? [String: Any] else {
             return playerConfig
         }
         if let licenseKey = json["licenseKey"] as? String {
@@ -174,12 +172,11 @@ public class Helper {
      - Returns: The produced `AdvertisingConfig` object.
      */
     static func advertisingConfig(_ json: Any?) -> AdvertisingConfig? {
-        guard
-            let json = json as? [String: Any?],
-            let schedule = json["schedule"] as? [[String: Any?]]
-        else {
+        guard let json = json as? [String: Any?],
+              let schedule = json["schedule"] as? [[String: Any?]] else {
             return nil
         }
+
         return AdvertisingConfig(schedule: schedule.compactMap { adItem($0) })
     }
 
@@ -238,16 +235,24 @@ public class Helper {
         }
     }
 
+    static func source(_ json: [String: Any]) -> (Source, FairplayConfig.Metadata?)? {
+        guard let sourceConfigJson = json["sourceConfig"] as? [String: Any],
+              let (sourceConfig, fairplayConfigMetadata) = sourceConfig(sourceConfigJson) else {
+            return nil
+        }
+
+        return (
+            SourceFactory.create(from: sourceConfig),
+            fairplayConfigMetadata
+        )
+    }
+
     /**
      Utility method to instantiate a `SourceConfig` from a JS object.
      - Parameter json: JS object
      - Returns: The produced `SourceConfig` object
      */
-    static func sourceConfig(_ json: Any?, drmConfig: FairplayConfig? = nil) -> SourceConfig? {
-        guard let json = json as? [String: Any?] else {
-            return nil
-        }
-
+    static func sourceConfig(_ json: [String: Any]) -> (SourceConfig, FairplayConfig.Metadata?)? {
         guard let sourceUrlString = json["url"] as? String,
               let sourceUrl = URL(string: sourceUrlString) else {
             return nil
@@ -258,8 +263,12 @@ public class Helper {
             type: sourceType(json["type"] as Any?)
         )
 
-        if let drmConfig = drmConfig {
-            sourceConfig.drmConfig = drmConfig
+        var fairplayConfigMetadata: FairplayConfig.Metadata?
+
+        if let drmConfig = json["drmConfig"] as? [String: Any],
+           let fairplayConfigJson = drmConfig["fairplay"] as? [String: Any] {
+            sourceConfig.drmConfig = fairplayConfig(fairplayConfigJson)
+            fairplayConfigMetadata = Self.fairplayConfigMetadata(fairplayConfigJson)
         }
 
         if let title = json["title"] as? String {
@@ -286,7 +295,7 @@ public class Helper {
             sourceConfig.thumbnailTrack = Helper.thumbnailTrack(thumbnailTrack)
         }
 
-        return sourceConfig
+        return (sourceConfig, fairplayConfigMetadata)
     }
 
     /**
@@ -336,28 +345,44 @@ public class Helper {
      - Parameter json: JS object
      - Returns: The generated `FairplayConfig` object
      */
-    static func fairplayConfig(_ json: Any?) -> FairplayConfig? {
-        guard let json = json as? [String: Any?],
-              let fairplayJson = json["fairplay"] as? [String: Any?],
-              let licenseURL = fairplayJson["licenseUrl"] as? String,
-              let certificateURL = fairplayJson["certificateUrl"] as? String else {
+    static func fairplayConfig(_ json: [String: Any]) -> FairplayConfig? {
+        guard let certificateUrlString = json["certificateUrl"] as? String,
+              let certificateUrl = URL(string: certificateUrlString) else {
             return nil
         }
 
-        let fairplayConfig = FairplayConfig(
-            license: URL(string: licenseURL),
-            certificateURL: URL(string: certificateURL)!
-        )
+        var licenseUrl: URL?
+        if let licenseUrlString = json["licenseUrl"] as? String {
+            licenseUrl = URL(string: licenseUrlString)
+        }
 
-        if let licenseRequestHeaders = fairplayJson["licenseRequestHeaders"] as? [String: String] {
+        let fairplayConfig = FairplayConfig(license: licenseUrl, certificateURL: certificateUrl)
+
+        if let licenseRequestHeaders = json["licenseRequestHeaders"] as? [String: String] {
             fairplayConfig.licenseRequestHeaders = licenseRequestHeaders
         }
 
-        if let certificateRequestHeaders = fairplayJson["certificateRequestHeaders"] as? [String: String] {
+        if let certificateRequestHeaders = json["certificateRequestHeaders"] as? [String: String] {
             fairplayConfig.certificateRequestHeaders = certificateRequestHeaders
         }
 
         return fairplayConfig
+    }
+
+    /// Returns a `FairplayConfig.Metadata` object that tells which callbacks from `FairplayConfig` are implemented
+    /// on the Dart side.
+    ///
+    /// - Parameter json: JSON representation of `FairplayConfig`.
+    /// - Returns: The created `FairplayConfig.Metadata` object.
+    private static func fairplayConfigMetadata(_ fairplayConfig: [String: Any]) -> FairplayConfig.Metadata {
+        return FairplayConfig.Metadata(
+            hasPrepareMessage: fairplayConfig["prepareMessage"] as? Bool ?? false,
+            hasPrepareContentId: fairplayConfig["prepareContentId"] as? Bool ?? false,
+            hasPrepareCertificate: fairplayConfig["prepareCertificate"] as? Bool ?? false,
+            hasPrepareLicense: fairplayConfig["prepareLicense"] as? Bool ?? false,
+            hasPrepareLicenseServerUrl: fairplayConfig["prepareLicenseServerUrl"] as? Bool ?? false,
+            hasPrepareSyncMessage: fairplayConfig["prepareSyncMessage"] as? Bool ?? false
+        )
     }
 
     /**

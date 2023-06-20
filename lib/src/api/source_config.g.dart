@@ -37,6 +37,9 @@ SourceConfig _$SourceConfigFromJson(Map<String, dynamic> json) {
     options: json['sourceOptions'] == null
         ? const SourceOptions()
         : SourceOptions.fromJson(json['sourceOptions'] as Map<String, dynamic>),
+    drmConfig: json['drmConfig'] == null
+        ? null
+        : DrmConfig.fromJson(json['drmConfig'] as Map<String, dynamic>),
   );
 }
 
@@ -54,6 +57,7 @@ Map<String, dynamic> _$SourceConfigToJson(SourceConfig instance) =>
       'videoCodecPriority': instance.videoCodecPriority,
       'audioCodecPriority': instance.audioCodecPriority,
       'sourceOptions': instance.options?.toJson(),
+      'drmConfig': instance.drmConfig?.toJson(),
     };
 
 const _$SourceTypeEnumMap = {
