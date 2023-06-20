@@ -21,4 +21,8 @@ class Methods {
     // Fairplay related methods
     static let fairplayPrepareMessage = "fairplayPrepareMessage"
     static let fairplayPrepareContentId = "fairplayPrepareContentId"
+    static let fairplayPrepareCertificate = "fairplayPrepareCertificate"
+    static let fairplayPrepareLicense = "fairplayPrepareLicense"
+    static let fairplayPrepareLicenseServerUrl = "fairplayPrepareLicenseServerUrl"
+    static let fairplayPrepareSyncMessage = "fairplayPrepareSyncMessage"
 }

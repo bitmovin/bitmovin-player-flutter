@@ -60,6 +60,11 @@ class Player with PlayerEventListener implements PlayerInterface {
 
     switch (methodCall.method) {
       case Methods.fairplayPrepareMessage:
+      case Methods.fairplayPrepareContentId:
+      case Methods.fairplayPrepareCertificate:
+      case Methods.fairplayPrepareLicense:
+      case Methods.fairplayPrepareLicenseServerUrl:
+      case Methods.fairplayPrepareSyncMessage:
         result = fairplayHandler?.handleMethodCall(methodCall);
         break;
     }
