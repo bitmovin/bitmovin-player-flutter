@@ -29,7 +29,8 @@ class Helper {
         }
 
         fun buildSource(params: Map<*, *>): Source {
-            return Source.create(buildSourceConfig(params))
+            val sourceConfig = buildSourceConfig(params["sourceConfig"] as Map<*, *>)
+            return Source.create(sourceConfig)
         }
 
         fun buildSourceConfig(params: Map<*, *>): SourceConfig {
