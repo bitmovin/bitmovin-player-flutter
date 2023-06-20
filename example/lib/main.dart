@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:player_example/pages/basic_playback.dart';
 import 'package:player_example/pages/basic_playback_with_event_subscription.dart';
 import 'package:player_example/pages/basic_player_only.dart';
+import 'package:player_example/pages/drm_playback.dart';
 import 'package:player_example/pages/home.dart';
 import 'package:player_example/pages/licensekey_via_config.dart';
 
@@ -24,6 +25,7 @@ class _MyAppState extends State<MyApp> {
       routes: {
         Home.routeName: (_) => const Home(),
         BasicPlayback.routeName: (_) => const BasicPlayback(),
+        DrmPlayback.routeName: (_) => const DrmPlayback(),
         BasicPlayerOnly.routeName: (_) => const BasicPlayerOnly(),
         BasicPlaybackWithEventSubscription.routeName: (_) =>
             const BasicPlaybackWithEventSubscription(),

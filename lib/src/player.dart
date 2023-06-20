@@ -3,6 +3,7 @@ import 'package:bitmovin_sdk/src/api/source/source.dart';
 import 'package:bitmovin_sdk/src/api/source_config.dart';
 import 'package:bitmovin_sdk/src/channel_manager.dart';
 import 'package:bitmovin_sdk/src/channels.dart';
+import 'package:bitmovin_sdk/src/drm/fairplay_handler.dart';
 import 'package:bitmovin_sdk/src/interfaces/player_event_interface.dart';
 import 'package:bitmovin_sdk/src/methods.dart';
 import 'package:bitmovin_sdk/src/player_event_listener.dart';
@@ -33,6 +34,7 @@ class Player with PlayerEventListener implements PlayerInterface {
       if (value != null && value == true) {
         _methodChannel = ChannelManager.registerMethodChannel(
           name: '${Channels.player}-$_uuid',
+          handler: _playerMethodCallHandler,
         );
 
         _eventChannel = ChannelManager.registerEventChannel(
@@ -46,9 +48,33 @@ class Player with PlayerEventListener implements PlayerInterface {
   final PlayerConfig? playerConfig;
   final Logger logger = Logger(printer: PrettyPrinter());
   late String _uuid;
+  // Private method channel for this player instance
   late MethodChannel _methodChannel;
+  // Private method channel for this player instance to receive events
   late EventChannel _eventChannel;
   String get id => _uuid;
+  FairplayHandler? fairplayHandler;
+
+  Future<dynamic> _playerMethodCallHandler(MethodCall methodCall) {
+    dynamic result;
+
+    switch (methodCall.method) {
+      case Methods.fairplayPrepareMessage:
+      case Methods.fairplayPrepareContentId:
+      case Methods.fairplayPrepareCertificate:
+      case Methods.fairplayPrepareLicense:
+      case Methods.fairplayPrepareLicenseServerUrl:
+      case Methods.fairplayPrepareSyncMessage:
+        result = fairplayHandler?.handleMethodCall(methodCall);
+        break;
+    }
+
+    if (result == null) {
+      return Future.error('playerMethodCallHandler was unsuccessful');
+    }
+
+    return Future.value(result);
+  }
 
   Map<String, dynamic> _buildPayload([dynamic data]) {
     return Map<String, dynamic>.from({
@@ -65,15 +91,23 @@ class Player with PlayerEventListener implements PlayerInterface {
 
   /// Starts a new playback session consisting of a [Source] based
   /// on the provided [SourceConfig].
+  // TODO(mario): Rename as the "with" naming seems to be uncommon in dart
   @override
   Future<void> loadWithSourceConfig(
     SourceConfig sourceConfig,
-  ) async =>
-      _invokeMethod(Methods.loadWithSourceConfig, sourceConfig.toJson());
+  ) async {
+    return loadWithSource(Source(sourceConfig: sourceConfig));
+  }
 
   /// Starts a new playback session consisting of the [Source].
+  // TODO(mario): Rename as the "with" naming seems to be uncommon in dart
   @override
   Future<void> loadWithSource(Source source) async {
+    final fairplayConfig = source.sourceConfig.drmConfig?.fairplay;
+    if (fairplayConfig != null) {
+      fairplayHandler = FairplayHandler(fairplayConfig);
+    }
+
     return _invokeMethod<void>(Methods.loadWithSource, source.toJson());
   }
 

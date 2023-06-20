@@ -4,9 +4,12 @@ import UIKit
 class PlayerNativeViewFactory: NSObject, FlutterPlatformViewFactory {
     private var messenger: FlutterBinaryMessenger
 
-    init(messenger: FlutterBinaryMessenger) {
-        self.messenger = messenger
+    init(registrar: FlutterPluginRegistrar) {
+        self.messenger = registrar.messenger()
+
         super.init()
+
+        registrar.register(self, withId: Channels.playerView)
     }
 
     func create(

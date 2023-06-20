@@ -34,7 +34,7 @@ target 'Runner' do
   # use_frameworks!
   use_modular_headers!
 
-  pod 'BitmovinPlayer', '3.37.1'
+  pod 'BitmovinPlayer', '3.40.0'
   
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 end

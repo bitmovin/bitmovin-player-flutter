@@ -31,8 +31,22 @@ mixin PlayerEventListener implements PlayerEventsInterface {
   Callback<InfoEvent>? _onInfo;
 
   void onEvent(dynamic event) {
+    if (event == null) {
+      // TODO(mario): log error and debug all runtime occurrences as
+      // this should not happen.
+      return;
+    }
+
     final target = jsonDecode(event as String) as Map<String, dynamic>;
+
+    if (target['data'] == null || target['data'] is! String) {
+      // TODO(mario): log error and debug all runtime occurrences as
+      // this should not happen.
+      return;
+    }
+
     final data = jsonDecode(target['data'] as String) as Map<String, dynamic>?;
+
     switch (target['event']) {
       case 'onSourceAdded':
         if (data != null) {
