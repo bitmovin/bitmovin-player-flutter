@@ -43,7 +43,7 @@ class FairplayConfig extends Equatable {
   /// into a JSON object. The server response for the certificate request is
   /// passed as parameter “as is”.
   ///
-  /// Note that both the passed `certificate` data and this block return value
+  /// Note that both the passed `certificate` data and the return value
   /// should be a Base64 string. So use whatever solution suits you best to
   /// handle Base64 in Flutter.
   ///
@@ -56,26 +56,26 @@ class FairplayConfig extends Equatable {
   /// request. As many DRM providers expect different, vendor-specific messages,
   /// this can be done using this user-defined block.
   ///
-  /// Note that both the passed `message` data and this block return value
+  /// Note that both the passed `spcData` data and the return value
   /// should be a Base64 string. So use whatever solution suits you best to
   /// handle Base64 in Flutter.
   ///
-  /// @param message - Base64 encoded message data.
+  /// @param spcData - Base64 encoded spc data.
   /// @param assetId - Stream asset ID.
-  /// @returns The processed Base64 encoded message.
+  /// @returns The processed Base64 encoded SPC data.
   @JsonKey(includeFromJson: false, includeToJson: false)
   final String Function(String, String)? prepareMessage;
 
   /// A block to prepare the data which is sent as the body of the POST request
   /// for syncing the DRM license information.
   ///
-  /// Note that both the passed `syncMessage` data and this block return value
+  /// Note that both the passed `syncSpcData` data and the return value
   /// should be a Base64 string. So use whatever solution suits you best to
   /// handle Base64 in Flutter.
   ///
-  /// @param message - Base64 encoded message data.
+  /// @param syncSpcData - Base64 encoded sync SPC data.
   /// @param assetId - Asset ID.
-  /// @returns The processed Base64 encoded message.
+  /// @returns The processed Base64 encoded sync SPC data.
   @JsonKey(includeFromJson: false, includeToJson: false)
   final String Function(String, String)? prepareSyncMessage;
 
@@ -83,39 +83,32 @@ class FairplayConfig extends Equatable {
   /// This is needed if the server responds with anything else than the license,
   /// e.g. if the license is wrapped into a JSON object.
   ///
-  /// Note that both the passed `license` data and this block return value
+  /// Note that both the passed `ckc` license data and the return value
   /// should be a Base64 string. So use whatever solution suits you best to
   /// handle Base64 in Flutter.
   ///
-  /// @param license - Base64 encoded license data.
-  /// @returns The processed Base64 encoded license.
+  /// @param ckc - Base64 encoded CKC license data.
+  /// @returns The processed Base64 encoded CKC license data.
   @JsonKey(includeFromJson: false, includeToJson: false)
   final String Function(String)? prepareLicense;
 
   /// A block to prepare the URI (without the skd://) from the HLS manifest
-  /// before passing it to the system. This is needed if the server responds
-  /// with anything else than the license, e.g. if the license is wrapped into a
-  /// JSON object.
+  /// before passing it to the system.
   ///
-  /// Note that both the passed `licenseServerUrl` data and this block return
-  /// value should be a Base64 string. So use whatever solution suits you best
-  /// to handle Base64 in Flutter.
-  ///
-  /// @param licenseServerUrl - Base64 encoded license server URL.
-  /// @returns The processed Base64 encoded license server URL.
+  /// @param licenseServerUrl - license server URL string.
+  /// @returns The processed license server URL string.
   @JsonKey(includeFromJson: false, includeToJson: false)
   final String Function(String)? prepareLicenseServerUrl;
 
-  /// A block to prepare the content ID from the HLS manifest before passing it
-  /// to the system. This is needed if the server responds with anything else
-  /// than the license, e.g. if the license is wrapped into a JSON object.
+  /// A block to prepare the `contentId`, which is sent to the FairPlay
+  /// Streaming license server as request body, and which is used to build the
+  /// SPC data. As many DRM providers expect different, vendor-specific
+  /// messages, this can be done using this user-defined block. The parameter is
+  /// the skd:// URI extracted from the HLS manifest (m3u8) and the return value
+  /// should be the contentID as a string.
   ///
-  /// Note that both the passed `contentId` data and this block return value
-  /// should be a Base64 string. So use whatever solution suits you best to
-  /// handle Base64 in Flutter.
-  ///
-  /// @param contentId - Base64 encoded content ID.
-  /// @returns The processed Base64 encoded content ID.
+  /// @param contentId - Extracted content id string.
+  /// @returns The processed contentId.
   @JsonKey(includeFromJson: false, includeToJson: false)
   final String Function(String)? prepareContentId;
 

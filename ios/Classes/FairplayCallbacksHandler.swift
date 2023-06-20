@@ -51,8 +51,8 @@ internal class FairplayCallbacksHandler {
         }
 
         if metadata.hasPrepareSyncMessage {
-            fairplayConfig.prepareSyncMessage = { [weak self] syncSpcData, assetID in
-                self?.handlePrepareSyncMessage(syncSpcData: syncSpcData, assetID: assetID) ?? syncSpcData
+            fairplayConfig.prepareSyncMessage = { [weak self] syncSpcData, assetId in
+                self?.handlePrepareSyncMessage(syncSpcData: syncSpcData, assetId: assetId) ?? syncSpcData
             }
         }
     }
@@ -107,19 +107,103 @@ internal class FairplayCallbacksHandler {
         return prepareContentIdResult
     }
 
-    private func handlePrepareCertificate(certificate: Data) -> Data {
-        Data() // TODO: implement
+    private func handlePrepareCertificate(certificate: Data) -> Data? {
+        var prepareCertificateResult: Data?
+
+        let dispatchGroup = DispatchGroup()
+        dispatchGroup.enter()
+
+        let payload = [
+            "certificate": certificate.base64EncodedString()
+        ]
+
+        methodChannel.invokeMethod(Methods.fairplayPrepareCertificate, arguments: payload) { result in
+            guard let resultString = result as? String,
+                  let resultData = Data(base64Encoded: resultString) else {
+                dispatchGroup.leave()
+                return
+            }
+
+            prepareCertificateResult = resultData
+            dispatchGroup.leave()
+        }
+
+        dispatchGroup.wait()
+        return prepareCertificateResult
     }
 
-    private func handlePrepareLicense(ckc: Data) -> Data {
-        Data() // TODO: implement
+    private func handlePrepareLicense(ckc: Data) -> Data? {
+        var prepareLicenseResult: Data?
+
+        let dispatchGroup = DispatchGroup()
+        dispatchGroup.enter()
+
+        let payload = [
+            "ckc": ckc.base64EncodedString()
+        ]
+
+        methodChannel.invokeMethod(Methods.fairplayPrepareLicense, arguments: payload) { result in
+            guard let resultString = result as? String,
+                  let resultData = Data(base64Encoded: resultString) else {
+                dispatchGroup.leave()
+                return
+            }
+
+            prepareLicenseResult = resultData
+            dispatchGroup.leave()
+        }
+
+        dispatchGroup.wait()
+        return prepareLicenseResult
     }
 
-    private func handlePrepareLicenseServerUrl(licenseServerUrl: String) -> String {
-        "" // TODO: implement
+    private func handlePrepareLicenseServerUrl(licenseServerUrl: String) -> String? {
+        var prepareLicenseServerUrlResult: String?
+
+        let dispatchGroup = DispatchGroup()
+        dispatchGroup.enter()
+
+        let payload = [
+            "licenseServerUrl": licenseServerUrl
+        ]
+
+        methodChannel.invokeMethod(Methods.fairplayPrepareLicenseServerUrl, arguments: payload) { result in
+            guard let resultString = result as? String else {
+                dispatchGroup.leave()
+                return
+            }
+
+            prepareLicenseServerUrlResult = resultString
+            dispatchGroup.leave()
+        }
+
+        dispatchGroup.wait()
+        return prepareLicenseServerUrlResult
     }
 
-    private func handlePrepareSyncMessage(syncSpcData: Data, assetID: String) -> Data {
-        Data() // TODO: implement
+    private func handlePrepareSyncMessage(syncSpcData: Data, assetId: String) -> Data? {
+        var prepareSyncMessageResult: Data?
+
+        let dispatchGroup = DispatchGroup()
+        dispatchGroup.enter()
+
+        let payload = [
+            "syncSpcData": syncSpcData.base64EncodedString(),
+            "assetId": assetId
+        ]
+
+        methodChannel.invokeMethod(Methods.fairplayPrepareSyncMessage, arguments: payload) { result in
+            guard let resultString = result as? String,
+                  let resultData = Data(base64Encoded: resultString) else {
+                dispatchGroup.leave()
+                return
+            }
+
+            prepareSyncMessageResult = resultData
+            dispatchGroup.leave()
+        }
+
+        dispatchGroup.wait()
+        return prepareSyncMessageResult
     }
 }

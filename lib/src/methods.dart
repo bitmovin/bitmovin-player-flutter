@@ -19,4 +19,9 @@ class Methods {
   /// Fairplay related methods
   static const String fairplayPrepareMessage = 'fairplayPrepareMessage';
   static const String fairplayPrepareContentId = 'fairplayPrepareContentId';
+  static const String fairplayPrepareCertificate = 'fairplayPrepareCertificate';
+  static const String fairplayPrepareLicense = 'fairplayPrepareLicense';
+  static const String fairplayPrepareLicenseServerUrl =
+      'fairplayPrepareLicenseServerUrl';
+  static const String fairplayPrepareSyncMessage = 'fairplayPrepareSyncMessage';
 }
