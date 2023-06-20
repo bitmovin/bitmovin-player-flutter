@@ -37,80 +37,56 @@ class FairplayConfig extends Equatable {
   @JsonKey(includeFromJson: false, includeToJson: false)
   final Map<String, String>? certificateRequestHeaders;
 
-  /// A block to prepare the loaded certificate before building SPC data and
-  /// passing it into the system. This is needed if the server responds with
+  /// A function to prepare the loaded certificate before building SPC data
+  /// and passing it into the system. This is needed if the server responds with
   /// anything else than the certificate, e.g. if the certificate is wrapped
   /// into a JSON object. The server response for the certificate request is
   /// passed as parameter “as is”.
   ///
-  /// Note that both the passed `certificate` data and the return value
-  /// should be a Base64 string. So use whatever solution suits you best to
-  /// handle Base64 in Flutter.
-  ///
-  /// @param certificate - Base64 encoded certificate data.
-  /// @returns The processed Base64 encoded certificate.
+  /// Note that both the passed `certificate` data and the returned processed
+  /// certificate data is expected be a Base64 encoded [String].
   @JsonKey(includeFromJson: false, includeToJson: false)
-  final String Function(String)? prepareCertificate;
+  final String Function(String certificate)? prepareCertificate;
 
-  /// A block to prepare the data which is sent as the body of the POST license
-  /// request. As many DRM providers expect different, vendor-specific messages,
-  /// this can be done using this user-defined block.
+  /// A function to prepare the SPC data which is sent as the body of the POST
+  /// license request. As many DRM providers expect different, vendor-specific
+  /// messages, this can be done using this user-defined function.
   ///
-  /// Note that both the passed `spcData` data and the return value
-  /// should be a Base64 string. So use whatever solution suits you best to
-  /// handle Base64 in Flutter.
-  ///
-  /// @param spcData - Base64 encoded spc data.
-  /// @param assetId - Stream asset ID.
-  /// @returns The processed Base64 encoded SPC data.
+  /// Note that both the passed `spcData` and the returned processed SPC data
+  /// is expected to be a Base64 encoded [String].
   @JsonKey(includeFromJson: false, includeToJson: false)
-  final String Function(String, String)? prepareMessage;
+  final String Function(String spcData, String assetId)? prepareMessage;
 
-  /// A block to prepare the data which is sent as the body of the POST request
-  /// for syncing the DRM license information.
+  /// A function to prepare the sync SPC data which is sent as the body of the
+  /// POST request for syncing the DRM license information.
   ///
-  /// Note that both the passed `syncSpcData` data and the return value
-  /// should be a Base64 string. So use whatever solution suits you best to
-  /// handle Base64 in Flutter.
-  ///
-  /// @param syncSpcData - Base64 encoded sync SPC data.
-  /// @param assetId - Asset ID.
-  /// @returns The processed Base64 encoded sync SPC data.
+  /// Note that both the passed `syncSpcData` data and the returned processed
+  /// sync SPC data is expected to be a Base64 encoded [String].
   @JsonKey(includeFromJson: false, includeToJson: false)
-  final String Function(String, String)? prepareSyncMessage;
+  final String Function(String syncSpcData, String assetId)? prepareSyncMessage;
 
-  /// A block to prepare the loaded CKC Data before passing it to the system.
+  /// A function to prepare the loaded CKC Data before passing it to the system.
   /// This is needed if the server responds with anything else than the license,
   /// e.g. if the license is wrapped into a JSON object.
   ///
-  /// Note that both the passed `ckc` license data and the return value
-  /// should be a Base64 string. So use whatever solution suits you best to
-  /// handle Base64 in Flutter.
-  ///
-  /// @param ckc - Base64 encoded CKC license data.
-  /// @returns The processed Base64 encoded CKC license data.
+  /// Note that both the passed `ckc` license data and the returned processed
+  /// CKC license data is expected to be a Base64 encoded [String].
   @JsonKey(includeFromJson: false, includeToJson: false)
-  final String Function(String)? prepareLicense;
+  final String Function(String ckc)? prepareLicense;
 
-  /// A block to prepare the URI (without the skd://) from the HLS manifest
+  /// A function to prepare the URI (without the skd://) from the HLS manifest
   /// before passing it to the system.
-  ///
-  /// @param licenseServerUrl - license server URL string.
-  /// @returns The processed license server URL string.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  final String Function(String)? prepareLicenseServerUrl;
+  final String Function(String licenseServerUrl)? prepareLicenseServerUrl;
 
-  /// A block to prepare the `contentId`, which is sent to the FairPlay
+  /// A function to prepare the `contentId`, which is sent to the FairPlay
   /// Streaming license server as request body, and which is used to build the
   /// SPC data. As many DRM providers expect different, vendor-specific
-  /// messages, this can be done using this user-defined block. The parameter is
-  /// the skd:// URI extracted from the HLS manifest (m3u8) and the return value
-  /// should be the contentID as a string.
-  ///
-  /// @param contentId - Extracted content id string.
-  /// @returns The processed contentId.
+  /// messages, this can be done using this user-defined function. The parameter
+  /// is the skd:// URI extracted from the HLS manifest (m3u8) and the return
+  /// value should be the processed `contentId` as a [String].
   @JsonKey(includeFromJson: false, includeToJson: false)
-  final String Function(String)? prepareContentId;
+  final String Function(String contentId)? prepareContentId;
 
   /// Converts this [FairplayConfig] into JSON friendly Map<String, dynamic>
   Map<String, dynamic> toJson() {
