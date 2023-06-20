@@ -44,7 +44,7 @@ class FairplayConfig extends Equatable {
   /// passed as parameter “as is”.
   ///
   /// Note that both the passed `certificate` data and the returned processed
-  /// certificate data is expected be a Base64 encoded [String].
+  /// certificate data are expected be a Base64 encoded [String].
   @JsonKey(includeFromJson: false, includeToJson: false)
   final String Function(String certificate)? prepareCertificate;
 
@@ -53,7 +53,7 @@ class FairplayConfig extends Equatable {
   /// messages, this can be done using this user-defined function.
   ///
   /// Note that both the passed `spcData` and the returned processed SPC data
-  /// is expected to be a Base64 encoded [String].
+  /// are expected to be a Base64 encoded [String].
   @JsonKey(includeFromJson: false, includeToJson: false)
   final String Function(String spcData, String assetId)? prepareMessage;
 
@@ -61,7 +61,7 @@ class FairplayConfig extends Equatable {
   /// POST request for syncing the DRM license information.
   ///
   /// Note that both the passed `syncSpcData` data and the returned processed
-  /// sync SPC data is expected to be a Base64 encoded [String].
+  /// sync SPC data are expected to be a Base64 encoded [String].
   @JsonKey(includeFromJson: false, includeToJson: false)
   final String Function(String syncSpcData, String assetId)? prepareSyncMessage;
 
@@ -70,7 +70,7 @@ class FairplayConfig extends Equatable {
   /// e.g. if the license is wrapped into a JSON object.
   ///
   /// Note that both the passed `ckc` license data and the returned processed
-  /// CKC license data is expected to be a Base64 encoded [String].
+  /// CKC license data are expected to be a Base64 encoded [String].
   @JsonKey(includeFromJson: false, includeToJson: false)
   final String Function(String ckc)? prepareLicense;
 
@@ -106,5 +106,7 @@ class FairplayConfig extends Equatable {
   List<Object?> get props => [
         licenseUrl,
         certificateUrl,
+        licenseRequestHeaders,
+        certificateRequestHeaders,
       ];
 }
