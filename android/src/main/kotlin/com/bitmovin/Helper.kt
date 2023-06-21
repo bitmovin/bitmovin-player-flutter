@@ -14,6 +14,8 @@ import com.bitmovin.core.PlayerPayload
 import com.bitmovin.player.api.PlaybackConfig
 import com.bitmovin.player.api.PlayerConfig
 import com.bitmovin.player.api.SeekMode
+import com.bitmovin.player.api.drm.DrmConfig
+import com.bitmovin.player.api.drm.WidevineConfig
 import com.bitmovin.player.api.media.MediaFilter
 import com.bitmovin.player.api.source.Source
 import com.bitmovin.player.api.source.SourceConfig
@@ -34,11 +36,41 @@ class Helper {
         }
 
         fun buildSourceConfig(params: Map<*, *>): SourceConfig {
+            val drmConfig = params["drmConfig"] as? Map<*, *>
+
             return SourceConfig(
                 url = params["url"] as String,
                 type = buildSourceType(params["type"] as String),
                 options = SourceOptions(),
+                drmConfig = drmConfig?.let { buildDrmConfig(it) },
             )
+        }
+
+        private fun buildDrmConfig(params: Map<*, *>): DrmConfig? {
+            if (params["widevine"] is Map<*, *>) {
+                return buildWidevineConfig(params["widevine"] as Map<*, *>)
+            }
+
+            return null
+        }
+
+        private fun buildWidevineConfig(params: Map<*, *>): WidevineConfig? {
+            // TODO: handle "prepareLicense" and "prepareMessage" of type Boolean
+            val widevineConfig = WidevineConfig(
+                licenseUrl = params["licenseUrl"] as? String,
+            )
+
+            widevineConfig.preferredSecurityLevel = params["preferredSecurityLevel"] as? String
+            widevineConfig.shouldKeepDrmSessionsAlive =
+                params["shouldKeepDrmSessionsAlive"] as Boolean
+
+            val httHeaders = params["httpHeaders"] as? Map<*, *>
+            widevineConfig.httpHeaders = httHeaders
+                ?.map { entry -> entry.key as? String to entry.value as? String }
+                ?.toMap()
+                ?.toMutableMap()
+
+            return widevineConfig
         }
 
         fun buildSourceConfigFromUrl(url: String): SourceConfig {
@@ -108,7 +140,11 @@ class Helper {
         }
 
         fun getSystemBrightness(context: Context): Float {
-            return Settings.System.getInt(context.contentResolver, Settings.System.SCREEN_BRIGHTNESS, 0).toFloat()
+            return Settings.System.getInt(
+                context.contentResolver,
+                Settings.System.SCREEN_BRIGHTNESS,
+                0,
+            ).toFloat()
         }
 
         @RequiresApi(Build.VERSION_CODES.M)
