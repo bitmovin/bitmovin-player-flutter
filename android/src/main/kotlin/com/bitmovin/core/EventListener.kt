@@ -1,7 +1,5 @@
 package com.bitmovin.core
 
-import android.os.Handler
-import android.os.Looper
 import com.bitmovin.player.api.Player
 import com.bitmovin.player.api.event.PlayerEvent
 import com.bitmovin.player.api.event.SourceEvent
@@ -21,14 +19,7 @@ open class EventListener {
                 ),
             )
 
-            // TODO: nice way to solve this?
-            if (Looper.myLooper() == Looper.getMainLooper()) {
-                sink?.success(payload)
-            } else {
-                Handler(Looper.getMainLooper()).post {
-                    sink?.success(payload)
-                }
-            }
+            runOnMainThread { sink?.success(payload) }
         }
     }
 
