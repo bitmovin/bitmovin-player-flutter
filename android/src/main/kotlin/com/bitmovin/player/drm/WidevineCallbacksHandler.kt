@@ -2,6 +2,7 @@ package com.bitmovin.player.drm
 
 import android.util.Base64
 import com.bitmovin.core.data.Methods
+import com.bitmovin.core.runOnMainThread
 import com.bitmovin.player.api.drm.PrepareLicenseCallback
 import com.bitmovin.player.api.drm.PrepareMessageCallback
 import com.bitmovin.player.api.drm.WidevineConfig
@@ -40,27 +41,36 @@ class WidevineCallbacksHandler(
         var prepareMessageResult = keyMessage
 
         lock.withLock {
-            methodChannel.invokeMethod(
-                Methods.WIDEVINE_PREPARE_MESSAGE,
-                mapOf(
-                    "keyMessage" to Base64.encodeToString(keyMessage, Base64.NO_WRAP),
-                ),
-                object : MethodChannel.Result {
-                    override fun success(result: Any?) {
-                        if (result !is String) { return }
-                        prepareMessageResult = Base64.decode(result, Base64.NO_WRAP)
-                        prepareMessageCondition.signal()
-                    }
+            runOnMainThread {
+                methodChannel.invokeMethod(
+                    Methods.WIDEVINE_PREPARE_MESSAGE,
+                    mapOf(
+                        "keyMessage" to Base64.encodeToString(keyMessage, Base64.NO_WRAP),
+                    ),
+                    object : MethodChannel.Result {
+                        override fun success(result: Any?) {
+                            if (result !is String) { return }
 
-                    override fun error(errorCode: String, errorMessage: String?, errorDetails: Any?) {
-                        prepareMessageCondition.signal()
-                    }
+                            lock.withLock {
+                                prepareMessageResult = Base64.decode(result, Base64.NO_WRAP)
+                                prepareMessageCondition.signal()
+                            }
+                        }
 
-                    override fun notImplemented() {
-                        prepareMessageCondition.signal()
-                    }
-                },
-            )
+                        override fun error(errorCode: String, errorMessage: String?, errorDetails: Any?) {
+                            lock.withLock {
+                                prepareMessageCondition.signal()
+                            }
+                        }
+
+                        override fun notImplemented() {
+                            lock.withLock {
+                                prepareMessageCondition.signal()
+                            }
+                        }
+                    },
+                )
+            }
 
             prepareMessageCondition.await()
         }
@@ -72,27 +82,36 @@ class WidevineCallbacksHandler(
         var prepareLicenseResult = licenseResponse
 
         lock.withLock {
-            methodChannel.invokeMethod(
-                Methods.WIDEVINE_PREPARE_LICENSE,
-                mapOf(
-                    "licenseResponse" to Base64.encodeToString(licenseResponse, Base64.NO_WRAP),
-                ),
-                object : MethodChannel.Result {
-                    override fun success(result: Any?) {
-                        if (result !is String) { return }
-                        prepareLicenseResult = Base64.decode(result, Base64.NO_WRAP)
-                        prepareLicenseCondition.signal()
-                    }
+            runOnMainThread {
+                methodChannel.invokeMethod(
+                    Methods.WIDEVINE_PREPARE_LICENSE,
+                    mapOf(
+                        "licenseResponse" to Base64.encodeToString(licenseResponse, Base64.NO_WRAP),
+                    ),
+                    object : MethodChannel.Result {
+                        override fun success(result: Any?) {
+                            if (result !is String) { return }
 
-                    override fun error(errorCode: String, errorMessage: String?, errorDetails: Any?) {
-                        prepareLicenseCondition.signal()
-                    }
+                            lock.withLock {
+                                prepareLicenseResult = Base64.decode(result, Base64.NO_WRAP)
+                                prepareLicenseCondition.signal()
+                            }
+                        }
 
-                    override fun notImplemented() {
-                        prepareLicenseCondition.signal()
-                    }
-                },
-            )
+                        override fun error(errorCode: String, errorMessage: String?, errorDetails: Any?) {
+                            lock.withLock {
+                                prepareLicenseCondition.signal()
+                            }
+                        }
+
+                        override fun notImplemented() {
+                            lock.withLock {
+                                prepareLicenseCondition.signal()
+                            }
+                        }
+                    },
+                )
+            }
 
             prepareLicenseCondition.await()
         }
