@@ -4,6 +4,7 @@ import 'package:bitmovin_sdk/src/api/source_config.dart';
 import 'package:bitmovin_sdk/src/channel_manager.dart';
 import 'package:bitmovin_sdk/src/channels.dart';
 import 'package:bitmovin_sdk/src/drm/fairplay_handler.dart';
+import 'package:bitmovin_sdk/src/drm/widevine_handler.dart';
 import 'package:bitmovin_sdk/src/interfaces/player_event_interface.dart';
 import 'package:bitmovin_sdk/src/methods.dart';
 import 'package:bitmovin_sdk/src/player_event_listener.dart';
@@ -54,6 +55,7 @@ class Player with PlayerEventListener implements PlayerInterface {
   late EventChannel _eventChannel;
   String get id => _uuid;
   FairplayHandler? fairplayHandler;
+  WidevineHandler? widevineHandler;
 
   Future<dynamic> _playerMethodCallHandler(MethodCall methodCall) {
     dynamic result;
@@ -66,6 +68,10 @@ class Player with PlayerEventListener implements PlayerInterface {
       case Methods.fairplayPrepareLicenseServerUrl:
       case Methods.fairplayPrepareSyncMessage:
         result = fairplayHandler?.handleMethodCall(methodCall);
+        break;
+      case Methods.widevinePrepareMessage:
+      case Methods.widevinePrepareLicense:
+        result = widevineHandler?.handleMethodCall(methodCall);
         break;
     }
 
@@ -106,6 +112,11 @@ class Player with PlayerEventListener implements PlayerInterface {
     final fairplayConfig = source.sourceConfig.drmConfig?.fairplay;
     if (fairplayConfig != null) {
       fairplayHandler = FairplayHandler(fairplayConfig);
+    }
+
+    final widevineConfig = source.sourceConfig.drmConfig?.widevine;
+    if (widevineConfig != null) {
+      widevineHandler = WidevineHandler(widevineConfig);
     }
 
     return _invokeMethod<void>(Methods.loadWithSource, source.toJson());
