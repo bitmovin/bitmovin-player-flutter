@@ -20,8 +20,8 @@ class ChannelManager {
                 this.setMethodCallHandler(handler)
             }
         }
-        fun registerMethodChannel(name: String, handler: MethodCallHandler, binaryMessenger: BinaryMessenger) {
-            MethodChannel(binaryMessenger, name).apply {
+        fun registerMethodChannel(name: String, handler: MethodCallHandler, binaryMessenger: BinaryMessenger): MethodChannel {
+            return MethodChannel(binaryMessenger, name).apply {
                 this.setMethodCallHandler(handler)
             }
         }

@@ -23,6 +23,7 @@ import com.bitmovin.player.api.source.SourceOptions
 import com.bitmovin.player.api.source.SourceType
 import com.bitmovin.player.api.ui.ScalingMode
 import com.bitmovin.player.api.ui.StyleConfig
+import com.bitmovin.player.drm.WidevineConfigMetadata
 
 class Helper {
     companion object {
@@ -54,8 +55,7 @@ class Helper {
             return null
         }
 
-        private fun buildWidevineConfig(params: Map<*, *>): WidevineConfig? {
-            // TODO: handle "prepareLicense" and "prepareMessage" of type Boolean
+        private fun buildWidevineConfig(params: Map<*, *>): WidevineConfig {
             val widevineConfig = WidevineConfig(
                 licenseUrl = params["licenseUrl"] as? String,
             )
@@ -71,6 +71,24 @@ class Helper {
                 ?.toMutableMap()
 
             return widevineConfig
+        }
+
+        /**
+         * Builds a [WidevineConfigMetadata] object from the given `params` that tells which
+         * callbacks of [WidevineConfig] are set on the Dart side.
+         *
+         * @param params The JSON data for [SourceConfig] or [Source].
+         */
+        fun buildWidevineConfigMetadata(params: Map<*, *>): WidevineConfigMetadata? {
+            val params = params["sourceConfig"] as? Map<*, *> ?: params
+
+            val drmConfig = params["drmConfig"] as? Map<*, *>
+            val widevineConfig = drmConfig?.get("widevine") as? Map<*, *> ?: return null
+
+            return WidevineConfigMetadata(
+                widevineConfig["prepareMessage"] as? Boolean ?: false,
+                widevineConfig["prepareLicense"] as? Boolean ?: false,
+            )
         }
 
         fun buildSourceConfigFromUrl(url: String): SourceConfig {
