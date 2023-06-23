@@ -48,11 +48,11 @@ class Helper {
         }
 
         private fun buildDrmConfig(params: Map<*, *>): DrmConfig? {
-            if (params["widevine"] is Map<*, *>) {
-                return buildWidevineConfig(params["widevine"] as Map<*, *>)
+            return if (params["widevine"] is Map<*, *>) {
+                buildWidevineConfig(params["widevine"] as Map<*, *>)
+            } else {
+                null
             }
-
-            return null
         }
 
         private fun buildWidevineConfig(params: Map<*, *>): WidevineConfig {
