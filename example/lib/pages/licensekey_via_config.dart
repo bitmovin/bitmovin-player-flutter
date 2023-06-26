@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:bitmovin_player/player.dart';
 import 'package:flutter/material.dart';
-import 'package:player_example/controls.dart';
+import 'package:bitmovin_player_example/controls.dart';
 
 class LicenseKeyViaConfig extends StatefulWidget {
   static String routeName = 'LicenseKeyViaConfig';

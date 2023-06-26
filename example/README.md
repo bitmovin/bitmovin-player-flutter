@@ -1,4 +1,4 @@
-# player_example
+# bitmovin_player_example
 
 Demonstrates how to use the player plugin.
 

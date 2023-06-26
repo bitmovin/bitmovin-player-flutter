@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:bitmovin_player/player.dart';
 import 'package:flutter/material.dart';
-import 'package:player_example/controls.dart';
+import 'package:bitmovin_player_example/controls.dart';
 
 class PlaybackWithConfig extends StatefulWidget {
   const PlaybackWithConfig({super.key});
