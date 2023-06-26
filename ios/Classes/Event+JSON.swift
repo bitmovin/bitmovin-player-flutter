@@ -171,11 +171,11 @@ extension SeekEvent {
             "from": [
                 "time": from.time,
                 "source": from.source.toJSON()
-            ],
+            ] as [String : Any],
             "to": [
                 "time": to.time,
                 "source": to.source.toJSON()
-            ]
+            ] as [String : Any]
         ]
     }
 }
