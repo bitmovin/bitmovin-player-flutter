@@ -1,4 +1,4 @@
-package com.bitmovin.core
+package com.bitmovin.player.flutter
 
 import android.os.Handler
 import android.os.Looper

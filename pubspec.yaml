@@ -30,7 +30,7 @@ flutter:
   plugin:
     platforms:
       android:
-        package: com.bitmovin
+        package: com.bitmovin.player.flutter
         pluginClass: PlayerPlugin
       ios:
         pluginClass: PlayerPlugin

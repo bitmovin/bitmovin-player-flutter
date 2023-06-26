@@ -1,9 +1,5 @@
-package com.bitmovin
+package com.bitmovin.player.flutter
 
-import com.bitmovin.core.Channels
-import com.bitmovin.core.data.Methods
-import com.bitmovin.player.PlayerMethod
-import com.bitmovin.player.PlayerViewFactory
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding

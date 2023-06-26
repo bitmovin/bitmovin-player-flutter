@@ -1,19 +1,13 @@
-package com.bitmovin.player
+package com.bitmovin.player.flutter
 
 import android.content.Context
-import com.bitmovin.ChannelManager
-import com.bitmovin.Helper
-import com.bitmovin.core.Channels
-import com.bitmovin.core.EventListener
-import com.bitmovin.core.PlayerPayload
-import com.bitmovin.core.data.Methods
 import com.bitmovin.player.api.Player
 import com.bitmovin.player.api.PlayerConfig
 import com.bitmovin.player.api.drm.WidevineConfig
 import com.bitmovin.player.api.source.Source
 import com.bitmovin.player.api.source.SourceConfig
-import com.bitmovin.player.drm.WidevineCallbacksHandler
-import com.bitmovin.player.drm.WidevineConfigMetadata
+import com.bitmovin.player.flutter.drm.WidevineCallbacksHandler
+import com.bitmovin.player.flutter.drm.WidevineConfigMetadata
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.EventChannel.StreamHandler

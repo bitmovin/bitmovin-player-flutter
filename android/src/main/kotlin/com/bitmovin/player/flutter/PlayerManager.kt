@@ -1,4 +1,4 @@
-package com.bitmovin.player
+package com.bitmovin.player.flutter
 
 import android.content.Context
 import android.util.ArrayMap

@@ -1,4 +1,4 @@
-package com.bitmovin.core
+package com.bitmovin.player.flutter
 
 import com.bitmovin.player.api.Player
 import com.bitmovin.player.api.event.PlayerEvent

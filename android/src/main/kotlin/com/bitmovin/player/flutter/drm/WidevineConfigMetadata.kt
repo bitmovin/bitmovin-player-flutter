@@ -1,3 +1,3 @@
-package com.bitmovin.player.drm
+package com.bitmovin.player.flutter.drm
 
 data class WidevineConfigMetadata(val hasPrepareMessage: Boolean, val hasPrepareLicense: Boolean)

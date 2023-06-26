@@ -1,6 +1,6 @@
 // Helper.kt
 // Created by Vijae Manlapaz
-package com.bitmovin
+package com.bitmovin.player.flutter
 
 import android.content.Context
 import android.content.Intent
@@ -10,7 +10,6 @@ import android.os.Build
 import android.provider.Settings
 import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
-import com.bitmovin.core.PlayerPayload
 import com.bitmovin.player.api.PlaybackConfig
 import com.bitmovin.player.api.PlayerConfig
 import com.bitmovin.player.api.SeekMode
@@ -23,7 +22,7 @@ import com.bitmovin.player.api.source.SourceOptions
 import com.bitmovin.player.api.source.SourceType
 import com.bitmovin.player.api.ui.ScalingMode
 import com.bitmovin.player.api.ui.StyleConfig
-import com.bitmovin.player.drm.WidevineConfigMetadata
+import com.bitmovin.player.flutter.drm.WidevineConfigMetadata
 
 class Helper {
     companion object {

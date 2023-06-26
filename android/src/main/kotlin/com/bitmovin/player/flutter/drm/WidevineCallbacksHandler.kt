@@ -1,11 +1,11 @@
-package com.bitmovin.player.drm
+package com.bitmovin.player.flutter.drm
 
 import android.util.Base64
-import com.bitmovin.core.data.Methods
-import com.bitmovin.core.runOnMainThread
 import com.bitmovin.player.api.drm.PrepareLicenseCallback
 import com.bitmovin.player.api.drm.PrepareMessageCallback
 import com.bitmovin.player.api.drm.WidevineConfig
+import com.bitmovin.player.flutter.Methods
+import com.bitmovin.player.flutter.runOnMainThread
 import io.flutter.plugin.common.MethodChannel
 import java.util.concurrent.locks.ReentrantLock
 import kotlin.concurrent.withLock
