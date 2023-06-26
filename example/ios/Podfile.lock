@@ -24,7 +24,7 @@ EXTERNAL SOURCES:
     :path: Flutter
 
 SPEC CHECKSUMS:
-  bitmovin_player: 3b855fe6b7bad00773a49e0905522ebdd7e7b755
+  bitmovin_player: 32bd4524e2409f0a126c49cc86c96ce0ed28069b
   BitmovinPlayer: 57266ccab7d2fbc15144b422e4b0137c7dc373dc
   BitmovinPlayerCore: f53717bbedf58ce9b34b0c257a93c5ddd2869e99
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
