@@ -382,11 +382,19 @@ extension SubtitleChangedEvent {
 
 extension VideoDownloadQualityChangedEvent {
     func toJSON() -> [String: Any] {
-        [
-            "newVideoQuality": Helper.toJson(videoQuality: videoQualityNew),
-            "oldVideoQuality": Helper.toJson(videoQuality: videoQualityOld),
+        var result: [String: Any] = [
             "event": name,
             "timestamp": Int(timestamp)
         ]
+
+        if let videoQualityNew {
+            result["newVideoQuality"] = Helper.toJson(videoQuality: videoQualityNew)
+        }
+
+        if let videoQualityOld {
+            result["oldVideoQuality"] = Helper.toJson(videoQuality: videoQualityOld)
+        }
+
+        return result
     }
 }

@@ -442,17 +442,19 @@ public class Helper {
      - Parameter videoQuality `VideoQuality` object to be converted.
      - Returns: The produced JS object.
      */
-    static func toJson(videoQuality: VideoQuality?) -> [String: Any?]? {
-        guard let videoQuality = videoQuality else {
-            return nil
-        }
-        return [
+    static func toJson(videoQuality: VideoQuality) -> [String: Any] {
+        var result: [String: Any] = [
             "id": videoQuality.identifier,
             "label": videoQuality.label,
             "height": videoQuality.height,
             "width": videoQuality.width,
-            "codec": videoQuality.codec,
             "bitrate": videoQuality.bitrate
         ]
+
+        if let codec = videoQuality.codec {
+            result["codec"] = codec
+        }
+
+        return result
     }
 }
