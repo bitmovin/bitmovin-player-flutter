@@ -327,12 +327,17 @@ extension AudioRemovedEvent {
 
 extension AudioChangedEvent {
     func toJSON() -> [String: Any] {
-        [
+        var result: [String: Any] = [
             "event": name,
             "timestamp": Int(timestamp),
-            "oldAudioTrack": Helper.audioTrackJson(audioTrackOld),
             "newAudioTrack": Helper.audioTrackJson(audioTrackNew)
         ]
+
+        if let audioTrackOld {
+            result["oldAudioTrack"] = Helper.audioTrackJson(audioTrackOld)
+        }
+
+        return result
     }
 }
 
@@ -358,12 +363,20 @@ extension SubtitleRemovedEvent {
 
 extension SubtitleChangedEvent {
     func toJSON() -> [String: Any] {
-        [
+        var result: [String: Any] = [
             "event": name,
-            "timestamp": Int(timestamp),
-            "oldSubtitleTrack": Helper.subtitleTrackJson(subtitleTrackOld),
-            "newSubtitleTrack": Helper.subtitleTrackJson(subtitleTrackNew)
+            "timestamp": Int(timestamp)
         ]
+
+        if let subtitleTrackOld {
+            result["oldSubtitleTrack"] = Helper.subtitleTrackJson(subtitleTrackOld)
+        }
+
+        if let subtitleTrackNew {
+            result["newSubtitleTrack"] = Helper.subtitleTrackJson(subtitleTrackNew)
+        }
+
+        return result
     }
 }
 

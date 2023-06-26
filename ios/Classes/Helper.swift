@@ -409,11 +409,8 @@ public class Helper {
      - Parameter audioTrack: The track to convert to json format.
      - Returns: The generated json dictionary.
      */
-    static func audioTrackJson(_ audioTrack: AudioTrack?) -> [AnyHashable: Any]? {
-        guard let audioTrack = audioTrack else {
-            return nil
-        }
-        return [
+    static func audioTrackJson(_ audioTrack: AudioTrack) -> [AnyHashable: Any] {
+        [
             "url": audioTrack.url?.absoluteString ?? "",
             "label": audioTrack.label,
             "isDefault": audioTrack.isDefaultTrack,
@@ -483,12 +480,8 @@ public class Helper {
      - Parameter subtitleTrack: The track to convert to json format.
      - Returns: The generated json dictionary.
      */
-    static func subtitleTrackJson(_ subtitleTrack: SubtitleTrack?) -> [AnyHashable: Any]? {
-        guard let subtitleTrack else {
-            return nil
-        }
-
-        return [
+    static func subtitleTrackJson(_ subtitleTrack: SubtitleTrack) -> [AnyHashable: Any] {
+        [
             "url": subtitleTrack.url?.absoluteString ?? "",
             "label": subtitleTrack.label,
             "isDefault": subtitleTrack.isDefaultTrack,
