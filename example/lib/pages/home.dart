@@ -14,7 +14,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Bitmovin Sample'),
+        title: const Text('Bitmovin Player Demo'),
       ),
       body: SizedBox(
         width: MediaQuery.of(context).size.width,

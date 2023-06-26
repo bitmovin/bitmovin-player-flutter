@@ -1,6 +1,6 @@
 # bitmovin_player_example
 
-Demonstrates how to use the player plugin.
+Demonstrates how to use the Bitmovin Player Flutter SDK.
 
 ## Getting Started
 
