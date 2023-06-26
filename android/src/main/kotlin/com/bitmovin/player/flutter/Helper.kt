@@ -1,5 +1,3 @@
-// Helper.kt
-// Created by Vijae Manlapaz
 package com.bitmovin.player.flutter
 
 import android.content.Context
