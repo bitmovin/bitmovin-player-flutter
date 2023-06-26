@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:bitmovin_sdk/player.dart';
+import 'package:bitmovin_player/player.dart';
 import 'package:flutter/material.dart';
 import 'package:player_example/controls.dart';
 

@@ -1,13 +1,13 @@
-import 'package:bitmovin_sdk/src/api/player/player_config.dart';
-import 'package:bitmovin_sdk/src/api/source/source.dart';
-import 'package:bitmovin_sdk/src/api/source_config.dart';
-import 'package:bitmovin_sdk/src/channel_manager.dart';
-import 'package:bitmovin_sdk/src/channels.dart';
-import 'package:bitmovin_sdk/src/drm/fairplay_handler.dart';
-import 'package:bitmovin_sdk/src/drm/widevine_handler.dart';
-import 'package:bitmovin_sdk/src/interfaces/player_event_interface.dart';
-import 'package:bitmovin_sdk/src/methods.dart';
-import 'package:bitmovin_sdk/src/player_event_listener.dart';
+import 'package:bitmovin_player/src/api/player/player_config.dart';
+import 'package:bitmovin_player/src/api/source/source.dart';
+import 'package:bitmovin_player/src/api/source_config.dart';
+import 'package:bitmovin_player/src/channel_manager.dart';
+import 'package:bitmovin_player/src/channels.dart';
+import 'package:bitmovin_player/src/drm/fairplay_handler.dart';
+import 'package:bitmovin_player/src/drm/widevine_handler.dart';
+import 'package:bitmovin_player/src/interfaces/player_event_interface.dart';
+import 'package:bitmovin_player/src/methods.dart';
+import 'package:bitmovin_player/src/player_event_listener.dart';
 import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
 

@@ -3,7 +3,7 @@
 # Run `pod lib lint player.podspec` to validate before publishing.
 #
 Pod::Spec.new do |s|
-  s.name             = 'bitmovin_sdk'
+  s.name             = 'bitmovin_player'
   s.version          = '0.0.1'
   s.summary          = 'Bitmovin Player Flutter plugin'
   s.description      = <<-DESC

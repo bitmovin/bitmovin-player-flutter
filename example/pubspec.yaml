@@ -10,7 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  bitmovin_sdk:
+  bitmovin_player:
     path: ../
 
   cupertino_icons: ^1.0.2

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:player_example/controls.dart';
 
-import 'package:bitmovin_sdk/player.dart';
+import 'package:bitmovin_player/player.dart';
 
 class DrmPlayback extends StatefulWidget {
   static String routeName = 'DrmPlayback';

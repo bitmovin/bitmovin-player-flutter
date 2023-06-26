@@ -1,4 +1,4 @@
-import 'package:bitmovin_sdk/src/api/ui/scaling_mode.dart';
+import 'package:bitmovin_player/src/api/ui/scaling_mode.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 

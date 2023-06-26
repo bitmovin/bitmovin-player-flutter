@@ -1,5 +1,5 @@
-import 'package:bitmovin_sdk/src/api/media/media_filter.dart';
-import 'package:bitmovin_sdk/src/api/seek_mode.dart';
+import 'package:bitmovin_player/src/api/media/media_filter.dart';
+import 'package:bitmovin_player/src/api/seek_mode.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
