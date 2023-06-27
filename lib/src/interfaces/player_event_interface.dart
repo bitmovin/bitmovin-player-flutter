@@ -49,9 +49,10 @@ abstract class PlayerEventsInterface {
   set onReady(void Function(ReadyEvent data) func);
 }
 
+/// @nodoc
 abstract class PlayerInterface {
-  Future<void> loadWithSource(Source source);
-  Future<void> loadWithSourceConfig(SourceConfig sourceConfig);
+  Future<void> loadSource(Source source);
+  Future<void> loadSourceConfig(SourceConfig sourceConfig);
   Future<void> play();
   Future<void> pause();
   Future<void> mute();

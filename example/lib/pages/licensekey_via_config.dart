@@ -45,7 +45,7 @@ class _LicenseKeyViaConfigState extends State<LicenseKeyViaConfig> {
         children: [
           Controls(
             onLoadPressed: () {
-              _player.loadWithSourceConfig(sourceConfig);
+              _player.loadSourceConfig(sourceConfig);
             },
             onPlayPressed: () => _player.play(),
             onPausePressed: () => _player.pause(),

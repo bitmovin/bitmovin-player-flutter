@@ -107,7 +107,7 @@ class _DrmPlaybackState extends State<DrmPlayback> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Controls(
-            onLoadPressed: () => _player.loadWithSourceConfig(sourceConfig),
+            onLoadPressed: () => _player.loadSourceConfig(sourceConfig),
             onPlayPressed: () => _player.play(),
             onPausePressed: () => _player.pause(),
             onMutePressed: () => _player.mute(),

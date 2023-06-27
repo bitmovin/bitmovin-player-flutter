@@ -46,7 +46,7 @@ class _BasicPlayerOnlyState extends State<BasicPlayerOnly> {
         children: [
           Controls(
             onLoadPressed: () {
-              _player.loadWithSourceConfig(sourceConfig);
+              _player.loadSourceConfig(sourceConfig);
             },
             onPlayPressed: () => _player.play(),
             onPausePressed: () => _player.pause(),
