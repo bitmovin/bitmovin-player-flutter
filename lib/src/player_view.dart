@@ -10,6 +10,7 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
+/// @nodoc
 typedef PlayerCallback = void Function();
 
 class PlayerView extends StatefulWidget {
