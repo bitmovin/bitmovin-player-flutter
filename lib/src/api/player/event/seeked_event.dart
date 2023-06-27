@@ -4,6 +4,8 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'seeked_event.g.dart';
 
+/// Emitted when seeking has finished and data is available to continue
+/// playback. Only applies to VoD streams.
 @JsonSerializable(explicitToJson: true)
 class SeekedEvent extends Event with EquatableMixin {
   const SeekedEvent({
