@@ -7,9 +7,9 @@ part of 'warning_event.dart';
 // **************************************************************************
 
 WarningEvent _$WarningEventFromJson(Map<String, dynamic> json) => WarningEvent(
+      timestamp: json['timestamp'] as int?,
       code: json['code'] as int,
       message: json['message'] as String?,
-      timestamp: json['timestamp'] as int?,
     );
 
 Map<String, dynamic> _$WarningEventToJson(WarningEvent instance) =>

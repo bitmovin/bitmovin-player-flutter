@@ -1,16 +1,18 @@
+import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:bitmovin_player/src/api/event.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'warning_event.g.dart';
 
-/// Emitted when a warning occurred.
+/// The common supertype implemented by all different warning events that are
+/// emitted by the [Player] or [Source].
 @JsonSerializable(explicitToJson: true)
 class WarningEvent extends Event with EquatableMixin {
   const WarningEvent({
+    required super.timestamp,
     required this.code,
     this.message,
-    super.timestamp,
   });
 
   factory WarningEvent.fromJson(Map<String, dynamic> json) {

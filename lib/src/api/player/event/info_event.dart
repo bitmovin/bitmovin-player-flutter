@@ -13,6 +13,7 @@ class InfoEvent extends Event with EquatableMixin {
     required super.timestamp,
     this.message,
   });
+
   factory InfoEvent.fromJson(Map<String, dynamic> json) {
     return _$InfoEventFromJson(json);
   }

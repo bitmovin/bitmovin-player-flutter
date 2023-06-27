@@ -8,9 +8,9 @@ part of 'source_error_event.dart';
 
 SourceErrorEvent _$SourceErrorEventFromJson(Map<String, dynamic> json) =>
     SourceErrorEvent(
+      timestamp: json['timestamp'] as int?,
       code: json['code'] as int,
       message: json['message'] as String?,
-      timestamp: json['timestamp'] as int?,
     );
 
 Map<String, dynamic> _$SourceErrorEventToJson(SourceErrorEvent instance) =>
