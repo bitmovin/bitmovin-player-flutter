@@ -129,12 +129,12 @@ class Helper {
             )
         }
 
-        fun buildPlayerConfig(params: Map<*, *>?): PlayerConfig? {
+        fun buildPlayerConfig(params: Map<String, Any>?): PlayerConfig? {
             return params?.let {
-                val styleConfig = params["styleConfig"] as Map<*, *>
-                val buildPlaybackConfig = params["playbackConfig"] as Map<*, *>
+                val styleConfig = it["styleConfig"] as Map<*, *>
+                val buildPlaybackConfig = it["playbackConfig"] as Map<*, *>
                 return PlayerConfig(
-                    key = params["key"] as String?,
+                    key = it["key"] as String?,
                     styleConfig = buildStyleConfig(styleConfig),
                     playbackConfig = buildPlaybackConfig(buildPlaybackConfig),
                 )

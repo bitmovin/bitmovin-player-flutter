@@ -25,9 +25,15 @@ class PlayerPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
     override fun onMethodCall(call: MethodCall, result: Result) {
         when (call.method) {
             Methods.CREATE_PLAYER -> {
-                val id = ((call.arguments as Map<*, *>)["id"]) as String
-                val config = ((call.arguments as Map<*, *>)["playerConfig"]) as Map<*, *>?
+                val id = call.argument<String>("id")
+                if (id == null) {
+                    result.success(false)
+                    return
+                }
+
+                val config = call.argument<Map<String, Any>>("playerConfig")
                 val playerConfig = Helper.buildPlayerConfig(config)
+
                 flutterPluginBindingReference.get()?.let {
                     PlayerMethod(
                         it.applicationContext,
@@ -35,9 +41,11 @@ class PlayerPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
                         it.binaryMessenger,
                         playerConfig,
                     )
+
                     result.success(true)
-                    return
+                    return@onMethodCall
                 }
+
                 result.success(false)
             }
         }
