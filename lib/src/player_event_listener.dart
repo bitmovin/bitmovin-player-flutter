@@ -1,260 +1,217 @@
 import 'dart:convert';
-import 'package:bitmovin_player/bitmovin_player.dart';
 
-typedef Callback<T> = void Function(T data);
+import 'package:bitmovin_player/bitmovin_player.dart';
+import 'package:bitmovin_player/src/api/event.dart';
+import 'package:logger/logger.dart';
 
 mixin PlayerEventListener implements PlayerEventsInterface {
-  Callback<SourceErrorEvent>? _onSourceError;
-  Callback<SourceWarningEvent>? _onSourceWarning;
-  Callback<SourceInfoEvent>? _onSourceInfo;
-  Callback<SourceLoadEvent>? _onSourceLoad;
-  Callback<SourceLoadedEvent>? _onSourceLoaded;
-  Callback<SourceUnloadedEvent>? _onSourceUnloaded;
-  Callback<SourceAddedEvent>? _onSourceAdded;
-  Callback<SourceRemovedEvent>? _onSourceRemoved;
+  final Logger _logger = Logger();
+  final Map<String, void Function(Event)> _eventListeners = {};
 
-  Callback<PlayEvent>? _onPlay;
-  Callback<PlayingEvent>? _onPlaying;
-  Callback<TimeChangedEvent>? _onTimeChanged;
-  Callback<PausedEvent>? _onPaused;
-  Callback<MutedEvent>? _onMuted;
-  Callback<UnmutedEvent>? _onUnmuted;
-  Callback<SeekEvent>? _onSeek;
-  Callback<SeekedEvent>? _onSeeked;
-  Callback<PlaybackFinishedEvent>? _onPlaybackFinished;
-  Callback<ReadyEvent>? _onReady;
-  Callback<ErrorEvent>? _onError;
-  Callback<WarningEvent>? _onWarning;
-  Callback<InfoEvent>? _onInfo;
+  /// Takes an [Event] and emits it to the corresponding event listener.
+  void emit(Event event) {
+    final listener = _eventListeners[event.runtimeType.toString()];
+    listener?.call(event);
+  }
 
+  /// Takes an event as JSON that was received from the native platform,
+  /// deserializes it to a typed event object and emits it to the corresponding
+  /// event listener.
   void onEvent(dynamic event) {
+    // TODO(mario): debug all runtime occurrences of the logged errors.
     if (event == null) {
-      // TODO(mario): log error and debug all runtime occurrences as
-      // this should not happen.
+      _logger.e('received event is null');
       return;
     }
 
     final target = jsonDecode(event as String) as Map<String, dynamic>;
 
     if (target['data'] == null || target['data'] is! String) {
-      // TODO(mario): log error and debug all runtime occurrences as
-      // this should not happen.
+      _logger.e('Could not find valid JSON data');
       return;
     }
 
     final data = jsonDecode(target['data'] as String) as Map<String, dynamic>?;
+    if (data == null) {
+      _logger.e('Could not parse JSON data');
+      return;
+    }
 
     switch (target['event']) {
       case 'onSourceAdded':
-        if (data != null) {
-          _onSourceAdded?.call(SourceAddedEvent.fromJson(data));
-        }
+        emit(SourceAddedEvent.fromJson(data));
         break;
       case 'onSourceRemoved':
-        if (data != null) {
-          _onSourceRemoved?.call(SourceRemovedEvent.fromJson(data));
-        }
+        emit(SourceRemovedEvent.fromJson(data));
         break;
       case 'onSourceLoad':
-        if (data != null) {
-          _onSourceLoad?.call(SourceLoadEvent.fromJson(data));
-        }
+        emit(SourceLoadEvent.fromJson(data));
         break;
       case 'onSourceLoaded':
-        if (data != null) {
-          _onSourceLoaded?.call(SourceLoadedEvent.fromJson(data));
-        }
+        emit(SourceLoadedEvent.fromJson(data));
         break;
       case 'onSourceUnloaded':
-        if (data != null) {
-          _onSourceUnloaded?.call(SourceUnloadedEvent.fromJson(data));
-        }
+        emit(SourceUnloadedEvent.fromJson(data));
         break;
       case 'onSourceWarning':
-        if (data != null) {
-          _onSourceWarning?.call(SourceWarningEvent.fromJson(data));
-        }
+        emit(SourceWarningEvent.fromJson(data));
         break;
       case 'onSourceError':
-        if (data != null) {
-          _onSourceError?.call(SourceErrorEvent.fromJson(data));
-        }
+        emit(SourceErrorEvent.fromJson(data));
         break;
       case 'onSourceInfo':
-        if (data != null) {
-          _onSourceInfo?.call(SourceInfoEvent.fromJson(data));
-        }
+        emit(SourceInfoEvent.fromJson(data));
         break;
       case 'onTimeChanged':
-        if (data != null) {
-          _onTimeChanged?.call(TimeChangedEvent.fromJson(data));
-        }
+        emit(TimeChangedEvent.fromJson(data));
         break;
       case 'onPlay':
-        if (data != null) {
-          _onPlay?.call(PlayEvent.fromJson(data));
-        }
+        emit(PlayEvent.fromJson(data));
         break;
       case 'onPlaying':
-        if (data != null) {
-          _onPlaying?.call(PlayingEvent.fromJson(data));
-        }
+        emit(PlayingEvent.fromJson(data));
         break;
       case 'onPaused':
-        if (data != null) {
-          _onPaused?.call(PausedEvent.fromJson(data));
-        }
+        emit(PausedEvent.fromJson(data));
         break;
       case 'onMuted':
-        if (data != null) {
-          _onMuted?.call(MutedEvent.fromJson(data));
-        }
+        emit(MutedEvent.fromJson(data));
         break;
       case 'onUnmuted':
-        if (data != null) {
-          _onUnmuted?.call(UnmutedEvent.fromJson(data));
-        }
+        emit(UnmutedEvent.fromJson(data));
         break;
       case 'onSeeked':
-        if (data != null) {
-          _onSeeked?.call(SeekedEvent.fromJson(data));
-        }
+        emit(SeekedEvent.fromJson(data));
         break;
       case 'onSeek':
-        if (data != null) {
-          _onSeek?.call(SeekEvent.fromJson(data));
-        }
+        emit(SeekEvent.fromJson(data));
         break;
       case 'onPlaybackFinished':
-        if (data != null) {
-          _onPlaybackFinished?.call(PlaybackFinishedEvent.fromJson(data));
-        }
+        emit(PlaybackFinishedEvent.fromJson(data));
         break;
       case 'onPlayerError':
-        if (data != null) {
-          _onError?.call(ErrorEvent.fromJson(data));
-        }
+        emit(ErrorEvent.fromJson(data));
         break;
       case 'onPlayerInfo':
-        if (data != null) {
-          _onInfo?.call(InfoEvent.fromJson(data));
-        }
+        emit(InfoEvent.fromJson(data));
         break;
       case 'onPlayerWarning':
-        if (data != null) {
-          _onWarning?.call(WarningEvent.fromJson(data));
-        }
+        emit(WarningEvent.fromJson(data));
         break;
       case 'onReady':
-        if (data != null) {
-          _onReady?.call(ReadyEvent.fromJson(data));
-        }
+        emit(ReadyEvent.fromJson(data));
         break;
     }
   }
 
-  @override
-  set onTimeChanged(void Function(TimeChangedEvent data) func) {
-    _onTimeChanged = func;
+  void _setListener<T>(void Function(T) listener) {
+    _eventListeners[T.toString()] = (Event event) {
+      listener(event as T);
+    };
   }
 
   @override
-  set onSourceLoad(void Function(SourceLoadEvent data) func) {
-    _onSourceLoad = func;
+  set onTimeChanged(void Function(TimeChangedEvent) func) {
+    _setListener(func);
   }
 
   @override
-  set onSourceLoaded(void Function(SourceLoadedEvent data) func) {
-    _onSourceLoaded = func;
+  set onSourceLoad(void Function(SourceLoadEvent) func) {
+    _setListener(func);
   }
 
   @override
-  set onSourceUnloaded(void Function(SourceUnloadedEvent data) func) {
-    _onSourceUnloaded = func;
+  set onSourceLoaded(void Function(SourceLoadedEvent) func) {
+    _setListener(func);
   }
 
   @override
-  set onPlay(void Function(PlayEvent data) func) {
-    _onPlay = func;
+  set onSourceUnloaded(void Function(SourceUnloadedEvent) func) {
+    _setListener(func);
   }
 
   @override
-  set onPlaying(void Function(PlayingEvent data) func) {
-    _onPlaying = func;
+  set onPlay(void Function(PlayEvent) func) {
+    _setListener(func);
   }
 
   @override
-  set onPaused(void Function(PausedEvent data) func) {
-    _onPaused = func;
+  set onPlaying(void Function(PlayingEvent) func) {
+    _setListener(func);
   }
 
   @override
-  set onMuted(void Function(MutedEvent data) func) {
-    _onMuted = func;
+  set onPaused(void Function(PausedEvent) func) {
+    _setListener(func);
   }
 
   @override
-  set onUnmuted(void Function(UnmutedEvent data) func) {
-    _onUnmuted = func;
+  set onMuted(void Function(MutedEvent) func) {
+    _setListener(func);
   }
 
   @override
-  set onSourceAdded(void Function(SourceAddedEvent data) func) {
-    _onSourceAdded = func;
+  set onUnmuted(void Function(UnmutedEvent) func) {
+    _setListener(func);
   }
 
   @override
-  set onSourceRemoved(void Function(SourceRemovedEvent data) func) {
-    _onSourceRemoved = func;
+  set onSourceAdded(void Function(SourceAddedEvent) func) {
+    _setListener(func);
   }
 
   @override
-  set onSeek(void Function(SeekEvent data) func) {
-    _onSeek = func;
+  set onSourceRemoved(void Function(SourceRemovedEvent) func) {
+    _setListener(func);
   }
 
   @override
-  set onSeeked(void Function(SeekedEvent data) func) {
-    _onSeeked = func;
+  set onSeek(void Function(SeekEvent) func) {
+    _setListener(func);
   }
 
   @override
-  set onPlaybackFinished(void Function(PlaybackFinishedEvent data) func) {
-    _onPlaybackFinished = func;
+  set onSeeked(void Function(SeekedEvent) func) {
+    _setListener(func);
   }
 
   @override
-  set onSourceWarning(void Function(SourceWarningEvent data) func) {
-    _onSourceWarning = func;
+  set onPlaybackFinished(void Function(PlaybackFinishedEvent) func) {
+    _setListener(func);
   }
 
   @override
-  set onSourceError(void Function(SourceErrorEvent data) func) {
-    _onSourceError = func;
+  set onSourceWarning(void Function(SourceWarningEvent) func) {
+    _setListener(func);
   }
 
   @override
-  set onSourceInfo(void Function(SourceInfoEvent data) func) {
-    _onSourceInfo = func;
+  set onSourceError(void Function(SourceErrorEvent) func) {
+    _setListener(func);
   }
 
   @override
-  set onError(void Function(ErrorEvent data) func) {
-    _onError = func;
+  set onSourceInfo(void Function(SourceInfoEvent) func) {
+    _setListener(func);
   }
 
   @override
-  set onInfo(void Function(InfoEvent data) func) {
-    _onInfo = func;
+  set onError(void Function(ErrorEvent) func) {
+    _setListener(func);
   }
 
   @override
-  set onWarning(void Function(WarningEvent data) func) {
-    _onWarning = func;
+  set onInfo(void Function(InfoEvent) func) {
+    _setListener(func);
   }
 
   @override
-  set onReady(void Function(ReadyEvent data) func) {
-    _onReady = func;
+  set onWarning(void Function(WarningEvent) func) {
+    _setListener(func);
+  }
+
+  @override
+  set onReady(void Function(ReadyEvent) func) {
+    _setListener(func);
   }
 }
