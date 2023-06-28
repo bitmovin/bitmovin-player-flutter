@@ -21,12 +21,18 @@ class _LicenseKeyViaConfigState extends State<LicenseKeyViaConfig> {
   );
 
   final _player = Player(
-    const PlayerConfig(
+    config: const PlayerConfig(
       key: '***REMOVED***',
     ),
   );
 
   String eventData = "";
+
+  @override
+  void initState() {
+    _player.loadSourceConfig(sourceConfig);
+    super.initState();
+  }
 
   @override
   void dispose() {

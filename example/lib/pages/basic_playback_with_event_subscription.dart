@@ -165,6 +165,7 @@ class _BasicPlaybackWithEventSubscriptionState
   @override
   void initState() {
     listen();
+    _player.loadSourceConfig(sourceConfig);
     super.initState();
   }
 

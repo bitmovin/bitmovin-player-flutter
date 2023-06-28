@@ -20,13 +20,19 @@ class PlaybackWithConfigState extends State<PlaybackWithConfig> {
     type: Platform.isAndroid ? SourceType.dash : SourceType.hls,
   );
   final _player = Player(
-    const PlayerConfig(
+    config: const PlayerConfig(
       playbackConfig: PlaybackConfig(
         isAutoplayEnabled: true,
         isMuted: true,
       ),
     ),
   );
+
+  @override
+  void initState() {
+    _player.loadSourceConfig(sourceConfig);
+    super.initState();
+  }
 
   @override
   void dispose() {
