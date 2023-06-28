@@ -1,5 +1,5 @@
-name: player_example
-description: Demonstrates how to use the player plugin.
+name: bitmovin_player_example
+description: Demonstrates how to use the Bitmovin Player Flutter SDK.
 version: 0.0.1
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
@@ -10,7 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  bitmovin_sdk:
+  bitmovin_player:
     path: ../
 
   cupertino_icons: ^1.0.2

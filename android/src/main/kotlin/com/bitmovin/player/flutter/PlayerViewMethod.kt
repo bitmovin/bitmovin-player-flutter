@@ -1,9 +1,8 @@
-package com.bitmovin.player
+package com.bitmovin.player.flutter
 
 import android.content.Context
 import android.view.View
-import com.bitmovin.core.Channels
-import com.bitmovin.core.data.Methods
+import com.bitmovin.player.PlayerView
 import com.bitmovin.player.api.Player
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.MethodCall

@@ -1,9 +1,9 @@
 import 'dart:io';
 
-import 'package:bitmovin_sdk/src/channel_manager.dart';
-import 'package:bitmovin_sdk/src/channels.dart';
-import 'package:bitmovin_sdk/src/methods.dart';
-import 'package:bitmovin_sdk/src/player.dart';
+import 'package:bitmovin_player/src/channel_manager.dart';
+import 'package:bitmovin_player/src/channels.dart';
+import 'package:bitmovin_player/src/methods.dart';
+import 'package:bitmovin_player/src/player.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';

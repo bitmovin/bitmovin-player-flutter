@@ -1,6 +1,6 @@
-import 'package:bitmovin_sdk/src/api/licensing_config.dart';
-import 'package:bitmovin_sdk/src/api/playback_config.dart';
-import 'package:bitmovin_sdk/src/api/style_config.dart';
+import 'package:bitmovin_player/src/api/licensing_config.dart';
+import 'package:bitmovin_player/src/api/playback_config.dart';
+import 'package:bitmovin_player/src/api/style_config.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 

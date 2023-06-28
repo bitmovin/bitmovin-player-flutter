@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:player_example/pages/basic_playback.dart';
-import 'package:player_example/pages/basic_playback_with_event_subscription.dart';
-import 'package:player_example/pages/basic_player_only.dart';
-import 'package:player_example/pages/drm_playback.dart';
+import 'package:bitmovin_player_example/pages/basic_playback.dart';
+import 'package:bitmovin_player_example/pages/basic_playback_with_event_subscription.dart';
+import 'package:bitmovin_player_example/pages/basic_player_only.dart';
+import 'package:bitmovin_player_example/pages/drm_playback.dart';
 // TODO(mario): rename
-import 'package:player_example/pages/licensekey_via_config.dart';
+import 'package:bitmovin_player_example/pages/licensekey_via_config.dart';
 
 class Home extends StatelessWidget {
   static String routeName = 'Home';
@@ -14,7 +14,7 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Bitmovin Sample'),
+        title: const Text('Bitmovin Player Demo'),
       ),
       body: SizedBox(
         width: MediaQuery.of(context).size.width,

@@ -1,5 +1,5 @@
-import 'package:bitmovin_sdk/src/api/drm/widevine_config.dart';
-import 'package:bitmovin_sdk/src/methods.dart';
+import 'package:bitmovin_player/src/api/drm/widevine_config.dart';
+import 'package:bitmovin_player/src/methods.dart';
 import 'package:flutter/services.dart';
 
 class WidevineHandler {

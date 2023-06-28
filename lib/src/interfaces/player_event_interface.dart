@@ -1,9 +1,9 @@
 // ignore_for_file: avoid_setters_without_getters
 
-import 'package:bitmovin_sdk/src/api/player_event.dart';
-import 'package:bitmovin_sdk/src/api/source/source.dart';
-import 'package:bitmovin_sdk/src/api/source_config.dart';
-import 'package:bitmovin_sdk/src/api/source_event.dart';
+import 'package:bitmovin_player/src/api/player_event.dart';
+import 'package:bitmovin_player/src/api/source/source.dart';
+import 'package:bitmovin_player/src/api/source_config.dart';
+import 'package:bitmovin_player/src/api/source_event.dart';
 
 abstract class PlayerEventsInterface {
   set onSourceAdded(void Function(SourceAddedEvent data) func);

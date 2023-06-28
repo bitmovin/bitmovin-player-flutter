@@ -21,9 +21,9 @@ Supported Platform
 
 # Installation
 
-Run the following command to install **bitmovin_sdk**
+Run the following command to install **bitmovin_player**
 
-`flutter pub add bitmovin_sdk`
+`flutter pub add bitmovin_player`
 
 </br>
 

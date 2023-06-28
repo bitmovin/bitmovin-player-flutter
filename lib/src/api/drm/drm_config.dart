@@ -1,5 +1,5 @@
-import 'package:bitmovin_sdk/src/api/drm/fairplay_config.dart';
-import 'package:bitmovin_sdk/src/api/drm/widevine_config.dart';
+import 'package:bitmovin_player/src/api/drm/fairplay_config.dart';
+import 'package:bitmovin_player/src/api/drm/widevine_config.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 

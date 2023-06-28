@@ -3,7 +3,7 @@
 # Run `pod lib lint player.podspec` to validate before publishing.
 #
 Pod::Spec.new do |s|
-  s.name             = 'bitmovin_sdk'
+  s.name             = 'bitmovin_player'
   s.version          = '0.0.1'
   s.summary          = 'Bitmovin Player Flutter plugin'
   s.description      = <<-DESC
@@ -11,11 +11,11 @@ Flutter plugin for Bitmovin Player.
                        DESC
   s.homepage         = 'https://bitmovin.com'
   s.license          = { :file => '../LICENSE' }
-  s.author           = { 'Bitmovin Inc.' => 'hardknockrabbit@gmail.com' }
+  s.author           = { 'Bitmovin' => 'support@bitmovin.com' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
-  s.platform = :ios, '9.0'
+  s.platform = :ios, '14.0'
 
   s.dependency 'BitmovinPlayer'
 

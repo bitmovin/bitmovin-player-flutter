@@ -1,4 +1,4 @@
-package com.bitmovin.core.data
+package com.bitmovin.player.flutter
 
 class Methods {
     companion object {

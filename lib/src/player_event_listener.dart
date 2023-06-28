@@ -1,8 +1,8 @@
 import 'dart:convert';
 
-import 'package:bitmovin_sdk/src/api/player_event.dart';
-import 'package:bitmovin_sdk/src/api/source_event.dart';
-import 'package:bitmovin_sdk/src/interfaces/player_event_interface.dart';
+import 'package:bitmovin_player/src/api/player_event.dart';
+import 'package:bitmovin_player/src/api/source_event.dart';
+import 'package:bitmovin_player/src/interfaces/player_event_interface.dart';
 
 typedef Callback<T> = void Function(T data);
 

@@ -1,32 +1,32 @@
 // ignore_for_file: non_constant_identifier_names
 
-import 'package:bitmovin_sdk/src/api/player/event/error_event.dart';
-import 'package:bitmovin_sdk/src/api/player/event/info_event.dart';
-import 'package:bitmovin_sdk/src/api/player/event/muted_event.dart';
-import 'package:bitmovin_sdk/src/api/player/event/paused_event.dart';
-import 'package:bitmovin_sdk/src/api/player/event/play_event.dart';
-import 'package:bitmovin_sdk/src/api/player/event/playback_finished_event.dart';
-import 'package:bitmovin_sdk/src/api/player/event/playing_event.dart';
-import 'package:bitmovin_sdk/src/api/player/event/ready_event.dart';
-import 'package:bitmovin_sdk/src/api/player/event/seek_event.dart';
-import 'package:bitmovin_sdk/src/api/player/event/seeked_event.dart';
-import 'package:bitmovin_sdk/src/api/player/event/time_changed_event.dart';
-import 'package:bitmovin_sdk/src/api/player/event/unmuted_event.dart';
-import 'package:bitmovin_sdk/src/api/player/event/warning_event.dart';
+import 'package:bitmovin_player/src/api/player/event/error_event.dart';
+import 'package:bitmovin_player/src/api/player/event/info_event.dart';
+import 'package:bitmovin_player/src/api/player/event/muted_event.dart';
+import 'package:bitmovin_player/src/api/player/event/paused_event.dart';
+import 'package:bitmovin_player/src/api/player/event/play_event.dart';
+import 'package:bitmovin_player/src/api/player/event/playback_finished_event.dart';
+import 'package:bitmovin_player/src/api/player/event/playing_event.dart';
+import 'package:bitmovin_player/src/api/player/event/ready_event.dart';
+import 'package:bitmovin_player/src/api/player/event/seek_event.dart';
+import 'package:bitmovin_player/src/api/player/event/seeked_event.dart';
+import 'package:bitmovin_player/src/api/player/event/time_changed_event.dart';
+import 'package:bitmovin_player/src/api/player/event/unmuted_event.dart';
+import 'package:bitmovin_player/src/api/player/event/warning_event.dart';
 
-export 'package:bitmovin_sdk/src/api/player/event/error_event.dart';
-export 'package:bitmovin_sdk/src/api/player/event/info_event.dart';
-export 'package:bitmovin_sdk/src/api/player/event/muted_event.dart';
-export 'package:bitmovin_sdk/src/api/player/event/paused_event.dart';
-export 'package:bitmovin_sdk/src/api/player/event/play_event.dart';
-export 'package:bitmovin_sdk/src/api/player/event/playback_finished_event.dart';
-export 'package:bitmovin_sdk/src/api/player/event/playing_event.dart';
-export 'package:bitmovin_sdk/src/api/player/event/ready_event.dart';
-export 'package:bitmovin_sdk/src/api/player/event/seek_event.dart';
-export 'package:bitmovin_sdk/src/api/player/event/seeked_event.dart';
-export 'package:bitmovin_sdk/src/api/player/event/time_changed_event.dart';
-export 'package:bitmovin_sdk/src/api/player/event/unmuted_event.dart';
-export 'package:bitmovin_sdk/src/api/player/event/warning_event.dart';
+export 'package:bitmovin_player/src/api/player/event/error_event.dart';
+export 'package:bitmovin_player/src/api/player/event/info_event.dart';
+export 'package:bitmovin_player/src/api/player/event/muted_event.dart';
+export 'package:bitmovin_player/src/api/player/event/paused_event.dart';
+export 'package:bitmovin_player/src/api/player/event/play_event.dart';
+export 'package:bitmovin_player/src/api/player/event/playback_finished_event.dart';
+export 'package:bitmovin_player/src/api/player/event/playing_event.dart';
+export 'package:bitmovin_player/src/api/player/event/ready_event.dart';
+export 'package:bitmovin_player/src/api/player/event/seek_event.dart';
+export 'package:bitmovin_player/src/api/player/event/seeked_event.dart';
+export 'package:bitmovin_player/src/api/player/event/time_changed_event.dart';
+export 'package:bitmovin_player/src/api/player/event/unmuted_event.dart';
+export 'package:bitmovin_player/src/api/player/event/warning_event.dart';
 
 abstract class PlayerEvent {
   static PlayEvent Play(Map<String, dynamic> json) {

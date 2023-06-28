@@ -33,7 +33,7 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.10.0"
-  bitmovin_sdk:
+  bitmovin_player:
     dependency: "direct main"
     description:
       path: ".."

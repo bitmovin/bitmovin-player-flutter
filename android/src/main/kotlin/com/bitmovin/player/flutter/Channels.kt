@@ -1,4 +1,4 @@
-package com.bitmovin.core
+package com.bitmovin.player.flutter
 
 class Channels {
     companion object {

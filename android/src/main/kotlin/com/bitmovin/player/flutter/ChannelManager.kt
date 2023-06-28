@@ -1,4 +1,4 @@
-package com.bitmovin
+package com.bitmovin.player.flutter
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.BinaryMessenger

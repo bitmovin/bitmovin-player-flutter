@@ -1,3 +1,3 @@
-package com.bitmovin.core
+package com.bitmovin.player.flutter
 
 data class PlayerPayload(val id: String, val data: Any?)

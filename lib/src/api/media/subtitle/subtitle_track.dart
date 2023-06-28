@@ -1,4 +1,4 @@
-import 'package:bitmovin_sdk/src/api/media/media_track_role.dart';
+import 'package:bitmovin_player/src/api/media/media_track_role.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 

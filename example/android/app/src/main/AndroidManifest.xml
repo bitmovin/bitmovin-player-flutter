@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.bitmovin.player.flutter.example">
    <application
-        android:label="player_example"
+        android:label="bitmovin_player_example"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         tools:replace="android:label">
