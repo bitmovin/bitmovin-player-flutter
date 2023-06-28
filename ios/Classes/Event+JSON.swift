@@ -171,11 +171,11 @@ extension SeekEvent {
             "from": [
                 "time": from.time,
                 "source": from.source.toJSON()
-            ],
+            ] as [String : Any],
             "to": [
                 "time": to.time,
                 "source": to.source.toJSON()
-            ]
+            ] as [String : Any]
         ]
     }
 }
@@ -327,12 +327,17 @@ extension AudioRemovedEvent {
 
 extension AudioChangedEvent {
     func toJSON() -> [String: Any] {
-        [
+        var result: [String: Any] = [
             "event": name,
             "timestamp": Int(timestamp),
-            "oldAudioTrack": Helper.audioTrackJson(audioTrackOld),
             "newAudioTrack": Helper.audioTrackJson(audioTrackNew)
         ]
+
+        if let audioTrackOld {
+            result["oldAudioTrack"] = Helper.audioTrackJson(audioTrackOld)
+        }
+
+        return result
     }
 }
 
@@ -358,145 +363,38 @@ extension SubtitleRemovedEvent {
 
 extension SubtitleChangedEvent {
     func toJSON() -> [String: Any] {
-        [
+        var result: [String: Any] = [
             "event": name,
-            "timestamp": Int(timestamp),
-            "oldSubtitleTrack": Helper.subtitleTrackJson(subtitleTrackOld),
-            "newSubtitleTrack": Helper.subtitleTrackJson(subtitleTrackNew)
+            "timestamp": Int(timestamp)
         ]
-    }
-}
 
-extension AdBreakFinishedEvent {
-    func toJSON() -> [String: Any] {
-        [
-            "event": name,
-            "timestamp": Int(timestamp),
-            "adBreak": Helper.toJson(adBreak: adBreak)
-        ]
-    }
-}
+        if let subtitleTrackOld {
+            result["oldSubtitleTrack"] = Helper.subtitleTrackJson(subtitleTrackOld)
+        }
 
-extension AdBreakStartedEvent {
-    func toJSON() -> [String: Any] {
-        [
-            "event": name,
-            "timestamp": Int(timestamp),
-            "adBreak": Helper.toJson(adBreak: adBreak)
-        ]
-    }
-}
+        if let subtitleTrackNew {
+            result["newSubtitleTrack"] = Helper.subtitleTrackJson(subtitleTrackNew)
+        }
 
-extension AdClickedEvent {
-    func toJSON() -> [String: Any] {
-        [
-            "event": name,
-            "timestamp": Int(timestamp),
-            "clickThroughUrl": clickThroughUrl
-        ]
-    }
-}
-
-extension AdErrorEvent {
-    func toJSON() -> [String: Any] {
-        [
-            "event": name,
-            "timestamp": Int(timestamp),
-            "adConfig": Helper.toJson(adConfig: adConfig),
-            "adItem": Helper.toJson(adItem: adItem),
-            "code": code,
-            "message": message
-        ]
-    }
-}
-
-extension AdFinishedEvent {
-    func toJSON() -> [String: Any] {
-        [
-            "event": name,
-            "timestamp": Int(timestamp),
-            "ad": Helper.toJson(ad: ad)
-        ]
-    }
-}
-
-extension AdManifestLoadEvent {
-    func toJSON() -> [String: Any] {
-        [
-            "event": name,
-            "timestamp": Int(timestamp),
-            "adBreak": Helper.toJson(adBreak: adBreak),
-            "adConfig": Helper.toJson(adConfig: adConfig)
-        ]
-    }
-}
-
-extension AdManifestLoadedEvent {
-    func toJSON() -> [String: Any] {
-        [
-            "event": name,
-            "timestamp": Int(timestamp),
-            "adBreak": Helper.toJson(adBreak: adBreak),
-            "adConfig": Helper.toJson(adConfig: adConfig),
-            "downloadTime": downloadTime
-        ]
-    }
-}
-
-extension AdQuartileEvent {
-    func toJSON() -> [String: Any] {
-        [
-            "event": name,
-            "timestamp": Int(timestamp),
-            "quartile": Helper.toJson(adQuartile: adQuartile)
-        ]
-    }
-}
-
-extension AdScheduledEvent {
-    func toJSON() -> [String: Any] {
-        [
-            "event": name,
-            "timestamp": Int(timestamp),
-            "numberOfAds": numberOfAds
-        ]
-    }
-}
-
-extension AdSkippedEvent {
-    func toJSON() -> [String: Any] {
-        [
-            "event": name,
-            "timestamp": Int(timestamp),
-            "ad": Helper.toJson(ad: ad)
-        ]
-    }
-}
-
-extension AdStartedEvent {
-    func toJSON() -> [String: Any] {
-        [
-            "event": name,
-            "timestamp": Int(timestamp),
-            "ad": Helper.toJson(ad: ad),
-            "clickThroughUrl": clickThroughUrl?.absoluteString,
-            "clientType": Helper.toJson(adSourceType: clientType),
-            "duration": duration,
-            "indexInQueue": indexInQueue,
-            "position": position,
-            "skipOffset": skipOffset,
-            "timeOffset": timeOffset
-        ]
+        return result
     }
 }
 
 extension VideoDownloadQualityChangedEvent {
     func toJSON() -> [String: Any] {
-        [
-            "newVideoQuality": Helper.toJson(videoQuality: videoQualityNew),
-            "oldVideoQuality": Helper.toJson(videoQuality: videoQualityOld),
+        var result: [String: Any] = [
             "event": name,
             "timestamp": Int(timestamp)
         ]
+
+        if let videoQualityNew {
+            result["newVideoQuality"] = Helper.toJson(videoQuality: videoQualityNew)
+        }
+
+        if let videoQualityOld {
+            result["oldVideoQuality"] = Helper.toJson(videoQuality: videoQualityOld)
+        }
+
+        return result
     }
 }
