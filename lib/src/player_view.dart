@@ -1,9 +1,9 @@
 import 'dart:io';
 
+import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:bitmovin_player/src/channel_manager.dart';
 import 'package:bitmovin_player/src/channels.dart';
 import 'package:bitmovin_player/src/methods.dart';
-import 'package:bitmovin_player/src/player.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';
@@ -13,13 +13,20 @@ import 'package:flutter/widgets.dart';
 /// @nodoc
 typedef PlayerCallback = void Function();
 
+/// A view that provides the Bitmovin Player Web UI and default UI handling to
+/// an attached [Player] instance.
 class PlayerView extends StatefulWidget {
   const PlayerView({
+    required this.player,
     super.key,
-    this.player,
     this.onViewCreated,
   });
-  final Player? player;
+
+  /// The [Player] instance that is attached to this view.
+  final Player player;
+
+  /// Callback that is invoked when the view has been created and is ready to be
+  /// used. Can be for instance used to load a source into the [player].
   final PlayerCallback? onViewCreated;
 
   @override
@@ -39,7 +46,7 @@ class _PlayerViewState extends State<PlayerView> {
     channelManager.invokeMethod(
       Methods.createPlayerView,
       Map<String, dynamic>.from({
-        'playerId': widget.player?.id,
+        'playerId': widget.player.id,
       }),
     );
     super.initState();
@@ -50,29 +57,25 @@ class _PlayerViewState extends State<PlayerView> {
       name: '${Channels.playerView}-$id',
     );
 
-    if (widget.player != null) {
-      _methodChannel.invokeMethod(
-        Methods.bindPlayer,
-        Map<String, dynamic>.from({
-          'playerId': widget.player!.id,
-          'viewId': id,
-        }),
-      );
-    }
+    _methodChannel.invokeMethod(
+      Methods.bindPlayer,
+      Map<String, dynamic>.from({
+        'playerId': widget.player.id,
+        'viewId': id,
+      }),
+    );
 
     widget.onViewCreated?.call();
   }
 
   @override
   void dispose() {
-    if (widget.player != null) {
-      _methodChannel.invokeMethod(
-        Methods.unbindPlayer,
-        Map<String, dynamic>.from({
-          'playerId': widget.player!.id,
-        }),
-      );
-    }
+    _methodChannel.invokeMethod(
+      Methods.unbindPlayer,
+      Map<String, dynamic>.from({
+        'playerId': widget.player.id,
+      }),
+    );
     super.dispose();
   }
 
@@ -94,7 +97,7 @@ class _PlayerViewState extends State<PlayerView> {
                 id: params.id,
                 viewType: Channels.playerView,
                 layoutDirection: TextDirection.ltr,
-                creationParams: widget.player?.id,
+                creationParams: widget.player.id,
                 creationParamsCodec: const StandardMessageCodec(),
                 onFocus: () {
                   params.onFocusChanged(true);
@@ -108,7 +111,7 @@ class _PlayerViewState extends State<PlayerView> {
         : UiKitView(
             viewType: Channels.playerView,
             layoutDirection: TextDirection.ltr,
-            creationParams: widget.player?.id,
+            creationParams: widget.player.id,
             onPlatformViewCreated: _onPlatformViewCreated,
             creationParamsCodec: const StandardMessageCodec(),
           );
