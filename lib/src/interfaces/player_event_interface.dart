@@ -5,67 +5,67 @@ import 'package:bitmovin_player/bitmovin_player.dart';
 /// Defines events that can be emitted by the player.
 abstract class PlayerEventsInterface {
   /// See [SourceAddedEvent] for details on this event.
-  set onSourceAdded(void Function(SourceAddedEvent data) func);
+  set onSourceAdded(void Function(SourceAddedEvent) func);
 
   /// See [SourceRemovedEvent] for details on this event.
-  set onSourceRemoved(void Function(SourceRemovedEvent data) func);
+  set onSourceRemoved(void Function(SourceRemovedEvent) func);
 
   /// See [SourceLoadEvent] for details on this event.
-  set onSourceLoad(void Function(SourceLoadEvent data) func);
+  set onSourceLoad(void Function(SourceLoadEvent) func);
 
   /// See [SourceLoadedEvent] for details on this event.
-  set onSourceLoaded(void Function(SourceLoadedEvent data) func);
+  set onSourceLoaded(void Function(SourceLoadedEvent) func);
 
   /// See [SourceUnloadedEvent] for details on this event.
-  set onSourceUnloaded(void Function(SourceUnloadedEvent data) func);
+  set onSourceUnloaded(void Function(SourceUnloadedEvent) func);
 
   /// See [SourceWarningEvent] for details on this event.
-  set onSourceWarning(void Function(SourceWarningEvent data) func);
+  set onSourceWarning(void Function(SourceWarningEvent) func);
 
   /// See [SourceErrorEvent] for details on this event.
-  set onSourceError(void Function(SourceErrorEvent data) func);
+  set onSourceError(void Function(SourceErrorEvent) func);
 
   /// See [SourceInfoEvent] for details on this event.
-  set onSourceInfo(void Function(SourceInfoEvent data) func);
+  set onSourceInfo(void Function(SourceInfoEvent) func);
 
   /// See [PlayEvent] for details on this event.
-  set onPlay(void Function(PlayEvent data) func);
+  set onPlay(void Function(PlayEvent) func);
 
   /// See [PlayingEvent] for details on this event.
-  set onPlaying(void Function(PlayingEvent data) func);
+  set onPlaying(void Function(PlayingEvent) func);
 
   /// See [PausedEvent] for details on this event.
-  set onPaused(void Function(PausedEvent data) func);
+  set onPaused(void Function(PausedEvent) func);
 
   /// See [MutedEvent] for details on this event.
-  set onMuted(void Function(MutedEvent data) func);
+  set onMuted(void Function(MutedEvent) func);
 
   /// See [UnmutedEvent] for details on this event.
-  set onUnmuted(void Function(UnmutedEvent data) func);
+  set onUnmuted(void Function(UnmutedEvent) func);
 
   /// See [SeekEvent] for details on this event.
-  set onSeek(void Function(SeekEvent data) func);
+  set onSeek(void Function(SeekEvent) func);
 
   /// See [SeekedEvent] for details on this event.
-  set onSeeked(void Function(SeekedEvent data) func);
+  set onSeeked(void Function(SeekedEvent) func);
 
   /// See [TimeChangedEvent] for details on this event.
-  set onTimeChanged(void Function(TimeChangedEvent data) func);
+  set onTimeChanged(void Function(TimeChangedEvent) func);
 
   /// See [PlaybackFinishedEvent] for details on this event.
-  set onPlaybackFinished(void Function(PlaybackFinishedEvent data) func);
+  set onPlaybackFinished(void Function(PlaybackFinishedEvent) func);
 
   /// See [ErrorEvent] for details on this event.
-  set onError(void Function(ErrorEvent data) func);
+  set onError(void Function(ErrorEvent) func);
 
   /// See [InfoEvent] for details on this event.
-  set onInfo(void Function(InfoEvent data) func);
+  set onInfo(void Function(InfoEvent) func);
 
   /// See [WarningEvent] for details on this event.
-  set onWarning(void Function(WarningEvent data) func);
+  set onWarning(void Function(WarningEvent) func);
 
   /// See [ReadyEvent] for details on this event.
-  set onReady(void Function(ReadyEvent data) func);
+  set onReady(void Function(ReadyEvent) func);
 }
 
 /// @nodoc
