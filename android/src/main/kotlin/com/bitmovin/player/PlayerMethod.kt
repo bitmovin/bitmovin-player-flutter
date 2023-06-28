@@ -9,8 +9,11 @@ import com.bitmovin.core.PlayerPayload
 import com.bitmovin.core.data.Methods
 import com.bitmovin.player.api.Player
 import com.bitmovin.player.api.PlayerConfig
+import com.bitmovin.player.api.drm.WidevineConfig
 import com.bitmovin.player.api.source.Source
 import com.bitmovin.player.api.source.SourceConfig
+import com.bitmovin.player.drm.WidevineCallbacksHandler
+import com.bitmovin.player.drm.WidevineConfigMetadata
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.EventChannel.StreamHandler
@@ -26,13 +29,38 @@ class PlayerMethod(
 ) : MethodCallHandler, StreamHandler, EventListener() {
     @Suppress("unused")
     private val tag: String = this::class.java.simpleName
+    private var widevineCallbacksHandler: WidevineCallbacksHandler? = null
+    private val playerMethodChannel: MethodChannel
 
     init {
-        ChannelManager.registerEventChannel("${Channels.PLAYER_EVENT}-$id", this@PlayerMethod, messenger)
-        ChannelManager.registerMethodChannel("${Channels.PLAYER}-$id", this@PlayerMethod, messenger)
+        ChannelManager.registerEventChannel(
+            "${Channels.PLAYER_EVENT}-$id",
+            this@PlayerMethod,
+            messenger,
+        )
+        playerMethodChannel = ChannelManager.registerMethodChannel(
+            "${Channels.PLAYER}-$id",
+            this@PlayerMethod,
+            messenger,
+        )
         PlayerManager.create(id, context, config)
     }
+
     private fun getPlayer(): Player? = PlayerManager.players[id]
+
+    private fun handleLoad(source: Source, widevineConfigMetadata: WidevineConfigMetadata?) {
+        val widevineConfig = source.config.drmConfig as? WidevineConfig
+
+        if (widevineConfig != null && widevineConfigMetadata != null) {
+            widevineCallbacksHandler = WidevineCallbacksHandler(
+                widevineConfigMetadata,
+                widevineConfig,
+                playerMethodChannel,
+            )
+        }
+
+        getPlayer()?.load(source)
+    }
 
     override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
         val params = call.arguments as Map<*, *>
@@ -41,15 +69,27 @@ class PlayerMethod(
             Methods.LOAD_WITH_SOURCE_CONFIG -> {
                 payload.data?.let {
                     val sourceConfig: SourceConfig = Helper.buildSourceConfig(it as Map<*, *>)
-                    getPlayer()?.load(sourceConfig)
+                    val widevineConfigMetadata = Helper.buildWidevineConfigMetadata(it)
+
+                    handleLoad(
+                        Source.create(sourceConfig),
+                        widevineConfigMetadata,
+                    )
                 }
             }
+
             Methods.LOAD_WITH_SOURCE -> {
                 payload.data?.let {
                     val source: Source = Helper.buildSource(it as Map<*, *>)
-                    getPlayer()?.load(source)
+                    val widevineConfigMetadata = Helper.buildWidevineConfigMetadata(it)
+
+                    handleLoad(
+                        source,
+                        widevineConfigMetadata,
+                    )
                 }
             }
+
             Methods.PLAY -> getPlayer()?.play()
             Methods.PAUSE -> getPlayer()?.pause()
             Methods.MUTE -> getPlayer()?.mute()

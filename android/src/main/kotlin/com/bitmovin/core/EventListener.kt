@@ -18,7 +18,8 @@ open class EventListener {
                     "data" to mapper.writeValueAsString(data),
                 ),
             )
-            sink?.success(payload)
+
+            runOnMainThread { sink?.success(payload) }
         }
     }
 

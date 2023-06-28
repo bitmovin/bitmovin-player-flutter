@@ -14,6 +14,8 @@ import com.bitmovin.core.PlayerPayload
 import com.bitmovin.player.api.PlaybackConfig
 import com.bitmovin.player.api.PlayerConfig
 import com.bitmovin.player.api.SeekMode
+import com.bitmovin.player.api.drm.DrmConfig
+import com.bitmovin.player.api.drm.WidevineConfig
 import com.bitmovin.player.api.media.MediaFilter
 import com.bitmovin.player.api.source.Source
 import com.bitmovin.player.api.source.SourceConfig
@@ -21,6 +23,7 @@ import com.bitmovin.player.api.source.SourceOptions
 import com.bitmovin.player.api.source.SourceType
 import com.bitmovin.player.api.ui.ScalingMode
 import com.bitmovin.player.api.ui.StyleConfig
+import com.bitmovin.player.drm.WidevineConfigMetadata
 
 class Helper {
     companion object {
@@ -29,14 +32,62 @@ class Helper {
         }
 
         fun buildSource(params: Map<*, *>): Source {
-            return Source.create(buildSourceConfig(params))
+            val sourceConfig = buildSourceConfig(params["sourceConfig"] as Map<*, *>)
+            return Source.create(sourceConfig)
         }
 
         fun buildSourceConfig(params: Map<*, *>): SourceConfig {
+            val drmConfig = params["drmConfig"] as? Map<*, *>
+
             return SourceConfig(
                 url = params["url"] as String,
                 type = buildSourceType(params["type"] as String),
                 options = SourceOptions(),
+                drmConfig = drmConfig?.let { buildDrmConfig(it) },
+            )
+        }
+
+        private fun buildDrmConfig(params: Map<*, *>): DrmConfig? {
+            return if (params["widevine"] is Map<*, *>) {
+                buildWidevineConfig(params["widevine"] as Map<*, *>)
+            } else {
+                null
+            }
+        }
+
+        private fun buildWidevineConfig(params: Map<*, *>): WidevineConfig {
+            val widevineConfig = WidevineConfig(
+                licenseUrl = params["licenseUrl"] as? String,
+            )
+
+            widevineConfig.preferredSecurityLevel = params["preferredSecurityLevel"] as? String
+            widevineConfig.shouldKeepDrmSessionsAlive =
+                params["shouldKeepDrmSessionsAlive"] as Boolean
+
+            val httHeaders = params["httpHeaders"] as? Map<*, *>
+            widevineConfig.httpHeaders = httHeaders
+                ?.map { entry -> entry.key as? String to entry.value as? String }
+                ?.toMap()
+                ?.toMutableMap()
+
+            return widevineConfig
+        }
+
+        /**
+         * Builds a [WidevineConfigMetadata] object from the given `params` that tells which
+         * callbacks of [WidevineConfig] are set on the Dart side.
+         *
+         * @param params The JSON data for [SourceConfig] or [Source].
+         */
+        fun buildWidevineConfigMetadata(params: Map<*, *>): WidevineConfigMetadata? {
+            val params = params["sourceConfig"] as? Map<*, *> ?: params
+
+            val drmConfig = params["drmConfig"] as? Map<*, *>
+            val widevineConfig = drmConfig?.get("widevine") as? Map<*, *> ?: return null
+
+            return WidevineConfigMetadata(
+                widevineConfig["prepareMessage"] as? Boolean ?: false,
+                widevineConfig["prepareLicense"] as? Boolean ?: false,
             )
         }
 
@@ -78,12 +129,12 @@ class Helper {
             )
         }
 
-        fun buildPlayerConfig(params: Map<*, *>?): PlayerConfig? {
+        fun buildPlayerConfig(params: Map<String, Any>?): PlayerConfig? {
             return params?.let {
-                val styleConfig = params["styleConfig"] as Map<*, *>
-                val buildPlaybackConfig = params["playbackConfig"] as Map<*, *>
+                val styleConfig = it["styleConfig"] as Map<*, *>
+                val buildPlaybackConfig = it["playbackConfig"] as Map<*, *>
                 return PlayerConfig(
-                    key = params["key"] as String?,
+                    key = it["key"] as String?,
                     styleConfig = buildStyleConfig(styleConfig),
                     playbackConfig = buildPlaybackConfig(buildPlaybackConfig),
                 )
@@ -107,7 +158,11 @@ class Helper {
         }
 
         fun getSystemBrightness(context: Context): Float {
-            return Settings.System.getInt(context.contentResolver, Settings.System.SCREEN_BRIGHTNESS, 0).toFloat()
+            return Settings.System.getInt(
+                context.contentResolver,
+                Settings.System.SCREEN_BRIGHTNESS,
+                0,
+            ).toFloat()
         }
 
         @RequiresApi(Build.VERSION_CODES.M)
