@@ -1,9 +1,6 @@
 // ignore_for_file: avoid_setters_without_getters
 
-import 'package:bitmovin_player/src/api/player_event.dart';
-import 'package:bitmovin_player/src/api/source/source.dart';
-import 'package:bitmovin_player/src/api/source_config.dart';
-import 'package:bitmovin_player/src/api/source_event.dart';
+import 'package:bitmovin_player/bitmovin_player.dart';
 
 /// Defines events that can be emitted by the player.
 abstract class PlayerEventsInterface {
