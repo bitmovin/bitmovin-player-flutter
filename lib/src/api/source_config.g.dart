@@ -64,7 +64,4 @@ const _$SourceTypeEnumMap = {
   SourceType.dash: 'dash',
   SourceType.hls: 'hls',
   SourceType.progressive: 'progressive',
-  SourceType.movpkg: 'movpkg',
-  SourceType.unknown: 'unknown',
-  SourceType.none: 'none',
 };

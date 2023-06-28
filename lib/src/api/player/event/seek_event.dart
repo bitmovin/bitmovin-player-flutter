@@ -5,6 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'seek_event.g.dart';
 
+/// Emitted when the player starts seeking. Only applies to VoD streams.
 @JsonSerializable(explicitToJson: true)
 class SeekEvent extends Event with EquatableMixin {
   const SeekEvent({
@@ -16,9 +17,11 @@ class SeekEvent extends Event with EquatableMixin {
     return _$SeekEventFromJson(json);
   }
 
+  /// The current position.
   @JsonKey(name: 'from')
   final SeekPosition from;
 
+  /// The target position.
   @JsonKey(name: 'to')
   final SeekPosition to;
 

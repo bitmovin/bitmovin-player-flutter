@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:bitmovin_player_example/controls.dart';
 
-import 'package:bitmovin_player/player.dart';
+import 'package:bitmovin_player/bitmovin_player.dart';
 
 class BasicPlaybackWithEventSubscription extends StatefulWidget {
   static String routeName = 'BasicPlaybackWithEventSubscription';
@@ -185,7 +185,7 @@ class _BasicPlaybackWithEventSubscriptionState
         children: [
           Controls(
             onLoadPressed: () {
-              _player.loadWithSourceConfig(sourceConfig);
+              _player.loadSourceConfig(sourceConfig);
             },
             onPlayPressed: () => _player.play(),
             onPausePressed: () => _player.pause(),

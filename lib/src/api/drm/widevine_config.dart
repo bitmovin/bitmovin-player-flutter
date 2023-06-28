@@ -3,6 +3,8 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'widevine_config.g.dart';
 
+/// Provides configuration options for Widevine DRM.
+/// Only supported on Android.
 @JsonSerializable(explicitToJson: true)
 class WidevineConfig extends Equatable {
   const WidevineConfig({

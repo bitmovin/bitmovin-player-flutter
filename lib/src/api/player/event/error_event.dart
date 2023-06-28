@@ -1,9 +1,12 @@
+import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:bitmovin_player/src/api/event.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'error_event.g.dart';
 
+/// The common supertype implemented by all different error events that are
+/// emitted by the [Player] or [Source].
 @JsonSerializable(explicitToJson: true)
 class ErrorEvent extends Event with EquatableMixin {
   const ErrorEvent({
@@ -16,9 +19,11 @@ class ErrorEvent extends Event with EquatableMixin {
     return _$ErrorEventFromJson(json);
   }
 
+  /// The error code used to identify the error.
   @JsonKey(name: 'code', defaultValue: null)
   final int code;
 
+  /// The error message to explain the reason for the error.
   @JsonKey(name: 'message', defaultValue: null)
   final String? message;
 

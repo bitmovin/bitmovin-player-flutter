@@ -4,6 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'ready_event.g.dart';
 
+/// Emitted when the player is ready to play and to handle API calls.
 @JsonSerializable(explicitToJson: true)
 class ReadyEvent extends Event with EquatableMixin {
   const ReadyEvent({required super.timestamp});

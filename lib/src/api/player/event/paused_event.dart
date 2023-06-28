@@ -4,6 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'paused_event.g.dart';
 
+/// Emitted when the player is paused.
 @JsonSerializable(explicitToJson: true)
 class PausedEvent extends Event with EquatableMixin {
   const PausedEvent({
@@ -15,6 +16,7 @@ class PausedEvent extends Event with EquatableMixin {
     return _$PausedEventFromJson(json);
   }
 
+  // The current playback time (in seconds).
   @JsonKey(name: 'time')
   final double time;
 

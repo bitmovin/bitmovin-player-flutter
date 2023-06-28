@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:bitmovin_player/player.dart';
+import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:flutter/material.dart';
 import 'package:bitmovin_player_example/controls.dart';
 
@@ -39,7 +39,7 @@ class _BasicPlaybackState extends State<BasicPlayback> {
         children: [
           Controls(
             onLoadPressed: () {
-              _player.loadWithSourceConfig(sourceConfig);
+              _player.loadSourceConfig(sourceConfig);
             },
             onPlayPressed: () => _player.play(),
             onPausePressed: () => _player.pause(),

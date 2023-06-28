@@ -3,6 +3,8 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'fairplay_config.g.dart';
 
+/// Provides configuration options for FairPlay Streaming DRM.
+/// Only supported on iOS.
 @JsonSerializable(explicitToJson: true)
 class FairplayConfig extends Equatable {
   const FairplayConfig({

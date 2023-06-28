@@ -1,8 +1,5 @@
 import 'dart:convert';
-
-import 'package:bitmovin_player/src/api/player_event.dart';
-import 'package:bitmovin_player/src/api/source_event.dart';
-import 'package:bitmovin_player/src/interfaces/player_event_interface.dart';
+import 'package:bitmovin_player/bitmovin_player.dart';
 
 typedef Callback<T> = void Function(T data);
 
@@ -50,107 +47,107 @@ mixin PlayerEventListener implements PlayerEventsInterface {
     switch (target['event']) {
       case 'onSourceAdded':
         if (data != null) {
-          _onSourceAdded?.call(SourceEvent.SourceAdded(data));
+          _onSourceAdded?.call(SourceAddedEvent.fromJson(data));
         }
         break;
       case 'onSourceRemoved':
         if (data != null) {
-          _onSourceRemoved?.call(SourceEvent.SourceRemoved(data));
+          _onSourceRemoved?.call(SourceRemovedEvent.fromJson(data));
         }
         break;
       case 'onSourceLoad':
         if (data != null) {
-          _onSourceLoad?.call(SourceEvent.Load(data));
+          _onSourceLoad?.call(SourceLoadEvent.fromJson(data));
         }
         break;
       case 'onSourceLoaded':
         if (data != null) {
-          _onSourceLoaded?.call(SourceEvent.Loaded(data));
+          _onSourceLoaded?.call(SourceLoadedEvent.fromJson(data));
         }
         break;
       case 'onSourceUnloaded':
         if (data != null) {
-          _onSourceUnloaded?.call(SourceEvent.Unloaded(data));
+          _onSourceUnloaded?.call(SourceUnloadedEvent.fromJson(data));
         }
         break;
       case 'onSourceWarning':
         if (data != null) {
-          _onSourceWarning?.call(SourceEvent.SourceWarning(data));
+          _onSourceWarning?.call(SourceWarningEvent.fromJson(data));
         }
         break;
       case 'onSourceError':
         if (data != null) {
-          _onSourceError?.call(SourceEvent.SourceError(data));
+          _onSourceError?.call(SourceErrorEvent.fromJson(data));
         }
         break;
       case 'onSourceInfo':
         if (data != null) {
-          _onSourceInfo?.call(SourceEvent.SourceInfo(data));
+          _onSourceInfo?.call(SourceInfoEvent.fromJson(data));
         }
         break;
       case 'onTimeChanged':
         if (data != null) {
-          _onTimeChanged?.call(PlayerEvent.TimeChanged(data));
+          _onTimeChanged?.call(TimeChangedEvent.fromJson(data));
         }
         break;
       case 'onPlay':
         if (data != null) {
-          _onPlay?.call(PlayerEvent.Play(data));
+          _onPlay?.call(PlayEvent.fromJson(data));
         }
         break;
       case 'onPlaying':
         if (data != null) {
-          _onPlaying?.call(PlayerEvent.Playing(data));
+          _onPlaying?.call(PlayingEvent.fromJson(data));
         }
         break;
       case 'onPaused':
         if (data != null) {
-          _onPaused?.call(PlayerEvent.Paused(data));
+          _onPaused?.call(PausedEvent.fromJson(data));
         }
         break;
       case 'onMuted':
         if (data != null) {
-          _onMuted?.call(PlayerEvent.Muted(data));
+          _onMuted?.call(MutedEvent.fromJson(data));
         }
         break;
       case 'onUnmuted':
         if (data != null) {
-          _onUnmuted?.call(PlayerEvent.Unmuted(data));
+          _onUnmuted?.call(UnmutedEvent.fromJson(data));
         }
         break;
       case 'onSeeked':
         if (data != null) {
-          _onSeeked?.call(PlayerEvent.Seeked(data));
+          _onSeeked?.call(SeekedEvent.fromJson(data));
         }
         break;
       case 'onSeek':
         if (data != null) {
-          _onSeek?.call(PlayerEvent.Seek(data));
+          _onSeek?.call(SeekEvent.fromJson(data));
         }
         break;
       case 'onPlaybackFinished':
         if (data != null) {
-          _onPlaybackFinished?.call(PlayerEvent.PlaybackFinished(data));
+          _onPlaybackFinished?.call(PlaybackFinishedEvent.fromJson(data));
         }
         break;
       case 'onPlayerError':
         if (data != null) {
-          _onError?.call(PlayerEvent.Error(data));
+          _onError?.call(ErrorEvent.fromJson(data));
         }
         break;
       case 'onPlayerInfo':
         if (data != null) {
-          _onInfo?.call(PlayerEvent.Info(data));
+          _onInfo?.call(InfoEvent.fromJson(data));
         }
         break;
       case 'onPlayerWarning':
         if (data != null) {
-          _onWarning?.call(PlayerEvent.Warning(data));
+          _onWarning?.call(WarningEvent.fromJson(data));
         }
         break;
       case 'onReady':
         if (data != null) {
-          _onReady?.call(PlayerEvent.Ready(data));
+          _onReady?.call(ReadyEvent.fromJson(data));
         }
         break;
     }

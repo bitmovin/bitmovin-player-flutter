@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:bitmovin_player_example/controls.dart';
 
-import 'package:bitmovin_player/player.dart';
+import 'package:bitmovin_player/bitmovin_player.dart';
 
 class DrmPlayback extends StatefulWidget {
   static String routeName = 'DrmPlayback';
@@ -107,7 +107,7 @@ class _DrmPlaybackState extends State<DrmPlayback> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Controls(
-            onLoadPressed: () => _player.loadWithSourceConfig(sourceConfig),
+            onLoadPressed: () => _player.loadSourceConfig(sourceConfig),
             onPlayPressed: () => _player.play(),
             onPausePressed: () => _player.pause(),
             onMutePressed: () => _player.mute(),

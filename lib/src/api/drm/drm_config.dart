@@ -5,6 +5,9 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'drm_config.g.dart';
 
+/// Provides DRM configuration for the player. On iOS, FairPlay is supported.
+/// On Android, Widevine is supported. See [FairplayConfig] and [WidevineConfig]
+/// for more information.
 @JsonSerializable(explicitToJson: true)
 class DrmConfig extends Equatable {
   const DrmConfig({
@@ -15,9 +18,11 @@ class DrmConfig extends Equatable {
   factory DrmConfig.fromJson(Map<String, dynamic> json) =>
       _$DrmConfigFromJson(json);
 
+  /// Configuration for FairPlay DRM. Only applicable for iOS.
   @JsonKey(name: 'fairplay')
   final FairplayConfig? fairplay;
 
+  /// Configuration for Widevine DRM. Only applicable for Android.
   @JsonKey(name: 'widevine')
   final WidevineConfig? widevine;
 

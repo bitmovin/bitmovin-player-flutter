@@ -4,6 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'seek_position.g.dart';
 
+/// Represents a seeking position within a [Source].
 @JsonSerializable(explicitToJson: true)
 class SeekPosition extends Equatable {
   const SeekPosition({
@@ -15,9 +16,11 @@ class SeekPosition extends Equatable {
     return _$SeekPositionFromJson(json);
   }
 
+  /// The [Source] to seek to.
   @JsonKey(name: 'source')
   final Source source;
 
+  /// The position within the [Source] in seconds.
   @JsonKey(name: 'time')
   final double time;
 

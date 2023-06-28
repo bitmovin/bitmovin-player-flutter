@@ -5,6 +5,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'source_load_event.g.dart';
 
+/// Emitted when a [Source] starts loading.
 @JsonSerializable(explicitToJson: true)
 class SourceLoadEvent extends Event with EquatableMixin {
   SourceLoadEvent({
@@ -16,6 +17,7 @@ class SourceLoadEvent extends Event with EquatableMixin {
     return _$SourceLoadEventFromJson(json);
   }
 
+  /// The [Source] that started loading.
   @JsonKey(name: 'source')
   final Source source;
 

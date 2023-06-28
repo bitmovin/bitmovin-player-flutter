@@ -1,15 +1,16 @@
-import 'package:bitmovin_player/src/api/event.dart';
+import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'source_warning_event.g.dart';
 
+/// Emitted when a source warning occurred.
 @JsonSerializable(explicitToJson: true)
-class SourceWarningEvent extends Event with EquatableMixin {
+class SourceWarningEvent extends WarningEvent with EquatableMixin {
   const SourceWarningEvent({
-    required this.code,
-    this.message,
-    super.timestamp,
+    required super.timestamp,
+    required super.code,
+    super.message,
   });
 
   factory SourceWarningEvent.fromJson(Map<String, dynamic> json) {
@@ -21,10 +22,4 @@ class SourceWarningEvent extends Event with EquatableMixin {
 
   @override
   List<Object?> get props => [code, message, timestamp];
-
-  @JsonKey(name: 'code', defaultValue: null)
-  final int code;
-
-  @JsonKey(name: 'message', defaultValue: null)
-  final String? message;
 }

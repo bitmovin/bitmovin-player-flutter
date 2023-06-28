@@ -4,6 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'muted_event.g.dart';
 
+/// Emitted when the player is muted.
 @JsonSerializable(explicitToJson: true)
 class MutedEvent extends Event with EquatableMixin {
   const MutedEvent({required super.timestamp});
