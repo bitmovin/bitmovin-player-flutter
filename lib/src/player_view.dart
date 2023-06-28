@@ -10,9 +10,6 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
-/// @nodoc
-typedef PlayerCallback = void Function();
-
 /// A view that provides the Bitmovin Player Web UI and default UI handling to
 /// an attached [Player] instance.
 class PlayerView extends StatefulWidget {
@@ -27,7 +24,7 @@ class PlayerView extends StatefulWidget {
 
   /// Callback that is invoked when the view has been created and is ready to be
   /// used. Can be for instance used to load a source into the [player].
-  final PlayerCallback? onViewCreated;
+  final void Function()? onViewCreated;
 
   @override
   State<StatefulWidget> createState() => _PlayerViewState();
