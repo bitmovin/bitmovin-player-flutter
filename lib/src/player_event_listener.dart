@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:bitmovin_player/bitmovin_player.dart';
-import 'package:bitmovin_player/src/api/event.dart';
 import 'package:logger/logger.dart';
 
 mixin PlayerEventListener implements PlayerEventsInterface {

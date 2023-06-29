@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:bitmovin_player_example/controls.dart';
-
 import 'package:bitmovin_player/bitmovin_player.dart';
+import 'package:logger/logger.dart';
 
 class BasicPlaybackWithEventSubscription extends StatefulWidget {
   static String routeName = 'BasicPlaybackWithEventSubscription';
@@ -24,141 +24,80 @@ class _BasicPlaybackWithEventSubscriptionState
     type: Platform.isAndroid ? SourceType.dash : SourceType.hls,
   );
   final _player = Player();
+  final Logger _logger = Logger();
 
-  String _toString(Map<String, dynamic> event) {
-    return event.toString();
-  }
+  void _onEvent(Event event) {
+    String eventString = "${event.runtimeType} ${event.toJson()}";
 
-  void _log(dynamic data) {
-    debugPrint('=== LOG ===\nDATA ==> $data');
+    _logger.d(eventString);
+    setState(() {
+      eventData = eventString;
+    });
   }
 
   void listen() {
     _player.onError = (ErrorEvent data) {
-      _log(data);
-      setState(() {
-        eventData = _toString(data.toJson());
-      });
+      _onEvent(data);
     };
     _player.onInfo = (InfoEvent data) {
-      _log(data);
-      setState(() {
-        eventData = _toString(data.toJson());
-      });
+      _onEvent(data);
     };
     _player.onSourceLoad = (SourceLoadEvent data) {
-      _log(data);
-      setState(() {
-        eventData = _toString(data.toJson());
-      });
+      _onEvent(data);
     };
     _player.onSourceLoaded = (SourceLoadedEvent data) {
-      _log(data);
-      setState(() {
-        eventData = _toString(data.toJson());
-      });
+      _onEvent(data);
     };
     _player.onMuted = (MutedEvent data) {
-      _log(data);
-      setState(() {
-        eventData = _toString(data.toJson());
-      });
+      _onEvent(data);
     };
     _player.onPaused = (PausedEvent data) {
-      _log(data);
-      setState(() {
-        eventData = _toString(data.toJson());
-      });
+      _onEvent(data);
     };
     _player.onPlay = (PlayEvent data) {
-      _log(data);
-      setState(() {
-        eventData = _toString(data.toJson());
-      });
+      _onEvent(data);
     };
     _player.onPlaybackFinished = (PlaybackFinishedEvent data) {
-      _log(data);
-      setState(() {
-        eventData = _toString(data.toJson());
-      });
+      _onEvent(data);
     };
     _player.onPlaying = (PlayingEvent data) {
-      _log(data);
-      setState(() {
-        eventData = _toString(data.toJson());
-      });
+      _onEvent(data);
     };
     _player.onReady = (ReadyEvent data) {
-      _log(data);
-      setState(() {
-        eventData = _toString(data.toJson());
-      });
+      _onEvent(data);
     };
     _player.onSeek = (SeekEvent data) {
-      _log(data);
-      setState(() {
-        eventData = _toString(data.toJson());
-      });
+      _onEvent(data);
     };
     _player.onSeeked = (SeekedEvent data) {
-      _log(data);
-      setState(() {
-        eventData = _toString(data.toJson());
-      });
+      _onEvent(data);
     };
     _player.onSourceAdded = (SourceAddedEvent data) {
-      _log(data);
-      setState(() {
-        eventData = _toString(data.toJson());
-      });
+      _onEvent(data);
     };
     _player.onSourceRemoved = (SourceRemovedEvent data) {
-      _log(data);
-      setState(() {
-        eventData = _toString(data.toJson());
-      });
+      _onEvent(data);
     };
     _player.onSourceError = (SourceErrorEvent data) {
-      _log(data);
-      setState(() {
-        eventData = _toString(data.toJson());
-      });
+      _onEvent(data);
     };
     _player.onSourceInfo = (SourceInfoEvent data) {
-      _log(data);
-      setState(() {
-        eventData = _toString(data.toJson());
-      });
+      _onEvent(data);
     };
     _player.onSourceUnloaded = (SourceUnloadedEvent data) {
-      _log(data);
-      setState(() {
-        eventData = _toString(data.toJson());
-      });
+      _onEvent(data);
     };
     _player.onSourceWarning = (SourceWarningEvent data) {
-      _log(data);
-      setState(() {
-        eventData = _toString(data.toJson());
-      });
+      _onEvent(data);
     };
     _player.onTimeChanged = (TimeChangedEvent data) {
-      _log(data);
-      setState(() {
-        eventData = _toString(data.toJson());
-      });
+      _onEvent(data);
     };
     _player.onUnmuted = (UnmutedEvent data) {
-      _log(data);
-      setState(() {
-        eventData = _toString(data.toJson());
-      });
+      _onEvent(data);
     };
     _player.onWarning = (WarningEvent data) {
-      _log(data);
-      setState(() {
-        eventData = _toString(data.toJson());
-      });
+      _onEvent(data);
     };
   }
 
@@ -167,6 +106,13 @@ class _BasicPlaybackWithEventSubscriptionState
     listen();
     _player.loadSourceConfig(sourceConfig);
     super.initState();
+  }
+
+  @override
+  void setState(fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
   }
 
   @override
