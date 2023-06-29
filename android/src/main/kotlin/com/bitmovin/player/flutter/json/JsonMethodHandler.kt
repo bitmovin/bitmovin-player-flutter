@@ -14,5 +14,4 @@ internal class JsonMethodHandler(private val handler: (String, JMethodArgs) -> A
             result.error("Method ${call.method} failed", e.message, null)
         }
     }
-
 }

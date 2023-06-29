@@ -11,12 +11,13 @@ import java.lang.ref.WeakReference
 
 class PlayerPlugin : FlutterPlugin, ActivityAware {
     private val tag: String = this::class.java.simpleName
-    private var flutterPluginBindingReference =
-        WeakReference<FlutterPlugin.FlutterPluginBinding>(null)
+    private var flutterPluginBindingReference = WeakReference<FlutterPlugin.FlutterPluginBinding>(null)
 
-    private fun register(registrar: FlutterPlugin.FlutterPluginBinding) = registrar
-        .platformViewRegistry
-        .registerViewFactory(Channels.PLAYER_VIEW, PlayerViewFactory(registrar))
+    private fun register(registrar: FlutterPlugin.FlutterPluginBinding) {
+        registrar
+            .platformViewRegistry
+            .registerViewFactory(Channels.PLAYER_VIEW, PlayerViewFactory(registrar))
+    }
 
 
     private fun onMethodCall(method: String, arguments: JMethodArgs): Any = when (method) {
@@ -32,9 +33,8 @@ class PlayerPlugin : FlutterPlugin, ActivityAware {
 
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         flutterPluginBindingReference = WeakReference(flutterPluginBinding)
-        ChannelManager.registerMethodChannel(
-            Channels.MAIN, JsonMethodHandler(this::onMethodCall), flutterPluginBinding
-        )
+        val handler = JsonMethodHandler(this::onMethodCall)
+        ChannelManager.registerMethodChannel(Channels.MAIN, handler, flutterPluginBinding)
     }
 
     override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
