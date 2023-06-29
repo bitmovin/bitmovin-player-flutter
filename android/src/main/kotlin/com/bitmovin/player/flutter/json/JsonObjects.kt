@@ -79,7 +79,6 @@ internal class JCreatePlayerArgs(override val map: Map<*, *>) : JStruct {
 
 /** Arguments for all [Player] instance methods. */
 internal class JPlayerMethodArgs(override val map: Map<*, *>) : JStruct {
-    val id by GetString
     val data by getter(::JPlayerMethodData).require()
 }
 
