@@ -51,4 +51,5 @@ dependencies {
     implementation 'com.bitmovin.player:player:3.33.1+jason'
     implementation "androidx.multidex:multidex:2.0.1"
     implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.11.1'
+    implementation 'androidx.concurrent:concurrent-futures-ktx:1.1.0'
 }
