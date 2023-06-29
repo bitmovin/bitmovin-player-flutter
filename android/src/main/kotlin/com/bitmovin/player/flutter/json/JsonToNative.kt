@@ -1,4 +1,4 @@
-package com.bitmovin
+package com.bitmovin.player.flutter.json
 
 import com.bitmovin.player.api.PlaybackConfig
 import com.bitmovin.player.api.PlayerConfig

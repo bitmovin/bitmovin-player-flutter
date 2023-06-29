@@ -1,13 +1,12 @@
 package com.bitmovin.player.flutter
 
-import com.bitmovin.JCreatePlayerArgs
-import com.bitmovin.JMethodArgs
-import com.bitmovin.toNative
+import com.bitmovin.player.flutter.json.JCreatePlayerArgs
+import com.bitmovin.player.flutter.json.JMethodArgs
+import com.bitmovin.player.flutter.json.JsonMethodHandler
+import com.bitmovin.player.flutter.json.toNative
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
-import io.flutter.plugin.common.MethodCall
-import io.flutter.plugin.common.MethodChannel
 import java.lang.ref.WeakReference
 
 class PlayerPlugin : FlutterPlugin, ActivityAware {
@@ -55,16 +54,3 @@ class PlayerPlugin : FlutterPlugin, ActivityAware {
     override fun onDetachedFromActivity() {}
 }
 
-internal class JsonMethodHandler(private val handler: (String, JMethodArgs) -> Any) :
-    MethodChannel.MethodCallHandler {
-    override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
-        try {
-            result.success(handler(call.method, JMethodArgs(call)))
-        } catch (_: NotImplementedError) {
-            result.notImplemented()
-        } catch (e: Exception) {
-            result.error("Method ${call.method} failed", e.message, null)
-        }
-    }
-
-}
