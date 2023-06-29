@@ -11,10 +11,6 @@ import androidx.core.content.ContextCompat
 
 class Helper {
     companion object {
-        fun parsePlayerPayload(params: Map<*, *>): PlayerPayload {
-            return PlayerPayload(params["id"] as String, params["data"])
-        }
-
         fun secondsToMillis(seconds: Double): Double = seconds * 1000
 
         fun millisToSeconds(millis: Double): Double = millis / 1000
