@@ -72,7 +72,7 @@ class Player with PlayerEventListener implements PlayerInterface {
   /// error during player creation on the native platform side.
   late Future<bool> _initializationResult;
 
-  /// Used to generate the _initializationResult future.
+  /// Used to generate the [_initializationResult] future.
   final _completer = Completer<bool>();
 
   /// Private method channel for this player instance
