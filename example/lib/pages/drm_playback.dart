@@ -41,7 +41,7 @@ class _DrmPlaybackState extends State<DrmPlayback> {
     ),
   );
   final _player = Player();
-  final Logger _logger = Logger();
+  final _logger = Logger();
 
   void _onEvent(Event event) {
     String eventString = "${event.runtimeType} ${event.toJson()}";
