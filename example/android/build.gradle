@@ -17,9 +17,9 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-         maven {
-             url 'https://artifacts.bitmovin.com/artifactory/public-releases'
-         }
+        maven {
+            url 'https://artifacts.bitmovin.com/artifactory/public-releases'
+        }
     }
 }
 
