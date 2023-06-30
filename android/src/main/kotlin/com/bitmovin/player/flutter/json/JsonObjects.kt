@@ -73,7 +73,7 @@ internal value class JMethodArgs(private val call: MethodCall) {
 
 /** Arguments for [Player.create]. */
 internal class JCreatePlayerArgs(override val map: Map<*, *>) : JStruct {
-    val id by GetString
+    val id by GetString.require()
     val playerConfig by structGetter(::JPlayerConfig).require()
 }
 
@@ -118,7 +118,7 @@ private inline fun <reified T> listGetter() = getter { list: List<*> -> list.map
 private inline fun <reified E : Enum<E>> enumGetter() =
     getter { name: String -> enumValueOf<E>(name, ignoreCase = true) }
 
-private inline fun <reified E: Enum<E>> enumValueOf(name: String, ignoreCase: Boolean): E {
+private inline fun <reified E : Enum<E>> enumValueOf(name: String, ignoreCase: Boolean): E {
     enumValues<E>().forEach {
         if (name.equals(it.name, ignoreCase)) return it
     }

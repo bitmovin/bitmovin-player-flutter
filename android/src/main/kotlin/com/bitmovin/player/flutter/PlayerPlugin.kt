@@ -19,16 +19,14 @@ class PlayerPlugin : FlutterPlugin, ActivityAware {
             .registerViewFactory(Channels.PLAYER_VIEW, PlayerViewFactory(registrar))
     }
 
-
     private fun onMethodCall(method: String, arguments: JMethodArgs): Any = when (method) {
         Methods.CREATE_PLAYER -> createPlayer(arguments.asCreatePlayerArgs) != null
         else -> throw NotImplementedError()
     }
 
     private fun createPlayer(args: JCreatePlayerArgs) = flutterPluginBindingReference.get()?.let {
-        val id = args.id ?: return@let false
         val config = args.playerConfig.toNative()
-        PlayerMethod(it.applicationContext, id, it.binaryMessenger, config)
+        PlayerMethod(it.applicationContext, args.id, it.binaryMessenger, config)
     }
 
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
@@ -53,4 +51,3 @@ class PlayerPlugin : FlutterPlugin, ActivityAware {
 
     override fun onDetachedFromActivity() {}
 }
-
