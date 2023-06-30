@@ -1,6 +1,7 @@
 export 'src/api/drm/drm_config.dart';
 export 'src/api/drm/fairplay_config.dart';
 export 'src/api/drm/widevine_config.dart';
+export 'src/api/event.dart';
 export 'src/api/licensing_config.dart';
 export 'src/api/media/media_filter.dart';
 export 'src/api/playback_config.dart';

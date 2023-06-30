@@ -2,8 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:bitmovin_player_example/controls.dart';
-
 import 'package:bitmovin_player/bitmovin_player.dart';
+import 'package:logger/logger.dart';
 
 class DrmPlayback extends StatefulWidget {
   static String routeName = 'DrmPlayback';
@@ -41,15 +41,12 @@ class _DrmPlaybackState extends State<DrmPlayback> {
     ),
   );
   final _player = Player();
+  final _logger = Logger();
 
-  void _log(dynamic data) {
-    debugPrint('=== LOG ===\nDATA ==> $data');
-  }
+  void _onEvent(Event event) {
+    String eventString = "${event.runtimeType} ${event.toJson()}";
 
-  void _onEvent(Map<String, dynamic> eventJson) {
-    String eventString = eventJson.toString();
-
-    _log(eventString);
+    _logger.d(eventString);
     setState(() {
       eventData = eventString;
     });
@@ -57,31 +54,31 @@ class _DrmPlaybackState extends State<DrmPlayback> {
 
   void listen() {
     _player.onSourceLoaded = (SourceLoadedEvent data) {
-      _onEvent(data.toJson());
+      _onEvent(data);
     };
     _player.onPlay = (PlayEvent data) {
-      _onEvent(data.toJson());
+      _onEvent(data);
     };
     _player.onPaused = (PausedEvent data) {
-      _onEvent(data.toJson());
+      _onEvent(data);
     };
     _player.onPlaying = (PlayingEvent data) {
-      _onEvent(data.toJson());
+      _onEvent(data);
     };
     _player.onReady = (ReadyEvent data) {
-      _onEvent(data.toJson());
+      _onEvent(data);
     };
     _player.onSeek = (SeekEvent data) {
-      _onEvent(data.toJson());
+      _onEvent(data);
     };
     _player.onSeeked = (SeekedEvent data) {
-      _onEvent(data.toJson());
+      _onEvent(data);
     };
     _player.onMuted = (MutedEvent data) {
-      _onEvent(data.toJson());
+      _onEvent(data);
     };
     _player.onUnmuted = (UnmutedEvent data) {
-      _onEvent(data.toJson());
+      _onEvent(data);
     };
   }
 
@@ -90,6 +87,13 @@ class _DrmPlaybackState extends State<DrmPlayback> {
     listen();
     _player.loadSourceConfig(sourceConfig);
     super.initState();
+  }
+
+  @override
+  setState(fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
   }
 
   @override

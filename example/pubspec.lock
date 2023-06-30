@@ -150,7 +150,7 @@ packages:
     source: sdk
     version: "0.0.0"
   flutter_easylogger:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: flutter_easylogger
       sha256: b40179db77e18e6a45f681aa70298a3e45e0f1ba4a5484c09885699aca44553f
@@ -211,7 +211,7 @@ packages:
     source: hosted
     version: "2.0.1"
   logger:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: logger
       sha256: db2ff852ed77090ba9f62d3611e4208a3d11dfa35991a81ae724c113fcb3e3f7
