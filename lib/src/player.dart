@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:bitmovin_player/src/channel_manager.dart';
 import 'package:bitmovin_player/src/channels.dart';
@@ -18,9 +20,10 @@ import 'package:flutter/services.dart';
 /// default Bitmovin Player Web UI, a player instance can be attached to a
 /// [PlayerView].
 class Player with PlayerEventListener implements PlayerInterface {
-  Player([
+  Player({
     this.config = const PlayerConfig(),
-  ]) {
+  }) {
+    _initializationResult = _completer.future;
     _uuid = hashCode.toString();
 
     final mainChannel = ChannelManager.registerMethodChannel(
@@ -33,31 +36,44 @@ class Player with PlayerEventListener implements PlayerInterface {
       Map<String, dynamic>.from(
         {
           'id': id,
-          'playerConfig': config?.toJson(),
+          'playerConfig': config.toJson(),
         },
       ),
     )
         .then((value) {
-      if (value != null && value == true) {
-        _methodChannel = ChannelManager.registerMethodChannel(
-          name: '${Channels.player}-$id',
-          handler: _playerMethodCallHandler,
-        );
-
-        _eventChannel = ChannelManager.registerEventChannel(
-          name: '${Channels.playerEvent}-$id',
-        );
-        _eventChannel.receiveBroadcastStream().listen(onEvent);
+      if (value == null || value == false) {
+        _completer.complete(false);
+        return;
       }
+
+      _methodChannel = ChannelManager.registerMethodChannel(
+        name: '${Channels.player}-$id',
+        handler: _playerMethodCallHandler,
+      );
+
+      _eventChannel = ChannelManager.registerEventChannel(
+        name: '${Channels.playerEvent}-$id',
+      );
+      _eventChannel.receiveBroadcastStream().listen(onEvent);
+
+      _completer.complete(true);
     });
   }
 
   /// The player config.
-  final PlayerConfig? config;
+  final PlayerConfig config;
 
   /// Unique identifier for this player instance.
   String get id => _uuid;
   late String _uuid;
+
+  /// Whether the player has been created successfully on the native platform
+  /// side. If `true`, the player is ready to be used. If `false`, there was an
+  /// error during player creation on the native platform side.
+  late Future<bool> _initializationResult;
+
+  /// Used to generate the [_initializationResult] future.
+  final _completer = Completer<bool>();
 
   /// Private method channel for this player instance
   late MethodChannel _methodChannel;
@@ -106,8 +122,13 @@ class Player with PlayerEventListener implements PlayerInterface {
   Future<T?> _invokeMethod<T>(
     String methodName, [
     dynamic data,
-  ]) =>
-      _methodChannel.invokeMethod<T>(methodName, _buildPayload(data));
+  ]) async {
+    final result = await _initializationResult;
+    if (!result) {
+      return Future.error('Error initializing player on native platform side.');
+    }
+    return _methodChannel.invokeMethod<T>(methodName, _buildPayload(data));
+  }
 
   /// Starts a new playback session with a [Source] that is created based on
   /// the provided [SourceConfig].

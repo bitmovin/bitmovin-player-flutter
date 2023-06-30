@@ -88,6 +88,7 @@ class _DrmPlaybackState extends State<DrmPlayback> {
   @override
   void initState() {
     listen();
+    _player.loadSourceConfig(sourceConfig);
     super.initState();
   }
 

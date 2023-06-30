@@ -23,6 +23,12 @@ class _BasicPlaybackState extends State<BasicPlayback> {
   final _player = Player();
 
   @override
+  void initState() {
+    _player.loadSourceConfig(sourceConfig);
+    super.initState();
+  }
+
+  @override
   void dispose() {
     _player.dispose();
     super.dispose();
