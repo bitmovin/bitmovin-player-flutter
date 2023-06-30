@@ -9,7 +9,7 @@ internal class JsonMethodHandler(private val handler: (String, JMethodArgs) -> A
     override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
         try {
             val successResult = handler(call.method, JMethodArgs(call))
-            // Flutter requires returning null if there is no result
+            // Flutter requires returning null if there are no result
             result.success(if (successResult is Unit) null else successResult)
         } catch (_: NotImplementedError) {
             result.notImplemented()
