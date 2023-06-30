@@ -18,7 +18,7 @@ SubtitleTrack _$SubtitleTrackFromJson(Map<String, dynamic> json) =>
       roles: (json['roles'] as List<dynamic>?)
               ?.map((e) => MediaTrackRole.fromJson(e as Map<String, dynamic>))
               .toList() ??
-          [],
+          const [],
     );
 
 Map<String, dynamic> _$SubtitleTrackToJson(SubtitleTrack instance) =>

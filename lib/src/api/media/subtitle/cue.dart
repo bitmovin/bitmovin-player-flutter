@@ -9,63 +9,59 @@ class Cue extends Equatable {
   const Cue({
     required this.start,
     required this.end,
-    required this.line,
-    required this.fractionalPosition,
-    required this.bitmapHeight,
-    required this.isWindowColorSet,
-    required this.windowColor,
+    this.line,
+    this.fractionalPosition,
+    this.bitmapHeight,
+    this.isWindowColorSet = false,
+    this.windowColor,
     this.text,
     this.html,
     this.textAlignment,
-    this.lineType,
-    this.lineAnchor,
-    this.positionAnchor,
+    this.lineType = LineType.typeUnset,
+    this.lineAnchor = AnchorType.typeUnset,
+    this.positionAnchor = AnchorType.typeUnset,
     this.size,
-    this.verticalType,
+    this.verticalType = VerticalType.typeUnset,
   });
   factory Cue.fromJson(Map<String, dynamic> json) {
     return _$CueFromJson(json);
   }
 
   /// The start time of the cue in seconds.
-  @JsonKey(name: 'start', required: true, defaultValue: 0.0)
+  @JsonKey(name: 'start', required: true)
   final double start;
 
   /// The end time of the cue in seconds.
-  @JsonKey(name: 'end', required: true, defaultValue: 0.0)
+  @JsonKey(name: 'end', required: true)
   final double end;
 
   /// The cue text.
-  @JsonKey(name: 'text', defaultValue: null)
+  @JsonKey(name: 'text')
   final String? text;
 
   /// The cue text as HTML.
-  @JsonKey(name: 'html', defaultValue: null)
+  @JsonKey(name: 'html')
   final String? html;
 
   /// The alignment of the cue text.
-  @JsonKey(name: 'textAlignment', defaultValue: null)
+  @JsonKey(name: 'textAlignment')
   final Alignment? textAlignment;
 
   /// The vertical position of the cue box.
-  @JsonKey(name: 'line', required: true, defaultValue: 0.0)
-  final double line;
+  @JsonKey(name: 'line')
+  final double? line;
 
   /// The type of the value from [line].
-  @JsonKey(name: 'lineType', required: true, defaultValue: LineType.typeUnset)
-  final LineType? lineType;
+  @JsonKey(name: 'lineType')
+  final LineType lineType;
 
   /// The cues anchor positioned by [line].
   ///
   /// For the normal case of horizontal text, [AnchorType.anchorTypeStart],
   /// [AnchorType.anchorTypeMiddle] and [AnchorType.anchorTypeEnd] correspond to
   /// the top, middle and bottom of the cue box respectively.
-  @JsonKey(
-    name: 'lineAnchor',
-    required: true,
-    defaultValue: AnchorType.typeUnset,
-  )
-  final AnchorType? lineAnchor;
+  @JsonKey(name: 'lineAnchor')
+  final AnchorType lineAnchor;
 
   /// The fractional position of the [positionAnchor] of the cue within the
   /// viewport in the orthogonal direction to [line].
@@ -73,62 +69,34 @@ class Cue extends Equatable {
   /// For horizontal text, this is the horizontal position relative to the left
   /// of the viewport. Note that positioning is relative to the left of the
   /// viewport even in the case of right-to-left text.
-  @JsonKey(
-    name: 'fractionalPosition',
-    required: true,
-    defaultValue: 0.0,
-  )
-  final double fractionalPosition;
+  @JsonKey(name: 'fractionalPosition')
+  final double? fractionalPosition;
 
   /// The cue anchor positioned by [fractionalPosition].
-  @JsonKey(
-    name: 'positionAnchor',
-    required: true,
-    defaultValue: AnchorType.typeUnset,
-  )
-  final AnchorType? positionAnchor;
+  @JsonKey(name: 'positionAnchor')
+  final AnchorType positionAnchor;
 
   /// The size of the cue in the writing direction specified as a fraction of
   /// the viewport size in that direction.
-  @JsonKey(
-    name: 'size',
-    required: true,
-    defaultValue: 0.0,
-  )
+  @JsonKey(name: 'size')
   final double? size;
 
   /// The bitmap height as a fraction of the of the viewport size.
-  @JsonKey(
-    name: 'bitmapHeight',
-    required: true,
-    defaultValue: 0.0,
-  )
-  final double bitmapHeight;
+  @JsonKey(name: 'bitmapHeight')
+  final double? bitmapHeight;
 
   /// True iff the [windowColor] property is set.
-  @JsonKey(
-    name: 'isWindowColorSet',
-    required: true,
-    defaultValue: false,
-  )
+  @JsonKey(name: 'isWindowColorSet')
   final bool isWindowColorSet;
 
   /// The fill color of the window.
-  @JsonKey(
-    name: 'windowColor',
-    required: true,
-    defaultValue: 0,
-  )
-  final int windowColor;
+  @JsonKey(name: 'windowColor')
+  final int? windowColor;
 
   /// The cue vertical type.
   /// For the case of horizontal text, [VerticalType.typeUnset] will be set.
-  @JsonKey(
-    name: 'verticalType',
-    required: true,
-    defaultValue: VerticalType.typeUnset,
-  )
-  final VerticalType? verticalType;
+  @JsonKey(name: 'verticalType')
+  final VerticalType verticalType;
 
   @override
   List<Object?> get props => [];

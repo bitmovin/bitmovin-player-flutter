@@ -11,38 +11,38 @@ class SubtitleTrack extends Equatable {
     this.mimeType,
     this.label,
     this.id,
-    this.isDefault,
-    this.isForced,
+    this.isDefault = false,
+    this.isForced = false,
     this.language,
-    this.roles,
+    this.roles = const [],
   });
 
   factory SubtitleTrack.fromJson(Map<String, dynamic> json) {
     return _$SubtitleTrackFromJson(json);
   }
 
-  @JsonKey(name: 'url', defaultValue: null)
+  @JsonKey(name: 'url')
   final String? url;
 
-  @JsonKey(name: 'mimeType', defaultValue: null)
+  @JsonKey(name: 'mimeType')
   final String? mimeType;
 
-  @JsonKey(name: 'label', defaultValue: null)
+  @JsonKey(name: 'label')
   final String? label;
 
-  @JsonKey(name: 'id', defaultValue: null)
+  @JsonKey(name: 'id')
   final String? id;
 
-  @JsonKey(name: 'isDefault', defaultValue: false)
+  @JsonKey(name: 'isDefault')
   final bool? isDefault;
 
-  @JsonKey(name: 'language', defaultValue: null)
+  @JsonKey(name: 'language')
   final String? language;
 
-  @JsonKey(name: 'isForced', defaultValue: false)
+  @JsonKey(name: 'isForced')
   final bool? isForced;
 
-  @JsonKey(name: 'roles', defaultValue: [])
+  @JsonKey(name: 'roles')
   final List<MediaTrackRole>? roles;
 
   Map<String, dynamic> toJson() => _$SubtitleTrackToJson(this);

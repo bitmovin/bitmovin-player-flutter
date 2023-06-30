@@ -19,11 +19,11 @@ class ErrorEvent extends Event with EquatableMixin {
   }
 
   /// The error code used to identify the error.
-  @JsonKey(name: 'code', defaultValue: null)
+  @JsonKey(name: 'code', defaultValue: 0)
   final int code;
 
   /// The error message to explain the reason for the error.
-  @JsonKey(name: 'message', defaultValue: null)
+  @JsonKey(name: 'message')
   final String? message;
 
   @override

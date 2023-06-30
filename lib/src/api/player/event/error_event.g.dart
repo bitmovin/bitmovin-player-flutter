@@ -8,7 +8,7 @@ part of 'error_event.dart';
 
 ErrorEvent _$ErrorEventFromJson(Map<String, dynamic> json) => ErrorEvent(
       timestamp: json['timestamp'] as int?,
-      code: json['code'] as int,
+      code: json['code'] as int? ?? 0,
       message: json['message'] as String?,
     );
 

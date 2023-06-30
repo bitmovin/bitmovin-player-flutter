@@ -19,11 +19,11 @@ class WarningEvent extends Event with EquatableMixin {
   }
 
   /// The warning code used to identify the warning.
-  @JsonKey(name: 'code', defaultValue: null)
+  @JsonKey(name: 'code', defaultValue: 0)
   final int code;
 
   /// The warning message to explain the reason for the warning.
-  @JsonKey(name: 'message', defaultValue: null)
+  @JsonKey(name: 'message')
   final String? message;
 
   @override

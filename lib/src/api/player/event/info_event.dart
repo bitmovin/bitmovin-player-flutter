@@ -18,7 +18,7 @@ class InfoEvent extends Event with EquatableMixin {
   }
 
   /// A natural language message detailing the reason and origin of this event.
-  @JsonKey(name: 'message', defaultValue: null)
+  @JsonKey(name: 'message')
   final String? message;
 
   @override

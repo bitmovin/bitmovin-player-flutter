@@ -12,13 +12,11 @@ PlaybackConfig _$PlaybackConfigFromJson(Map<String, dynamic> json) =>
       isMuted: json['isMuted'] as bool? ?? false,
       isTimeShiftEnabled: json['isTimeShiftEnabled'] as bool? ?? true,
       videoCodecPriority: (json['videoCodecPriority'] as List<dynamic>?)
-              ?.map((e) => e as String)
-              .toList() ??
-          [],
+          ?.map((e) => e as String)
+          .toList(),
       audioCodecPriority: (json['audioCodecPriority'] as List<dynamic>?)
-              ?.map((e) => e as String)
-              .toList() ??
-          [],
+          ?.map((e) => e as String)
+          .toList(),
       isTunneledPlaybackEnabled:
           json['isTunneledPlaybackEnabled'] as bool? ?? false,
       seekMode: $enumDecodeNullable(_$SeekModeEnumMap, json['seekMode']) ??

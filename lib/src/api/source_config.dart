@@ -15,9 +15,9 @@ class SourceConfig extends Equatable {
     this.title,
     this.description,
     this.audioCodecPriority,
-    this.isPosterPersistent,
+    this.isPosterPersistent = false,
     this.posterSource,
-    this.subtitleTracks,
+    this.subtitleTracks = const [],
     this.thumbnailTrack,
     this.videoCodecPriority,
     this.options = const SourceOptions(),
@@ -46,45 +46,49 @@ class SourceConfig extends Equatable {
   final SourceType type;
 
   /// The title of the [Source].
-  @JsonKey(name: 'title', defaultValue: '')
+  @JsonKey(name: 'title')
   final String? title;
 
   /// The descriptions of the [Source].
-  @JsonKey(name: 'description', defaultValue: null)
+  @JsonKey(name: 'description')
   final String? description;
 
   /// The URL pointing to the poster image.
-  @JsonKey(name: 'posterSource', defaultValue: null)
+  @JsonKey(name: 'posterSource')
   final String? posterSource;
 
   /// Whether the poster is persistent.
-  @JsonKey(name: 'isPosterPersistent', defaultValue: false)
+  @JsonKey(name: 'isPosterPersistent')
   final bool? isPosterPersistent;
 
   /// A list of additional [SubtitleTrack] available for the [Source].
-  @JsonKey(name: 'subtitleTracks', defaultValue: [])
+  @JsonKey(name: 'subtitleTracks')
   final List<SubtitleTrack>? subtitleTracks;
 
   /// The current [ThumbnailTrack] or null.
-  @JsonKey(name: 'thumbnailTrack', defaultValue: null)
+  @JsonKey(name: 'thumbnailTrack')
   final ThumbnailTrack? thumbnailTrack;
 
   /// The video codec priority for the [Source].
   /// First index has the highest priority.
-  @JsonKey(name: 'videoCodecPriority', defaultValue: [])
+  ///
+  /// This is only supported on Android.
+  @JsonKey(name: 'videoCodecPriority')
   final List<String>? videoCodecPriority;
 
   /// The audio codec priority for the [Source].
   /// First index has the highest priority.
-  @JsonKey(name: 'audioCodecPriority', defaultValue: [])
+  ///
+  /// This is only supported on Android.
+  @JsonKey(name: 'audioCodecPriority')
   final List<String>? audioCodecPriority;
 
   /// The additional [SourceOptions] for the [Source].
-  @JsonKey(name: 'sourceOptions', defaultValue: null)
+  @JsonKey(name: 'sourceOptions')
   final SourceOptions? options;
 
   /// The [DrmConfig] for the [Source].
-  @JsonKey(name: 'drmConfig', defaultValue: null)
+  @JsonKey(name: 'drmConfig')
   final DrmConfig? drmConfig;
 
   /// Converts this [SourceConfig] into JSON friendly Map<String, dynamic>
