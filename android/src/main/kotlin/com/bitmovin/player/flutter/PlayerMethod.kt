@@ -2,7 +2,6 @@ package com.bitmovin.player.flutter
 
 import android.content.Context
 import com.bitmovin.player.flutter.json.JMethodArgs
-import com.bitmovin.player.flutter.json.JPlayerMethodData
 import com.bitmovin.player.flutter.json.JSourceConfig
 import com.bitmovin.player.flutter.json.metadata
 import com.bitmovin.player.api.Player
@@ -11,6 +10,7 @@ import com.bitmovin.player.api.drm.WidevineConfig
 import com.bitmovin.player.api.source.Source
 import com.bitmovin.player.flutter.json.toNative
 import com.bitmovin.player.flutter.drm.WidevineCallbacksHandler
+import com.bitmovin.player.flutter.json.JPlayerMethodArg
 import com.bitmovin.player.flutter.json.JsonMethodHandler
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.EventChannel
@@ -60,14 +60,14 @@ class PlayerMethod(
         load(Source.create(sourceConfig))
     }
 
-    private fun Player.onMethodCall(method: String, data: JPlayerMethodData): Any = when (method) {
-        Methods.LOAD_WITH_SOURCE_CONFIG -> load(data.asSourceConfig)
-        Methods.LOAD_WITH_SOURCE -> load(data.asSource.sourceConfig)
+    private fun Player.onMethodCall(method: String, arg: JPlayerMethodArg): Any = when (method) {
+        Methods.LOAD_WITH_SOURCE_CONFIG -> load(arg.asSourceConfig)
+        Methods.LOAD_WITH_SOURCE -> load(arg.asSource.sourceConfig)
         Methods.PLAY -> play()
         Methods.PAUSE -> pause()
         Methods.MUTE -> mute()
         Methods.UNMUTE -> unmute()
-        Methods.SEEK -> seek(data.asDouble)
+        Methods.SEEK -> seek(arg.asDouble)
         Methods.CURRENT_TIME -> currentTime
         Methods.DURATION -> duration
         Methods.DESTROY -> PlayerManager.destroy(id)
@@ -76,7 +76,7 @@ class PlayerMethod(
 
     private fun onMethodCall(method: String, arguments: JMethodArgs) : Any {
         val player = getPlayer() ?: throw IllegalArgumentException("Player $id not found")
-        return player.onMethodCall(method, arguments.asPlayerMethodArgs.data)
+        return player.onMethodCall(method, arguments.asPlayerMethodArgs)
     }
 
     override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {

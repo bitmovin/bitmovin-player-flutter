@@ -67,7 +67,7 @@ internal class JPlayerConfig(override val map: Map<*, *>) : JStruct {
 @JvmInline
 internal value class JMethodArgs(private val call: MethodCall) {
     val asCreatePlayerArgs get() = JCreatePlayerArgs(asMap)
-    val asPlayerMethodArgs get() = JPlayerMethodArgs(asMap)
+    val asPlayerMethodArgs get() = JPlayerMethodArg(asMap)
     private val asMap get() = call.arguments as Map<*, *>
 }
 
@@ -77,23 +77,18 @@ internal class JCreatePlayerArgs(override val map: Map<*, *>) : JStruct {
     val playerConfig by structGetter(::JPlayerConfig).require()
 }
 
-/** Arguments for all [Player] instance methods. */
-internal class JPlayerMethodArgs(override val map: Map<*, *>) : JStruct {
-    val data by getter(::JPlayerMethodData).require()
-}
-
-@JvmInline
-internal value class JPlayerMethodData(private val any: Any) {
-    val asBool get() = any as Boolean
-    val asString get() = any as String
-    val asDouble get() = any as Double
-    val asSource get() = JSource(asMap)
-    val asSourceConfig get() = JSourceConfig(asMap)
-    private val asMap get() = any as Map<*, *>
+/** Argument for all [Player] instance methods. */
+internal class JPlayerMethodArg(override val map: Map<*, *>) : JStruct {
+    val asDouble get() = data as Double
+    val asSource get() = JSource(dataAsMap)
+    val asSourceConfig get() = JSourceConfig(dataAsMap)
+    private val data by GetAny.require()
+    private val dataAsMap get() = data as Map<*, *>
 }
 
 // Private property delegator
 
+private val GetAny = castGetter<Any>()
 private val GetBool = castGetter<Boolean>()
 private val GetString = castGetter<String>()
 private val GetStringList = listGetter<String>()
