@@ -30,7 +30,7 @@ public class Helper {
             return playerConfig
         }
 
-        if let licenseKey = json["licenseKey"] as? String {
+        if let licenseKey = json["key"] as? String {
             playerConfig.key = licenseKey
         }
 
