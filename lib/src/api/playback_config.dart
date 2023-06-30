@@ -11,20 +11,8 @@ class PlaybackConfig extends Equatable {
     this.isAutoplayEnabled = false,
     this.isMuted = false,
     this.isTimeShiftEnabled = true,
-    this.videoCodecPriority = const [
-      'av1',
-      'hevc',
-      'hvc',
-      'vp9',
-      'avc',
-    ],
-    this.audioCodecPriority = const [
-      'ec-3',
-      'mp4a.a6',
-      'ac-3',
-      'mp4a.a5',
-      'mp4a.40',
-    ],
+    this.videoCodecPriority,
+    this.audioCodecPriority,
     this.isTunneledPlaybackEnabled = false,
     this.seekMode = SeekMode.exact,
     this.audioFilter = MediaFilter.loose,
@@ -37,17 +25,17 @@ class PlaybackConfig extends Equatable {
 
   /// Specifies whether autoplay is enabled.
   /// Default value is `false`.
-  @JsonKey(name: 'isAutoplayEnabled', defaultValue: false)
+  @JsonKey(name: 'isAutoplayEnabled')
   final bool? isAutoplayEnabled;
 
   /// Specifies whether the player should start muted.
   /// Default value is `false`.
-  @JsonKey(name: 'isMuted', defaultValue: false)
+  @JsonKey(name: 'isMuted')
   final bool? isMuted;
 
   /// Specifies if time shifting (during live streaming) should be enabled.
   /// Default value is `true`.
-  @JsonKey(name: 'isTimeShiftEnabled', defaultValue: true)
+  @JsonKey(name: 'isTimeShiftEnabled')
   final bool? isTimeShiftEnabled;
 
   /// The video codec priority where the index has the highest priority.
@@ -55,7 +43,7 @@ class PlaybackConfig extends Equatable {
   /// [SourceConfig.videoCodecPriority].
   ///
   /// This is only supported on Android.
-  @JsonKey(name: 'videoCodecPriority', defaultValue: [])
+  @JsonKey(name: 'videoCodecPriority')
   final List<String>? videoCodecPriority;
 
   /// The audio codec priority where the first index has the highest priority.
@@ -63,35 +51,35 @@ class PlaybackConfig extends Equatable {
   /// [SourceConfig.audioCodecPriority].
   ///
   /// This is only supported on Android.
-  @JsonKey(name: 'audioCodecPriority', defaultValue: [])
+  @JsonKey(name: 'audioCodecPriority')
   final List<String>? audioCodecPriority;
 
   /// Specifies if tunneled playback should be enabled.
   ///
   /// This is only supported on Android. This property is ignored for Android
   /// versions below LOLLIPOP (21) or when VR sources are scheduled.
-  @JsonKey(name: 'isTunneledPlaybackEnabled', defaultValue: false)
+  @JsonKey(name: 'isTunneledPlaybackEnabled')
   final bool? isTunneledPlaybackEnabled;
 
   /// The [SeekMode] that will be used.
   /// Default value is [SeekMode.exact].
   ///
   /// This is only available on Android.
-  @JsonKey(name: 'seekMode', defaultValue: SeekMode.exact)
+  @JsonKey(name: 'seekMode')
   final SeekMode? seekMode;
 
   /// Specifies how strictly potentially unsupported audio tracks and qualities
   /// are filtered out of a playback session.
   ///
   /// This is only supported on Android.
-  @JsonKey(name: 'audioFilter', defaultValue: MediaFilter.loose)
+  @JsonKey(name: 'audioFilter')
   final MediaFilter audioFilter;
 
   /// Specifies how strictly potentially unsupported video qualities are
   /// filtered out of a playback session.
   ///
   /// This is only supported on Android.
-  @JsonKey(name: 'videoFilter', defaultValue: MediaFilter.loose)
+  @JsonKey(name: 'videoFilter')
   final MediaFilter videoFilter;
 
   Map<String, dynamic> toJson() => _$PlaybackConfigToJson(this);

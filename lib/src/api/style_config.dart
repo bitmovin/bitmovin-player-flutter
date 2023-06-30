@@ -22,35 +22,35 @@ class StyleConfig extends Equatable {
 
   /// Whether the Player UI is enabled.
   /// Default value is `true`.
-  @JsonKey(name: 'isUiEnabled', defaultValue: true)
+  @JsonKey(name: 'isUiEnabled')
   final bool isUiEnabled;
 
   /// Optional URI pointing to the CSS file that should be used for the
   /// Player UI instead of the default CSS file.
-  @JsonKey(name: 'playerUiCss', defaultValue: null)
+  @JsonKey(name: 'playerUiCss')
   final String? playerUiCss;
 
   /// Optional URI pointing to the JS file that should be used for the
   /// Player UI instead of the default JS file.
-  @JsonKey(name: 'playerUiJs', defaultValue: null)
+  @JsonKey(name: 'playerUiJs')
   final String? playerUiJs;
 
   /// Optional URI pointing to the supplemental CSS file that will be used for
   /// the Player UI. The contained styles will be added to the CSS file
   /// specified in [playerUiCss].
-  @JsonKey(name: 'supplementalPlayerUiCss', defaultValue: null)
+  @JsonKey(name: 'supplementalPlayerUiCss')
   final String? supplementalPlayerUiCss;
 
   /// Whether the first frame of the main content will be rendered before
   /// playback starts.
   /// Default value is `false`.
-  @JsonKey(name: 'isHideFirstFrame', defaultValue: null)
+  @JsonKey(name: 'isHideFirstFrame')
   final bool isHideFirstFrame;
 
   /// Specifies how the video content is scaled or stretched within the parent
   /// container's bounds.
   /// Default value is [ScalingMode.fit].
-  @JsonKey(name: 'scalingMode', defaultValue: null)
+  @JsonKey(name: 'scalingMode')
   final ScalingMode scalingMode;
 
   Map<String, dynamic> toJson() => _$StyleConfigToJson(this);

@@ -71,12 +71,16 @@ class SourceConfig extends Equatable {
 
   /// The video codec priority for the [Source].
   /// First index has the highest priority.
-  @JsonKey(name: 'videoCodecPriority', defaultValue: [])
+  ///
+  /// This is only supported on Android.
+  @JsonKey(name: 'videoCodecPriority')
   final List<String>? videoCodecPriority;
 
   /// The audio codec priority for the [Source].
   /// First index has the highest priority.
-  @JsonKey(name: 'audioCodecPriority', defaultValue: [])
+  ///
+  /// This is only supported on Android.
+  @JsonKey(name: 'audioCodecPriority')
   final List<String>? audioCodecPriority;
 
   /// The additional [SourceOptions] for the [Source].

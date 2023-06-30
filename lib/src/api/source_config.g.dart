@@ -17,9 +17,8 @@ SourceConfig _$SourceConfigFromJson(Map<String, dynamic> json) {
     title: json['title'] as String? ?? '',
     description: json['description'] as String?,
     audioCodecPriority: (json['audioCodecPriority'] as List<dynamic>?)
-            ?.map((e) => e as String)
-            .toList() ??
-        [],
+        ?.map((e) => e as String)
+        .toList(),
     isPosterPersistent: json['isPosterPersistent'] as bool? ?? false,
     posterSource: json['posterSource'] as String?,
     subtitleTracks: (json['subtitleTracks'] as List<dynamic>?)
@@ -31,9 +30,8 @@ SourceConfig _$SourceConfigFromJson(Map<String, dynamic> json) {
         : ThumbnailTrack.fromJson(
             json['thumbnailTrack'] as Map<String, dynamic>),
     videoCodecPriority: (json['videoCodecPriority'] as List<dynamic>?)
-            ?.map((e) => e as String)
-            .toList() ??
-        [],
+        ?.map((e) => e as String)
+        .toList(),
     options: json['sourceOptions'] == null
         ? const SourceOptions()
         : SourceOptions.fromJson(json['sourceOptions'] as Map<String, dynamic>),
