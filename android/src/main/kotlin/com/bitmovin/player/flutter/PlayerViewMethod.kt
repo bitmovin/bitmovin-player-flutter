@@ -26,7 +26,7 @@ class PlayerViewMethod(
         ).apply {
             this.setMethodCallHandler(this@PlayerViewMethod)
         }
-        view = PlayerView(context)
+        view = PlayerView(context, null as Player?)
     }
 
     private fun setPlayer(player: Player) {
@@ -54,8 +54,6 @@ class PlayerViewMethod(
 
     override fun dispose() {
         view.player = null
-        playerId?.let {
-            PlayerManager.destroy(it)
-        }
+        view.onDestroy()
     }
 }
