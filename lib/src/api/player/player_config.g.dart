@@ -16,7 +16,7 @@ PlayerConfig _$PlayerConfigFromJson(Map<String, dynamic> json) => PlayerConfig(
           : PlaybackConfig.fromJson(
               json['playbackConfig'] as Map<String, dynamic>),
       licensingConfig: json['licensingConfig'] == null
-          ? const LicensingConfig(delay: 0)
+          ? const LicensingConfig()
           : LicensingConfig.fromJson(
               json['licensingConfig'] as Map<String, dynamic>),
     );

@@ -7,7 +7,7 @@ part of 'style_config.dart';
 // **************************************************************************
 
 StyleConfig _$StyleConfigFromJson(Map<String, dynamic> json) => StyleConfig(
-      isUiEnabled: json['isUiEnabled'] as bool? ?? false,
+      isUiEnabled: json['isUiEnabled'] as bool? ?? true,
       isHideFirstFrame: json['isHideFirstFrame'] as bool? ?? false,
       playerUiCss: json['playerUiCss'] as String?,
       playerUiJs: json['playerUiJs'] as String?,

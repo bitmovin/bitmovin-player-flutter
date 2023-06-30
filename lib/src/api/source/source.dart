@@ -25,7 +25,7 @@ class Source extends Equatable {
   final String? id;
 
   /// Configuration that will be used by this [Source]
-  @JsonKey(name: 'sourceConfig')
+  @JsonKey(name: 'sourceConfig', required: true)
   final SourceConfig sourceConfig;
 
   @override
