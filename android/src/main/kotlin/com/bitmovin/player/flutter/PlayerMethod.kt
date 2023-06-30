@@ -1,17 +1,17 @@
 package com.bitmovin.player.flutter
 
 import android.content.Context
-import com.bitmovin.player.flutter.json.JMethodArgs
-import com.bitmovin.player.flutter.json.JSourceConfig
-import com.bitmovin.player.flutter.json.metadata
 import com.bitmovin.player.api.Player
 import com.bitmovin.player.api.PlayerConfig
 import com.bitmovin.player.api.drm.WidevineConfig
 import com.bitmovin.player.api.source.Source
-import com.bitmovin.player.flutter.json.toNative
 import com.bitmovin.player.flutter.drm.WidevineCallbacksHandler
+import com.bitmovin.player.flutter.json.JMethodArgs
 import com.bitmovin.player.flutter.json.JPlayerMethodArg
+import com.bitmovin.player.flutter.json.JSourceConfig
 import com.bitmovin.player.flutter.json.JsonMethodHandler
+import com.bitmovin.player.flutter.json.metadata
+import com.bitmovin.player.flutter.json.toNative
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.EventChannel.StreamHandler
@@ -74,7 +74,7 @@ class PlayerMethod(
         else -> throw NotImplementedError()
     }
 
-    private fun onMethodCall(method: String, arguments: JMethodArgs) : Any {
+    private fun onMethodCall(method: String, arguments: JMethodArgs): Any {
         val player = getPlayer() ?: throw IllegalArgumentException("Player $id not found")
         return player.onMethodCall(method, arguments.asPlayerMethodArgs)
     }
