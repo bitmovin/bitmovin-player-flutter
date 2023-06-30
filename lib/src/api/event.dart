@@ -9,7 +9,7 @@ class Event extends Equatable {
   factory Event.fromJson(Map<String, dynamic> json) {
     return _$EventFromJson(json);
   }
-  @JsonKey(name: 'timestamp', defaultValue: null)
+  @JsonKey(name: 'timestamp')
   final int? timestamp;
 
   @override

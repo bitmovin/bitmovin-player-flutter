@@ -21,11 +21,11 @@ class Source extends Equatable {
     return _$SourceFromJson(json);
   }
 
-  @JsonKey(name: 'id', defaultValue: null)
+  @JsonKey(name: 'id')
   final String? id;
 
   /// Configuration that will be used by this [Source]
-  @JsonKey(name: 'sourceConfig', defaultValue: null)
+  @JsonKey(name: 'sourceConfig')
   final SourceConfig sourceConfig;
 
   @override

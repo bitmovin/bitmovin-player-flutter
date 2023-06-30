@@ -14,7 +14,7 @@ SourceConfig _$SourceConfigFromJson(Map<String, dynamic> json) {
   return SourceConfig(
     url: json['url'] as String,
     type: $enumDecode(_$SourceTypeEnumMap, json['type']),
-    title: json['title'] as String? ?? '',
+    title: json['title'] as String?,
     description: json['description'] as String?,
     audioCodecPriority: (json['audioCodecPriority'] as List<dynamic>?)
         ?.map((e) => e as String)
@@ -24,7 +24,7 @@ SourceConfig _$SourceConfigFromJson(Map<String, dynamic> json) {
     subtitleTracks: (json['subtitleTracks'] as List<dynamic>?)
             ?.map((e) => SubtitleTrack.fromJson(e as Map<String, dynamic>))
             .toList() ??
-        [],
+        const [],
     thumbnailTrack: json['thumbnailTrack'] == null
         ? null
         : ThumbnailTrack.fromJson(

@@ -9,29 +9,16 @@ part of 'cue.dart';
 Cue _$CueFromJson(Map<String, dynamic> json) {
   $checkKeys(
     json,
-    requiredKeys: const [
-      'start',
-      'end',
-      'line',
-      'lineType',
-      'lineAnchor',
-      'fractionalPosition',
-      'positionAnchor',
-      'size',
-      'bitmapHeight',
-      'isWindowColorSet',
-      'windowColor',
-      'verticalType'
-    ],
+    requiredKeys: const ['start', 'end'],
   );
   return Cue(
-    start: (json['start'] as num?)?.toDouble() ?? 0.0,
-    end: (json['end'] as num?)?.toDouble() ?? 0.0,
-    line: (json['line'] as num?)?.toDouble() ?? 0.0,
-    fractionalPosition: (json['fractionalPosition'] as num?)?.toDouble() ?? 0.0,
-    bitmapHeight: (json['bitmapHeight'] as num?)?.toDouble() ?? 0.0,
+    start: (json['start'] as num).toDouble(),
+    end: (json['end'] as num).toDouble(),
+    line: (json['line'] as num?)?.toDouble(),
+    fractionalPosition: (json['fractionalPosition'] as num?)?.toDouble(),
+    bitmapHeight: (json['bitmapHeight'] as num?)?.toDouble(),
     isWindowColorSet: json['isWindowColorSet'] as bool? ?? false,
-    windowColor: json['windowColor'] as int? ?? 0,
+    windowColor: json['windowColor'] as int?,
     text: json['text'] as String?,
     html: json['html'] as String?,
     textAlignment:
@@ -43,7 +30,7 @@ Cue _$CueFromJson(Map<String, dynamic> json) {
     positionAnchor:
         $enumDecodeNullable(_$AnchorTypeEnumMap, json['positionAnchor']) ??
             AnchorType.typeUnset,
-    size: (json['size'] as num?)?.toDouble() ?? 0.0,
+    size: (json['size'] as num?)?.toDouble(),
     verticalType:
         $enumDecodeNullable(_$VerticalTypeEnumMap, json['verticalType']) ??
             VerticalType.typeUnset,
@@ -57,15 +44,15 @@ Map<String, dynamic> _$CueToJson(Cue instance) => <String, dynamic>{
       'html': instance.html,
       'textAlignment': _$AlignmentEnumMap[instance.textAlignment],
       'line': instance.line,
-      'lineType': _$LineTypeEnumMap[instance.lineType],
-      'lineAnchor': _$AnchorTypeEnumMap[instance.lineAnchor],
+      'lineType': _$LineTypeEnumMap[instance.lineType]!,
+      'lineAnchor': _$AnchorTypeEnumMap[instance.lineAnchor]!,
       'fractionalPosition': instance.fractionalPosition,
-      'positionAnchor': _$AnchorTypeEnumMap[instance.positionAnchor],
+      'positionAnchor': _$AnchorTypeEnumMap[instance.positionAnchor]!,
       'size': instance.size,
       'bitmapHeight': instance.bitmapHeight,
       'isWindowColorSet': instance.isWindowColorSet,
       'windowColor': instance.windowColor,
-      'verticalType': _$VerticalTypeEnumMap[instance.verticalType],
+      'verticalType': _$VerticalTypeEnumMap[instance.verticalType]!,
     };
 
 const _$AlignmentEnumMap = {

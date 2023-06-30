@@ -18,10 +18,10 @@ class MediaTrackRole extends Equatable {
   @JsonKey(name: 'schemeIdUri', disallowNullValue: true)
   final String schemeIdUri;
 
-  @JsonKey(name: 'value', defaultValue: null)
+  @JsonKey(name: 'value')
   final String? value;
 
-  @JsonKey(name: 'id', defaultValue: null)
+  @JsonKey(name: 'id')
   final String? id;
 
   Map<String, dynamic> toJson() => _$MediaTrackRoleToJson(this);

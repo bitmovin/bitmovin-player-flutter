@@ -12,7 +12,7 @@ class PlayerConfig extends Equatable {
     this.key,
     this.styleConfig = const StyleConfig(),
     this.playbackConfig = const PlaybackConfig(),
-    this.licensingConfig = const LicensingConfig(delay: 0),
+    this.licensingConfig = const LicensingConfig(),
   });
 
   factory PlayerConfig.fromJson(Map<String, dynamic> json) {
