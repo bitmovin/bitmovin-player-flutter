@@ -8,7 +8,7 @@ part 'style_config.g.dart';
 @JsonSerializable(explicitToJson: true)
 class StyleConfig extends Equatable {
   const StyleConfig({
-    this.isUiEnabled = false,
+    this.isUiEnabled = true,
     this.isHideFirstFrame = false,
     this.playerUiCss,
     this.playerUiJs,
