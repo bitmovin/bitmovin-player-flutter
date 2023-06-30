@@ -1,14 +1,15 @@
 package com.bitmovin.player.flutter
 
+import com.bitmovin.player.flutter.json.JCreatePlayerArgs
+import com.bitmovin.player.flutter.json.JMethodArgs
+import com.bitmovin.player.flutter.json.JsonMethodHandler
+import com.bitmovin.player.flutter.json.toNative
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
-import io.flutter.plugin.common.MethodCall
-import io.flutter.plugin.common.MethodChannel.MethodCallHandler
-import io.flutter.plugin.common.MethodChannel.Result
 import java.lang.ref.WeakReference
 
-class PlayerPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
+class PlayerPlugin : FlutterPlugin, ActivityAware {
     private val tag: String = this::class.java.simpleName
     private var flutterPluginBindingReference = WeakReference<FlutterPlugin.FlutterPluginBinding>(null)
 
@@ -18,38 +19,20 @@ class PlayerPlugin : FlutterPlugin, ActivityAware, MethodCallHandler {
             .registerViewFactory(Channels.PLAYER_VIEW, PlayerViewFactory(registrar))
     }
 
-    override fun onMethodCall(call: MethodCall, result: Result) {
-        when (call.method) {
-            Methods.CREATE_PLAYER -> {
-                val id = call.argument<String>("id")
-                if (id == null) {
-                    result.success(false)
-                    return
-                }
+    private fun onMethodCall(method: String, arguments: JMethodArgs): Any = when (method) {
+        Methods.CREATE_PLAYER -> createPlayer(arguments.asCreatePlayerArgs) != null
+        else -> throw NotImplementedError()
+    }
 
-                val config = call.argument<Map<String, Any>>("playerConfig")
-                val playerConfig = Helper.buildPlayerConfig(config)
-
-                flutterPluginBindingReference.get()?.let {
-                    PlayerMethod(
-                        it.applicationContext,
-                        id,
-                        it.binaryMessenger,
-                        playerConfig,
-                    )
-
-                    result.success(true)
-                    return@onMethodCall
-                }
-
-                result.success(false)
-            }
-        }
+    private fun createPlayer(args: JCreatePlayerArgs) = flutterPluginBindingReference.get()?.let {
+        val config = args.playerConfig.toNative()
+        PlayerMethod(it.applicationContext, args.id, it.binaryMessenger, config)
     }
 
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         flutterPluginBindingReference = WeakReference(flutterPluginBinding)
-        ChannelManager.registerMethodChannel(Channels.MAIN, this@PlayerPlugin, flutterPluginBinding)
+        val handler = JsonMethodHandler(this::onMethodCall)
+        ChannelManager.registerMethodChannel(Channels.MAIN, handler, flutterPluginBinding)
     }
 
     override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
