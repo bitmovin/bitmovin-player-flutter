@@ -22,7 +22,7 @@ class _LicenseKeyViaConfigState extends State<LicenseKeyViaConfig> {
 
   final _player = Player(
     config: const PlayerConfig(
-      key: '***REMOVED***',
+      key: 'ENTER_LICENSE_KEY',
     ),
   );
 

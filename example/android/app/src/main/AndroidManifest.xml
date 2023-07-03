@@ -28,7 +28,7 @@
             </intent-filter>
         </activity>
 
-        <meta-data android:name="BITMOVIN_PLAYER_LICENSE_KEY" android:value="***REMOVED***" />
+        <meta-data android:name="BITMOVIN_PLAYER_LICENSE_KEY" android:value="ENTER_LICENSE_KEY" />
         <!-- Don't delete the meta-data below.
              This is used by the Flutter tool to generate GeneratedPluginRegistrant.java -->
         <meta-data

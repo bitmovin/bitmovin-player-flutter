@@ -23,7 +23,7 @@ class _BasicPlayerOnlyState extends State<BasicPlayerOnly> {
 
   final _player = Player(
     config: const PlayerConfig(
-      key: '***REMOVED***',
+      key: 'ENTER_LICENSE_KEY',
     ),
   );
 

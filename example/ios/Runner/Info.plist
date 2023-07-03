@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>BitmovinPlayerLicenseKey</key>
-	<string>***REMOVED***</string>
+	<string>ENTER_LICENSE_KEY</string>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>CFBundleDevelopmentRegion</key>
