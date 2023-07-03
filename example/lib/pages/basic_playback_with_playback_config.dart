@@ -1,8 +1,9 @@
 import 'dart:io';
 
 import 'package:bitmovin_player/bitmovin_player.dart';
-import 'package:flutter/material.dart';
 import 'package:bitmovin_player_example/controls.dart';
+import 'package:bitmovin_player_example/env/env.dart';
+import 'package:flutter/material.dart';
 
 class PlaybackWithConfig extends StatefulWidget {
   const PlaybackWithConfig({super.key});
@@ -21,6 +22,7 @@ class PlaybackWithConfigState extends State<PlaybackWithConfig> {
   );
   final _player = Player(
     config: const PlayerConfig(
+      key: Env.bitmovinPlayerLicenseKey,
       playbackConfig: PlaybackConfig(
         isAutoplayEnabled: true,
         isMuted: true,

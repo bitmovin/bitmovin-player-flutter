@@ -1,8 +1,9 @@
 import 'dart:io';
 
 import 'package:bitmovin_player/bitmovin_player.dart';
-import 'package:flutter/material.dart';
 import 'package:bitmovin_player_example/controls.dart';
+import 'package:bitmovin_player_example/env/env.dart';
+import 'package:flutter/material.dart';
 
 class LicenseKeyViaConfig extends StatefulWidget {
   static String routeName = 'LicenseKeyViaConfig';
@@ -22,7 +23,7 @@ class _LicenseKeyViaConfigState extends State<LicenseKeyViaConfig> {
 
   final _player = Player(
     config: const PlayerConfig(
-      key: 'ENTER_LICENSE_KEY',
+      key: Env.bitmovinPlayerLicenseKey,
     ),
   );
 
