@@ -3,7 +3,7 @@
 import 'package:bitmovin_player/bitmovin_player.dart';
 
 /// Defines events that can be emitted by the player.
-abstract class PlayerEventsInterface {
+abstract class PlayerListener {
   /// See [SourceAddedEvent] for details on this event.
   set onSourceAdded(void Function(SourceAddedEvent) func);
 
