@@ -1,8 +1,9 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
-import 'package:bitmovin_player_example/controls.dart';
 import 'package:bitmovin_player/bitmovin_player.dart';
+import 'package:bitmovin_player_example/controls.dart';
+import 'package:bitmovin_player_example/env/env.dart';
+import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
 class DrmPlayback extends StatefulWidget {
@@ -40,7 +41,11 @@ class _DrmPlaybackState extends State<DrmPlayback> {
       ),
     ),
   );
-  final _player = Player();
+  final _player = Player(
+    config: const PlayerConfig(
+      key: Env.bitmovinPlayerLicenseKey,
+    ),
+  );
   final _logger = Logger();
 
   void _onEvent(Event event) {
