@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:logger/logger.dart';
 
-mixin PlayerEventListener implements PlayerListener {
+mixin PlayerEventHandler implements PlayerListener {
   final Logger _logger = Logger();
   final Map<String, void Function(Event)> _eventListeners = {};
 

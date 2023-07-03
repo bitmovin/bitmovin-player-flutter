@@ -7,20 +7,20 @@ import 'package:bitmovin_player/src/channels.dart';
 import 'package:bitmovin_player/src/drm/fairplay_handler.dart';
 import 'package:bitmovin_player/src/drm/widevine_handler.dart';
 import 'package:bitmovin_player/src/methods.dart';
-import 'package:bitmovin_player/src/player_event_listener.dart';
+import 'package:bitmovin_player/src/player_event_handler.dart';
 import 'package:flutter/services.dart';
 
 /// Loads, controls and renders audio and video content represented through
 /// [Source]s.
 ///
-/// The player emits events during its lifecycle. See [PlayerEventListener] on
+/// The player emits events during its lifecycle. See [PlayerEventHandler] on
 /// how to subscribe to events. Events are divided into player events and
 /// source events, depending on if they are specific to the player or a source.
 ///
 /// By default, a player instance does not provide any UI components. To use the
 /// default Bitmovin Player Web UI, a player instance can be attached to a
 /// [PlayerView].
-class Player with PlayerEventListener implements PlayerApi {
+class Player with PlayerEventHandler implements PlayerApi {
   Player({
     this.config = const PlayerConfig(),
   }) {
