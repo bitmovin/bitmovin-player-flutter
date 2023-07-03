@@ -2,6 +2,9 @@ import 'package:bitmovin_player/bitmovin_player.dart';
 
 /// Defines the API for the player.
 abstract class PlayerApi {
+  /// The player config.
+  PlayerConfig get config;
+
   /// Starts a new playback session with the provided [Source].
   Future<void> loadSource(Source source);
 

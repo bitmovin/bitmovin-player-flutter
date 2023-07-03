@@ -61,7 +61,7 @@ class Player with PlayerEventListener implements PlayerApi {
     });
   }
 
-  /// The player config.
+  @override
   final PlayerConfig config;
 
   /// Unique identifier for this player instance.
