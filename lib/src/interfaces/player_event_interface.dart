@@ -67,16 +67,3 @@ abstract class PlayerEventsInterface {
   /// See [ReadyEvent] for details on this event.
   set onReady(void Function(ReadyEvent) func);
 }
-
-/// @nodoc
-abstract class PlayerInterface {
-  Future<void> loadSource(Source source);
-  Future<void> loadSourceConfig(SourceConfig sourceConfig);
-  Future<void> play();
-  Future<void> pause();
-  Future<void> mute();
-  Future<void> unmute();
-  Future<void> seek(double time);
-  Future<double> currentTime();
-  Future<double> duration();
-}
