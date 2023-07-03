@@ -184,7 +184,7 @@ class PlayerScreen extends StatelessWidget {
   build(BuildContent context) {
     
     PlayerConfig _playerConfig = const PlayerConfig(
-      licenseKey: '<LICENSE_KEY>',
+      licenseKey: 'YOUR_LICENSE_KEY',
     );
     Player _player = Player(_playerConfig);
 

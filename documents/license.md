@@ -10,7 +10,7 @@ Open `/android/src/main/AndroidManifest.xml` and add the following code.
 
 ```xml
 <application>
-  <meta-data android:name="BITMOVIN_PLAYER_LICENSE_KEY" android:value="<YOUR LICENSE KEY>" />
+  <meta-data android:name="BITMOVIN_PLAYER_LICENSE_KEY" android:value="YOUR_LICENSE_KEY" />
 </application>
 ```
 
@@ -25,7 +25,7 @@ Open `/ios/Runner/info.plist` and add the following code.
 ```xml
 <dict>
   <key>BitmovinPlayerLicenseKey</key>
-  <string>YOUR LICENSE KEY</string>
+  <string>YOUR_LICENSE_KEY</string>
 </dict>
 ```
 
@@ -37,5 +37,5 @@ You can add your license key via the `PlayerConfig` object
 
 example
 ```dart
-final player = Player(PlayerConfig(licenseKey: '<LICENSE_KEY>'))
+final player = Player(PlayerConfig(licenseKey: 'YOUR_LICENSE_KEY'))
 ```
