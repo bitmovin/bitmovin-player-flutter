@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:bitmovin_player/bitmovin_player.dart';
-import 'package:bitmovin_player/src/api/player_api.dart';
+import 'package:bitmovin_player/src/api/player/player_api.dart';
 import 'package:bitmovin_player/src/channel_manager.dart';
 import 'package:bitmovin_player/src/channels.dart';
 import 'package:bitmovin_player/src/drm/fairplay_handler.dart';
