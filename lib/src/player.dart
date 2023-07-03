@@ -1,25 +1,26 @@
 import 'dart:async';
 
 import 'package:bitmovin_player/bitmovin_player.dart';
+import 'package:bitmovin_player/src/api/player/player_api.dart';
 import 'package:bitmovin_player/src/channel_manager.dart';
 import 'package:bitmovin_player/src/channels.dart';
 import 'package:bitmovin_player/src/drm/fairplay_handler.dart';
 import 'package:bitmovin_player/src/drm/widevine_handler.dart';
 import 'package:bitmovin_player/src/methods.dart';
-import 'package:bitmovin_player/src/player_event_listener.dart';
+import 'package:bitmovin_player/src/player_event_handler.dart';
 import 'package:flutter/services.dart';
 
 /// Loads, controls and renders audio and video content represented through
 /// [Source]s.
 ///
-/// The player emits events during its lifecycle. See [PlayerEventListener] on
+/// The player emits events during its lifecycle. See [PlayerEventHandler] on
 /// how to subscribe to events. Events are divided into player events and
 /// source events, depending on if they are specific to the player or a source.
 ///
 /// By default, a player instance does not provide any UI components. To use the
 /// default Bitmovin Player Web UI, a player instance can be attached to a
 /// [PlayerView].
-class Player with PlayerEventListener implements PlayerInterface {
+class Player with PlayerEventHandler implements PlayerApi {
   Player({
     this.config = const PlayerConfig(),
   }) {
@@ -60,7 +61,7 @@ class Player with PlayerEventListener implements PlayerInterface {
     });
   }
 
-  /// The player config.
+  @override
   final PlayerConfig config;
 
   /// Unique identifier for this player instance.
@@ -130,8 +131,6 @@ class Player with PlayerEventListener implements PlayerInterface {
     return _methodChannel.invokeMethod<T>(methodName, _buildPayload(data));
   }
 
-  /// Starts a new playback session with a [Source] that is created based on
-  /// the provided [SourceConfig].
   @override
   Future<void> loadSourceConfig(
     SourceConfig sourceConfig,
@@ -139,7 +138,6 @@ class Player with PlayerEventListener implements PlayerInterface {
     return loadSource(Source(sourceConfig: sourceConfig));
   }
 
-  /// Starts a new playback session with the provided [Source].
   @override
   Future<void> loadSource(Source source) async {
     final fairplayConfig = source.sourceConfig.drmConfig?.fairplay;
@@ -155,35 +153,27 @@ class Player with PlayerEventListener implements PlayerInterface {
     return _invokeMethod<void>(Methods.loadWithSource, source.toJson());
   }
 
-  /// Starts or resumes playback.
   @override
   Future<void> play() async => _invokeMethod<void>(Methods.play);
 
-  /// Mutes the player.
   @override
   Future<void> mute() async => _invokeMethod<void>(Methods.mute);
 
-  /// Unmutes the player.
   @override
   Future<void> unmute() async => _invokeMethod<void>(Methods.unmute);
 
-  /// Pauses playback.
   @override
   Future<void> pause() async => _invokeMethod<void>(Methods.pause);
 
-  /// Seeks to the given playback time in seconds.
-  /// Must not be greater than the duration of the active [Source].
   @override
   Future<void> seek(double time) async =>
       _invokeMethod<void>(Methods.seek, time);
 
-  /// The current playback time of the active [Source] in seconds.
   @override
   Future<double> currentTime() async {
     return await _invokeMethod<double>(Methods.currentTime) ?? 0.0;
   }
 
-  /// The duration of the active [Source] in seconds.
   @override
   Future<double> duration() async {
     return await _invokeMethod<double>(Methods.duration) ?? 0.0;

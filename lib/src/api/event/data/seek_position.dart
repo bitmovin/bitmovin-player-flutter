@@ -1,4 +1,4 @@
-import 'package:bitmovin_player/src/api/source/source.dart';
+import 'package:bitmovin_player/src/source.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 

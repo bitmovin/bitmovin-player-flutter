@@ -3,7 +3,7 @@
 import 'package:bitmovin_player/bitmovin_player.dart';
 
 /// Defines events that can be emitted by the player.
-abstract class PlayerEventsInterface {
+abstract class PlayerListener {
   /// See [SourceAddedEvent] for details on this event.
   set onSourceAdded(void Function(SourceAddedEvent) func);
 
@@ -66,17 +66,4 @@ abstract class PlayerEventsInterface {
 
   /// See [ReadyEvent] for details on this event.
   set onReady(void Function(ReadyEvent) func);
-}
-
-/// @nodoc
-abstract class PlayerInterface {
-  Future<void> loadSource(Source source);
-  Future<void> loadSourceConfig(SourceConfig sourceConfig);
-  Future<void> play();
-  Future<void> pause();
-  Future<void> mute();
-  Future<void> unmute();
-  Future<void> seek(double time);
-  Future<double> currentTime();
-  Future<double> duration();
 }
