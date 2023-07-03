@@ -4,7 +4,7 @@ part 'env.g.dart';
 
 /// Make sure to have a `.env` file in the project root (not inside `example/`)
 /// which contains the bitmovin player license key as
-/// `BITMOVIN_PLAYER_LICENSE_KEY=<YOUR_LICENSE_KEY>` where `<YOUR_LICENSE_KEY>`
+/// `BITMOVIN_PLAYER_LICENSE_KEY=YOUR_LICENSE_KEY` where `YOUR_LICENSE_KEY`
 /// is your private bitmovin player license key.
 /// Then run `flutter pub run build_runner build --delete-conflicting-outputs`
 /// in the project root to generate the `env.g.dart` file.
