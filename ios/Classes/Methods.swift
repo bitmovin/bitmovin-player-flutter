@@ -1,12 +1,8 @@
 import Foundation
 
 class Methods {
-    static let createPlayer = "create-player"
-    static let bindPlayer = "bind-player"
-    static let unbindPlayer = "unbind-player"
-    static let createPlayerView = "create-player-view"
-
     // Player related methods
+    static let createPlayer = "createPlayer"
     static let loadWithSourceConfig = "loadWithSourceConfig"
     static let loadWithSource = "loadWithSource"
     static let play = "play"
@@ -17,6 +13,9 @@ class Methods {
     static let currentTime = "currentTime"
     static let duration = "duration"
     static let destroy = "destroy"
+
+    // Player view related methods
+    static let destroyPlayerView = "destroyPlayerView"
 
     // Fairplay related methods
     static let fairplayPrepareMessage = "fairplayPrepareMessage"

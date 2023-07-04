@@ -2,20 +2,22 @@ import Flutter
 import UIKit
 
 public class PlayerPlugin: NSObject, FlutterPlugin {
-    weak var registrar: FlutterPluginRegistrar?
+    private let messenger: FlutterBinaryMessenger
 
-    public init(registrar: FlutterPluginRegistrar) {
-        self.registrar = registrar
-
+    public init(messenger: FlutterBinaryMessenger) {
+        self.messenger = messenger
         super.init()
-
-        let channel = FlutterMethodChannel(name: Channels.main, binaryMessenger: registrar.messenger())
-        registrar.addMethodCallDelegate(self, channel: channel)
     }
 
+    // Main entry point for the iOS side of Bitmovin Player Flutter SDK
     public static func register(with registrar: FlutterPluginRegistrar) {
-        let _ = PlayerNativeViewFactory(registrar: registrar)
-        let _ = PlayerPlugin(registrar: registrar)
+        let mainChannel = FlutterMethodChannel(name: Channels.main, binaryMessenger: registrar.messenger())
+
+        let playerPlugin = PlayerPlugin(messenger: registrar.messenger())
+        registrar.addMethodCallDelegate(playerPlugin, channel: mainChannel)
+
+        let flutterPlayerViewFactory = FlutterPlayerViewFactory(messenger: registrar.messenger())
+        registrar.register(flutterPlayerViewFactory, withId: Channels.playerView)
     }
 
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
@@ -31,8 +33,7 @@ public class PlayerPlugin: NSObject, FlutterPlugin {
 
     private func handleCreatePlayer(arguments: [String: Any], result: @escaping FlutterResult) {
         guard let id = arguments["id"] as? String,
-              let playerConfigJson = arguments["playerConfig"] as? [AnyHashable: Any],
-              let registrar else {
+              let playerConfigJson = arguments["playerConfig"] as? [AnyHashable: Any] else {
             result(FlutterError())
             return
         }
@@ -42,7 +43,7 @@ public class PlayerPlugin: NSObject, FlutterPlugin {
         // by Flutter because it listens to method and event channels. Instead of storing player instance in
         // `PlayerManager` we could store `PlayerMethod` instance, that would make the code a bit more structured and
         // easier to grasp.
-        let _ = PlayerMethod(id: id, playerConfig: config, messenger: registrar.messenger())
+        let _ = PlayerMethod(id: id, playerConfig: config, messenger: messenger)
         result(true)
     }
 }

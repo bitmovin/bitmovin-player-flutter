@@ -33,46 +33,16 @@ class PlayerView extends StatefulWidget {
 class _PlayerViewState extends State<PlayerView> {
   late final MethodChannel _methodChannel;
 
-  @override
-  void initState() {
-    final channelManager = ChannelManager.registerMethodChannel(
-      name: Channels.main,
-    );
-
-    // ignore: cascade_invocations
-    channelManager.invokeMethod(
-      Methods.createPlayerView,
-      Map<String, dynamic>.from({
-        'playerId': widget.player.id,
-      }),
-    );
-    super.initState();
-  }
-
   void _onPlatformViewCreated(int id) {
     _methodChannel = ChannelManager.registerMethodChannel(
       name: '${Channels.playerView}-$id',
     );
-
-    _methodChannel.invokeMethod(
-      Methods.bindPlayer,
-      Map<String, dynamic>.from({
-        'playerId': widget.player.id,
-        'viewId': id,
-      }),
-    );
-
     widget.onViewCreated?.call();
   }
 
   @override
   void dispose() {
-    _methodChannel.invokeMethod(
-      Methods.unbindPlayer,
-      Map<String, dynamic>.from({
-        'playerId': widget.player.id,
-      }),
-    );
+    _methodChannel.invokeMethod(Methods.destroyPlayerView);
     super.dispose();
   }
 

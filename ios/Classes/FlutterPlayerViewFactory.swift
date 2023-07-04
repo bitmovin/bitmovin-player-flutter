@@ -1,15 +1,12 @@
 import Flutter
 import UIKit
 
-class PlayerNativeViewFactory: NSObject, FlutterPlatformViewFactory {
-    private var messenger: FlutterBinaryMessenger
+class FlutterPlayerViewFactory: NSObject, FlutterPlatformViewFactory {
+    private let messenger: FlutterBinaryMessenger
 
-    init(registrar: FlutterPluginRegistrar) {
-        self.messenger = registrar.messenger()
-
+    init(messenger: FlutterBinaryMessenger) {
+        self.messenger = messenger
         super.init()
-
-        registrar.register(self, withId: Channels.playerView)
     }
 
     func create(
@@ -17,7 +14,7 @@ class PlayerNativeViewFactory: NSObject, FlutterPlatformViewFactory {
         viewIdentifier viewId: Int64,
         arguments args: Any?
     ) -> FlutterPlatformView {
-        return PlayerViewMethod(
+        FlutterPlayerView(
             viewIdentifier: viewId,
             frame: frame,
             arguments: args,
@@ -26,6 +23,6 @@ class PlayerNativeViewFactory: NSObject, FlutterPlatformViewFactory {
     }
 
     public func createArgsCodec() -> FlutterMessageCodec & NSObjectProtocol {
-        return FlutterStandardMessageCodec.sharedInstance()
+        FlutterStandardMessageCodec.sharedInstance()
     }
 }
