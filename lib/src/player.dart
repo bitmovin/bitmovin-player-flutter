@@ -180,5 +180,5 @@ class Player with PlayerEventHandler implements PlayerApi {
   }
 
   /// Disposes the player instance.
-  Future<void> dispose() async => _invokeMethod(Methods.destroy);
+  Future<void> dispose() async => _invokeMethod<void>(Methods.destroy);
 }
