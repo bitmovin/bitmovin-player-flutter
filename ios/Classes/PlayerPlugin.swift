@@ -43,7 +43,7 @@ public class PlayerPlugin: NSObject, FlutterPlugin {
         // by Flutter because it listens to method and event channels. Instead of storing player instance in
         // `PlayerManager` we could store `PlayerMethod` instance, that would make the code a bit more structured and
         // easier to grasp.
-        let _ = PlayerMethod(id: id, playerConfig: config, messenger: messenger)
+        let _ = FlutterPlayer(id: id, playerConfig: config, messenger: messenger)
         result(true)
     }
 }

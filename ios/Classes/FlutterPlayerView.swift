@@ -2,10 +2,12 @@ import BitmovinPlayer
 import Flutter
 import Foundation
 
+// Wraps a Bitmovin `PlayerView` and is connected to a player view instance that was created on the Flutter side in
+// Dart. Communication with the player view instance on the Flutter side happens through the method channel.
 class FlutterPlayerView: NSObject, FlutterPlatformView {
     private var rootView: UIView = UIView()
     private var playerView: PlayerView?
-    private var methodChannel: FlutterMethodChannel?
+    private var methodChannel: FlutterMethodChannel
 
     init(
         viewIdentifier: Int64,
@@ -13,23 +15,21 @@ class FlutterPlayerView: NSObject, FlutterPlatformView {
         arguments: Any?,
         binaryMessenger messenger: FlutterBinaryMessenger
     ) {
-        rootView = UIView()
-        rootView.backgroundColor = UIColor.black
-
-        super.init()
-
         guard let playerId = arguments as? String else {
             fatalError("Expected player ID as argument.")
         }
 
-        let methodChannel = FlutterMethodChannel(
+        rootView = UIView()
+        rootView.backgroundColor = UIColor.black
+        methodChannel = FlutterMethodChannel(
             name: Channels.playerView + "-\(String(describing: viewIdentifier))",
             binaryMessenger: messenger
         )
-        methodChannel.setMethodCallHandler(self.handleMethodCall)
-        self.methodChannel = methodChannel
 
-        PlayerManager.shared.onPlayerCreated(playerId: playerId) { [weak self] player in
+        super.init()
+
+        methodChannel.setMethodCallHandler(handleMethodCall)
+        PlayerManager.shared.onPlayerCreated(id: playerId) { [weak self] player in
             self?.createPlayerView(player: player)
         }
     }
@@ -63,7 +63,7 @@ private extension FlutterPlayerView {
     }
 
     func destroyPlayerView() {
-        methodChannel?.setMethodCallHandler(nil)
+        methodChannel.setMethodCallHandler(nil)
         playerView = nil
     }
 }
