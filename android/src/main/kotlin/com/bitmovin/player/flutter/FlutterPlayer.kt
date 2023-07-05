@@ -15,34 +15,34 @@ import com.bitmovin.player.flutter.json.toNative
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.EventChannel.StreamHandler
-import io.flutter.plugin.common.MethodChannel
 
-class PlayerMethod(
+/**
+ * Wraps a Bitmovin `Player` and is connected to a player instance that was created on the Flutter
+ * side in Dart. Communication with the player instance on the Flutter side happens through the
+ * method channel. Player events are communicated to the Flutter side through the event channel.
+ */
+class FlutterPlayer(
     context: Context,
     private val id: String,
     messenger: BinaryMessenger,
     config: PlayerConfig?,
 ) : StreamHandler, EventListener() {
-    @Suppress("unused")
-    private val tag: String = this::class.java.simpleName
     private var widevineCallbacksHandler: WidevineCallbacksHandler? = null
-    private val playerMethodChannel: MethodChannel
+    private val methodChannel = ChannelManager.registerMethodChannel(
+        "${Channels.PLAYER}-$id",
+        JsonMethodHandler(this::onMethodCall),
+        messenger,
+    )
+    private val eventChannel = ChannelManager.registerEventChannel(
+        "${Channels.PLAYER_EVENT}-$id",
+        this@FlutterPlayer,
+        messenger,
+    )
+    private val player: Player
 
     init {
-        ChannelManager.registerEventChannel(
-            "${Channels.PLAYER_EVENT}-$id",
-            this@PlayerMethod,
-            messenger,
-        )
-        playerMethodChannel = ChannelManager.registerMethodChannel(
-            "${Channels.PLAYER}-$id",
-            JsonMethodHandler(this::onMethodCall),
-            messenger,
-        )
-        PlayerManager.create(id, context, config)
+        player = PlayerManager.create(id, context, config)
     }
-
-    private fun getPlayer(): Player? = PlayerManager.players[id]
 
     private fun Player.load(jSourceConfig: JSourceConfig) {
         val sourceConfig = jSourceConfig.toNative()
@@ -53,7 +53,7 @@ class PlayerMethod(
             widevineCallbacksHandler = WidevineCallbacksHandler(
                 widevineMetadata,
                 widevineConfig,
-                playerMethodChannel,
+                methodChannel,
             )
         }
 
@@ -70,20 +70,23 @@ class PlayerMethod(
         Methods.SEEK -> seek(arg.asDouble)
         Methods.CURRENT_TIME -> currentTime
         Methods.DURATION -> duration
-        Methods.DESTROY -> PlayerManager.destroy(id)
+        Methods.DESTROY -> destroyPlayer()
         else -> throw NotImplementedError()
     }
 
+    private fun destroyPlayer() {
+        PlayerManager.destroy(id)
+        methodChannel.setMethodCallHandler(null)
+        eventChannel.setStreamHandler(null)
+    }
+
     private fun onMethodCall(method: String, arguments: JMethodArgs): Any {
-        val player = getPlayer() ?: throw IllegalArgumentException("Player $id not found")
         return player.onMethodCall(method, arguments.asPlayerMethodArgs)
     }
 
     override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
         sink = events
-        getPlayer()?.let {
-            listenToEvent(it)
-        }
+        listenToEvent(player)
     }
 
     override fun onCancel(arguments: Any?) {

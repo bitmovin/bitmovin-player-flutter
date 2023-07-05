@@ -10,13 +10,12 @@ import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import java.lang.ref.WeakReference
 
 class PlayerPlugin : FlutterPlugin, ActivityAware {
-    private val tag: String = this::class.java.simpleName
     private var flutterPluginBindingReference = WeakReference<FlutterPlugin.FlutterPluginBinding>(null)
 
     private fun register(registrar: FlutterPlugin.FlutterPluginBinding) {
         registrar
             .platformViewRegistry
-            .registerViewFactory(Channels.PLAYER_VIEW, PlayerViewFactory(registrar))
+            .registerViewFactory(Channels.PLAYER_VIEW, FlutterPlayerViewFactory(registrar.binaryMessenger))
     }
 
     private fun onMethodCall(method: String, arguments: JMethodArgs): Any = when (method) {
@@ -26,7 +25,7 @@ class PlayerPlugin : FlutterPlugin, ActivityAware {
 
     private fun createPlayer(args: JCreatePlayerArgs) = flutterPluginBindingReference.get()?.let {
         val config = args.playerConfig.toNative()
-        PlayerMethod(it.applicationContext, args.id, it.binaryMessenger, config)
+        FlutterPlayer(it.applicationContext, args.id, it.binaryMessenger, config)
     }
 
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
