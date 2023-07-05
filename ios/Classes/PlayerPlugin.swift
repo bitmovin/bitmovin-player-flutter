@@ -4,7 +4,7 @@ import UIKit
 public class PlayerPlugin: NSObject, FlutterPlugin {
     private let messenger: FlutterBinaryMessenger
 
-    public init(messenger: FlutterBinaryMessenger) {
+    init(messenger: FlutterBinaryMessenger) {
         self.messenger = messenger
         super.init()
     }

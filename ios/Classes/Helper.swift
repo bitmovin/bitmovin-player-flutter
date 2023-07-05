@@ -3,7 +3,7 @@ import BitmovinPlayer
 
 // swiftlint:disable file_length
 // swiftlint:disable:next type_body_length
-public class Helper {
+class Helper {
     static func playerPayload(_ payload: Any?) -> PlayerPayload? {
         guard let json = payload as? [String: Any] else {
             return nil

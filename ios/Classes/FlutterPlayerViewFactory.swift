@@ -22,7 +22,7 @@ class FlutterPlayerViewFactory: NSObject, FlutterPlatformViewFactory {
         )
     }
 
-    public func createArgsCodec() -> FlutterMessageCodec & NSObjectProtocol {
+    func createArgsCodec() -> FlutterMessageCodec & NSObjectProtocol {
         FlutterStandardMessageCodec.sharedInstance()
     }
 }
