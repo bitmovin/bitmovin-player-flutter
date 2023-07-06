@@ -26,14 +26,8 @@ class ChannelManager {
             }
         }
 
-        fun registerEventChannel(name: String, handler: StreamHandler, binding: FlutterPlugin.FlutterPluginBinding) {
-            EventChannel(binding.binaryMessenger, name).apply {
-                this.setStreamHandler(handler)
-            }
-        }
-
-        fun registerEventChannel(name: String, handler: StreamHandler, binaryMessenger: BinaryMessenger) {
-            EventChannel(binaryMessenger, name).apply {
+        fun registerEventChannel(name: String, handler: StreamHandler, binaryMessenger: BinaryMessenger): EventChannel {
+            return EventChannel(binaryMessenger, name).apply {
                 this.setStreamHandler(handler)
             }
         }

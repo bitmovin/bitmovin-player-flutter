@@ -157,14 +157,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_easylogger:
-    dependency: transitive
-    description:
-      name: flutter_easylogger
-      sha256: b40179db77e18e6a45f681aa70298a3e45e0f1ba4a5484c09885699aca44553f
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.3.3"
   flutter_lints:
     dependency: "direct dev"
     description:

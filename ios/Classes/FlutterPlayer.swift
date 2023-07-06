@@ -1,50 +1,52 @@
-import Foundation
-import Flutter
 import BitmovinPlayer
+import Flutter
+import Foundation
 
-class PlayerMethod: NSObject, FlutterStreamHandler {
+// Wraps a Bitmovin `Player` and is connected to a player instance that was created on the Flutter side in Dart.
+// Communication with the player instance on the Flutter side happens through the method channel.
+// Player events are communicated to the Flutter side through the event channel.
+class FlutterPlayer: NSObject {
     private var id: String
     private var eventSink: FlutterEventSink?
-    private var playerMethodChannel: FlutterMethodChannel
+    private var methodChannel: FlutterMethodChannel
+    private var eventChannel: FlutterEventChannel
     private var fairplayCallbacksHandler: FairplayCallbacksHandler?
+    private let player: Player
 
     init(
         id: String,
-        playerConfig: PlayerConfig?,
+        playerConfig: PlayerConfig,
         messenger: FlutterBinaryMessenger
     ) {
         self.id = id
-        self.playerMethodChannel = FlutterMethodChannel(name: Channels.player + "-\(id)", binaryMessenger: messenger)
+        methodChannel = FlutterMethodChannel(name: Channels.player + "-\(id)", binaryMessenger: messenger)
+        eventChannel = FlutterEventChannel(name: Channels.playerEvent + "-\(id)", binaryMessenger: messenger)
+        player = PlayerManager.shared.createPlayer(id: id, config: playerConfig)
 
         super.init()
 
-        playerMethodChannel.setMethodCallHandler(handleMethodCall)
-
-        let eventChannel = FlutterEventChannel(name: Channels.playerEvent + "-\(id)", binaryMessenger: messenger)
+        methodChannel.setMethodCallHandler(handleMethodCall)
         eventChannel.setStreamHandler(self)
-
-        PlayerManager.shared.createPlayer(id: id, config: playerConfig)
     }
+}
 
-    public func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
+extension FlutterPlayer: FlutterStreamHandler {
+    func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
         self.eventSink = events
-        let player = PlayerManager.shared.players[self.id]
-        player?.add(listener: self)
+        player.add(listener: self)
         return nil
     }
 
-    public func onCancel(withArguments arguments: Any?) -> FlutterError? {
+    func onCancel(withArguments arguments: Any?) -> FlutterError? {
+        player.remove(listener: self)
         self.eventSink = nil
         return nil
     }
+}
 
-    private func getPlayer() -> Player? {
-        return PlayerManager.shared.players[self.id]
-    }
-
-    private func handleMethodCall(call: FlutterMethodCall, result: @escaping FlutterResult) {
-        guard let player = getPlayer(),
-              let payload = Helper.playerPayload(call.arguments) else {
+private extension FlutterPlayer {
+    func handleMethodCall(call: FlutterMethodCall, result: @escaping FlutterResult) {
+        guard let payload = Helper.playerPayload(call.arguments) else {
             result(FlutterError())
             return
         }
@@ -80,31 +82,35 @@ class PlayerMethod: NSObject, FlutterStreamHandler {
         case Methods.duration:
             result(player.duration)
         case Methods.destroy:
-            PlayerManager.shared.destroy(id: self.id)
+            destroyPlayer()
         default:
             result(FlutterMethodNotImplemented)
         }
     }
 
-    private func handleLoadWithSourceConfig(
+    func handleLoadWithSourceConfig(
         _ sourceConfig: SourceConfig,
         metadata: FairplayConfig.Metadata?
     ) {
-        guard let player = getPlayer() else { return }
-
         if let fairplayConfig = sourceConfig.drmConfig as? FairplayConfig, let metadata {
             self.fairplayCallbacksHandler = FairplayCallbacksHandler(
                 fairplayConfig: fairplayConfig,
                 metadata: metadata,
-                methodChannel: playerMethodChannel
+                methodChannel: methodChannel
             )
         }
 
         player.load(sourceConfig: sourceConfig)
     }
+
+    func destroyPlayer() {
+        PlayerManager.shared.destroy(id: id)
+        methodChannel.setMethodCallHandler(nil)
+        eventChannel.setStreamHandler(nil)
+    }
 }
 
-extension PlayerMethod: PlayerListener {
+extension FlutterPlayer: PlayerListener {
     func toJSONString(_ dictionary: [String: Any]) -> String? {
         guard JSONSerialization.isValidJSONObject(dictionary) else {
             // TODO: fix all runtime occurrences of this error
