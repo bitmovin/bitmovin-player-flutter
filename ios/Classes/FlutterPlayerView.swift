@@ -64,6 +64,7 @@ private extension FlutterPlayerView {
 
     func destroyPlayerView() {
         methodChannel.setMethodCallHandler(nil)
+        playerView?.removeFromSuperview()
         playerView = nil
     }
 }
