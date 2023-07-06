@@ -8,9 +8,8 @@ import com.bitmovin.player.api.Player
 import com.bitmovin.player.api.PlayerConfig
 
 object PlayerManager {
-    private val players: ArrayMap<String, Player> = ArrayMap<String, Player>()
-    private val playerCallbacks: ArrayMap<String, Array<(Player) -> Unit>> =
-        ArrayMap<String, Array<(Player) -> Unit>>()
+    private val players = ArrayMap<String, Player>()
+    private val playerCallbacks = ArrayMap<String, Array<(Player) -> Unit>>()
 
     fun create(
         id: String,
