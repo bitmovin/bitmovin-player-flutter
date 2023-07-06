@@ -15,9 +15,6 @@ class Methods {
         const val DURATION = "duration"
         const val DESTROY = "destroy"
 
-        // Player view related methods
-        const val DESTROY_PLAYER_VIEW = "destroyPlayerView"
-
         // Widevine DRM related methods
         const val WIDEVINE_PREPARE_MESSAGE = "widevinePrepareMessage"
         const val WIDEVINE_PREPARE_LICENSE = "widevinePrepareLicense"
