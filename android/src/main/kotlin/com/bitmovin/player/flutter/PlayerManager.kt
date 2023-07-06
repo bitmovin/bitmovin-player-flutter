@@ -1,8 +1,6 @@
 package com.bitmovin.player.flutter
 
 import android.content.Context
-import android.os.Handler
-import android.os.Looper
 import android.util.ArrayMap
 import com.bitmovin.player.api.Player
 import com.bitmovin.player.api.PlayerConfig
@@ -23,9 +21,7 @@ object PlayerManager {
         val player = playerConfig?.let { Player.create(context, it) } ?: Player.create(context)
         players[id] = player
 
-        Handler(Looper.getMainLooper()).post {
-            handleCallbacks(id, player)
-        }
+        postToMainThread { handleCallbacks(id, player) }
 
         return player
     }
