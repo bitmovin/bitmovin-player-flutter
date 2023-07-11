@@ -29,8 +29,8 @@ abstract class PlayerApi {
   Future<void> seek(double time);
 
   /// The current playback time of the active [Source] in seconds.
-  Future<double> currentTime();
+  Future<double> get currentTime;
 
   /// The duration of the active [Source] in seconds.
-  Future<double> duration();
+  Future<double> get duration;
 }

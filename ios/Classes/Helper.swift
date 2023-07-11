@@ -4,18 +4,20 @@ import BitmovinPlayer
 // swiftlint:disable file_length
 // swiftlint:disable:next type_body_length
 class Helper {
-    static func playerPayload(_ payload: Any?) -> PlayerPayload? {
-        guard let json = payload as? [String: Any] else {
+    static func methodCallArguments(_ payload: Any?) -> MethodCallArguments? {
+        guard let jsonPayload = payload as? [String: Any?],
+              let data = jsonPayload["data"] else {
             return nil
         }
 
-        guard let idString = json["id"] as? String, let id = Int(idString) else {
-            return nil
+        switch data {
+        case let jsonArgument as [String: Any]:
+            return .json(jsonArgument)
+        case let doubleArgument as Double:
+            return .double(doubleArgument)
+        default:
+            return .empty
         }
-
-        let data = json["data"] as? [String: Any]
-
-        return PlayerPayload(id: id, data: data)
     }
 
     /**
