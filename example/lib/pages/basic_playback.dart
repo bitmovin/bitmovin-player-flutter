@@ -23,8 +23,11 @@ class _BasicPlaybackState extends State<BasicPlayback> {
   );
   final _player = Player(
     config: const PlayerConfig(
-      key: Env.bitmovinPlayerLicenseKey,
-    ),
+        key: Env.bitmovinPlayerLicenseKey,
+        playbackConfig: PlaybackConfig(
+          isAutoplayEnabled: true,
+          isMuted: false,
+        )),
   );
 
   @override
