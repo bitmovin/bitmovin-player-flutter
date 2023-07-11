@@ -17,14 +17,3 @@ enum MediaFilter {
   @JsonValue('Strict')
   strict,
 }
-
-/// @nodoc
-extension MediaFilterExtension on MediaFilter {
-  static const names = {
-    MediaFilter.none: 'None',
-    MediaFilter.loose: 'Loose',
-    MediaFilter.strict: 'Strict',
-  };
-
-  String? get name => names[this];
-}

@@ -20,15 +20,3 @@ enum SeekMode {
   @JsonValue('NextSync')
   nextSync,
 }
-
-/// @nodoc
-extension SeekModeExtension on SeekMode {
-  static const names = {
-    SeekMode.exact: 'Exact',
-    SeekMode.closesSync: 'ClosestSync',
-    SeekMode.previousSync: 'PreviousSync',
-    SeekMode.nextSync: 'NextSync',
-  };
-
-  String? get name => names[this];
-}
