@@ -36,11 +36,13 @@ internal fun JPlayerConfig.toNative() = PlayerConfig(key = key).also { config ->
 }
 
 internal fun JStyleConfig.toNative() = StyleConfig(
-    scalingMode = ScalingMode.Fit,
+    scalingMode = scalingMode ?: ScalingMode.Fit,
     supplementalPlayerUiCss = supplementalPlayerUiCss,
 ).also { config ->
     isUiEnabled?.let { config.isUiEnabled = it }
     isHideFirstFrame?.let { config.isHideFirstFrame = it }
+    playerUiCss?.let { config.playerUiCss = it }
+    playerUiJs?.let { config.playerUiJs = it }
 }
 
 internal fun JPlaybackConfig.toNative() = PlaybackConfig().also { config ->

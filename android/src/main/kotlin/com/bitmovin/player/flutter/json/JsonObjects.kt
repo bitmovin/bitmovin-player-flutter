@@ -4,6 +4,7 @@ import com.bitmovin.player.api.Player
 import com.bitmovin.player.api.SeekMode
 import com.bitmovin.player.api.media.MediaFilter
 import com.bitmovin.player.api.source.SourceType
+import com.bitmovin.player.api.ui.ScalingMode
 import io.flutter.plugin.common.MethodCall
 import java.security.InvalidParameterException
 import kotlin.properties.ReadOnlyProperty
@@ -41,6 +42,9 @@ internal class JStyleConfig(override val map: Map<*, *>) : JStruct {
     val isUiEnabled by GetBool
     val isHideFirstFrame by GetBool
     val supplementalPlayerUiCss by GetString
+    val scalingMode by enumGetter<ScalingMode>()
+    val playerUiCss by GetString
+    val playerUiJs by GetString
 }
 
 internal class JPlaybackConfig(override val map: Map<*, *>) : JStruct {

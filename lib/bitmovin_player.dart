@@ -33,6 +33,7 @@ export 'src/api/source/source_config.dart';
 export 'src/api/source/source_options.dart';
 export 'src/api/source/source_type.dart';
 export 'src/api/source/timeline_reference_point.dart';
+export 'src/api/ui/scaling_mode.dart';
 export 'src/api/ui/style_config.dart';
 export 'src/player.dart';
 export 'src/player_view.dart';

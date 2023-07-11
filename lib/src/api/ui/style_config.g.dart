@@ -29,6 +29,6 @@ Map<String, dynamic> _$StyleConfigToJson(StyleConfig instance) =>
 
 const _$ScalingModeEnumMap = {
   ScalingMode.fit: 'Fit',
-  ScalingMode.stretch: 'Hls',
+  ScalingMode.stretch: 'Stretch',
   ScalingMode.zoom: 'Zoom',
 };
