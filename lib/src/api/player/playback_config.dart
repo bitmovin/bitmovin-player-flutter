@@ -26,21 +26,23 @@ class PlaybackConfig extends Equatable {
   /// Specifies whether autoplay is enabled.
   /// Default value is `false`.
   @JsonKey(name: 'isAutoplayEnabled')
-  final bool? isAutoplayEnabled;
+  final bool isAutoplayEnabled;
 
   /// Specifies whether the player should start muted.
   /// Default value is `false`.
   @JsonKey(name: 'isMuted')
-  final bool? isMuted;
+  final bool isMuted;
 
   /// Specifies if time shifting (during live streaming) should be enabled.
   /// Default value is `true`.
   @JsonKey(name: 'isTimeShiftEnabled')
-  final bool? isTimeShiftEnabled;
+  final bool isTimeShiftEnabled;
 
   /// The video codec priority where the index has the highest priority.
   /// For a single [SourceConfig] this can be overwritten using
   /// [SourceConfig.videoCodecPriority].
+  /// Default value is `null`. In this case the player will use the default that
+  /// is provided by the platform.
   ///
   /// This is only supported on Android.
   @JsonKey(name: 'videoCodecPriority')
@@ -49,27 +51,31 @@ class PlaybackConfig extends Equatable {
   /// The audio codec priority where the first index has the highest priority.
   /// For a single [SourceConfig] this can be overwritten using
   /// [SourceConfig.audioCodecPriority].
+  /// Default value is `null`. In this case the player will use the default that
+  /// is provided by the platform.
   ///
   /// This is only supported on Android.
   @JsonKey(name: 'audioCodecPriority')
   final List<String>? audioCodecPriority;
 
   /// Specifies if tunneled playback should be enabled.
+  /// Default value is `false`.
   ///
   /// This is only supported on Android. This property is ignored for Android
   /// versions below LOLLIPOP (21) or when VR sources are scheduled.
   @JsonKey(name: 'isTunneledPlaybackEnabled')
-  final bool? isTunneledPlaybackEnabled;
+  final bool isTunneledPlaybackEnabled;
 
   /// The [SeekMode] that will be used.
   /// Default value is [SeekMode.exact].
   ///
   /// This is only available on Android.
   @JsonKey(name: 'seekMode')
-  final SeekMode? seekMode;
+  final SeekMode seekMode;
 
   /// Specifies how strictly potentially unsupported audio tracks and qualities
   /// are filtered out of a playback session.
+  /// Default value is [MediaFilter.loose].
   ///
   /// This is only supported on Android.
   @JsonKey(name: 'audioFilter')
@@ -77,6 +83,7 @@ class PlaybackConfig extends Equatable {
 
   /// Specifies how strictly potentially unsupported video qualities are
   /// filtered out of a playback session.
+  /// Default value is [MediaFilter.loose].
   ///
   /// This is only supported on Android.
   @JsonKey(name: 'videoFilter')
