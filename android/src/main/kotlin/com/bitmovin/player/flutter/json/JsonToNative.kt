@@ -1,5 +1,6 @@
 package com.bitmovin.player.flutter.json
 
+import com.bitmovin.player.api.LicensingConfig
 import com.bitmovin.player.api.PlaybackConfig
 import com.bitmovin.player.api.PlayerConfig
 import com.bitmovin.player.api.drm.DrmConfig
@@ -33,6 +34,7 @@ internal val JWidevineConfig.metadata: WidevineConfigMetadata
 internal fun JPlayerConfig.toNative() = PlayerConfig(key = key).also { config ->
     styleConfig?.let { config.styleConfig = it.toNative() }
     playbackConfig?.let { config.playbackConfig = it.toNative() }
+    licensingConfig?.let { config.licensingConfig = it.toNative() }
 }
 
 internal fun JStyleConfig.toNative() = StyleConfig(
@@ -55,4 +57,8 @@ internal fun JPlaybackConfig.toNative() = PlaybackConfig().also { config ->
     audioFilter?.let { config.audioFilter = it }
     videoFilter?.let { config.videoFilter = it }
     seekMode?.let { config.seekMode = it }
+}
+
+internal fun JLicensingConfig.toNative() = LicensingConfig().also { config ->
+    delay?.let { config.delay = it }
 }

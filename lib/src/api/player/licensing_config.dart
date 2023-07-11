@@ -16,6 +16,8 @@ class LicensingConfig extends Equatable {
 
   /// The delay in milliseconds until the licensing call is issued.
   /// Default value is 0. Maximum value is 30000 (i.e. 30 seconds).
+  ///
+  /// This is only supported on Android.
   @JsonKey(name: 'delay')
   final int delay;
 

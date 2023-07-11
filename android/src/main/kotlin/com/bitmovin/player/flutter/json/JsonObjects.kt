@@ -59,10 +59,15 @@ internal class JPlaybackConfig(override val map: Map<*, *>) : JStruct {
     val seekMode by enumGetter<SeekMode>()
 }
 
+internal class JLicensingConfig(override val map: Map<*, *>) : JStruct {
+    val delay by GetInt
+}
+
 internal class JPlayerConfig(override val map: Map<*, *>) : JStruct {
     val key by GetString
     val styleConfig by structGetter(::JStyleConfig)
     val playbackConfig by structGetter(::JPlaybackConfig)
+    val licensingConfig by structGetter(::JLicensingConfig)
 }
 
 // Methods
@@ -94,6 +99,7 @@ internal class JPlayerMethodArg(override val map: Map<*, *>) : JStruct {
 
 private val GetAny = castGetter<Any>()
 private val GetBool = castGetter<Boolean>()
+private val GetInt = castGetter<Int>()
 private val GetString = castGetter<String>()
 private val GetStringList = listGetter<String>()
 private val GetStringMap = mapGetter<String, String>()
