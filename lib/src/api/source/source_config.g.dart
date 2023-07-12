@@ -54,7 +54,7 @@ Map<String, dynamic> _$SourceConfigToJson(SourceConfig instance) =>
       'thumbnailTrack': instance.thumbnailTrack?.toJson(),
       'videoCodecPriority': instance.videoCodecPriority,
       'audioCodecPriority': instance.audioCodecPriority,
-      'sourceOptions': instance.options?.toJson(),
+      'sourceOptions': instance.options.toJson(),
       'drmConfig': instance.drmConfig?.toJson(),
     };
 

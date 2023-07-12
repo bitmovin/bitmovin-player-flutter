@@ -58,8 +58,9 @@ class SourceConfig extends Equatable {
   final String? posterSource;
 
   /// Whether the poster is persistent.
+  /// Default value is `false`
   @JsonKey(name: 'isPosterPersistent')
-  final bool? isPosterPersistent;
+  final bool isPosterPersistent;
 
   /// A list of additional [SubtitleTrack] available for the [Source].
   @JsonKey(name: 'subtitleTracks')
@@ -69,15 +70,17 @@ class SourceConfig extends Equatable {
   @JsonKey(name: 'thumbnailTrack')
   final ThumbnailTrack? thumbnailTrack;
 
-  /// The video codec priority for the [Source].
-  /// First index has the highest priority.
+  /// The video codec priority for the [Source] where the index has the highest
+  /// priority. Default value is `null`. In this case the player will use the
+  /// default that is provided by the platform.
   ///
   /// This is only supported on Android.
   @JsonKey(name: 'videoCodecPriority')
   final List<String>? videoCodecPriority;
 
-  /// The audio codec priority for the [Source].
-  /// First index has the highest priority.
+  /// The audio codec priority for the [Source] where the index has the highest
+  /// priority. Default value is `null`. In this case the player will use the
+  /// default that is provided by the platform.
   ///
   /// This is only supported on Android.
   @JsonKey(name: 'audioCodecPriority')
@@ -85,7 +88,7 @@ class SourceConfig extends Equatable {
 
   /// The additional [SourceOptions] for the [Source].
   @JsonKey(name: 'sourceOptions')
-  final SourceOptions? options;
+  final SourceOptions options;
 
   /// The [DrmConfig] for the [Source].
   @JsonKey(name: 'drmConfig')
