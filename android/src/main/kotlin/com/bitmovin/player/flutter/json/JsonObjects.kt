@@ -4,6 +4,7 @@ import com.bitmovin.player.api.Player
 import com.bitmovin.player.api.SeekMode
 import com.bitmovin.player.api.media.MediaFilter
 import com.bitmovin.player.api.source.SourceType
+import com.bitmovin.player.api.source.TimelineReferencePoint
 import com.bitmovin.player.api.ui.ScalingMode
 import io.flutter.plugin.common.MethodCall
 import java.security.InvalidParameterException
@@ -22,7 +23,19 @@ internal class JSource(override val map: Map<*, *>) : JStruct {
 internal class JSourceConfig(override val map: Map<*, *>) : JStruct {
     val url by GetString.require()
     val type by enumGetter<SourceType>()
+    val title by GetString
+    val description by GetString
+    val audioCodecPriority by GetStringList
+    val videoCodecPriority by GetStringList
+    val isPosterPersistent by GetBool
+    val posterSource by GetString
+    val options by structGetter(::JSourceOptions)
     val drmConfig by structGetter(::JDrmConfig)
+}
+
+internal class JSourceOptions(override val map: Map<*, *>) : JStruct {
+    val startOffset by GetDouble
+    val startOffsetTimelineReference by enumGetter<TimelineReferencePoint>()
 }
 
 internal class JDrmConfig(override val map: Map<*, *>) : JStruct {
@@ -100,6 +113,7 @@ internal class JPlayerMethodArg(override val map: Map<*, *>) : JStruct {
 private val GetAny = castGetter<Any>()
 private val GetBool = castGetter<Boolean>()
 private val GetInt = castGetter<Int>()
+private val GetDouble = castGetter<Double>()
 private val GetString = castGetter<String>()
 private val GetStringList = listGetter<String>()
 private val GetStringMap = mapGetter<String, String>()

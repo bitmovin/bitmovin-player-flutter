@@ -17,8 +17,20 @@ import com.bitmovin.player.flutter.drm.WidevineConfigMetadata
 internal fun JSourceConfig.toNative() = SourceConfig(
     url = url,
     type = type ?: SourceType.Progressive,
-    options = SourceOptions(),
+    title = title,
+    description = description,
+    posterSource = posterSource,
+    options = options?.toNative() ?: SourceOptions(),
     drmConfig = drmConfig?.toNative(),
+).also { sourceConfig ->
+    audioCodecPriority?.let { sourceConfig.audioCodecPriority = it }
+    videoCodecPriority?.let { sourceConfig.videoCodecPriority = it }
+    isPosterPersistent?.let { sourceConfig.isPosterPersistent = it }
+}
+
+internal fun JSourceOptions.toNative() = SourceOptions(
+    startOffset = startOffset,
+    startOffsetTimelineReference = startOffsetTimelineReference,
 )
 
 private fun JDrmConfig.toNative(): DrmConfig? = widevine?.toNative()
