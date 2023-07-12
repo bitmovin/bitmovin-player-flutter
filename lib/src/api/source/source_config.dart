@@ -87,7 +87,7 @@ class SourceConfig extends Equatable {
   final List<String>? audioCodecPriority;
 
   /// The additional [SourceOptions] for the [Source].
-  @JsonKey(name: 'sourceOptions')
+  @JsonKey(name: 'options')
   final SourceOptions options;
 
   /// The [DrmConfig] for the [Source].

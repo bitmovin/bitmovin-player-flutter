@@ -243,8 +243,8 @@ class Helper {
             }
         }
 
-        if let sourceOptions = json["sourceOptions"] as? [String: Any] {
-            sourceConfig.options = self.sourceOptions(sourceOptions)
+        if let options = json["options"] as? [String: Any] {
+            sourceConfig.options = sourceOptions(options)
         }
 
         if let thumbnailTrack = json["thumbnailTrack"] as? String {

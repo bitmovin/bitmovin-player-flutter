@@ -32,9 +32,9 @@ SourceConfig _$SourceConfigFromJson(Map<String, dynamic> json) {
     videoCodecPriority: (json['videoCodecPriority'] as List<dynamic>?)
         ?.map((e) => e as String)
         .toList(),
-    options: json['sourceOptions'] == null
+    options: json['options'] == null
         ? const SourceOptions()
-        : SourceOptions.fromJson(json['sourceOptions'] as Map<String, dynamic>),
+        : SourceOptions.fromJson(json['options'] as Map<String, dynamic>),
     drmConfig: json['drmConfig'] == null
         ? null
         : DrmConfig.fromJson(json['drmConfig'] as Map<String, dynamic>),
@@ -54,7 +54,7 @@ Map<String, dynamic> _$SourceConfigToJson(SourceConfig instance) =>
       'thumbnailTrack': instance.thumbnailTrack?.toJson(),
       'videoCodecPriority': instance.videoCodecPriority,
       'audioCodecPriority': instance.audioCodecPriority,
-      'sourceOptions': instance.options.toJson(),
+      'options': instance.options.toJson(),
       'drmConfig': instance.drmConfig?.toJson(),
     };
 
