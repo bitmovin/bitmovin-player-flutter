@@ -46,42 +46,39 @@ extension FlutterPlayer: FlutterStreamHandler {
 
 private extension FlutterPlayer {
     func handleMethodCall(call: FlutterMethodCall, result: @escaping FlutterResult) {
-        guard let payload = Helper.playerPayload(call.arguments) else {
+        guard let arguments = Helper.methodCallArguments(call.arguments) else {
             result(FlutterError())
             return
         }
 
-        switch call.method {
-        case Methods.loadWithSourceConfig:
-            if let payloadData = payload.data,
-               let (sourceConfig, metadata) = Helper.sourceConfig(payloadData) {
+        switch (call.method, arguments) {
+        case (Methods.loadWithSourceConfig, .json(let sourceConfigJson)):
+            if let (sourceConfig, metadata) = Helper.sourceConfig(sourceConfigJson) {
                 handleLoadWithSourceConfig(sourceConfig, metadata: metadata)
             } else {
                 result(FlutterError())
             }
-        case Methods.loadWithSource:
-            if let payloadData = payload.data,
-               let (source, metadata) = Helper.source(payloadData) {
+        case (Methods.loadWithSource, .json(let sourceJson)):
+            if let (source, metadata) = Helper.source(sourceJson) {
                 handleLoadWithSourceConfig(source.sourceConfig, metadata: metadata)
             } else {
                 result(FlutterError())
             }
-        case Methods.play:
+        case (Methods.play, .empty):
             player.play()
-        case Methods.pause:
+        case (Methods.pause, .empty):
             player.pause()
-        case Methods.mute:
+        case (Methods.mute, .empty):
             player.mute()
-        case Methods.unmute:
+        case (Methods.unmute, .empty):
             player.unmute()
-        case Methods.seek:
-            // TODO: pass correct argument
-            player.seek(time: 1)
-        case Methods.currentTime:
+        case (Methods.seek, .double(let seekTarget)):
+            player.seek(time: seekTarget)
+        case (Methods.currentTime, .empty):
             result(player.currentTime)
-        case Methods.duration:
+        case (Methods.duration, .empty):
             result(player.duration)
-        case Methods.destroy:
+        case (Methods.destroy, .empty):
             destroyPlayer()
         default:
             result(FlutterMethodNotImplemented)

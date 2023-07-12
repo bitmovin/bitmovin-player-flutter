@@ -59,6 +59,8 @@ class _BasicPlayerOnlyState extends State<BasicPlayerOnly> {
             onPausePressed: () => _player.pause(),
             onMutePressed: () => _player.mute(),
             onUnmutePressed: () => _player.unmute(),
+            onSkipForwardPressed: () async =>
+                _player.seek(await _player.currentTime + 10),
           ),
           SingleChildScrollView(
             child: Text(eventData),

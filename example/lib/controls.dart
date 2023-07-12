@@ -10,6 +10,7 @@ class Controls extends StatelessWidget {
     required this.onLoadPressed,
     required this.onMutePressed,
     required this.onUnmutePressed,
+    required this.onSkipForwardPressed,
   });
 
   final ControlAction onPlayPressed;
@@ -17,6 +18,7 @@ class Controls extends StatelessWidget {
   final ControlAction onLoadPressed;
   final ControlAction onMutePressed;
   final ControlAction onUnmutePressed;
+  final ControlAction onSkipForwardPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -27,15 +29,15 @@ class Controls extends StatelessWidget {
           children: [
             OutlinedButton(
               onPressed: onPlayPressed,
-              child: const Text('PLAY'),
+              child: const Text('Play'),
             ),
             OutlinedButton(
               onPressed: onPausePressed,
-              child: const Text('PAUSE'),
+              child: const Text('Pause'),
             ),
             OutlinedButton(
               onPressed: onLoadPressed,
-              child: const Text('LOAD'),
+              child: const Text('Load'),
             ),
           ],
         ),
@@ -49,6 +51,10 @@ class Controls extends StatelessWidget {
             OutlinedButton(
               onPressed: onUnmutePressed,
               child: const Text('Unmute'),
+            ),
+            OutlinedButton(
+              onPressed: onSkipForwardPressed,
+              child: const Text('Skip Forward'),
             ),
           ],
         ),
