@@ -37,7 +37,7 @@ Map<String, dynamic> _$PlaybackConfigToJson(PlaybackConfig instance) =>
       'videoCodecPriority': instance.videoCodecPriority,
       'audioCodecPriority': instance.audioCodecPriority,
       'isTunneledPlaybackEnabled': instance.isTunneledPlaybackEnabled,
-      'seekMode': _$SeekModeEnumMap[instance.seekMode],
+      'seekMode': _$SeekModeEnumMap[instance.seekMode]!,
       'audioFilter': _$MediaFilterEnumMap[instance.audioFilter]!,
       'videoFilter': _$MediaFilterEnumMap[instance.videoFilter]!,
     };

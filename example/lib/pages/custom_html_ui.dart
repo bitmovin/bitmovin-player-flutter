@@ -5,16 +5,15 @@ import 'package:bitmovin_player_example/controls.dart';
 import 'package:bitmovin_player_example/env/env.dart';
 import 'package:flutter/material.dart';
 
-class BasicPlayback extends StatefulWidget {
-  static String routeName = 'BasicPlayback';
-  const BasicPlayback({super.key});
+class CustomHtmlUi extends StatefulWidget {
+  static String routeName = 'CustomHtmlUi';
+  const CustomHtmlUi({super.key});
 
   @override
-  State<BasicPlayback> createState() => _BasicPlaybackState();
+  State<CustomHtmlUi> createState() => _CustomHtmlUiState();
 }
 
-class _BasicPlaybackState extends State<BasicPlayback> {
-  String eventData = '';
+class _CustomHtmlUiState extends State<CustomHtmlUi> {
   final sourceConfig = SourceConfig(
     url: Platform.isAndroid
         ? 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd'
@@ -24,9 +23,13 @@ class _BasicPlaybackState extends State<BasicPlayback> {
   final _player = Player(
     config: const PlayerConfig(
         key: Env.bitmovinPlayerLicenseKey,
-        playbackConfig: PlaybackConfig(
-          isAutoplayEnabled: true,
-          isMuted: false,
+        styleConfig: StyleConfig(
+          playerUiCss:
+              'https://cdn.statically.io/gh/bitmovin/bitmovin-player-ios-samples/main/CustomHtmlUi/Supporting%20Files/bitmovinplayer-ui.min.css',
+          playerUiJs:
+              'https://cdn.statically.io/gh/bitmovin/bitmovin-player-ios-samples/main/CustomHtmlUi/Supporting%20Files/bitmovinplayer-ui.min.js',
+          supplementalPlayerUiCss:
+              'https://cdn.bitmovin.com/player/ui/ui-customized-sample.css',
         )),
   );
 
@@ -46,7 +49,7 @@ class _BasicPlaybackState extends State<BasicPlayback> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Basic Playback'),
+        title: const Text('Custom HTML UI'),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -66,7 +69,6 @@ class _BasicPlaybackState extends State<BasicPlayback> {
               player: _player,
             ),
           ),
-          Text(eventData),
         ],
       ),
     );

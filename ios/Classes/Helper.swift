@@ -90,16 +90,28 @@ class Helper {
         if let isUiEnabled = json["isUiEnabled"] as? Bool {
             styleConfig.isUiEnabled = isUiEnabled
         }
-#if !os(tvOS)
-        //        if let playerUiCss = json["playerUiCss"] as? String {
-        //            styleConfig.playerUiCss = URL(string: playerUiCss)
-        //        }
-        //        if let supplementalPlayerUiCss = json["supplementalPlayerUiCss"] as? String {
-        //            styleConfig.supplementalPlayerUiCss = URL(string: supplementalPlayerUiCss)
-        //        }
-        //        if let playerUiJs = json["playerUiJs"] as? String {
-        //            styleConfig.playerUiJs = URL(string: playerUiJs)
-        //        }
+        if let hideFirstFrame = json["isHideFirstFrame"] as? Bool {
+#if os(iOS)
+            let userInterfaceConfig = BitmovinUserInterfaceConfig()
+#else
+            let userInterfaceConfig = SystemUserInterfaceConfig()
+#endif
+            userInterfaceConfig.hideFirstFrame = hideFirstFrame
+            styleConfig.userInterfaceConfig = userInterfaceConfig
+        }
+#if os(iOS)
+        if let playerUiCss = json["playerUiCss"] as? String,
+           let playerUiCssUrl = URL(string: playerUiCss) {
+            styleConfig.playerUiCss = playerUiCssUrl
+        }
+        if let supplementalPlayerUiCss = json["supplementalPlayerUiCss"] as? String,
+           let supplementalPlayerUiCssUrl = URL(string: supplementalPlayerUiCss) {
+            styleConfig.supplementalPlayerUiCss = supplementalPlayerUiCssUrl
+        }
+        if let playerUiJs = json["playerUiJs"] as? String,
+           let playerUiJsUrl = URL(string: playerUiJs) {
+            styleConfig.playerUiJs = playerUiJsUrl
+        }
 #endif
         if let scalingMode = json["scalingMode"] as? String {
             switch scalingMode {
@@ -110,7 +122,7 @@ class Helper {
             case "Zoom":
                 styleConfig.scalingMode = .zoom
             default:
-                styleConfig.scalingMode = .fit
+                break
             }
         }
         return styleConfig
