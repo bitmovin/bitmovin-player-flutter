@@ -12,13 +12,3 @@ enum TimelineReferencePoint {
   @JsonValue('End')
   end,
 }
-
-/// @nodoc
-extension TimelineReferencePointExtension on TimelineReferencePoint {
-  static const names = {
-    TimelineReferencePoint.start: 'Start',
-    TimelineReferencePoint.end: 'End',
-  };
-
-  String? get name => names[this];
-}

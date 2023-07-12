@@ -208,7 +208,7 @@ class Helper {
 
         let sourceConfig = SourceConfig(
             url: sourceUrl,
-            type: sourceType(json["type"] as Any?)
+            type: sourceType(json["type"])
         )
 
         var fairplayConfigMetadata: FairplayConfig.Metadata?
@@ -223,8 +223,12 @@ class Helper {
             sourceConfig.title = title
         }
 
-        if let poster = json["poster"] as? String {
-            sourceConfig.posterSource = URL(string: poster)
+        if let description = json["description"] as? String {
+            sourceConfig.sourceDescription = description
+        }
+
+        if let posterSource = json["posterSource"] as? String {
+            sourceConfig.posterSource = URL(string: posterSource)
         }
 
         if let isPosterPersistent = json["isPosterPersistent"] as? Bool {
@@ -239,11 +243,42 @@ class Helper {
             }
         }
 
+        if let options = json["options"] as? [String: Any] {
+            sourceConfig.options = sourceOptions(options)
+        }
+
         if let thumbnailTrack = json["thumbnailTrack"] as? String {
             sourceConfig.thumbnailTrack = Helper.thumbnailTrack(thumbnailTrack)
         }
 
         return (sourceConfig, fairplayConfigMetadata)
+    }
+
+    static func sourceOptions(_ json: [String: Any]) -> SourceOptions {
+        let sourceOptions = SourceOptions()
+
+        if let startOffset = json["startOffset"] as? Double {
+            sourceOptions.startOffset = startOffset
+        }
+
+        sourceOptions.startOffsetTimelineReference = timelineReferencePoint(json["startOffsetTimelineReference"])
+
+        return sourceOptions
+    }
+
+    static func timelineReferencePoint(_ json: Any?) -> TimelineReferencePoint {
+        guard let json = json as? String else {
+            return .auto
+        }
+
+        switch json {
+        case "Start":
+            return .start
+        case "End":
+            return .end
+        default:
+            return .auto
+        }
     }
 
     /**

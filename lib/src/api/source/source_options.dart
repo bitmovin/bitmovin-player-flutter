@@ -30,6 +30,7 @@ class SourceOptions extends Equatable {
   final double? startOffset;
 
   /// Sets the Timeline reference point to calculate the [startOffset] from.
+  /// If not set, default values will be used.
   ///
   /// Default value for VOD: [TimelineReferencePoint.start]
   /// Default value for live: [TimelineReferencePoint.end]
