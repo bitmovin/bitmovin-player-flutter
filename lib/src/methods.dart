@@ -11,6 +11,10 @@ class Methods {
   static const String currentTime = 'currentTime';
   static const String duration = 'duration';
   static const String destroy = 'destroy';
+  static const String setTimeShift = 'setTimeShift';
+  static const String getTimeShift = 'getTimeShift';
+  static const String maxTimeShift = 'maxTimeShift';
+  static const String isLive = 'isLive';
 
   /// Player view related methods
   static const String destroyPlayerView = 'destroyPlayerView';

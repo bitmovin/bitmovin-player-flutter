@@ -170,14 +170,28 @@ class Player with PlayerEventHandler implements PlayerApi {
       _invokeMethod<void>(Methods.seek, time);
 
   @override
-  Future<double> get currentTime async {
-    return await _invokeMethod<double>(Methods.currentTime) ?? 0.0;
-  }
+  Future<double> get currentTime async =>
+      _invokeMethod<double>(Methods.currentTime).then((value) => value ?? 0.0);
 
   @override
-  Future<double> get duration async {
-    return await _invokeMethod<double>(Methods.duration) ?? 0.0;
-  }
+  Future<double> get duration async =>
+      _invokeMethod<double>(Methods.duration).then((value) => value ?? 0.0);
+
+  @override
+  Future<double> get timeShift async =>
+      _invokeMethod<double>(Methods.getTimeShift).then((value) => value ?? 0.0);
+
+  @override
+  Future<void> setTimeShift(double timeShift) async =>
+      _invokeMethod<void>(Methods.setTimeShift, timeShift);
+
+  @override
+  Future<double> get maxTimeShift async =>
+      _invokeMethod<double>(Methods.maxTimeShift).then((value) => value ?? 0.0);
+
+  @override
+  Future<bool> get isLive async =>
+      _invokeMethod<bool>(Methods.isLive).then((value) => value ?? false);
 
   /// Disposes the player instance.
   Future<void> dispose() async => _invokeMethod<void>(Methods.destroy);
