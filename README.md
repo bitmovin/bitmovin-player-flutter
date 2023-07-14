@@ -1,3 +1,34 @@
+# Bitmovin Flutter SDK (Alpha) 
+
+Official Flutter bindings for Bitmovin's mobile Player SDKs, currently in Alpha.
+
+> As the library is under active development, this means certain features from our native SDKs are not yet exposed through these Flutter bindings.
+> See [Feature Support](#feature-support) for an overview of the supported features.
+>
+> Not seeing the features you’re looking for?
+> We are accepting community pull requests to this open-source project so please feel free to contribute.
+> or let us know in [our community](https://community.bitmovin.com/c/requests/14) what features we should work on next.
+
+## Platform Support 
+
+- :white_check_mark: Android
+- :white_check_mark: iOS
+
+## Feature Support
+
+Features of the native mobile Player SDKs are progressively being implemented in this Flutter library. The table below summarizes the current state of the main Player SDK features.
+
+| Feature                          | State                                     |
+| -------------------------------- | ----------------------------------------- |
+| Playback of DRM-protected assets | :white_check_mark: Available since v0.0.1 |
+| Subtitles & Captions             | :x: Not available                         |
+| Advertising                      | :x: Not available                         |
+| Analytics                        | :x: Not available                         |
+| Playlist API                     | :x: Not available                         |
+| Casting                          | :x: Not available                         |
+| Offline Playback                 | :x: Not available                         |
+
+
 # Get Started
 - Install `flutter` on your machine if you haven't already
 - Install `Node.js` and `npm` on your machine if you haven't already
@@ -17,15 +48,6 @@ To be able to use the example app, follow these steps:
 1. Run `flutter pub run build_runner build --delete-conflicting-outputs` in the project root which should generate the missing `example/lib/env/env.g.dart` file
 1. Start the example app by running the command `flutter run` inside the `example/` directory
 
-# Bitmovin Flutter SDK
-
-Flutter plugin for bitmovin.
-
-Supported Platform
-- :white_check_mark: Android
-- :white_check_mark: iOS
-
-</br>
 
 # Installation
 
