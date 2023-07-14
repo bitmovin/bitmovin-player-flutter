@@ -46,9 +46,13 @@ extension FlutterPlayer: FlutterStreamHandler {
 
 private extension FlutterPlayer {
     func handleMethodCall(call: FlutterMethodCall, result: @escaping FlutterResult) {
+        let methodCallResult = handleMethodCall(call: call)
+        result(methodCallResult)
+    }
+
+    func handleMethodCall(call: FlutterMethodCall) -> Any? {
         guard let arguments = Helper.methodCallArguments(call.arguments) else {
-            result(FlutterError())
-            return
+            return FlutterError()
         }
 
         switch (call.method, arguments) {
@@ -56,13 +60,13 @@ private extension FlutterPlayer {
             if let (sourceConfig, metadata) = Helper.sourceConfig(sourceConfigJson) {
                 handleLoadWithSourceConfig(sourceConfig, metadata: metadata)
             } else {
-                result(FlutterError())
+                return FlutterError()
             }
         case (Methods.loadWithSource, .json(let sourceJson)):
             if let (source, metadata) = Helper.source(sourceJson) {
                 handleLoadWithSourceConfig(source.sourceConfig, metadata: metadata)
             } else {
-                result(FlutterError())
+                return FlutterError()
             }
         case (Methods.play, .empty):
             player.play()
@@ -75,14 +79,26 @@ private extension FlutterPlayer {
         case (Methods.seek, .double(let seekTarget)):
             player.seek(time: seekTarget)
         case (Methods.currentTime, .empty):
-            result(player.currentTime)
+            return player.currentTime
         case (Methods.duration, .empty):
-            result(player.duration)
+            return player.duration
+        case (Methods.getTimeShift, .empty):
+            return player.timeShift
+        case (Methods.setTimeShift, .double(let timeShiftTarget)):
+            player.timeShift = timeShiftTarget
+        case (Methods.maxTimeShift, .empty):
+            return player.maxTimeShift
+        case (Methods.isLive, .empty):
+            return player.isLive
         case (Methods.destroy, .empty):
             destroyPlayer()
         default:
-            result(FlutterMethodNotImplemented)
+            return FlutterMethodNotImplemented
         }
+
+        // Returning `nil` here handles the case that a void method was called successfully.
+        // If an error happened or we need to return a specific value, it needs to be handled explicitly
+        return nil
     }
 
     func handleLoadWithSourceConfig(
