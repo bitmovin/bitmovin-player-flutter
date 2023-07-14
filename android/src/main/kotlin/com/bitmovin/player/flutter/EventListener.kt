@@ -15,7 +15,7 @@ open class EventListener {
             val payload = mapper.writeValueAsString(
                 mapOf(
                     "event" to eventName,
-                    "data" to mapper.writeValueAsString(data),
+                    "data" to data,
                 ),
             )
 

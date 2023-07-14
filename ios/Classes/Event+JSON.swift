@@ -19,7 +19,7 @@ extension LoadingState {
 extension Source {
     func toJSON() -> [String: Any] {
         var json: [String: Any] = [
-            "duration": duration,
+            "duration": duration.jsonValue,
             "isActive": isActive,
             "loadingState": loadingState.toValue(),
             "isAttachedToPlayer": isAttachedToPlayer,
@@ -120,7 +120,9 @@ extension SourceOptions {
     func toJSON() -> [String: Any] {
         var json: [String: Any] = [:]
         json["startOffset"] = self.startOffset.isNaN ? nil : self.startOffset
-        json["startOffsetTimelineReference"] = self.startOffsetTimelineReference.toValue()
+        if startOffsetTimelineReference != .auto {
+            json["startOffsetTimelineReference"] = self.startOffsetTimelineReference.toValue()
+        }
         return json
     }
 }
@@ -279,7 +281,7 @@ protocol SourceEventType: Event {
 
 extension SourceEventType {
     func toJSON() -> [String: Any] {
-        ["event": name, "timestamp": Int(timestamp), "source": source.toJSON()]
+        ["name": name, "timestamp": Int(timestamp), "source": source.toJSON()]
     }
 }
 
@@ -396,5 +398,18 @@ extension VideoDownloadQualityChangedEvent {
         }
 
         return result
+    }
+}
+
+extension Double {
+    var jsonValue: Any {
+        switch self {
+        case .infinity:
+            return "Infinity"
+        case .nan:
+            return "NaN"
+        default:
+            return self
+        }
     }
 }

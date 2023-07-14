@@ -148,12 +148,12 @@ extension FlutterPlayer: PlayerListener {
             return
         }
 
-        let target = [
+        let target: [String: Any] = [
             "event": name,
-            "data": toJSONString(data)
+            "data": data
         ]
 
-        sink(toJSONString(target as [String: Any]))
+        sink(toJSONString(target))
     }
 
     func onSourceAdded(_ event: SourceAddedEvent, player: Player) {
