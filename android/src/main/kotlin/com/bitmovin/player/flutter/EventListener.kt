@@ -3,6 +3,7 @@ package com.bitmovin.player.flutter
 import com.bitmovin.player.api.Player
 import com.bitmovin.player.api.event.PlayerEvent
 import com.bitmovin.player.api.event.SourceEvent
+import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.flutter.plugin.common.EventChannel
 
@@ -12,6 +13,8 @@ open class EventListener {
     private fun broadcast(eventName: String, data: Any?) {
         data?.let {
             val mapper = jacksonObjectMapper()
+            mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false)
+
             val payload = mapper.writeValueAsString(
                 mapOf(
                     "event" to eventName,
