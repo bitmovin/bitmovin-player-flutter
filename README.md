@@ -1,3 +1,40 @@
+# Bitmovin Flutter SDK (Alpha) 
+
+Official Flutter bindings for Bitmovin's mobile Player SDKs, currently in Alpha.
+
+> As the library is under active development, this means certain features from our native SDKs are not yet exposed through these Flutter bindings.
+> See [Feature Support](#feature-support) for an overview of the supported features.
+>
+> Not seeing the features you’re looking for?
+> We are accepting community pull requests to this open-source project so please feel free to contribute.
+> or let us know in [our community](https://community.bitmovin.com/c/requests/14) what features we should work on next.
+
+## Platform Support 
+
+* iOS/iPadOS 14.0+
+* Android API Level 16+
+
+## Feature Support
+
+Features of the native mobile Player SDKs are progressively being implemented in this Flutter library. The table below summarizes the current state of the main Player SDK features.
+
+| Feature                                                                                        | Android                       | iOS, iPadOS                   |
+| :--------------------------------------------------------------------------------------------- | :---------------------------- | :---------------------------- |
+| Supported media formats                                                                        | DASH, HLS                     | HLS                           |
+| Playback of DRM-protected media                                                                | :white_check_mark: (Widevine) | :white_check_mark: (FairPlay) |
+| Bitmovin Web UI                                                                                | :white_check_mark:            | :white_check_mark:            |
+| Subtitles & Captions                                                                           | Planned for Q3, 2023          | Planned for Q3, 2023          |
+| Support for Apple TV/Android TV/Fire TV                                                        | Planned for Q3, 2023          | Planned for Q3, 2023          |
+| [Bitmovin Analytics](https://developer.bitmovin.com/playback/docs/enabling-bitmovin-analytics) | Planned for Q3, 2023          | Planned for Q3, 2023          |
+| Full-screen Support                                                                            | Planned for Q3, 2023          | Planned for Q3, 2023          |
+| Casting/AirPlay                                                                                | Planned for Q3, 2023          | Planned for Q3, 2023          |
+| Picture-in-Picture                                                                             | :x: Not available             | :x: Not available             |
+| Background Playback                                                                            | :x: Not available             | :x: Not available             |
+| Advertising (Google IMA CSAI)                                                                  | :x: Not available             | :x: Not available             |
+| Offline Playback                                                                               | :x: Not available             | :x: Not available             |
+| Playlist API                                                                                   | :x: Not available             | :x: Not available             |
+
+
 # Get Started
 - Install `flutter` on your machine if you haven't already
 - Install `Node.js` and `npm` on your machine if you haven't already
@@ -17,15 +54,6 @@ To be able to use the example app, follow these steps:
 1. Run `flutter pub run build_runner build --delete-conflicting-outputs` in the project root which should generate the missing `example/lib/env/env.g.dart` file
 1. Start the example app by running the command `flutter run` inside the `example/` directory
 
-# Bitmovin Flutter SDK
-
-Flutter plugin for bitmovin.
-
-Supported Platform
-- :white_check_mark: Android
-- :white_check_mark: iOS
-
-</br>
 
 # Installation
 
