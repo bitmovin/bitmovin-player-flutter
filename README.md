@@ -11,8 +11,8 @@ Official Flutter bindings for Bitmovin's mobile Player SDKs, currently in Alpha.
 
 ## Platform Support 
 
-- :white_check_mark: Android
-- :white_check_mark: iOS
+* iOS/iPadOS 14.0+
+* Android API Level 16+
 
 ## Feature Support
 
