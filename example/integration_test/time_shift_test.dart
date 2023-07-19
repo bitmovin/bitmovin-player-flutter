@@ -1,6 +1,5 @@
 import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:logger/logger.dart';
 import 'player_testing/player_testing.dart';
 
 void main() {
@@ -8,21 +7,24 @@ void main() {
     url: 'https://bitcdn-kronehit.bitmovin.com/v2/hls/playlist.m3u8',
     type: SourceType.hls,
   );
-  final logger = Logger();
 
   testWidgets('test framework example', (tester) async {
     await startPlayerTest(() async {
       await loadSourceConfig(kronehit);
       final TimeShiftEvent timeShiftEvent = await callPlayerAndExpectEvent(
-        (player) {
-          player.setTimeShift(-100);
+        (player) async {
+          await player.setTimeShift(-100);
         },
       );
+      expect(timeShiftEvent, isNotNull);
 
-      logger.d('timeShiftEvent: $timeShiftEvent');
-      expect(timeShiftEvent.position, greaterThan(0));
-      logger.d('we ready');
+      final TimeShiftedEvent timeShiftedEvent = await expectEvent();
+      expect(timeShiftedEvent, isNotNull);
+
+      await callPlayer((player) async {
+        final currentTimeShift = await player.timeShift;
+        expect(currentTimeShift, closeTo(-100, 1));
+      });
     });
-    logger.d('finished');
   });
 }
