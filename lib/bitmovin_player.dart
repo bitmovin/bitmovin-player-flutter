@@ -14,6 +14,8 @@ export 'src/api/event/player/ready_event.dart';
 export 'src/api/event/player/seek_event.dart';
 export 'src/api/event/player/seeked_event.dart';
 export 'src/api/event/player/time_changed_event.dart';
+export 'src/api/event/player/time_shift_event.dart';
+export 'src/api/event/player/time_shifted_event.dart';
 export 'src/api/event/player/unmuted_event.dart';
 export 'src/api/event/player/warning_event.dart';
 export 'src/api/event/source/source_added_event.dart';

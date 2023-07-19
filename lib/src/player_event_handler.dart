@@ -81,6 +81,12 @@ mixin PlayerEventHandler implements PlayerListener {
       case 'onSeek':
         emit(SeekEvent.fromJson(data));
         break;
+      case 'onTimeShift':
+        emit(TimeShiftEvent.fromJson(data));
+        break;
+      case 'onTimeShifted':
+        emit(TimeShiftedEvent.fromJson(data));
+        break;
       case 'onPlaybackFinished':
         emit(PlaybackFinishedEvent.fromJson(data));
         break;
@@ -167,6 +173,16 @@ mixin PlayerEventHandler implements PlayerListener {
 
   @override
   set onSeeked(void Function(SeekedEvent) func) {
+    _setListener(func);
+  }
+
+  @override
+  set onTimeShift(void Function(TimeShiftEvent) func) {
+    _setListener(func);
+  }
+
+  @override
+  set onTimeShifted(void Function(TimeShiftedEvent) func) {
     _setListener(func);
   }
 
