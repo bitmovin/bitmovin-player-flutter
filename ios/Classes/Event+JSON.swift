@@ -182,6 +182,17 @@ extension SeekEvent {
     }
 }
 
+extension TimeShiftEvent {
+    func toJSON() -> [String: Any] {
+        [
+            "event": name,
+            "timestamp": Int(timestamp),
+            "position": position,
+            "target": target
+        ]
+    }
+}
+
 extension TimeChangedEvent {
     func toJSON() -> [String: Any] {
         ["event": name, "timestamp": Int(timestamp), "currentTime": currentTime]

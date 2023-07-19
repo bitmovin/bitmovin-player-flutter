@@ -239,4 +239,12 @@ extension FlutterPlayer: PlayerListener {
     func onSeeked(_ event: SeekedEvent, player: Player) {
         broadCast(name: event.name, data: event.toJSON(), sink: eventSink)
     }
+
+    func onTimeShift(_ event: TimeShiftEvent, player: Player) {
+        broadCast(name: event.name, data: event.toJSON(), sink: eventSink)
+    }
+
+    func onTimeShifted(_ event: TimeShiftedEvent, player: Player) {
+        broadCast(name: event.name, data: event.toJSON(), sink: eventSink)
+    }
 }
