@@ -28,6 +28,7 @@ export 'src/api/event/source/source_unloaded_event.dart';
 export 'src/api/event/source/source_warning_event.dart';
 export 'src/api/media/media_filter.dart';
 export 'src/api/player/licensing_config.dart';
+export 'src/api/player/live_config.dart';
 export 'src/api/player/playback_config.dart';
 export 'src/api/player/player_config.dart';
 export 'src/api/player/seek_mode.dart';
