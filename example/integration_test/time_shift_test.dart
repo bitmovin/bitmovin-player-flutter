@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'player_testing/player_testing.dart';
@@ -18,10 +20,7 @@ void main() {
           await player.setTimeShift(-100);
         },
       );
-      expect(timeShiftEvent, isNotNull);
-
       final TimeShiftedEvent timeShiftedEvent = await expectEvent();
-      expect(timeShiftedEvent, isNotNull);
 
       await callPlayer((player) async {
         final currentTimeShift = await player.timeShift;
