@@ -5,18 +5,25 @@ import 'package:logger/logger.dart';
 
 mixin PlayerEventHandler implements PlayerListener {
   final Logger _logger = Logger();
-  final Map<String, void Function(Event)> _eventListeners = {};
+  final Map<String, List<void Function(Event)>> _eventListeners = {};
 
   /// Takes an [Event] and emits it to the corresponding event listener.
   void emit(Event event) {
+    final generalListener = _eventListeners[(Event).toString()];
+    generalListener?.forEach((element) {
+      element.call(event);
+    });
+
     final listener = _eventListeners[event.runtimeType.toString()];
-    listener?.call(event);
+    listener?.forEach((element) {
+      element.call(event);
+    });
   }
 
   /// Takes an event as JSON that was received from the native platform,
   /// deserializes it to a typed event object and emits it to the corresponding
   /// event listener.
-  void onEvent(dynamic event) {
+  void onPlatformEvent(dynamic event) {
     if (event == null || event is! String) {
       _logger.e('Received event is null');
       return;
@@ -105,124 +112,134 @@ mixin PlayerEventHandler implements PlayerListener {
     }
   }
 
-  void _setListener<T>(void Function(T) listener) {
-    _eventListeners[T.toString()] = (Event event) {
+  void _addListener<T>(void Function(T) listener) {
+    final key = T.toString();
+    if (_eventListeners[key] == null) {
+      _eventListeners[key] = [];
+    }
+
+    _eventListeners[T.toString()]?.add((Event event) {
       listener(event as T);
-    };
+    });
+  }
+
+  @override
+  set onEvent(void Function(Event) func) {
+    _addListener(func);
   }
 
   @override
   set onTimeChanged(void Function(TimeChangedEvent) func) {
-    _setListener(func);
+    _addListener(func);
   }
 
   @override
   set onSourceLoad(void Function(SourceLoadEvent) func) {
-    _setListener(func);
+    _addListener(func);
   }
 
   @override
   set onSourceLoaded(void Function(SourceLoadedEvent) func) {
-    _setListener(func);
+    _addListener(func);
   }
 
   @override
   set onSourceUnloaded(void Function(SourceUnloadedEvent) func) {
-    _setListener(func);
+    _addListener(func);
   }
 
   @override
   set onPlay(void Function(PlayEvent) func) {
-    _setListener(func);
+    _addListener(func);
   }
 
   @override
   set onPlaying(void Function(PlayingEvent) func) {
-    _setListener(func);
+    _addListener(func);
   }
 
   @override
   set onPaused(void Function(PausedEvent) func) {
-    _setListener(func);
+    _addListener(func);
   }
 
   @override
   set onMuted(void Function(MutedEvent) func) {
-    _setListener(func);
+    _addListener(func);
   }
 
   @override
   set onUnmuted(void Function(UnmutedEvent) func) {
-    _setListener(func);
+    _addListener(func);
   }
 
   @override
   set onSourceAdded(void Function(SourceAddedEvent) func) {
-    _setListener(func);
+    _addListener(func);
   }
 
   @override
   set onSourceRemoved(void Function(SourceRemovedEvent) func) {
-    _setListener(func);
+    _addListener(func);
   }
 
   @override
   set onSeek(void Function(SeekEvent) func) {
-    _setListener(func);
+    _addListener(func);
   }
 
   @override
   set onSeeked(void Function(SeekedEvent) func) {
-    _setListener(func);
+    _addListener(func);
   }
 
   @override
   set onTimeShift(void Function(TimeShiftEvent) func) {
-    _setListener(func);
+    _addListener(func);
   }
 
   @override
   set onTimeShifted(void Function(TimeShiftedEvent) func) {
-    _setListener(func);
+    _addListener(func);
   }
 
   @override
   set onPlaybackFinished(void Function(PlaybackFinishedEvent) func) {
-    _setListener(func);
+    _addListener(func);
   }
 
   @override
   set onSourceWarning(void Function(SourceWarningEvent) func) {
-    _setListener(func);
+    _addListener(func);
   }
 
   @override
   set onSourceError(void Function(SourceErrorEvent) func) {
-    _setListener(func);
+    _addListener(func);
   }
 
   @override
   set onSourceInfo(void Function(SourceInfoEvent) func) {
-    _setListener(func);
+    _addListener(func);
   }
 
   @override
   set onError(void Function(ErrorEvent) func) {
-    _setListener(func);
+    _addListener(func);
   }
 
   @override
   set onInfo(void Function(InfoEvent) func) {
-    _setListener(func);
+    _addListener(func);
   }
 
   @override
   set onWarning(void Function(WarningEvent) func) {
-    _setListener(func);
+    _addListener(func);
   }
 
   @override
   set onReady(void Function(ReadyEvent) func) {
-    _setListener(func);
+    _addListener(func);
   }
 }
