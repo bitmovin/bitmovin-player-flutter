@@ -20,6 +20,7 @@ void main() {
           await player.setTimeShift(-100);
         },
       );
+      // TODO(mario): this approach will not work for multi event expectations
       final TimeShiftedEvent timeShiftedEvent = await expectEvent();
 
       await callPlayer((player) async {
