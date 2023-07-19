@@ -98,6 +98,12 @@ open class EventListener {
             on(PlayerEvent.Seeked::class) {
                 broadcast("onSeeked", it)
             }
+            on(PlayerEvent.TimeShift::class) {
+                broadcast("onTimeShift", it)
+            }
+            on(PlayerEvent.TimeShifted::class) {
+                broadcast("onTimeShifted", it)
+            }
             on(PlayerEvent.Info::class) {
                 broadcast("onPlayerInfo", it)
             }
