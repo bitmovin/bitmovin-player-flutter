@@ -76,11 +76,17 @@ internal class JLicensingConfig(override val map: Map<*, *>) : JStruct {
     val delay by GetInt
 }
 
+internal class JLiveConfig(override val map: Map<*, *>) : JStruct {
+    val minTimeShiftBufferDepth by GetDouble
+    val liveEdgeOffset by GetDouble
+}
+
 internal class JPlayerConfig(override val map: Map<*, *>) : JStruct {
     val key by GetString
     val styleConfig by structGetter(::JStyleConfig)
     val playbackConfig by structGetter(::JPlaybackConfig)
     val licensingConfig by structGetter(::JLicensingConfig)
+    val liveConfig by structGetter(::JLiveConfig)
 }
 
 // Methods
