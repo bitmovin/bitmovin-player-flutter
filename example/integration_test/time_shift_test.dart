@@ -3,11 +3,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'player_testing/player_testing.dart';
 
 void main() {
+  // TODO(mario): move to own file
   const kronehit = SourceConfig(
     url: 'https://bitcdn-kronehit.bitmovin.com/v2/hls/playlist.m3u8',
     type: SourceType.hls,
   );
 
+  // TODO(mario): fix test name and introduce nested structure with more tests
   testWidgets('test framework example', (tester) async {
     await startPlayerTest(() async {
       await loadSourceConfig(kronehit);
