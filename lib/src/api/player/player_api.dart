@@ -60,4 +60,8 @@ abstract class PlayerApi {
 
   /// Whether the currently active [Source] is a live stream.
   Future<bool> get isLive;
+
+  /// Whether the player is currently playing, i.e. has started playback and is
+  /// not paused.
+  Future<bool> get isPlaying;
 }

@@ -15,6 +15,7 @@ class Methods {
   static const String getTimeShift = 'getTimeShift';
   static const String maxTimeShift = 'maxTimeShift';
   static const String isLive = 'isLive';
+  static const String isPlaying = 'isPlaying';
 
   /// Player view related methods
   static const String destroyPlayerView = 'destroyPlayerView';

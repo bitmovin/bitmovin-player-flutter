@@ -18,6 +18,7 @@ class Methods {
         const val GET_TIME_SHIFT = "getTimeShift"
         const val MAX_TIME_SHIFT = "maxTimeShift"
         const val IS_LIVE = "isLive"
+        const val IS_PLAYING = "isPlaying"
 
         // Widevine DRM related methods
         const val WIDEVINE_PREPARE_MESSAGE = "widevinePrepareMessage"

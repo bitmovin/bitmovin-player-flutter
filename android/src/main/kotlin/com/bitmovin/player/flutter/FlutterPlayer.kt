@@ -74,6 +74,7 @@ class FlutterPlayer(
         Methods.SET_TIME_SHIFT -> timeShift(arg.asDouble)
         Methods.MAX_TIME_SHIFT -> maxTimeShift
         Methods.IS_LIVE -> isLive
+        Methods.IS_PLAYING -> isPlaying
         Methods.DESTROY -> destroyPlayer()
         else -> throw NotImplementedError()
     }
