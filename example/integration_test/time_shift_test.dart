@@ -12,17 +12,18 @@ void main() {
   );
 
   // TODO(mario): fix test name and introduce nested structure with more tests
+  // TODO(mario): introduce multi event expectations and expect timeShift and
+  // timeShifted in one go
   testWidgets('test framework example', (tester) async {
     await startPlayerTest(() async {
       await loadSourceConfig(kronehit);
-      final TimeShiftEvent timeShiftEvent = await callPlayerAndExpectEvent(
+      await callPlayerAndExpectEvent(
         (player) async {
           await player.setTimeShift(-100);
         },
+        E.timeShift,
       );
-      // TODO(mario): this approach will not work for multi event expectations
-      final TimeShiftedEvent timeShiftedEvent = await expectEvent();
-
+      await expectEvent(E.timeShifted);
       await callPlayer((player) async {
         final currentTimeShift = await player.timeShift;
         expect(currentTimeShift, closeTo(-100, 1));
