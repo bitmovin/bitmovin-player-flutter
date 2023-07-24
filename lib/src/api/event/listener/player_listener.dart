@@ -49,6 +49,12 @@ abstract class PlayerListener {
   /// See [SeekedEvent] for details on this event.
   set onSeeked(void Function(SeekedEvent) func);
 
+  /// See [TimeShiftEvent] for details on this event.
+  set onTimeShift(void Function(TimeShiftEvent) func);
+
+  /// See [TimeShiftedEvent] for details on this event.
+  set onTimeShifted(void Function(TimeShiftedEvent) func);
+
   /// See [TimeChangedEvent] for details on this event.
   set onTimeChanged(void Function(TimeChangedEvent) func);
 

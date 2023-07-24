@@ -5,6 +5,7 @@ import com.bitmovin.player.api.PlaybackConfig
 import com.bitmovin.player.api.PlayerConfig
 import com.bitmovin.player.api.drm.DrmConfig
 import com.bitmovin.player.api.drm.WidevineConfig
+import com.bitmovin.player.api.live.LiveConfig
 import com.bitmovin.player.api.source.SourceConfig
 import com.bitmovin.player.api.source.SourceOptions
 import com.bitmovin.player.api.source.SourceType
@@ -47,6 +48,7 @@ internal fun JPlayerConfig.toNative() = PlayerConfig(key = key).also { config ->
     styleConfig?.let { config.styleConfig = it.toNative() }
     playbackConfig?.let { config.playbackConfig = it.toNative() }
     licensingConfig?.let { config.licensingConfig = it.toNative() }
+    liveConfig?.let { config.liveConfig = it.toNative() }
 }
 
 internal fun JStyleConfig.toNative() = StyleConfig(
@@ -73,4 +75,9 @@ internal fun JPlaybackConfig.toNative() = PlaybackConfig().also { config ->
 
 internal fun JLicensingConfig.toNative() = LicensingConfig().also { config ->
     delay?.let { config.delay = it }
+}
+
+internal fun JLiveConfig.toNative() = LiveConfig().also { config ->
+    minTimeShiftBufferDepth?.let { config.minTimeShiftBufferDepth = it }
+    liveEdgeOffset?.let { config.liveEdgeOffset = it }
 }

@@ -17,26 +17,22 @@ mixin PlayerEventHandler implements PlayerListener {
   /// deserializes it to a typed event object and emits it to the corresponding
   /// event listener.
   void onEvent(dynamic event) {
-    // TODO(mario): debug all runtime occurrences of the logged errors.
-    if (event == null) {
-      _logger.e('received event is null');
+    if (event == null || event is! String) {
+      _logger.e('Received event is null');
       return;
     }
 
-    final target = jsonDecode(event as String) as Map<String, dynamic>;
+    final target = jsonDecode(event) as Map<String, dynamic>;
 
-    if (target['data'] == null || target['data'] is! String) {
-      _logger.e('Could not find valid JSON data');
+    if (target['event'] is! String || target['data'] is! Map<String, dynamic>) {
+      _logger.e('Could not find valid event data');
       return;
     }
 
-    final data = jsonDecode(target['data'] as String) as Map<String, dynamic>?;
-    if (data == null) {
-      _logger.e('Could not parse JSON data');
-      return;
-    }
+    final eventName = target['event'] as String;
+    final data = target['data'] as Map<String, dynamic>;
 
-    switch (target['event']) {
+    switch (eventName) {
       case 'onSourceAdded':
         emit(SourceAddedEvent.fromJson(data));
         break;
@@ -84,6 +80,12 @@ mixin PlayerEventHandler implements PlayerListener {
         break;
       case 'onSeek':
         emit(SeekEvent.fromJson(data));
+        break;
+      case 'onTimeShift':
+        emit(TimeShiftEvent.fromJson(data));
+        break;
+      case 'onTimeShifted':
+        emit(TimeShiftedEvent.fromJson(data));
         break;
       case 'onPlaybackFinished':
         emit(PlaybackFinishedEvent.fromJson(data));
@@ -171,6 +173,16 @@ mixin PlayerEventHandler implements PlayerListener {
 
   @override
   set onSeeked(void Function(SeekedEvent) func) {
+    _setListener(func);
+  }
+
+  @override
+  set onTimeShift(void Function(TimeShiftEvent) func) {
+    _setListener(func);
+  }
+
+  @override
+  set onTimeShifted(void Function(TimeShiftedEvent) func) {
     _setListener(func);
   }
 

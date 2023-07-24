@@ -14,6 +14,10 @@ class Methods {
         const val CURRENT_TIME = "currentTime"
         const val DURATION = "duration"
         const val DESTROY = "destroy"
+        const val SET_TIME_SHIFT = "setTimeShift"
+        const val GET_TIME_SHIFT = "getTimeShift"
+        const val MAX_TIME_SHIFT = "maxTimeShift"
+        const val IS_LIVE = "isLive"
 
         // Widevine DRM related methods
         const val WIDEVINE_PREPARE_MESSAGE = "widevinePrepareMessage"

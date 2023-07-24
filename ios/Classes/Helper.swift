@@ -48,7 +48,25 @@ class Helper {
             playerConfig.tweaksConfig = tweaksConfig
         }
 
+        if let liveConfig = liveConfig(json["liveConfig"]) {
+            playerConfig.liveConfig = liveConfig
+        }
+
         return playerConfig
+    }
+
+    static func liveConfig(_ json: Any?) -> LiveConfig? {
+        guard let json = json as? [String: Any] else {
+            return nil
+        }
+
+        let liveConfig = LiveConfig()
+
+        if let minTimeShiftBufferDepth = json["minTimeShiftBufferDepth"] as? TimeInterval {
+            liveConfig.minTimeshiftBufferDepth = minTimeShiftBufferDepth
+        }
+
+        return liveConfig
     }
 
     /**

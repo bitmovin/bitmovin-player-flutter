@@ -13,6 +13,7 @@ class PlayerConfig extends Equatable {
     this.styleConfig = const StyleConfig(),
     this.playbackConfig = const PlaybackConfig(),
     this.licensingConfig = const LicensingConfig(),
+    this.liveConfig = const LiveConfig(),
   });
 
   factory PlayerConfig.fromJson(Map<String, dynamic> json) {
@@ -38,6 +39,11 @@ class PlayerConfig extends Equatable {
   @JsonKey(name: 'licensingConfig')
   final LicensingConfig? licensingConfig;
 
+  /// Configures behavior when playing live content.
+  /// A default [LiveConfig] is set initially
+  @JsonKey(name: 'liveConfig')
+  final LiveConfig liveConfig;
+
   Map<String, dynamic> toJson() => _$PlayerConfigToJson(this);
 
   @override
@@ -46,5 +52,6 @@ class PlayerConfig extends Equatable {
         styleConfig,
         playbackConfig,
         licensingConfig,
+        liveConfig,
       ];
 }

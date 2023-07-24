@@ -13,6 +13,10 @@ class Methods {
     static let currentTime = "currentTime"
     static let duration = "duration"
     static let destroy = "destroy"
+    static let setTimeShift = "setTimeShift"
+    static let getTimeShift = "getTimeShift"
+    static let maxTimeShift = "maxTimeShift"
+    static let isLive = "isLive"
 
     // Player view related methods
     static let destroyPlayerView = "destroyPlayerView"
