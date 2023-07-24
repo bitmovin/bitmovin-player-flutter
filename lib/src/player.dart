@@ -195,7 +195,7 @@ class Player with PlayerEventHandler implements PlayerApi {
 
   @override
   Future<bool> get isPlaying async =>
-      _invokeMethod<bool>(Methods.isPlaying).then((value) => value ?? false);
+      await _invokeMethod<bool>(Methods.isPlaying) ?? false;
 
   /// Disposes the player instance.
   Future<void> dispose() async => _invokeMethod<void>(Methods.destroy);
