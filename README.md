@@ -75,48 +75,41 @@ To be able to use the example app, follow these steps:
 
 
 # Installation
+The `bitmovin_player` package is still under development and not yet published to [pub.dev](https://pub.dev). 
+However, it can used as a local dependency in any Flutter app. To do so, add the `bitmovin_player` dependency with the
+correct relative path to your app's `pubspec.yaml` as show exemplary below:
 
-Run the following command to install **bitmovin_player**
+```yml
+dependencies:
+  bitmovin_player:
+    path: ./../bitmovin-player-flutter
+```
 
-`flutter pub add bitmovin_player`
+## Android Specific Installation
+Add Bitmovin's maven repo to `android/build.gradle`:
+```
+maven {
+    url 'https://artifacts.bitmovin.com/artifactory/public-releases'
+}
+```
 
-Then add your license key (see [section about setting up license key](#setting-up-the-player-license-key))
-
-</br>
-
-## Android
-No extra steps needed.
-
-</br>
-
-## iOS
-Add this source on top of your `Podfile`
+## iOS Specific Installation
+Add Bitmovin's Cocoapod repo as a source on top of `ios/Podfile`:
 ```terminal
 source https://github.com/bitmovin/cocoapod-specs.git
 ```
 
-</br>
+If you see any errors during `pod install` after adding the source from above, try deleting `Podfile.lock` and do a 
+fresh `pod install`. At this point, `pod install` might fail due to the incorrect minimum deployment target being set 
+for the `Runner` project. Set the deployment target and minimum deployment version to at least iOS 14 in `Runner` 
+project to fix this.
 
-eg:
 ```script
-
-# Uncomment this line to define a global platform for your project
 platform :ios, '14.0'
 source 'https://github.com/bitmovin/cocoapod-specs.git'
 
-... The rest of your PodFile ...
-
-target 'Runner' do
-  # use_frameworks!
-  use_modular_headers!
-
-  pod 'BitmovinPlayer', '3.37.1'
-  
-  flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
-end
+--- The rest of your Podfile ---
 ```
-
-</br>
 
 # Setting up the Player License Key
 
