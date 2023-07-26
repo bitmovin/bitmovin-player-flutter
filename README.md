@@ -372,30 +372,3 @@ class PlayerScreen extends StatelessWidget {
   }
 }
 ```
-
-# Publishing the Package to pub.dev
-
-First, sign in to [pub.dev](https://pub.dev) with your Google Account.
-Before publishing, make sure to review the `pubspec.yaml`, `README.md`, and `CHANGELOG.md` files.
-
-Update the `version` property on the `pubspec.yaml` accordingly.
-
-Next, run the publish command in **dry-run** mode to see if everything passes analysis:
-
-```terminal
-flutter pub publish --dry-run
-```
-
-If there are any errors, solve them first. Then we can publish to [pub.dev](https://pub.dev).
-Before publishing, be aware that publishing is forever. There is no easy way to remove a package from [pub.dev]https://(pub.dev)
-once it is public. To publish a new version of the package, run:
-
-```terminal
-flutter pub publish
-```
-
-For authentication, a link will be provided. Just open it in browser and authenticate with your Google account.
-You can search for your package on [pub.dev](https://pub.dev) after some time, it can take a few minutes before the newly
-published version shows up.
-
-For more information please refer to https://dart.dev/tools/pub/publishing
