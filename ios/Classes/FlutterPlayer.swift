@@ -90,6 +90,8 @@ private extension FlutterPlayer {
             return player.maxTimeShift
         case (Methods.isLive, .empty):
             return player.isLive
+        case (Methods.isPlaying, .empty):
+            return player.isPlaying
         case (Methods.destroy, .empty):
             destroyPlayer()
         default:

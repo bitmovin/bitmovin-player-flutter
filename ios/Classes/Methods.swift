@@ -17,6 +17,7 @@ class Methods {
     static let getTimeShift = "getTimeShift"
     static let maxTimeShift = "maxTimeShift"
     static let isLive = "isLive"
+    static let isPlaying = "isPlaying"
 
     // Player view related methods
     static let destroyPlayerView = "destroyPlayerView"
