@@ -20,7 +20,7 @@ Features of the native mobile Player SDKs are progressively being implemented in
 
 | Feature | Android | iOS, iPadOS |
 | :--- | :--- | :--- |
-| Supported media formats | DASH, HLS | HLS |
+| Supported media formats | DASH, HLS, Progressive | HLS, Progressive |
 | Playback of DRM-protected media | :white_check_mark: (Widevine) | :white_check_mark: (FairPlay) |
 | Bitmovin Web UI | :white_check_mark: | :white_check_mark:|
 | Subtitles & Captions | :hourglass: Planned for Q3, 2023 | :hourglass: Planned for Q3, 2023 |
