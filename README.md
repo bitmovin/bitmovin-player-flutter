@@ -2,11 +2,11 @@
 
 Official Flutter bindings for Bitmovin's mobile Player SDKs, currently in Alpha.
 
-> As the library is under active development, this means certain features from our native SDKs are not yet exposed through these Flutter bindings.
-> See [Feature Support](#feature-support) for an overview of the supported features.
+> As the library is under active development, this means certain features from our native SDKs are not yet exposed 
+> through these Flutter bindings. See [Feature Support](#feature-support) for an overview of the supported features.
 >
 > Not seeing the features you’re looking for?
-> We are accepting community pull requests to this open-source project so please feel free to contribute.
+> We are accepting community pull requests to this open-source project, so please feel free to contribute 
 > or let us know in [our community](https://community.bitmovin.com/c/requests/14) what features we should work on next.
 
 ## Platform Support 
@@ -18,22 +18,32 @@ Official Flutter bindings for Bitmovin's mobile Player SDKs, currently in Alpha.
 
 Features of the native mobile Player SDKs are progressively being implemented in this Flutter library. The table below summarizes the current state of the main Player SDK features.
 
-| Feature                                                                                        | Android                       | iOS, iPadOS                   |
-| :--------------------------------------------------------------------------------------------- | :---------------------------- | :---------------------------- |
-| Supported media formats                                                                        | DASH, HLS                     | HLS                           |
-| Playback of DRM-protected media                                                                | :white_check_mark: (Widevine) | :white_check_mark: (FairPlay) |
-| Bitmovin Web UI                                                                                | :white_check_mark:            | :white_check_mark:            |
-| Subtitles & Captions                                                                           | Planned for Q3, 2023          | Planned for Q3, 2023          |
-| Support for Apple TV/Android TV/Fire TV                                                        | Planned for Q3, 2023          | Planned for Q3, 2023          |
-| [Bitmovin Analytics](https://developer.bitmovin.com/playback/docs/enabling-bitmovin-analytics) | Planned for Q3, 2023          | Planned for Q3, 2023          |
-| Full-screen Support                                                                            | Planned for Q3, 2023          | Planned for Q3, 2023          |
-| Casting/AirPlay                                                                                | Planned for Q3, 2023          | Planned for Q3, 2023          |
-| Picture-in-Picture                                                                             | :x: Not available             | :x: Not available             |
-| Background Playback                                                                            | :x: Not available             | :x: Not available             |
-| Advertising (Google IMA CSAI)                                                                  | :x: Not available             | :x: Not available             |
-| Offline Playback                                                                               | :x: Not available             | :x: Not available             |
-| Playlist API                                                                                   | :x: Not available             | :x: Not available             |
+| Feature | Android | iOS, iPadOS |
+| :--- | :--- | :--- |
+| Supported media formats | DASH, HLS | HLS |
+| Playback of DRM-protected media | :white_check_mark: (Widevine) | :white_check_mark: (FairPlay) |
+| Bitmovin Web UI | :white_check_mark: | :white_check_mark:|
+| Subtitles & Captions | :hourglass: Planned for Q3, 2023 | :hourglass: Planned for Q3, 2023 |
+| Support for Apple TV / Android TV / Fire TV | :hourglass: Planned for Q3, 2023 | :hourglass: Planned for Q3, 2023 |
+| [Bitmovin Analytics](https://developer.bitmovin.com/playback/docs/enabling-bitmovin-analytics) | :hourglass: Planned for Q3, 2023 | :hourglass: Planned for Q3, 2023 |
+| Full-screen support | :hourglass: Planned for Q3, 2023 | :hourglass: Planned for Q3, 2023 |
+| Casting | :hourglass: Planned for Q3, 2023 | :hourglass: Planned for Q3, 2023 |
+| AirPlay | :hourglass: Planned for Q3, 2023 | :hourglass: Planned for Q3, 2023 |
+| Picture-in-Picture | :x: Not available | :x: Not available |
+| Background Playback | :x: Not available | :x: Not available |
+| Advertising (Google IMA CSAI) | :x: Not available | :x: Not available |
+| Offline Playback | :x: Not available | :x: Not available |
+| Playlist API | :x: Not available | :x: Not available |
 
+> **Note**
+> Some of the unavailable features mentioned above already work to some degree. 
+> 
+> For instance, it is possible to use the AirPlay button from the Bitmovin Player UI to play back content on an AirPlay 
+> receiver. However, AirPlay related player events, API calls and configuration options are not yet fully exposed to the 
+> Dart side. 
+> 
+> The same holds for subtitles and captions. They are available to be selected from the UI and they are also rendered, 
+> however, the full API surface related to subtitles is not yet available from Dart code.
 
 # Get Started
 - Install `flutter` on your machine if you haven't already
