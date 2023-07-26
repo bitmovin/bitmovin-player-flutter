@@ -373,13 +373,12 @@ class PlayerScreen extends StatelessWidget {
 }
 ```
 
-# Publishing package to **pub.dev**
+# Publishing the Package to pub.dev
 
-First, sign in to pub.dev with your Google Account.
-
+First, sign in to [pub.dev](https://pub.dev) with your Google Account.
 Before publishing, make sure to review the `pubspec.yaml`, `README.md`, and `CHANGELOG.md` files.
 
-Update the `version` property on the `pubspec.yaml` if needed.
+Update the `version` property on the `pubspec.yaml` accordingly.
 
 Next, run the publish command in **dry-run** mode to see if everything passes analysis:
 
@@ -387,18 +386,16 @@ Next, run the publish command in **dry-run** mode to see if everything passes an
 flutter pub publish --dry-run
 ```
 
-If there is any error solve it else we can publish it to pub.dev.
-But be sure that you are ready because publishing is forever.
-we can’t remove the package from there. So if you are ready, run following command:
+If there are any errors, solve them first. Then we can publish to [pub.dev](https://pub.dev).
+Before publishing, be aware that publishing is forever. There is no easy way to remove a package from [pub.dev]https://(pub.dev)
+once it is public. To publish a new version of the package, run:
 
 ```terminal
 flutter pub publish
 ```
 
-For authentication, one link will be provided, just open in browser and select your google account.
-Wait for uploading.
-And it’s Done, Hurrah! You have created your own Futter Package.
-
-You can search for your package on the ***https://pub.dev*** site after some time, It will take a few minutes.
+For authentication, a link will be provided. Just open it in browser and authenticate with your Google account.
+You can search for your package on [pub.dev](https://pub.dev) after some time, it can take a few minutes before the newly
+published version shows up.
 
 For more information please refer to https://dart.dev/tools/pub/publishing
