@@ -35,7 +35,7 @@ Features of the native mobile Player SDKs are progressively being implemented in
 | Offline Playback | :x: Not available | :x: Not available |
 | Playlist API | :x: Not available | :x: Not available |
 
-> **Note**
+> **Note:**
 > Some of the unavailable features mentioned above already work to some degree. 
 > 
 > For instance, it is possible to use the AirPlay button from the Bitmovin Player UI to play back content on an AirPlay 
@@ -46,22 +46,24 @@ Features of the native mobile Player SDKs are progressively being implemented in
 > however, the full API surface related to subtitles is not yet available from Dart code.
 
 # Get Started
-- Install `flutter` on your machine if you haven't already
-- Install `Node.js` and `npm` on your machine if you haven't already
-- Enter the repo and run `npm ci`
+- [Install](https://docs.flutter.dev/get-started/install) `flutter` on your machine
+- Install `Node.js` and `npm` on your machine
+- Run `npm ci` in the root of the cloned repository
+  - This will setup [husky](https://github.com/typicode/husky) powered pre-commit git hooks
 
-## For iOS development
-- Install `Mint` on your machine if you haven't already (`brew install mint`)
+## For iOS Development
+- Install `Mint` on your machine (e.g. `brew install mint`)
+- Run `mint bootstrap` in the root of the cloned repository to install packages from `Mintfile`
 
-### Xcode
-To build the example project with your own developer account, create the config file `example/iOS/Flutter/Developer.xcconfig`. Enter your development team like this:
+To build the example project with your own developer account, create the config file 
+`example/iOS/Flutter/Developer.xcconfig`. Enter your development team like this:
 
 ```
 DEVELOPMENT_TEAM = YOUR_TEAM_ID
 ```
 
-## For Android development
-- Install `ktlint` (`brew install ktlint`)
+## For Android Development
+- Install `ktlint` (e.g. `brew install ktlint`)
 
 ## Example App
 To be able to use the example app, follow these steps:
