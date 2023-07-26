@@ -43,6 +43,13 @@ Features of the native mobile Player SDKs are progressively being implemented in
 ## For iOS development
 - Install `Mint` on your machine if you haven't already (`brew install mint`)
 
+### Xcode
+To build the example project with your own developer account, create the config file `example/iOS/Flutter/Developer.xcconfig`. Enter your development team like this:
+
+```
+DEVELOPMENT_TEAM = YOUR_TEAM_ID
+```
+
 ## For Android development
 - Install `ktlint` (`brew install ktlint`)
 
