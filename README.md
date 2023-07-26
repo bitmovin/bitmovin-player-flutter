@@ -68,6 +68,8 @@ Run the following command to install **bitmovin_player**
 
 `flutter pub add bitmovin_player`
 
+Then add your license key (see [section about setting up license key](#setting-up-the-player-license-key))
+
 </br>
 
 ## Android
