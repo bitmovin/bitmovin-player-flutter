@@ -5,7 +5,6 @@ import 'package:bitmovin_player_example/pages/basic_player_only.dart';
 import 'package:bitmovin_player_example/pages/custom_html_ui.dart';
 import 'package:bitmovin_player_example/pages/drm_playback.dart';
 import 'package:bitmovin_player_example/pages/home.dart';
-import 'package:bitmovin_player_example/pages/licensekey_via_config.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,7 +28,6 @@ class _MyAppState extends State<MyApp> {
         DrmPlayback.routeName: (_) => const DrmPlayback(),
         BasicPlayerOnly.routeName: (_) => const BasicPlayerOnly(),
         EventSubscription.routeName: (_) => const EventSubscription(),
-        LicenseKeyViaConfig.routeName: (_) => const LicenseKeyViaConfig(),
         CustomHtmlUi.routeName: (_) => const CustomHtmlUi(),
       },
       home: const Scaffold(
