@@ -46,6 +46,8 @@ Features of the native mobile Player SDKs are progressively being implemented in
 > however, the full API surface related to subtitles is not yet available from Dart code.
 
 # Get Started
+If you want to play around with the code, implement a new feature or just run the example apps, follow along with this section. If you just want to use the player in your own flutter app, you can skip this and follow the instructions in the [Installation](#installation) section.
+
 - [Install](https://docs.flutter.dev/get-started/install) `flutter` on your machine
 - Install `Node.js` and `npm` on your machine
 - Run `npm ci` in the root of the cloned repository
