@@ -87,7 +87,7 @@ dependencies:
     path: ./../bitmovin-player-flutter
 ```
 
-## Android Specific Installation
+## Android Specific Steps
 Add Bitmovin's maven repo to `android/build.gradle`:
 ```gradle
 maven {
@@ -95,7 +95,7 @@ maven {
 }
 ```
 
-## iOS Specific Installation
+## iOS Specific Steps
 Add Bitmovin's Cocoapod repo as a source on top of `ios/Podfile`:
 ```ruby
 source 'https://github.com/bitmovin/cocoapod-specs.git'
@@ -113,49 +113,19 @@ source 'https://github.com/bitmovin/cocoapod-specs.git'
 ## The rest of your Podfile ##
 ```
 
-# Setting up the Player License Key
+## Providing a Bitmovin Player License Key
+When a `Player` instance is created, it will need a Bitmovin Player license key which has to be set in the `PlayerConfig` that is used to create the `Player`. 
 
-There are two ways to add your **License Key**
+To obtain a bitmovin player license key, please visit [Bitmovin's Dashboard](bitmovin.com/dashboard). Furthermore, make sure to associate your iOS and Android app bundle identifiers with your license key. More information on that can be found [here](https://bitmovin.com/docs/player/getting-started/ios#step-3-configure-your-player-license).
 
-first will be via your **Platform Manifest** file `info.plist` for **iOS** and `AndroidManifet.xml` for **Android**.
-
-second is programmatically.
-
-## Android
-
-Open `/android/src/main/AndroidManifest.xml` and add the following code.
-
-```xml
-<application>
-  <meta-data android:name="BITMOVIN_PLAYER_LICENSE_KEY" android:value="YOUR_LICENSE_KEY" />
-</application>
-```
-
-</br>
-
-## iOS
-
-Open `/ios/Runner/info.plist` and add the following code.
-
-```xml
-<dict>
-  <key>BitmovinPlayerLicenseKey</key>
-  <string>YOUR_LICENSE_KEY</string>
-</dict>
-```
-
-</br>
-
-## Via code
-
-You can add your license key via the `PlayerConfig` object
-
-example
+Now, you can provide your license key via the `PlayerConfig`:
 ```dart
-final player = Player(PlayerConfig(licenseKey: 'YOUR_LICENSE_KEY'))
+final player = Player(
+  config: const PlayerConfig(
+    key: 'YOUR_LICENSE_KEY',
+  ),
+);
 ```
-
-</br>
 
 # Setting up the playback configuration
 
