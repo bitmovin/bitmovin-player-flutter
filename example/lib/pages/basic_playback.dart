@@ -14,7 +14,6 @@ class BasicPlayback extends StatefulWidget {
 }
 
 class _BasicPlaybackState extends State<BasicPlayback> {
-  String eventData = '';
   final sourceConfig = SourceConfig(
     url: Platform.isAndroid
         ? 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd'
@@ -70,7 +69,6 @@ class _BasicPlaybackState extends State<BasicPlayback> {
               player: _player,
             ),
           ),
-          Text(eventData),
         ],
       ),
     );
