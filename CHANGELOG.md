@@ -1,3 +1,1 @@
-## 0.0.1
-
-* TODO: Describe initial release.
+This CHANGELOG will be filled as soon as the initial public version is released.
