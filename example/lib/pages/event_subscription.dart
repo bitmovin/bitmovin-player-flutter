@@ -7,17 +7,15 @@ import 'package:bitmovin_player_example/events.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
-class BasicPlaybackWithEventSubscription extends StatefulWidget {
-  static String routeName = 'BasicPlaybackWithEventSubscription';
-  const BasicPlaybackWithEventSubscription({super.key});
+class EventSubscription extends StatefulWidget {
+  static String routeName = 'EventSubscription';
+  const EventSubscription({super.key});
 
   @override
-  State<BasicPlaybackWithEventSubscription> createState() =>
-      _BasicPlaybackWithEventSubscriptionState();
+  State<EventSubscription> createState() => _EventSubscriptionState();
 }
 
-class _BasicPlaybackWithEventSubscriptionState
-    extends State<BasicPlaybackWithEventSubscription> {
+class _EventSubscriptionState extends State<EventSubscription> {
   List<String> events = [];
   final GlobalKey<EventsState> eventsKey = GlobalKey<EventsState>();
 
