@@ -77,7 +77,7 @@ To be able to use the example app, follow these steps:
 
 # Installation
 The `bitmovin_player` package is still under development and not yet published to [pub.dev](https://pub.dev). 
-However, it can used as a local dependency in any Flutter app. To do so, add the `bitmovin_player` dependency with the
+However, it can be used as a local dependency in any Flutter app. To do so, add the `bitmovin_player` dependency with the
 correct relative path to your app's `pubspec.yaml` as show exemplary below:
 
 ```yml
