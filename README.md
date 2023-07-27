@@ -89,7 +89,7 @@ dependencies:
 
 ## Android Specific Installation
 Add Bitmovin's maven repo to `android/build.gradle`:
-```
+```gradle
 maven {
     url 'https://artifacts.bitmovin.com/artifactory/public-releases'
 }
@@ -97,8 +97,8 @@ maven {
 
 ## iOS Specific Installation
 Add Bitmovin's Cocoapod repo as a source on top of `ios/Podfile`:
-```terminal
-source https://github.com/bitmovin/cocoapod-specs.git
+```ruby
+source 'https://github.com/bitmovin/cocoapod-specs.git'
 ```
 
 If you see any errors during `pod install` after adding the source from above, try deleting `Podfile.lock` and do a 
@@ -106,11 +106,11 @@ fresh `pod install`. At this point, `pod install` might fail due to the incorrec
 for the `Runner` project. Set the deployment target and minimum deployment version to at least iOS 14 in `Runner` 
 project to fix this.
 
-```script
+```ruby
 platform :ios, '14.0'
 source 'https://github.com/bitmovin/cocoapod-specs.git'
 
---- The rest of your Podfile ---
+## The rest of your Podfile ##
 ```
 
 # Setting up the Player License Key
