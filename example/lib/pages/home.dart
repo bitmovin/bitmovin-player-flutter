@@ -46,7 +46,7 @@ class Home extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).pushNamed(EventSubscription.routeName);
               },
-              child: const Text('Basic Playback with Event Subscription'),
+              child: const Text('Event Subscription'),
             ),
             OutlinedButton(
               onPressed: () {
