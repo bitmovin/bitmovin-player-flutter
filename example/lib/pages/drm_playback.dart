@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:bitmovin_player_example/controls.dart';
 import 'package:bitmovin_player_example/env/env.dart';
+import 'package:bitmovin_player_example/events.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
@@ -15,8 +16,8 @@ class DrmPlayback extends StatefulWidget {
 }
 
 class _DrmPlaybackState extends State<DrmPlayback> {
-  String eventData = '';
-  final sourceConfig = SourceConfig(
+  final GlobalKey<EventsState> _eventsKey = GlobalKey<EventsState>();
+  final _sourceConfig = SourceConfig(
     url: Platform.isAndroid
         ? 'https://bitmovin-a.akamaihd.net/content/art-of-motion_drm/mpds/11331.mpd'
         : 'https://fps.ezdrm.com/demo/video/ezdrm.m3u8',
@@ -49,15 +50,13 @@ class _DrmPlaybackState extends State<DrmPlayback> {
   final _logger = Logger();
 
   void _onEvent(Event event) {
-    String eventString = "${event.runtimeType} ${event.toJson()}";
-
-    _logger.d(eventString);
-    setState(() {
-      eventData = eventString;
-    });
+    final eventName = "${event.runtimeType}";
+    final eventData = "$eventName ${event.toJson()}";
+    _logger.d(eventData);
+    _eventsKey.currentState?.add(eventName);
   }
 
-  void listen() {
+  void _listen() {
     _player.onSourceLoaded = (SourceLoadedEvent data) {
       _onEvent(data);
     };
@@ -89,8 +88,8 @@ class _DrmPlaybackState extends State<DrmPlayback> {
 
   @override
   void initState() {
-    listen();
-    _player.loadSourceConfig(sourceConfig);
+    _listen();
+    _player.loadSourceConfig(_sourceConfig);
     super.initState();
   }
 
@@ -114,26 +113,33 @@ class _DrmPlaybackState extends State<DrmPlayback> {
         title: const Text('DRM Playback'),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Controls(
-            onLoadPressed: () => _player.loadSourceConfig(sourceConfig),
-            onPlayPressed: () => _player.play(),
-            onPausePressed: () => _player.pause(),
-            onMutePressed: () => _player.mute(),
-            onUnmutePressed: () => _player.unmute(),
-            onSkipForwardPressed: () async =>
-                _player.seek(await _player.currentTime + 10),
-            onSkipBackwardPressed: () async =>
-                _player.seek(await _player.currentTime - 10),
-          ),
           SizedBox.fromSize(
             size: const Size.fromHeight(226),
             child: PlayerView(
               player: _player,
             ),
           ),
-          Text(eventData),
+          Container(
+            margin: const EdgeInsets.only(top: 5),
+            child: Controls(
+              onLoadPressed: () => _player.loadSourceConfig(_sourceConfig),
+              onPlayPressed: () => _player.play(),
+              onPausePressed: () => _player.pause(),
+              onMutePressed: () => _player.mute(),
+              onUnmutePressed: () => _player.unmute(),
+              onSkipForwardPressed: () async =>
+                  _player.seek(await _player.currentTime + 10),
+              onSkipBackwardPressed: () async =>
+                  _player.seek(await _player.currentTime - 10),
+            ),
+          ),
+          Expanded(
+            child: Container(
+              margin: const EdgeInsets.fromLTRB(10, 10, 10, 40),
+              child: Events(key: _eventsKey),
+            ),
+          ),
         ],
       ),
     );

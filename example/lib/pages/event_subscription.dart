@@ -16,10 +16,8 @@ class EventSubscription extends StatefulWidget {
 }
 
 class _EventSubscriptionState extends State<EventSubscription> {
-  List<String> events = [];
-  final GlobalKey<EventsState> eventsKey = GlobalKey<EventsState>();
-
-  final sourceConfig = SourceConfig(
+  final GlobalKey<EventsState> _eventsKey = GlobalKey<EventsState>();
+  final _sourceConfig = SourceConfig(
     url: Platform.isAndroid
         ? 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd'
         : 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8',
@@ -36,10 +34,10 @@ class _EventSubscriptionState extends State<EventSubscription> {
     final eventName = "${event.runtimeType}";
     final eventData = "$eventName ${event.toJson()}";
     _logger.d(eventData);
-    eventsKey.currentState?.add(eventName);
+    _eventsKey.currentState?.add(eventName);
   }
 
-  void listen() {
+  void _listen() {
     _player.onError = (ErrorEvent data) {
       _onEvent(data);
     };
@@ -107,8 +105,8 @@ class _EventSubscriptionState extends State<EventSubscription> {
 
   @override
   void initState() {
-    listen();
-    _player.loadSourceConfig(sourceConfig);
+    _listen();
+    _player.loadSourceConfig(_sourceConfig);
     super.initState();
   }
 
@@ -142,9 +140,7 @@ class _EventSubscriptionState extends State<EventSubscription> {
           Container(
             margin: const EdgeInsets.only(top: 5),
             child: Controls(
-              onLoadPressed: () {
-                _player.loadSourceConfig(sourceConfig);
-              },
+              onLoadPressed: () => _player.loadSourceConfig(_sourceConfig),
               onPlayPressed: () => _player.play(),
               onPausePressed: () => _player.pause(),
               onMutePressed: () => _player.mute(),
@@ -158,7 +154,7 @@ class _EventSubscriptionState extends State<EventSubscription> {
           Expanded(
             child: Container(
               margin: const EdgeInsets.fromLTRB(10, 10, 10, 40),
-              child: Events(key: eventsKey),
+              child: Events(key: _eventsKey),
             ),
           ),
         ],

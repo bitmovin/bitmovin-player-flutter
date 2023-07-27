@@ -1,19 +1,19 @@
 import 'dart:io';
 
 import 'package:bitmovin_player/bitmovin_player.dart';
-import 'package:bitmovin_player_example/controls.dart';
 import 'package:bitmovin_player_example/env/env.dart';
 import 'package:flutter/material.dart';
+import 'package:bitmovin_player_example/controls.dart';
 
-class CustomHtmlUi extends StatefulWidget {
-  static String routeName = 'CustomHtmlUi';
-  const CustomHtmlUi({super.key});
+class AudioOnly extends StatefulWidget {
+  static String routeName = 'AudioOnly';
+  const AudioOnly({super.key});
 
   @override
-  State<CustomHtmlUi> createState() => _CustomHtmlUiState();
+  State<AudioOnly> createState() => _AudioOnlyState();
 }
 
-class _CustomHtmlUiState extends State<CustomHtmlUi> {
+class _AudioOnlyState extends State<AudioOnly> {
   final _sourceConfig = SourceConfig(
     url: Platform.isAndroid
         ? 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd'
@@ -22,15 +22,8 @@ class _CustomHtmlUiState extends State<CustomHtmlUi> {
   );
   final _player = Player(
     config: const PlayerConfig(
-        key: Env.bitmovinPlayerLicenseKey,
-        styleConfig: StyleConfig(
-          playerUiCss:
-              'https://cdn.statically.io/gh/bitmovin/bitmovin-player-ios-samples/main/CustomHtmlUi/Supporting%20Files/bitmovinplayer-ui.min.css',
-          playerUiJs:
-              'https://cdn.statically.io/gh/bitmovin/bitmovin-player-ios-samples/main/CustomHtmlUi/Supporting%20Files/bitmovinplayer-ui.min.js',
-          supplementalPlayerUiCss:
-              'https://cdn.bitmovin.com/player/ui/ui-customized-sample.css',
-        )),
+      key: Env.bitmovinPlayerLicenseKey,
+    ),
   );
 
   @override
@@ -49,16 +42,10 @@ class _CustomHtmlUiState extends State<CustomHtmlUi> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Custom HTML UI'),
+        title: const Text('Audio Only'),
       ),
       body: Column(
         children: [
-          SizedBox.fromSize(
-            size: const Size.fromHeight(226),
-            child: PlayerView(
-              player: _player,
-            ),
-          ),
           Container(
             margin: const EdgeInsets.only(top: 5),
             child: Controls(

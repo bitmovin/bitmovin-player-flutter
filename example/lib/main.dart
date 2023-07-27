@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:bitmovin_player_example/pages/basic_playback.dart';
 import 'package:bitmovin_player_example/pages/event_subscription.dart';
-import 'package:bitmovin_player_example/pages/basic_player_only.dart';
+import 'package:bitmovin_player_example/pages/audio_only.dart';
 import 'package:bitmovin_player_example/pages/custom_html_ui.dart';
 import 'package:bitmovin_player_example/pages/drm_playback.dart';
 import 'package:bitmovin_player_example/pages/home.dart';
@@ -26,7 +26,7 @@ class _MyAppState extends State<MyApp> {
         Home.routeName: (_) => const Home(),
         BasicPlayback.routeName: (_) => const BasicPlayback(),
         DrmPlayback.routeName: (_) => const DrmPlayback(),
-        BasicPlayerOnly.routeName: (_) => const BasicPlayerOnly(),
+        AudioOnly.routeName: (_) => const AudioOnly(),
         EventSubscription.routeName: (_) => const EventSubscription(),
         CustomHtmlUi.routeName: (_) => const CustomHtmlUi(),
       },
