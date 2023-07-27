@@ -58,9 +58,9 @@ If you want to play around with the code, implement a new feature or just run th
 - Run `mint bootstrap` in the root of the cloned repository to install packages from `Mintfile`
 
 To build the example project with your own developer account, create the config file 
-`example/iOS/Flutter/Developer.xcconfig`. Enter your development team like this:
+`example/iOS/Flutter/Developer.xcconfig`. In this file, add your development team like this:
 
-```
+```yml
 DEVELOPMENT_TEAM = YOUR_TEAM_ID
 ```
 
@@ -70,8 +70,8 @@ DEVELOPMENT_TEAM = YOUR_TEAM_ID
 ## Example App
 To be able to use the example app, follow these steps:
 1. Create a file named `.env` in the project root
-1. Put your private bitmovin player license key inside the newly created `.env` file as `BITMOVIN_PLAYER_LICENSE_KEY=YOUR_LICENSE_KEY`, replacing `YOUR_LICENSE_KEY` with your license key which can be obtained from [Bitmovin's Dashboard](bitmovin.com/dashboard)
-1. In the [Dashboard](bitmovin.com/dashboard), add `com.bitmovin.player.flutter.example` as an allowed package name
+1. Put your private bitmovin player license key inside the newly created `.env` file as `BITMOVIN_PLAYER_LICENSE_KEY=YOUR_LICENSE_KEY`, replacing `YOUR_LICENSE_KEY` with your license key which can be obtained from [Bitmovin's Dashboard](https://bitmovin.com/dashboard)
+1. In the [Dashboard](https://bitmovin.com/dashboard), add `com.bitmovin.player.flutter.example` as an allowed package name
 1. Run `flutter pub run build_runner build --delete-conflicting-outputs` in the project root which should generate the missing `example/lib/env/env.g.dart` file
 1. Start the example app by running the command `flutter run` inside the `example/` directory
 
@@ -115,7 +115,7 @@ source 'https://github.com/bitmovin/cocoapod-specs.git'
 ## Providing a Bitmovin Player License Key
 When a `Player` instance is created, it will need a Bitmovin Player license key which has to be set in the `PlayerConfig` that is used to create the `Player`. 
 
-To obtain a bitmovin player license key, please visit [Bitmovin's Dashboard](bitmovin.com/dashboard). Furthermore, make sure to associate your iOS and Android app bundle identifiers with your license key. More information on that can be found [here](https://bitmovin.com/docs/player/getting-started/ios#step-3-configure-your-player-license).
+To obtain a Bitmovin Player license key, please visit [Bitmovin's Dashboard](https://bitmovin.com/dashboard). Furthermore, make sure to associate your iOS and Android app bundle identifiers with your license key. More information on that can be found [here](https://bitmovin.com/docs/player/getting-started/ios#step-3-configure-your-player-license).
 
 Now, you can provide your license key via the `PlayerConfig`:
 ```dart
@@ -129,7 +129,7 @@ final player = Player(
 # Example code
 The example app demonstrates some of the most basic but also more advanced use cases how the Bitmovin Player can be used and integrated. Please refer to the [Example App](#example-app) section to learn how to run it.
 
-The code for the different examples is located under `example/lib/pages`. This is a good place to start learning about how to use the player.
+The code for the different examples is located under [example/lib/pages](example/lib/pages). This is a good place to start learning about how to use the player.
 
 # Documentation
 To generate code documentation files, run `dart doc .` in the root folder of the repository.
