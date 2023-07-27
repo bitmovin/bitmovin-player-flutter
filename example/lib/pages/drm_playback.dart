@@ -124,6 +124,8 @@ class _DrmPlaybackState extends State<DrmPlayback> {
             onUnmutePressed: () => _player.unmute(),
             onSkipForwardPressed: () async =>
                 _player.seek(await _player.currentTime + 10),
+            onSkipBackwardPressed: () async =>
+                _player.seek(await _player.currentTime - 10),
           ),
           SizedBox.fromSize(
             size: const Size.fromHeight(226),
