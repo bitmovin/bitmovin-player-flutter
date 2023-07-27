@@ -76,7 +76,7 @@ class Controls extends StatelessWidget {
               margin: insetMiddle,
               child: OutlinedButton(
                 onPressed: onSkipBackwardPressed,
-                child: const Text('Skip Backward'),
+                child: const Text('Skip Back'),
               ),
             ),
             Container(
