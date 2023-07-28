@@ -14,7 +14,7 @@ class CustomHtmlUi extends StatefulWidget {
 }
 
 class _CustomHtmlUiState extends State<CustomHtmlUi> {
-  final sourceConfig = SourceConfig(
+  final _sourceConfig = SourceConfig(
     url: Platform.isAndroid
         ? 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd'
         : 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8',
@@ -35,7 +35,7 @@ class _CustomHtmlUiState extends State<CustomHtmlUi> {
 
   @override
   void initState() {
-    _player.loadSourceConfig(sourceConfig);
+    _player.loadSourceConfig(_sourceConfig);
     super.initState();
   }
 
@@ -52,23 +52,25 @@ class _CustomHtmlUiState extends State<CustomHtmlUi> {
         title: const Text('Custom HTML UI'),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Controls(
-            onLoadPressed: () {
-              _player.loadSourceConfig(sourceConfig);
-            },
-            onPlayPressed: () => _player.play(),
-            onPausePressed: () => _player.pause(),
-            onMutePressed: () => _player.mute(),
-            onUnmutePressed: () => _player.unmute(),
-            onSkipForwardPressed: () async =>
-                _player.seek(await _player.currentTime + 10),
-          ),
           SizedBox.fromSize(
             size: const Size.fromHeight(226),
             child: PlayerView(
               player: _player,
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.only(top: 5),
+            child: Controls(
+              onLoadPressed: () => _player.loadSourceConfig(_sourceConfig),
+              onPlayPressed: () => _player.play(),
+              onPausePressed: () => _player.pause(),
+              onMutePressed: () => _player.mute(),
+              onUnmutePressed: () => _player.unmute(),
+              onSkipForwardPressed: () async =>
+                  _player.seek(await _player.currentTime + 10),
+              onSkipBackwardPressed: () async =>
+                  _player.seek(await _player.currentTime - 10),
             ),
           ),
         ],

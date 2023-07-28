@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:bitmovin_player_example/pages/basic_playback.dart';
-import 'package:bitmovin_player_example/pages/basic_playback_with_event_subscription.dart';
-import 'package:bitmovin_player_example/pages/basic_player_only.dart';
+import 'package:bitmovin_player_example/pages/event_subscription.dart';
+import 'package:bitmovin_player_example/pages/audio_only.dart';
 import 'package:bitmovin_player_example/pages/custom_html_ui.dart';
 import 'package:bitmovin_player_example/pages/drm_playback.dart';
-// TODO(mario): rename
-import 'package:bitmovin_player_example/pages/licensekey_via_config.dart';
 
 class Home extends StatelessWidget {
   static String routeName = 'Home';
@@ -38,22 +36,15 @@ class Home extends StatelessWidget {
             ),
             OutlinedButton(
               onPressed: () {
-                Navigator.of(context).pushNamed(BasicPlayerOnly.routeName);
+                Navigator.of(context).pushNamed(AudioOnly.routeName);
               },
-              child: const Text('Basic Playback (Audio only)'),
+              child: const Text('Audio Only'),
             ),
             OutlinedButton(
               onPressed: () {
-                Navigator.of(context)
-                    .pushNamed(BasicPlaybackWithEventSubscription.routeName);
+                Navigator.of(context).pushNamed(EventSubscription.routeName);
               },
-              child: const Text('Basic Playback with Event Subscription'),
-            ),
-            OutlinedButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(LicenseKeyViaConfig.routeName);
-              },
-              child: const Text('License key via PlayerConfig'),
+              child: const Text('Event Subscription'),
             ),
             OutlinedButton(
               onPressed: () {

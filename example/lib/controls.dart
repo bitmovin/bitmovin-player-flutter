@@ -11,6 +11,7 @@ class Controls extends StatelessWidget {
     required this.onMutePressed,
     required this.onUnmutePressed,
     required this.onSkipForwardPressed,
+    required this.onSkipBackwardPressed,
   });
 
   final ControlAction onPlayPressed;
@@ -19,42 +20,71 @@ class Controls extends StatelessWidget {
   final ControlAction onMutePressed;
   final ControlAction onUnmutePressed;
   final ControlAction onSkipForwardPressed;
+  final ControlAction onSkipBackwardPressed;
+  final insetFirst = const EdgeInsets.only(left: 10, right: 5);
+  final insetMiddle = const EdgeInsets.only(left: 5, right: 5);
+  final insetLast = const EdgeInsets.only(left: 5, right: 10);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            OutlinedButton(
-              onPressed: onPlayPressed,
-              child: const Text('Play'),
+            Container(
+              margin: insetFirst,
+              child: OutlinedButton(
+                onPressed: onPlayPressed,
+                child: const Text('Play'),
+              ),
             ),
-            OutlinedButton(
-              onPressed: onPausePressed,
-              child: const Text('Pause'),
+            Container(
+              margin: insetMiddle,
+              child: OutlinedButton(
+                onPressed: onPausePressed,
+                child: const Text('Pause'),
+              ),
             ),
-            OutlinedButton(
-              onPressed: onLoadPressed,
-              child: const Text('Load'),
+            Container(
+              margin: insetMiddle,
+              child: OutlinedButton(
+                onPressed: onMutePressed,
+                child: const Text('Mute'),
+              ),
+            ),
+            Container(
+              margin: insetLast,
+              child: OutlinedButton(
+                onPressed: onUnmutePressed,
+                child: const Text('Unmute'),
+              ),
             ),
           ],
         ),
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            OutlinedButton(
-              onPressed: onMutePressed,
-              child: const Text('Mute'),
+            Container(
+              margin: insetFirst,
+              child: OutlinedButton(
+                onPressed: onLoadPressed,
+                child: const Text('Reload'),
+              ),
             ),
-            OutlinedButton(
-              onPressed: onUnmutePressed,
-              child: const Text('Unmute'),
+            Container(
+              margin: insetMiddle,
+              child: OutlinedButton(
+                onPressed: onSkipBackwardPressed,
+                child: const Text('Skip Back'),
+              ),
             ),
-            OutlinedButton(
-              onPressed: onSkipForwardPressed,
-              child: const Text('Skip Forward'),
+            Container(
+              margin: insetLast,
+              child: OutlinedButton(
+                onPressed: onSkipForwardPressed,
+                child: const Text('Skip Forward'),
+              ),
             ),
           ],
         ),
