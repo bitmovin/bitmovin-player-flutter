@@ -53,6 +53,9 @@ android {
     }
 
     buildTypes {
+        debug {
+            multiDexEnabled true
+        }
         release {
             shrinkResources false
             minifyEnabled false
