@@ -29,11 +29,11 @@ Features of the native mobile Player SDKs are progressively being implemented in
 | Full-screen support | :hourglass: Planned for H2, 2023 | :hourglass: Planned for H2, 2023 |
 | Casting | :hourglass: Planned for H2, 2023 | :hourglass: Planned for H2, 2023 |
 | AirPlay | :hourglass: Planned for H2, 2023 | :hourglass: Planned for H2, 2023 |
-| Picture-in-Picture | :x: Not available | :x: Not available |
-| Background Playback | :x: Not available | :x: Not available |
-| Advertising (Google IMA CSAI) | :x: Not available | :x: Not available |
-| Offline Playback | :x: Not available | :x: Not available |
-| Playlist API | :x: Not available | :x: Not available |
+| Picture-in-Picture | Later | Later |
+| Background Playback | Later | Later |
+| Advertising (Google IMA CSAI) | Later | Later |
+| Offline Playback | Later | Later |
+| Playlist API | Later | Later |
 
 > **Note:**
 > Some of the unavailable features mentioned above already work to some degree. 
