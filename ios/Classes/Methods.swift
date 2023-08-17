@@ -21,6 +21,8 @@ class Methods {
 
     // Player view related methods
     static let destroyPlayerView = "destroyPlayerView"
+    static let enterFullscreen = "enterFullscreen"
+    static let exitFullscreen = "exitFullscreen"
 
     // Fairplay related methods
     static let fairplayPrepareMessage = "fairplayPrepareMessage"

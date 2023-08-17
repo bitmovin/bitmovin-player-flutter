@@ -42,8 +42,27 @@ class PlayerViewState extends State<PlayerView> {
   void _onPlatformViewCreated(int id) {
     _methodChannel = ChannelManager.registerMethodChannel(
       name: '${Channels.playerView}-$id',
+      handler: _playerViewMethodCallHandler,
     );
     widget.onViewCreated?.call();
+  }
+
+  Future<dynamic> _playerViewMethodCallHandler(MethodCall methodCall) {
+    switch (methodCall.method) {
+      case Methods.enterFullscreen:
+        _handleEnterFullscreen();
+        break;
+      case Methods.exitFullscreen:
+        _handleExitFullscreen();
+        break;
+      default:
+        return Future.error(
+          // ignore: lines_longer_than_80_chars
+          'Unsupported method call ${methodCall.method} seen in _playerViewMethodCallHandler',
+        );
+    }
+
+    return Future.value(true);
   }
 
   // TODO(mario): Should this be defined in `UserInterfaceApi`?
@@ -51,27 +70,21 @@ class PlayerViewState extends State<PlayerView> {
 
   // TODO(mario): Should this be defined in `UserInterfaceApi`?
   void enterFullscreen() {
-    // TODO(mario): call platform side
-    // HACK: Calling handler directly for testing purposes.
+    _methodChannel.invokeMethod(Methods.enterFullscreen);
+  }
+
+  void _handleEnterFullscreen() {
     widget.fullscreenHandler?.enterFullscreen();
   }
 
-  // This is always called from the platform side.
-  // void _handleEnterFullscreen() {
-  //   widget.fullscreenHandler?.enterFullscreen();
-  // }
-
   // TODO(mario): Should this be defined in `UserInterfaceApi`?
   void exitFullscreen() {
-    // TODO(mario): call platform side
-    // HACK: Calling handler directly for testing purposes.
-    widget.fullscreenHandler?.exitFullscreen();
+    _methodChannel.invokeMethod(Methods.exitFullscreen);
   }
 
-  // This is always called from the platform side.
-  // void _handleExitFullscreen() {
-  //   widget.fullscreenHandler?.exitFullscreen();
-  // }
+  void _handleExitFullscreen() {
+    widget.fullscreenHandler?.exitFullscreen();
+  }
 
   @override
   void dispose() {
@@ -81,6 +94,12 @@ class PlayerViewState extends State<PlayerView> {
 
   @override
   Widget build(BuildContext context) {
+    final creationParams = {
+      'playerId': widget.player.id,
+      'hasFullscreenHandler': widget.fullscreenHandler != null,
+      'isFullscreen': isFullscreen,
+    };
+
     return Platform.isAndroid
         ? PlatformViewLink(
             viewType: Channels.playerView,
@@ -97,7 +116,7 @@ class PlayerViewState extends State<PlayerView> {
                 id: params.id,
                 viewType: Channels.playerView,
                 layoutDirection: TextDirection.ltr,
-                creationParams: widget.player.id,
+                creationParams: creationParams,
                 creationParamsCodec: const StandardMessageCodec(),
                 onFocus: () {
                   params.onFocusChanged(true);
@@ -111,7 +130,7 @@ class PlayerViewState extends State<PlayerView> {
         : UiKitView(
             viewType: Channels.playerView,
             layoutDirection: TextDirection.ltr,
-            creationParams: widget.player.id,
+            creationParams: creationParams,
             onPlatformViewCreated: _onPlatformViewCreated,
             creationParamsCodec: const StandardMessageCodec(),
           );
