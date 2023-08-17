@@ -13,12 +13,16 @@ class FullscreenHandlerProxy(
 
     override fun onFullscreenExitRequested() {
         isFullscreen = false
-        methodChannel.invokeMethod(Methods.EXIT_FULLSCREEN, null)
+        runOnMainThread {
+            methodChannel.invokeMethod(Methods.EXIT_FULLSCREEN, null)
+        }
     }
 
     override fun onFullscreenRequested() {
         isFullscreen = true
-        methodChannel.invokeMethod(Methods.ENTER_FULLSCREEN, null)
+        runOnMainThread {
+            methodChannel.invokeMethod(Methods.ENTER_FULLSCREEN, null)
+        }
     }
 
     override fun onPause() {
