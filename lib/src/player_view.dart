@@ -17,6 +17,7 @@ class PlayerView extends StatefulWidget {
     required this.player,
     super.key,
     this.onViewCreated,
+    this.fullscreenHandler,
   });
 
   /// The [Player] instance that is attached to this view.
@@ -25,6 +26,11 @@ class PlayerView extends StatefulWidget {
   /// Callback that is invoked when the view has been created and is ready to be
   /// used. Can be for instance used to load a source into the [player].
   final void Function()? onViewCreated;
+
+  /// Handles entering and exiting fullscreen mode. A custom implementation
+  /// needs to be provided that is aware of the view hierarchy where the
+  /// [PlayerView] is embedded and can handle the UI state changes accordingly.
+  final FullscreenHandler? fullscreenHandler;
 
   @override
   State<StatefulWidget> createState() => _PlayerViewState();
