@@ -33,10 +33,10 @@ class PlayerView extends StatefulWidget {
   final FullscreenHandler? fullscreenHandler;
 
   @override
-  State<StatefulWidget> createState() => _PlayerViewState();
+  State<StatefulWidget> createState() => PlayerViewState();
 }
 
-class _PlayerViewState extends State<PlayerView> {
+class PlayerViewState extends State<PlayerView> {
   late final MethodChannel _methodChannel;
 
   void _onPlatformViewCreated(int id) {
@@ -45,6 +45,33 @@ class _PlayerViewState extends State<PlayerView> {
     );
     widget.onViewCreated?.call();
   }
+
+  // TODO(mario): Should this be defined in `UserInterfaceApi`?
+  bool get isFullscreen => widget.fullscreenHandler?.isFullscreen ?? false;
+
+  // TODO(mario): Should this be defined in `UserInterfaceApi`?
+  void enterFullscreen() {
+    // TODO(mario): call platform side
+    // HACK: Calling handler directly for testing purposes.
+    widget.fullscreenHandler?.enterFullscreen();
+  }
+
+  // This is always called from the platform side.
+  // void _handleEnterFullscreen() {
+  //   widget.fullscreenHandler?.enterFullscreen();
+  // }
+
+  // TODO(mario): Should this be defined in `UserInterfaceApi`?
+  void exitFullscreen() {
+    // TODO(mario): call platform side
+    // HACK: Calling handler directly for testing purposes.
+    widget.fullscreenHandler?.exitFullscreen();
+  }
+
+  // This is always called from the platform side.
+  // void _handleExitFullscreen() {
+  //   widget.fullscreenHandler?.exitFullscreen();
+  // }
 
   @override
   void dispose() {

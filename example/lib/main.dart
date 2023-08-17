@@ -1,3 +1,4 @@
+import 'package:bitmovin_player_example/pages/fullscreen_handling.dart';
 import 'package:flutter/material.dart';
 import 'package:bitmovin_player_example/pages/basic_playback.dart';
 import 'package:bitmovin_player_example/pages/event_subscription.dart';
@@ -29,6 +30,7 @@ class _MyAppState extends State<MyApp> {
         AudioOnly.routeName: (_) => const AudioOnly(),
         EventSubscription.routeName: (_) => const EventSubscription(),
         CustomHtmlUi.routeName: (_) => const CustomHtmlUi(),
+        FullscreenHandling.routeName: (_) => const FullscreenHandling(),
       },
       home: const Scaffold(
         body: Home(),

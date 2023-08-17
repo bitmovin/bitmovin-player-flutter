@@ -1,3 +1,4 @@
+import 'package:bitmovin_player_example/pages/fullscreen_handling.dart';
 import 'package:flutter/material.dart';
 import 'package:bitmovin_player_example/pages/basic_playback.dart';
 import 'package:bitmovin_player_example/pages/event_subscription.dart';
@@ -51,6 +52,12 @@ class Home extends StatelessWidget {
                 Navigator.of(context).pushNamed(CustomHtmlUi.routeName);
               },
               child: const Text('Custom HTML UI'),
+            ),
+            OutlinedButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(FullscreenHandling.routeName);
+              },
+              child: const Text('Fullscreen Handling'),
             ),
           ],
         ),
