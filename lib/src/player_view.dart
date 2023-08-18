@@ -30,6 +30,7 @@ class PlayerView extends StatefulWidget {
   /// Handles entering and exiting fullscreen mode. A custom implementation
   /// needs to be provided that is aware of the view hierarchy where the
   /// [PlayerView] is embedded and can handle the UI state changes accordingly.
+  /// If no [fullscreenHandler] is provided, the fullscreen feature is disabled.
   final FullscreenHandler? fullscreenHandler;
 
   @override
