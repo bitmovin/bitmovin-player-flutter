@@ -66,10 +66,8 @@ class PlayerViewState extends State<PlayerView> {
     return Future.value(true);
   }
 
-  // TODO(mario): Should this be defined in `UserInterfaceApi`?
   bool get isFullscreen => widget.fullscreenHandler?.isFullscreen ?? false;
 
-  // TODO(mario): Should this be defined in `UserInterfaceApi`?
   void enterFullscreen() {
     _methodChannel.invokeMethod(Methods.enterFullscreen);
   }
@@ -78,7 +76,6 @@ class PlayerViewState extends State<PlayerView> {
     widget.fullscreenHandler?.enterFullscreen();
   }
 
-  // TODO(mario): Should this be defined in `UserInterfaceApi`?
   void exitFullscreen() {
     _methodChannel.invokeMethod(Methods.exitFullscreen);
   }
