@@ -61,13 +61,13 @@ class _FullscreenHandlingState extends State<FullscreenHandling> {
   @override
   void initState() {
     _fullscreenHandler.onStateChange = () {
-      refresh();
+      _refresh();
     };
     _player.loadSourceConfig(_sourceConfig);
     super.initState();
   }
 
-  void refresh() {
+  void _refresh() {
     setState(() {});
   }
 
