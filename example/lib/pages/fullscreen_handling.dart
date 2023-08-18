@@ -119,6 +119,9 @@ class _FullscreenHandlingState extends State<FullscreenHandling> {
               Container(
                 margin: const EdgeInsets.only(left: 10, right: 5),
                 child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    side: const BorderSide(color: Colors.blue),
+                  ),
                   onPressed: () {
                     _playerViewKey.currentState?.enterFullscreen();
                   },
@@ -128,6 +131,9 @@ class _FullscreenHandlingState extends State<FullscreenHandling> {
               Container(
                 margin: const EdgeInsets.all(5),
                 child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    side: const BorderSide(color: Colors.blue),
+                  ),
                   onPressed: () {
                     _playerViewKey.currentState?.exitFullscreen();
                   },
