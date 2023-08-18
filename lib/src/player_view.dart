@@ -4,6 +4,7 @@ import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:bitmovin_player/src/channel_manager.dart';
 import 'package:bitmovin_player/src/channels.dart';
 import 'package:bitmovin_player/src/methods.dart';
+import 'package:bitmovin_player/src/player_view_event_handler.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';
@@ -12,12 +13,14 @@ import 'package:flutter/widgets.dart';
 
 /// A view that provides the Bitmovin Player Web UI and default UI handling to
 /// an attached [Player] instance.
-class PlayerView extends StatefulWidget {
-  const PlayerView({
+class PlayerView extends StatefulWidget with PlayerViewEventHandler {
+  PlayerView({
     required this.player,
     super.key,
     this.onViewCreated,
     this.fullscreenHandler,
+    this.onFullscreenEnter,
+    this.onFullscreenExit,
   });
 
   /// The [Player] instance that is attached to this view.
@@ -34,17 +37,29 @@ class PlayerView extends StatefulWidget {
   final FullscreenHandler? fullscreenHandler;
 
   @override
+  final void Function(FullscreenEnterEvent)? onFullscreenEnter;
+
+  @override
+  final void Function(FullscreenExitEvent)? onFullscreenExit;
+
+  @override
   State<StatefulWidget> createState() => PlayerViewState();
 }
 
 class PlayerViewState extends State<PlayerView> {
   late final MethodChannel _methodChannel;
+  late final EventChannel _eventChannel;
 
   void _onPlatformViewCreated(int id) {
     _methodChannel = ChannelManager.registerMethodChannel(
       name: '${Channels.playerView}-$id',
       handler: _playerViewMethodCallHandler,
     );
+    _eventChannel = ChannelManager.registerEventChannel(
+      name: '${Channels.playerViewEvent}-$id',
+    );
+    _eventChannel.receiveBroadcastStream().listen(widget.onEvent);
+
     widget.onViewCreated?.call();
   }
 

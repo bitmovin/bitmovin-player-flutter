@@ -6,5 +6,6 @@ class Channels {
         const val PLAYER = "player"
         const val PLAYER_EVENT = "player-events"
         const val PLAYER_VIEW = "player-view"
+        const val PLAYER_VIEW_EVENT = "player-view-events"
     }
 }

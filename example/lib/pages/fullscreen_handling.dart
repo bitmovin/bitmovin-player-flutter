@@ -2,6 +2,7 @@ import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:bitmovin_player_example/env/env.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:logger/logger.dart';
 
 class FullscreenHandling extends StatefulWidget {
   static String routeName = 'FullscreenHandling';
@@ -57,6 +58,7 @@ class _FullscreenHandlingState extends State<FullscreenHandling> {
     ),
   );
   final _fullscreenHandler = ExampleFullscreenHandler();
+  final _logger = Logger();
 
   @override
   void initState() {
@@ -105,6 +107,10 @@ class _FullscreenHandlingState extends State<FullscreenHandling> {
               player: _player,
               key: _playerViewKey,
               fullscreenHandler: _fullscreenHandler,
+              onFullscreenEnter: (fullscreenEnterEvent) =>
+                  _logger.d("received fullscreen enter event"),
+              onFullscreenExit: (fullscreenExitEvent) =>
+                  _logger.d("received fullscreen exit event"),
             ),
           ),
           Row(

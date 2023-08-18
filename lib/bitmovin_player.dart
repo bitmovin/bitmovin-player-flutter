@@ -18,6 +18,8 @@ export 'src/api/event/player/time_shift_event.dart';
 export 'src/api/event/player/time_shifted_event.dart';
 export 'src/api/event/player/unmuted_event.dart';
 export 'src/api/event/player/warning_event.dart';
+export 'src/api/event/player_view/fullscreen_enter_event.dart';
+export 'src/api/event/player_view/fullscreen_exit_event.dart';
 export 'src/api/event/source/source_added_event.dart';
 export 'src/api/event/source/source_error_event.dart';
 export 'src/api/event/source/source_info_event.dart';
