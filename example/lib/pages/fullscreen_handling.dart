@@ -107,10 +107,10 @@ class _FullscreenHandlingState extends State<FullscreenHandling> {
               player: _player,
               key: _playerViewKey,
               fullscreenHandler: _fullscreenHandler,
-              onFullscreenEnter: (fullscreenEnterEvent) =>
-                  _logger.d("received fullscreen enter event"),
-              onFullscreenExit: (fullscreenExitEvent) =>
-                  _logger.d("received fullscreen exit event"),
+              onFullscreenEnter: (event) =>
+                  _logger.d("received ${event.runtimeType}: ${event.toJson()}"),
+              onFullscreenExit: (event) =>
+                  _logger.d("received ${event.runtimeType}: ${event.toJson()}"),
             ),
           ),
           Row(
