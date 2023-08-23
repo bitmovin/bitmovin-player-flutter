@@ -116,7 +116,7 @@ private extension FlutterPlayerView {
 }
 
 extension FlutterPlayerView: UserInterfaceListener {
-    private func broadCast(name: String, data: [String: Any], sink: FlutterEventSink?) {
+    private func broadcast(name: String, data: [String: Any], sink: FlutterEventSink?) {
         guard let sink else {
             logger.log("No event sink found", .error)
             return
@@ -136,10 +136,10 @@ extension FlutterPlayerView: UserInterfaceListener {
     }
 
     func onFullscreenEnter(_ event: FullscreenEnterEvent, view: PlayerView) {
-        broadCast(name: event.name, data: event.toJSON(), sink: eventSink)
+        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
     }
 
     func onFullscreenExit(_ event: FullscreenExitEvent, view: PlayerView) {
-        broadCast(name: event.name, data: event.toJSON(), sink: eventSink)
+        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
     }
 }
