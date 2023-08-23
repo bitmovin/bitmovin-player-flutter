@@ -19,14 +19,13 @@ mixin PlayerViewEventHandler {
     }
 
     final target = jsonDecode(event) as Map<String, dynamic>;
+    final eventName = target['event'];
+    final data = target['data'];
 
-    if (target['event'] is! String || target['data'] is! Map<String, dynamic>) {
+    if (eventName is! String || data is! Map<String, dynamic>) {
       _logger.e('Could not find valid event data');
       return;
     }
-
-    final eventName = target['event'] as String;
-    final data = target['data'] as Map<String, dynamic>;
 
     switch (eventName) {
       case 'onFullscreenEnter':
