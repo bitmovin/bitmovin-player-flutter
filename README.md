@@ -133,3 +133,6 @@ The code for the different examples is located under [example/lib/pages](example
 
 # Documentation
 To generate code documentation files, run `dart doc .` in the root folder of the repository.
+
+# Contributing
+See the [contributing guide](CONTRIBUTING.md) to learn how to contribute to the repository and the development workflow.

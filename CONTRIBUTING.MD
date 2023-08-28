@@ -30,3 +30,19 @@ While this is not enforced, feel free to follow the [conventional commits specif
 - `docs`: changes into documentation, e.g. add usage example for the module..
 - `test`: adding or updating tests, e.g. add integration tests using detox.
 - `chore`: tooling changes, e.g. change CI config.
+
+## JSON
+
+This project uses [`json_serializable`](https://pub.dev/packages/json_serializable) to deal with JSON. After creating
+a new symbol that needs JSON serialization or modifying an existing one, run the following command to generate the new or updated JSON
+part files:
+
+```bash
+dart run build_runner build --delete-conflicting-outputs
+```
+
+If generating the JSON part files fails consistently, try to clean the project beforehand:
+
+```bash
+flutter clean && flutter pub get
+```
