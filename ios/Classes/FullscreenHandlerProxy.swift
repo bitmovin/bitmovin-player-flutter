@@ -3,7 +3,7 @@ import Flutter
 import Foundation
 
 internal class FullscreenHandlerProxy: NSObject, FullscreenHandler {
-    var isFullscreen: Bool
+    private(set) var isFullscreen: Bool
     private let methodChannel: FlutterMethodChannel
 
     init(
