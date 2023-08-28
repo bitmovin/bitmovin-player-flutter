@@ -20,6 +20,11 @@ class Methods {
         const val IS_LIVE = "isLive"
         const val IS_PLAYING = "isPlaying"
 
+        // Player view related methods
+        const val DESTROY_PLAYER_VIEW = "destroyPlayerView"
+        const val ENTER_FULLSCREEN = "enterFullscreen"
+        const val EXIT_FULLSCREEN = "exitFullscreen"
+
         // Widevine DRM related methods
         const val WIDEVINE_PREPARE_MESSAGE = "widevinePrepareMessage"
         const val WIDEVINE_PREPARE_LICENSE = "widevinePrepareLicense"

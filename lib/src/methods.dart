@@ -19,6 +19,8 @@ class Methods {
 
   /// Player view related methods
   static const String destroyPlayerView = 'destroyPlayerView';
+  static const String enterFullscreen = 'enterFullscreen';
+  static const String exitFullscreen = 'exitFullscreen';
 
   /// Fairplay DRM related methods
   static const String fairplayPrepareMessage = 'fairplayPrepareMessage';

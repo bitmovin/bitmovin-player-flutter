@@ -5,9 +5,16 @@ import Foundation
 // Wraps a Bitmovin `PlayerView` and is connected to a player view instance that was created on the Flutter side in
 // Dart. Communication with the player view instance on the Flutter side happens through the method channel.
 class FlutterPlayerView: NSObject, FlutterPlatformView {
+    struct Arguments: Codable {
+        let playerId: String
+        let hasFullscreenHandler: Bool
+        let isFullscreen: Bool
+    }
+
     private var rootView: UIView = UIView()
     private var playerView: PlayerView?
     private var methodChannel: FlutterMethodChannel
+    private var fullscreenHandlerProxy: FullscreenHandlerProxy?
 
     init(
         viewIdentifier: Int64,
@@ -15,8 +22,8 @@ class FlutterPlayerView: NSObject, FlutterPlatformView {
         arguments: Any?,
         binaryMessenger messenger: FlutterBinaryMessenger
     ) {
-        guard let playerId = arguments as? String else {
-            fatalError("Expected player ID as argument.")
+        guard let arguments = MessageDecoder.decode(type: Arguments.self, from: arguments) else {
+            fatalError("Could not decode arguments for FlutterPlayerView.")
         }
 
         rootView = UIView()
@@ -29,8 +36,12 @@ class FlutterPlayerView: NSObject, FlutterPlatformView {
         super.init()
 
         methodChannel.setMethodCallHandler(handleMethodCall)
-        PlayerManager.shared.onPlayerCreated(id: playerId) { [weak self] player in
-            self?.createPlayerView(player: player)
+        PlayerManager.shared.onPlayerCreated(id: arguments.playerId) { [weak self] player in
+            self?.createPlayerView(
+                player: player,
+                hasFullscreenHandler: arguments.hasFullscreenHandler,
+                isFullscreen: arguments.isFullscreen
+            )
         }
     }
 
@@ -44,13 +55,21 @@ private extension FlutterPlayerView {
         switch call.method {
         case Methods.destroyPlayerView:
             destroyPlayerView()
-            break
+        case Methods.enterFullscreen:
+            playerView?.enterFullscreen()
+        case Methods.exitFullscreen:
+            playerView?.exitFullscreen()
         default:
             break
         }
     }
 
-    func createPlayerView(player: Player, playerViewConfig: PlayerViewConfig = PlayerViewConfig()) {
+    func createPlayerView(
+        player: Player,
+        hasFullscreenHandler: Bool,
+        isFullscreen: Bool,
+        playerViewConfig: PlayerViewConfig = PlayerViewConfig()
+    ) {
         let playerView = PlayerView(
             player: player,
             frame: UIView().bounds,
@@ -58,6 +77,11 @@ private extension FlutterPlayerView {
         )
         playerView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         rootView.addSubview(playerView)
+
+        if hasFullscreenHandler {
+            fullscreenHandlerProxy = FullscreenHandlerProxy(isFullscreen: isFullscreen, methodChannel: methodChannel)
+            playerView.fullscreenHandler = fullscreenHandlerProxy
+        }
 
         self.playerView = playerView
     }

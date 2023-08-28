@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.View
 import com.bitmovin.player.PlayerView
 import com.bitmovin.player.api.Player
+import com.bitmovin.player.flutter.json.JPlayerViewCreateArgs
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
@@ -27,15 +28,28 @@ class FlutterPlayerView(
     ).apply { setMethodCallHandler(this@FlutterPlayerView) }
 
     init {
-        val playerId = args as? String ?: throw IllegalArgumentException("Expected player ID as argument.")
+        val playerViewCreateArgs = JPlayerViewCreateArgs(args as Map<*, *>)
 
         playerView = PlayerView(context, null as Player?)
-        PlayerManager.onPlayerCreated(playerId) { player ->
+        PlayerManager.onPlayerCreated(playerViewCreateArgs.playerId) { player ->
             playerView.player = player
+            if (playerViewCreateArgs.hasFullscreenHandler) {
+                playerView.setFullscreenHandler(
+                    FullscreenHandlerProxy(
+                        isFullscreen = playerViewCreateArgs.isFullscreen,
+                        methodChannel = methodChannel,
+                    ),
+                )
+            }
         }
     }
 
-    override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {}
+    override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) = when (call.method) {
+        Methods.ENTER_FULLSCREEN -> playerView.enterFullscreen()
+        Methods.EXIT_FULLSCREEN -> playerView.exitFullscreen()
+        Methods.DESTROY_PLAYER_VIEW -> { /* no-op */ }
+        else -> throw NotImplementedError()
+    }
 
     override fun getView(): View = playerView
 
