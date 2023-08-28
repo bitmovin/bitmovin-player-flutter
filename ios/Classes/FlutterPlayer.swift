@@ -12,6 +12,7 @@ class FlutterPlayer: NSObject {
     private var eventChannel: FlutterEventChannel
     private var fairplayCallbacksHandler: FairplayCallbacksHandler?
     private let player: Player
+    private let logger = getLogger()
 
     init(
         id: String,
@@ -126,27 +127,9 @@ private extension FlutterPlayer {
 }
 
 extension FlutterPlayer: PlayerListener {
-    func toJSONString(_ dictionary: [String: Any]) -> String? {
-        guard JSONSerialization.isValidJSONObject(dictionary) else {
-            // TODO: fix all runtime occurrences of this error
-            print("[error] invalid json object found")
-            return nil
-        }
-
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: dictionary, options: [.prettyPrinted])
-            if let jsonString = String(data: jsonData, encoding: .utf8) {
-                return jsonString
-            }
-        } catch {
-            print("[error] converting dictionary to JSON string: \(error.localizedDescription)")
-        }
-        return nil
-    }
-
-    func broadCast(name: String, data: [String: Any], sink: FlutterEventSink?) {
+    private func broadcast(name: String, data: [String: Any], sink: FlutterEventSink?) {
         guard let sink else {
-            print("[error] no sink found")
+            logger.log("No event sink found", .error)
             return
         }
 
@@ -155,98 +138,103 @@ extension FlutterPlayer: PlayerListener {
             "data": data
         ]
 
-        sink(toJSONString(target))
+        guard let eventPayload = Helper.toJSONString(target) else {
+            logger.log("Could not convert player event to JSON string", .error)
+            return
+        }
+
+        sink(eventPayload)
     }
 
     func onSourceAdded(_ event: SourceAddedEvent, player: Player) {
-        broadCast(name: event.name, data: event.toJSON(), sink: eventSink)
+        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
     }
 
     func onSourceRemoved(_ event: SourceRemovedEvent, player: Player) {
-        broadCast(name: event.name, data: event.toJSON(), sink: eventSink)
+        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
     }
 
     func onSourceLoad(_ event: SourceLoadEvent, player: Player) {
-        broadCast(name: event.name, data: event.toJSON(), sink: eventSink)
+        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
     }
 
     func onSourceLoaded(_ event: SourceLoadedEvent, player: Player) {
-        broadCast(name: event.name, data: event.toJSON(), sink: eventSink)
+        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
     }
 
     func onSourceUnloaded(_ event: SourceUnloadedEvent, player: Player) {
-        broadCast(name: event.name, data: event.toJSON(), sink: eventSink)
+        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
     }
 
     func onSourceUnload(_ event: SourceUnloadEvent, player: Player) {
-        broadCast(name: event.name, data: event.toJSON(), sink: eventSink)
+        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
     }
 
     func onSourceWarning(_ event: SourceWarningEvent, player: Player) {
-        broadCast(name: event.name, data: event.toJSON(), sink: eventSink)
+        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
     }
 
     func onSourceError(_ event: SourceErrorEvent, player: Player) {
-        broadCast(name: event.name, data: event.toJSON(), sink: eventSink)
+        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
     }
 
     func onReady(_ event: ReadyEvent, player: Player) {
-        broadCast(name: event.name, data: event.toJSON(), sink: eventSink)
+        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
     }
 
     func onDestroy(_ event: DestroyEvent, player: Player) {
-        broadCast(name: event.name, data: event.toJSON(), sink: eventSink)
+        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
     }
 
     func onPlayerError(_ event: PlayerErrorEvent, player: Player) {
-        broadCast(name: event.name, data: event.toJSON(), sink: eventSink)
+        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
     }
 
     func onPlayerWarning(_ event: PlayerWarningEvent, player: Player) {
-        broadCast(name: event.name, data: event.toJSON(), sink: eventSink)
+        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
     }
 
     func onPlaybackFinished(_ event: PlaybackFinishedEvent, player: Player) {
-        broadCast(name: event.name, data: event.toJSON(), sink: eventSink)
+        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
     }
 
     func onPlay(_ event: PlayEvent, player: Player) {
-        broadCast(name: event.name, data: event.toJSON(), sink: eventSink)
+        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
     }
 
     func onPlaying(_ event: PlayingEvent, player: Player) {
-        broadCast(name: event.name, data: event.toJSON(), sink: eventSink)
+        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
     }
 
     func onTimeChanged(_ event: TimeChangedEvent, player: Player) {
-        broadCast(name: event.name, data: event.toJSON(), sink: eventSink)
+        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
     }
 
     func onPaused(_ event: PausedEvent, player: Player) {
-        broadCast(name: event.name, data: event.toJSON(), sink: eventSink)
+        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
     }
 
     func onMuted(_ event: MutedEvent, player: Player) {
-        broadCast(name: event.name, data: event.toJSON(), sink: eventSink)
+        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
     }
 
     func onUnmuted(_ event: UnmutedEvent, player: Player) {
-        broadCast(name: event.name, data: event.toJSON(), sink: eventSink)
+        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
     }
 
     func onSeek(_ event: SeekEvent, player: Player) {
-        broadCast(name: event.name, data: event.toJSON(), sink: eventSink)
+        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
     }
 
     func onSeeked(_ event: SeekedEvent, player: Player) {
-        broadCast(name: event.name, data: event.toJSON(), sink: eventSink)
+        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
     }
 
     func onTimeShift(_ event: TimeShiftEvent, player: Player) {
-        broadCast(name: event.name, data: event.toJSON(), sink: eventSink)
+        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
     }
 
     func onTimeShifted(_ event: TimeShiftedEvent, player: Player) {
-        broadCast(name: event.name, data: event.toJSON(), sink: eventSink)
+        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
     }
 }

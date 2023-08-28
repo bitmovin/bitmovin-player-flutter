@@ -23,10 +23,10 @@ Features of the native mobile Player SDKs are progressively being implemented in
 | Supported media formats | DASH, HLS, Progressive | HLS, Progressive |
 | Playback of DRM-protected media | :white_check_mark: (Widevine) | :white_check_mark: (FairPlay) |
 | Bitmovin Web UI | :white_check_mark: | :white_check_mark:|
+| Full-screen support | :white_check_mark: | :white_check_mark: |
 | Subtitles & Captions | :hourglass: Planned for H2, 2023 | :hourglass: Planned for H2, 2023 |
 | Support for Apple TV / Android TV / Fire TV | :hourglass: Planned for H2, 2023 | :hourglass: Planned for H2, 2023 |
 | [Bitmovin Analytics](https://developer.bitmovin.com/playback/docs/enabling-bitmovin-analytics) | :hourglass: Planned for H2, 2023 | :hourglass: Planned for H2, 2023 |
-| Full-screen support | :hourglass: Planned for H2, 2023 | :hourglass: Planned for H2, 2023 |
 | Casting | :hourglass: Planned for H2, 2023 | :hourglass: Planned for H2, 2023 |
 | AirPlay | :hourglass: Planned for H2, 2023 | :hourglass: Planned for H2, 2023 |
 | Picture-in-Picture | Later | Later |

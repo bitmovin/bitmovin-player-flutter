@@ -14,7 +14,10 @@ class FlutterPlayerView: NSObject, FlutterPlatformView {
     private var rootView: UIView = UIView()
     private var playerView: PlayerView?
     private var methodChannel: FlutterMethodChannel
+    private var eventChannel: FlutterEventChannel
+    private var eventSink: FlutterEventSink?
     private var fullscreenHandlerProxy: FullscreenHandlerProxy?
+    private let logger = getLogger()
 
     init(
         viewIdentifier: Int64,
@@ -28,14 +31,15 @@ class FlutterPlayerView: NSObject, FlutterPlatformView {
 
         rootView = UIView()
         rootView.backgroundColor = UIColor.black
-        methodChannel = FlutterMethodChannel(
-            name: Channels.playerView + "-\(String(describing: viewIdentifier))",
-            binaryMessenger: messenger
-        )
+
+        let channelId = String(describing: viewIdentifier)
+        methodChannel = FlutterMethodChannel(name: Channels.playerView + "-\(channelId)", binaryMessenger: messenger)
+        eventChannel = FlutterEventChannel(name: Channels.playerViewEvent + "-\(channelId)", binaryMessenger: messenger)
 
         super.init()
 
         methodChannel.setMethodCallHandler(handleMethodCall)
+        eventChannel.setStreamHandler(self)
         PlayerManager.shared.onPlayerCreated(id: arguments.playerId) { [weak self] player in
             self?.createPlayerView(
                 player: player,
@@ -47,6 +51,20 @@ class FlutterPlayerView: NSObject, FlutterPlatformView {
 
     func view() -> UIView {
         rootView
+    }
+}
+
+extension FlutterPlayerView: FlutterStreamHandler {
+    func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
+        self.eventSink = events
+        playerView?.add(listener: self)
+        return nil
+    }
+
+    func onCancel(withArguments arguments: Any?) -> FlutterError? {
+        playerView?.remove(listener: self)
+        self.eventSink = nil
+        return nil
     }
 }
 
@@ -88,7 +106,37 @@ private extension FlutterPlayerView {
 
     func destroyPlayerView() {
         methodChannel.setMethodCallHandler(nil)
+        eventChannel.setStreamHandler(nil)
         playerView?.removeFromSuperview()
         playerView = nil
+    }
+}
+
+extension FlutterPlayerView: UserInterfaceListener {
+    private func broadcast(name: String, data: [String: Any], sink: FlutterEventSink?) {
+        guard let sink else {
+            logger.log("No event sink found", .error)
+            return
+        }
+
+        let target: [String: Any] = [
+            "event": name,
+            "data": data
+        ]
+
+        guard let eventPayload = Helper.toJSONString(target) else {
+            logger.log("Could not convert player view event to JSON string", .error)
+            return
+        }
+
+        sink(eventPayload)
+    }
+
+    func onFullscreenEnter(_ event: FullscreenEnterEvent, view: PlayerView) {
+        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
+    }
+
+    func onFullscreenExit(_ event: FullscreenExitEvent, view: PlayerView) {
+        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
     }
 }
