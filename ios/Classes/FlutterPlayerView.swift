@@ -55,13 +55,10 @@ private extension FlutterPlayerView {
         switch call.method {
         case Methods.destroyPlayerView:
             destroyPlayerView()
-            break
         case Methods.enterFullscreen:
             playerView?.enterFullscreen()
-            break;
         case Methods.exitFullscreen:
             playerView?.exitFullscreen()
-            break;
         default:
             break
         }
