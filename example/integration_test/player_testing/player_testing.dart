@@ -18,7 +18,7 @@ Future<void> startPlayerTest(
   PlayerConfig playerConfig =
       const PlayerConfig(key: Env.bitmovinPlayerLicenseKey),
 }) async {
-  PlayerWorld.sharedWorld.startPlayerTest(playerConfig);
+  await PlayerWorld.sharedWorld.startPlayerTest(playerConfig);
   await testBlock.call();
 }
 
@@ -57,10 +57,14 @@ class PlayerWorld {
 
   Player? _player;
 
-  void startPlayerTest(
+  Future<void> startPlayerTest(
     PlayerConfig playerConfig,
-  ) {
-    // TODO(mario): tear down previous player
+  ) async {
+    if (_player != null) {
+      await _player?.dispose();
+      _player = null;
+    }
+
     _player = Player(config: playerConfig);
   }
 
@@ -72,7 +76,7 @@ class PlayerWorld {
     final eventReceived = completer.future;
 
     _player?.onEvent = (receivedEvent) {
-      if (receivedEvent is T) {
+      if (receivedEvent is T && !completer.isCompleted) {
         completer.complete(receivedEvent);
       }
     };
@@ -92,10 +96,11 @@ class PlayerWorld {
     final eventReceived = completer.future;
 
     _player?.onEvent = (receivedEvent) {
-      if (receivedEvent is T) {
+      if (receivedEvent is T && !completer.isCompleted) {
         completer.complete(receivedEvent);
       }
     };
+
     return eventReceived;
   }
 }
