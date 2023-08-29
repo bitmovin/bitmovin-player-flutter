@@ -16,6 +16,10 @@ AnalyticsConfig _$AnalyticsConfigFromJson(Map<String, dynamic> json) =>
               RetryPolicy.noRetry,
       backendUrl: json['backendUrl'] as String? ??
           'https://analytics-ingress-global.bitmovin.com/',
+      defaultMetadata: json['defaultMetadata'] == null
+          ? const DefaultMetadata()
+          : DefaultMetadata.fromJson(
+              json['defaultMetadata'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$AnalyticsConfigToJson(AnalyticsConfig instance) =>
@@ -25,6 +29,7 @@ Map<String, dynamic> _$AnalyticsConfigToJson(AnalyticsConfig instance) =>
       'randomizeUserId': instance.randomizeUserId,
       'retryPolicy': _$RetryPolicyEnumMap[instance.retryPolicy]!,
       'backendUrl': instance.backendUrl,
+      'defaultMetadata': instance.defaultMetadata.toJson(),
     };
 
 const _$RetryPolicyEnumMap = {

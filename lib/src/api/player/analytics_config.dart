@@ -1,3 +1,4 @@
+import 'package:bitmovin_player/src/api/analytics/default_metadata.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -12,6 +13,7 @@ class AnalyticsConfig extends Equatable {
     this.randomizeUserId = false,
     this.retryPolicy = RetryPolicy.noRetry,
     this.backendUrl = 'https://analytics-ingress-global.bitmovin.com/',
+    this.defaultMetadata = const DefaultMetadata(),
   });
 
   factory AnalyticsConfig.fromJson(Map<String, dynamic> json) {
@@ -45,6 +47,9 @@ class AnalyticsConfig extends Equatable {
   /// Default is the Bitmovin backend URL
   @JsonKey(name: 'backendUrl')
   final String backendUrl;
+
+  @JsonKey(name:'defaultMetadata')
+  final DefaultMetadata defaultMetadata;
 
   @override
   List<Object?> get props => [
