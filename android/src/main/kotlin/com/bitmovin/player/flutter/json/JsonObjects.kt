@@ -114,6 +114,12 @@ internal class JPlayerMethodArg(override val map: Map<*, *>) : JStruct {
     private val dataAsMap get() = data as Map<*, *>
 }
 
+internal class JPlayerViewCreateArgs(override val map: Map<*, *>) : JStruct {
+    val playerId by GetString.require()
+    val hasFullscreenHandler by GetBool.require()
+    val isFullscreen by GetBool.require()
+}
+
 // Private property delegator
 
 private val GetAny = castGetter<Any>()

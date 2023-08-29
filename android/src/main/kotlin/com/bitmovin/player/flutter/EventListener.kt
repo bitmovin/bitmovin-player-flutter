@@ -1,5 +1,6 @@
 package com.bitmovin.player.flutter
 
+import com.bitmovin.player.PlayerView
 import com.bitmovin.player.api.Player
 import com.bitmovin.player.api.event.PlayerEvent
 import com.bitmovin.player.api.event.SourceEvent
@@ -122,6 +123,17 @@ open class EventListener {
                     "timestamp" to it.timestamp,
                 )
                 broadcast("onPlayerError", target)
+            }
+        }
+    }
+
+    open fun listenToEvent(playerView: PlayerView) {
+        with(playerView) {
+            on(PlayerEvent.FullscreenEnter::class) {
+                broadcast("onFullscreenEnter", it)
+            }
+            on(PlayerEvent.FullscreenExit::class) {
+                broadcast("onFullscreenExit", it)
             }
         }
     }

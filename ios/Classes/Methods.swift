@@ -17,9 +17,12 @@ class Methods {
     static let getTimeShift = "getTimeShift"
     static let maxTimeShift = "maxTimeShift"
     static let isLive = "isLive"
+    static let isPlaying = "isPlaying"
 
     // Player view related methods
     static let destroyPlayerView = "destroyPlayerView"
+    static let enterFullscreen = "enterFullscreen"
+    static let exitFullscreen = "exitFullscreen"
 
     // Fairplay related methods
     static let fairplayPrepareMessage = "fairplayPrepareMessage"

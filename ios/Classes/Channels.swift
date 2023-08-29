@@ -5,4 +5,5 @@ class Channels {
     static let player = "player"
     static let playerEvent = "player-events"
     static let playerView = "player-view"
+    static let playerViewEvent = "player-view-events"
 }

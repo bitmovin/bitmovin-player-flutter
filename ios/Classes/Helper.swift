@@ -20,6 +20,15 @@ class Helper {
         }
     }
 
+    static func toJSONString(_ dictionary: [String: Any]) -> String? {
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: dictionary, options: [.prettyPrinted]),
+              let jsonString = String(data: jsonData, encoding: .utf8) else {
+            return nil
+        }
+
+        return jsonString
+    }
+
     /**
      Utility method to instantiate a `PlayerConfig` from a JS object.
      - Parameter json: JS object

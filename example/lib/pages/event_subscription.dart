@@ -3,22 +3,21 @@ import 'dart:io';
 import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:bitmovin_player_example/controls.dart';
 import 'package:bitmovin_player_example/env/env.dart';
+import 'package:bitmovin_player_example/events.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
-class BasicPlaybackWithEventSubscription extends StatefulWidget {
-  static String routeName = 'BasicPlaybackWithEventSubscription';
-  const BasicPlaybackWithEventSubscription({super.key});
+class EventSubscription extends StatefulWidget {
+  static String routeName = 'EventSubscription';
+  const EventSubscription({super.key});
 
   @override
-  State<BasicPlaybackWithEventSubscription> createState() =>
-      _BasicPlaybackWithEventSubscriptionState();
+  State<EventSubscription> createState() => _EventSubscriptionState();
 }
 
-class _BasicPlaybackWithEventSubscriptionState
-    extends State<BasicPlaybackWithEventSubscription> {
-  String eventData = '';
-  final sourceConfig = SourceConfig(
+class _EventSubscriptionState extends State<EventSubscription> {
+  final _eventsKey = GlobalKey<EventsState>();
+  final _sourceConfig = SourceConfig(
     url: Platform.isAndroid
         ? 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd'
         : 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8',
@@ -32,15 +31,13 @@ class _BasicPlaybackWithEventSubscriptionState
   final _logger = Logger();
 
   void _onEvent(Event event) {
-    String eventString = "${event.runtimeType} ${event.toJson()}";
-
-    _logger.d(eventString);
-    setState(() {
-      eventData = eventString;
-    });
+    final eventName = "${event.runtimeType}";
+    final eventData = "$eventName ${event.toJson()}";
+    _logger.d(eventData);
+    _eventsKey.currentState?.add(eventName);
   }
 
-  void listen() {
+  void _listen() {
     _player.onError = (ErrorEvent data) {
       _onEvent(data);
     };
@@ -108,8 +105,8 @@ class _BasicPlaybackWithEventSubscriptionState
 
   @override
   void initState() {
-    listen();
-    _player.loadSourceConfig(sourceConfig);
+    _listen();
+    _player.loadSourceConfig(_sourceConfig);
     super.initState();
   }
 
@@ -130,29 +127,36 @@ class _BasicPlaybackWithEventSubscriptionState
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Basic Playback'),
+        title: const Text('Event Subscription'),
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Controls(
-            onLoadPressed: () {
-              _player.loadSourceConfig(sourceConfig);
-            },
-            onPlayPressed: () => _player.play(),
-            onPausePressed: () => _player.pause(),
-            onMutePressed: () => _player.mute(),
-            onUnmutePressed: () => _player.unmute(),
-            onSkipForwardPressed: () async =>
-                _player.seek(await _player.currentTime + 10),
-          ),
           SizedBox.fromSize(
             size: const Size.fromHeight(226),
             child: PlayerView(
               player: _player,
             ),
           ),
-          Text(eventData),
+          Container(
+            margin: const EdgeInsets.only(top: 5),
+            child: Controls(
+              onLoadPressed: () => _player.loadSourceConfig(_sourceConfig),
+              onPlayPressed: () => _player.play(),
+              onPausePressed: () => _player.pause(),
+              onMutePressed: () => _player.mute(),
+              onUnmutePressed: () => _player.unmute(),
+              onSkipForwardPressed: () async =>
+                  _player.seek(await _player.currentTime + 10),
+              onSkipBackwardPressed: () async =>
+                  _player.seek(await _player.currentTime - 10),
+            ),
+          ),
+          Expanded(
+            child: Container(
+              margin: const EdgeInsets.fromLTRB(10, 10, 10, 40),
+              child: Events(key: _eventsKey),
+            ),
+          ),
         ],
       ),
     );

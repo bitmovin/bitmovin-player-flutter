@@ -18,6 +18,12 @@ class Methods {
         const val GET_TIME_SHIFT = "getTimeShift"
         const val MAX_TIME_SHIFT = "maxTimeShift"
         const val IS_LIVE = "isLive"
+        const val IS_PLAYING = "isPlaying"
+
+        // Player view related methods
+        const val DESTROY_PLAYER_VIEW = "destroyPlayerView"
+        const val ENTER_FULLSCREEN = "enterFullscreen"
+        const val EXIT_FULLSCREEN = "exitFullscreen"
 
         // Widevine DRM related methods
         const val WIDEVINE_PREPARE_MESSAGE = "widevinePrepareMessage"
