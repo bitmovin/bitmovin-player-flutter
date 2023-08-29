@@ -46,6 +46,7 @@ class PlayerConfig extends Equatable {
   @JsonKey(name: 'liveConfig')
   final LiveConfig liveConfig;
 
+  /// Configuration for the Bitmovin Analytics Collector.
   @JsonKey(name: 'analyticsConfig')
   final AnalyticsConfig? analyticsConfig;
 
