@@ -22,15 +22,16 @@ Future<dynamic> loadSourceConfig(
     (player) async {
       await player.loadSourceConfig(sourceConfig);
     },
-    E.ready,
+    P(E.ready),
   );
 }
 
 Future<T> callPlayerAndExpectEvent<T extends Event>(
   Future<void> Function(Player) playerCaller,
-  T event,
+  SingleEventExpectation<T> eventExpectation,
 ) async {
-  return PlayerWorld.sharedWorld.callPlayerAndExpectEvent(playerCaller, event);
+  return PlayerWorld.sharedWorld
+      .callPlayerAndExpectEvent(playerCaller, eventExpectation);
 }
 
 Future<void> callPlayer(
@@ -39,12 +40,8 @@ Future<void> callPlayer(
   return PlayerWorld.sharedWorld.callPlayer(playerCaller);
 }
 
-Future<T> expectEvent<T extends Event>(T event) async {
-  return PlayerWorld.sharedWorld.expectEvent(event);
-}
-
-Future<T> expectSingleEvent<T extends Event>(
+Future<T> expectEvent<T extends Event>(
   SingleEventExpectation<T> eventExpectation,
 ) async {
-  return PlayerWorld.sharedWorld.expectSingleEvent(eventExpectation);
+  return PlayerWorld.sharedWorld.expectEvent(eventExpectation);
 }

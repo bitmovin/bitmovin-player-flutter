@@ -26,9 +26,9 @@ void main() {
         (player) async {
           await player.setTimeShift(-100);
         },
-        E.timeShift,
+        P(E.timeShift),
       );
-      await expectEvent(E.timeShifted);
+      await expectEvent(P(E.timeShifted));
       await callPlayer((player) async {
         final currentTimeShift = await player.timeShift;
         expect(currentTimeShift, closeTo(-100, 1));
@@ -40,7 +40,7 @@ void main() {
     await startPlayerTest(() async {
       await loadSourceConfig(artOfMotion);
       await callPlayer((player) => player.play());
-      await expectSingleEvent(PlainEventExpectation(E.timeChanged));
+      await expectEvent(P(E.timeChanged));
     });
   });
 
@@ -48,7 +48,7 @@ void main() {
     await startPlayerTest(() async {
       await loadSourceConfig(artOfMotion);
       await callPlayer((player) => player.play());
-      await expectSingleEvent(F(E.timeChanged, (event) {
+      await expectEvent(F(E.timeChanged, (event) {
         return event.time > 5;
       }));
     });
