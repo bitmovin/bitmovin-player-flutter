@@ -48,7 +48,7 @@ void main() {
     await startPlayerTest(() async {
       await loadSourceConfig(artOfMotion);
       await callPlayer((player) => player.play());
-      await expectSingleEvent(FilteredEventExpectation(E.timeChanged, (event) {
+      await expectSingleEvent(F(E.timeChanged, (event) {
         return event.time > 5;
       }));
     });

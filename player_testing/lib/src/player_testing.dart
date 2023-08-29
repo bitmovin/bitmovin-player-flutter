@@ -2,19 +2,9 @@ import 'dart:async';
 
 import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:player_testing/env/env.dart';
+import 'package:player_testing/src/events.dart';
 import 'package:player_testing/src/player_world.dart';
 import 'package:player_testing/src/single_event_expectation.dart';
-
-// TODO(mario): split up and extract components to own files
-// TODO(mario): move framework code to better place within the project, it
-// should not be within the integration test folder.
-
-abstract class E {
-  static const ready = ReadyEvent(timestamp: 0);
-  static const timeShift = TimeShiftEvent(position: 0, target: 0, timestamp: 0);
-  static const timeShifted = TimeShiftedEvent(timestamp: 0);
-  static const timeChanged = TimeChangedEvent(time: 0, timestamp: 0);
-}
 
 Future<void> startPlayerTest(
   Future<void> Function() testBlock, {
