@@ -1,0 +1,76 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'custom_data.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+CustomData _$CustomDataFromJson(Map<String, dynamic> json) => CustomData(
+      customData1: json['customData1'] as String?,
+      customData2: json['customData2'] as String?,
+      customData3: json['customData3'] as String?,
+      customData4: json['customData4'] as String?,
+      customData5: json['customData5'] as String?,
+      customData6: json['customData6'] as String?,
+      customData7: json['customData7'] as String?,
+      customData8: json['customData8'] as String?,
+      customData9: json['customData9'] as String?,
+      customData10: json['customData10'] as String?,
+      customData11: json['customData11'] as String?,
+      customData12: json['customData12'] as String?,
+      customData13: json['customData13'] as String?,
+      customData14: json['customData14'] as String?,
+      customData15: json['customData15'] as String?,
+      customData16: json['customData16'] as String?,
+      customData17: json['customData17'] as String?,
+      customData18: json['customData18'] as String?,
+      customData19: json['customData19'] as String?,
+      customData20: json['customData20'] as String?,
+      customData21: json['customData21'] as String?,
+      customData22: json['customData22'] as String?,
+      customData23: json['customData23'] as String?,
+      customData24: json['customData24'] as String?,
+      customData25: json['customData25'] as String?,
+      customData26: json['customData26'] as String?,
+      customData27: json['customData27'] as String?,
+      customData28: json['customData28'] as String?,
+      customData29: json['customData29'] as String?,
+      customData30: json['customData30'] as String?,
+      experimentName: json['experimentName'] as String?,
+    );
+
+Map<String, dynamic> _$CustomDataToJson(CustomData instance) =>
+    <String, dynamic>{
+      'customData1': instance.customData1,
+      'customData2': instance.customData2,
+      'customData3': instance.customData3,
+      'customData4': instance.customData4,
+      'customData5': instance.customData5,
+      'customData6': instance.customData6,
+      'customData7': instance.customData7,
+      'customData8': instance.customData8,
+      'customData9': instance.customData9,
+      'customData10': instance.customData10,
+      'customData11': instance.customData11,
+      'customData12': instance.customData12,
+      'customData13': instance.customData13,
+      'customData14': instance.customData14,
+      'customData15': instance.customData15,
+      'customData16': instance.customData16,
+      'customData17': instance.customData17,
+      'customData18': instance.customData18,
+      'customData19': instance.customData19,
+      'customData20': instance.customData20,
+      'customData21': instance.customData21,
+      'customData22': instance.customData22,
+      'customData23': instance.customData23,
+      'customData24': instance.customData24,
+      'customData25': instance.customData25,
+      'customData26': instance.customData26,
+      'customData27': instance.customData27,
+      'customData28': instance.customData28,
+      'customData29': instance.customData29,
+      'customData30': instance.customData30,
+      'experimentName': instance.experimentName,
+    };
