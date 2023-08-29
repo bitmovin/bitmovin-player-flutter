@@ -14,18 +14,17 @@ class PlainEventExpectation<T extends Event> extends SingleEventExpectation<T> {
   @override
   late final Type eventType;
   @override
-  var isFulfilled = false;
+  bool isFulfilled = false;
 
   @override
   bool maybeFulfillExpectation(Event receivedEvent) {
-    isFulfilled = receivedEvent is T;
-    return isFulfilled;
+    return isFulfilled = receivedEvent is T;
   }
 }
 
 class FilteredEventExpectation<T extends Event>
     extends PlainEventExpectation<T> {
-  FilteredEventExpectation(T event, this.filter) : super(event);
+  FilteredEventExpectation(super.event, this.filter);
 
   final bool Function(T) filter;
 

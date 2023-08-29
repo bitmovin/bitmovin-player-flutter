@@ -2,8 +2,7 @@
 
 import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'player_testing/player_testing.dart';
-import 'player_testing/single_event_expectation.dart';
+import 'package:player_testing/player_testing.dart';
 
 void main() {
   // TODO(mario): move to own file

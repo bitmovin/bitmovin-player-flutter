@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:bitmovin_player/bitmovin_player.dart';
-import 'single_event_expectation.dart';
+import 'package:player_testing/src/single_event_expectation.dart';
 
 class PlayerWorld {
   PlayerWorld._();
@@ -58,7 +58,8 @@ class PlayerWorld {
   }
 
   Future<T> expectSingleEvent<T extends Event>(
-      SingleEventExpectation<T> eventExpectation) async {
+    SingleEventExpectation<T> eventExpectation,
+  ) async {
     final completer = Completer<T>();
     final eventReceived = completer.future;
 

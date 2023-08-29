@@ -1,9 +1,9 @@
 import 'dart:async';
 
 import 'package:bitmovin_player/bitmovin_player.dart';
-import 'package:bitmovin_player_example/env/env.dart';
-import 'player_world.dart';
-import 'single_event_expectation.dart';
+import 'package:player_testing/env/env.dart';
+import 'package:player_testing/src/player_world.dart';
+import 'package:player_testing/src/single_event_expectation.dart';
 
 // TODO(mario): split up and extract components to own files
 // TODO(mario): move framework code to better place within the project, it
@@ -54,6 +54,7 @@ Future<T> expectEvent<T extends Event>(T event) async {
 }
 
 Future<T> expectSingleEvent<T extends Event>(
-    SingleEventExpectation<T> eventExpectation) async {
+  SingleEventExpectation<T> eventExpectation,
+) async {
   return PlayerWorld.sharedWorld.expectSingleEvent(eventExpectation);
 }
