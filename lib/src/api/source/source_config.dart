@@ -1,4 +1,5 @@
 import 'package:bitmovin_player/bitmovin_player.dart';
+import 'package:bitmovin_player/src/api/analytics/source_metadata.dart';
 import 'package:bitmovin_player/src/api/media/subtitle/subtitle_track.dart';
 import 'package:bitmovin_player/src/api/media/thumbnail/thumbnail_track.dart';
 import 'package:equatable/equatable.dart';
@@ -22,6 +23,7 @@ class SourceConfig extends Equatable {
     this.videoCodecPriority,
     this.options = const SourceOptions(),
     this.drmConfig,
+    this.sourceMetadata,
   });
 
   /// Creates a [SourceConfig] from the given [url] and [type]
@@ -94,6 +96,11 @@ class SourceConfig extends Equatable {
   @JsonKey(name: 'drmConfig')
   final DrmConfig? drmConfig;
 
+  /// The [SourceMetadata] for the [Source],
+  /// to setup custom analytics tracking
+  @JsonKey(name: 'sourceMetadata')
+  final SourceMetadata? sourceMetadata;
+
   /// Converts this [SourceConfig] into JSON friendly Map<String, dynamic>
   Map<String, dynamic> toJson() => _$SourceConfigToJson(this);
 
@@ -109,5 +116,6 @@ class SourceConfig extends Equatable {
         videoCodecPriority,
         audioCodecPriority,
         drmConfig,
+        sourceMetadata,
       ];
 }
