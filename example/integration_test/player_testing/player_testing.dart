@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:bitmovin_player_example/env/env.dart';
+import 'single_event_expectation.dart';
 
 // TODO(mario): split up and extract components to own files
 // TODO(mario): move framework code to better place within the project, it
@@ -11,6 +12,7 @@ abstract class E {
   static const ready = ReadyEvent(timestamp: 0);
   static const timeShift = TimeShiftEvent(position: 0, target: 0, timestamp: 0);
   static const timeShifted = TimeShiftedEvent(timestamp: 0);
+  static const timeChanged = TimeChangedEvent(time: 0, timestamp: 0);
 }
 
 Future<void> startPlayerTest(
@@ -50,6 +52,11 @@ Future<T> expectEvent<T extends Event>(T event) async {
   return PlayerWorld.sharedWorld.expectEvent(event);
 }
 
+Future<T> expectSingleEvent<T extends Event>(
+    SingleEventExpectation<T> eventExpectation) async {
+  return PlayerWorld.sharedWorld.expectSingleEvent(eventExpectation);
+}
+
 class PlayerWorld {
   PlayerWorld._();
   static final _instance = PlayerWorld._();
@@ -76,7 +83,7 @@ class PlayerWorld {
     final eventReceived = completer.future;
 
     _player?.onEvent = (receivedEvent) {
-      if (receivedEvent is T && !completer.isCompleted) {
+      if (!completer.isCompleted && receivedEvent is T) {
         completer.complete(receivedEvent);
       }
     };
@@ -96,8 +103,23 @@ class PlayerWorld {
     final eventReceived = completer.future;
 
     _player?.onEvent = (receivedEvent) {
-      if (receivedEvent is T && !completer.isCompleted) {
+      if (!completer.isCompleted && receivedEvent is T) {
         completer.complete(receivedEvent);
+      }
+    };
+
+    return eventReceived;
+  }
+
+  Future<T> expectSingleEvent<T extends Event>(
+      SingleEventExpectation<T> eventExpectation) async {
+    final completer = Completer<T>();
+    final eventReceived = completer.future;
+
+    _player?.onEvent = (receivedEvent) {
+      if (!completer.isCompleted &&
+          eventExpectation.maybeFulfillExpectation(receivedEvent)) {
+        completer.complete(receivedEvent as T);
       }
     };
 
