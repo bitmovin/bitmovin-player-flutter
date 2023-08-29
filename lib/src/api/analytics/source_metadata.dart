@@ -27,14 +27,17 @@ class SourceMetadata extends Equatable {
   Map<String, dynamic> toJson() => _$SourceMetadataToJson(this);
 
   /// Human readable title of the source.
+  @JsonKey(name: 'title')
   final String? title;
 
   /// ID of the Video
+  @JsonKey(name: 'videoId')
   final String? videoId;
 
   /// CDN Provider used to serve content.
   /// If field is specified in SourceMetadata and DefaultMetadata,
   /// SourceMetadata takes precedence.
+  @JsonKey(name: 'cdnProvider')
   final String? cdnProvider;
 
   /// Breadcrumb within the app. For example, the name of the current activity.
@@ -42,11 +45,13 @@ class SourceMetadata extends Equatable {
 
   /// Mark the stream as live before stream metadata is available.
   /// As soon as metadata is available, information from the player is used.
+  @JsonKey(name: 'isLive')
   final bool? isLive;
 
   /// Free-form data that can be used to enrich the analytics data
   /// If customData is specified in SourceMetadata and DefaultMetadata
   /// data is merged on a field basis with SourceMetadata taking precedence.
+  @JsonKey(name: 'customData')
   final CustomData customData;
 
   @override
