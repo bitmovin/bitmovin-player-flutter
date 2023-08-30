@@ -5,6 +5,7 @@ import com.bitmovin.analytics.api.AnalyticsConfig
 import com.bitmovin.analytics.api.DefaultMetadata
 import com.bitmovin.player.api.Player
 import com.bitmovin.player.api.PlayerConfig
+import com.bitmovin.player.api.analytics.create
 import com.bitmovin.player.api.drm.WidevineConfig
 import com.bitmovin.player.api.source.Source
 import com.bitmovin.player.flutter.drm.WidevineCallbacksHandler
@@ -61,7 +62,12 @@ class FlutterPlayer(
             )
         }
 
-        load(Source.create(sourceConfig))
+        val sourceMetadata = jSourceConfig.sourceMetadata?.toNative()
+        if (sourceMetadata != null) {
+            load(Source.create(sourceConfig, sourceMetadata))
+        } else {
+            load(Source.create(sourceConfig))
+        }
     }
 
     private fun Player.onMethodCall(method: String, arg: JPlayerMethodArg): Any = when (method) {

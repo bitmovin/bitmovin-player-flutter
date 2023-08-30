@@ -3,6 +3,7 @@ package com.bitmovin.player.flutter.json
 import com.bitmovin.analytics.api.AnalyticsConfig
 import com.bitmovin.analytics.api.CustomData
 import com.bitmovin.analytics.api.DefaultMetadata
+import com.bitmovin.analytics.api.SourceMetadata
 import com.bitmovin.player.api.LicensingConfig
 import com.bitmovin.player.api.PlaybackConfig
 import com.bitmovin.player.api.PlayerConfig
@@ -31,6 +32,17 @@ internal fun JSourceConfig.toNative() = SourceConfig(
     videoCodecPriority?.let { sourceConfig.videoCodecPriority = it }
     isPosterPersistent?.let { sourceConfig.isPosterPersistent = it }
 }
+
+internal fun JSourceMetadata.toNative() =
+    SourceMetadata.Builder()
+        .apply {
+            cdnProvider?.let { setCdnProvider(it) }
+            isLive?.let { setIsLive(it) }
+            path?.let { setPath(it) }
+            title?.let { setTitle(it) }
+            videoId?.let { setVideoId(it) }
+            customData?.let { setCustomData(it.toNative()) }
+        }.build()
 
 internal fun JSourceOptions.toNative() = SourceOptions(
     startOffset = startOffset,

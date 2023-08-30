@@ -32,6 +32,16 @@ internal class JSourceConfig(override val map: Map<*, *>) : JStruct {
     val posterSource by GetString
     val options by structGetter(::JSourceOptions)
     val drmConfig by structGetter(::JDrmConfig)
+    val sourceMetadata by structGetter(::JSourceMetadata)
+}
+
+internal class JSourceMetadata(override val map: Map<*, *>) : JStruct {
+    val title by GetString
+    val videoId by GetString
+    val cdnProvider by GetString
+    val path by GetString
+    val isLive by GetBool
+    val customData by structGetter(::JCustomData)
 }
 
 internal class JSourceOptions(override val map: Map<*, *>) : JStruct {
