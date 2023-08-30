@@ -53,17 +53,14 @@ class EventBagExpectation extends MultipleEventsExpectation {
   }
 }
 
-class RepeatedEventExpectation extends MultipleEventsExpectation {
-  @override
-  List<SingleEventExpectation> get singleExpectations =>
-      throw UnimplementedError();
-  @override
-  int get expectedFulfillmentCount => throw UnimplementedError();
-
-  @override
-  bool isNextExpectationMet(Event receivedEvent) {
-    throw UnimplementedError();
-  }
+class RepeatedEventExpectation<T extends Event>
+    extends EventSequenceExpectation {
+  RepeatedEventExpectation(SingleEventExpectation singleExpectation, int count)
+      : super(
+          List<int>.filled(count, 0)
+              .map((_) => singleExpectation.copy())
+              .toList(),
+        );
 }
 
 class AnyEventExpectation extends MultipleEventsExpectation {

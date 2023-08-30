@@ -7,11 +7,16 @@ abstract class SingleEventExpectation {
   bool get isFulfilled;
   Type get eventType;
   bool maybeFulfillExpectation(Event receivedEvent);
+  SingleEventExpectation copy();
 }
 
 class PlainEventExpectation<T extends Event> implements SingleEventExpectation {
   PlainEventExpectation(T event) {
     this.eventType = event.runtimeType;
+  }
+
+  PlainEventExpectation.from(PlainEventExpectation other) {
+    this.eventType = other.eventType;
   }
 
   @override
@@ -23,13 +28,23 @@ class PlainEventExpectation<T extends Event> implements SingleEventExpectation {
   bool maybeFulfillExpectation(Event receivedEvent) {
     return isFulfilled = receivedEvent is T;
   }
+
+  @override
+  // ignore: use_to_and_as_if_applicable
+  SingleEventExpectation copy() {
+    return PlainEventExpectation<T>.from(this);
+  }
 }
 
 class FilteredEventExpectation<T extends Event>
     extends PlainEventExpectation<T> {
   FilteredEventExpectation(super.event, this.filter);
+  FilteredEventExpectation.from(FilteredEventExpectation other)
+      : super.from(other) {
+    this.filter = other.filter;
+  }
 
-  final bool Function(T) filter;
+  late final bool Function(T) filter;
 
   @override
   bool maybeFulfillExpectation(Event receivedEvent) {
@@ -37,5 +52,11 @@ class FilteredEventExpectation<T extends Event>
       isFulfilled = filter(receivedEvent as T);
     }
     return isFulfilled;
+  }
+
+  @override
+  // ignore: use_to_and_as_if_applicable
+  SingleEventExpectation copy() {
+    return FilteredEventExpectation<T>.from(this);
   }
 }

@@ -75,4 +75,12 @@ void main() {
       ]));
     });
   });
+
+  testWidgets('repeated event expectation test', (tester) async {
+    await startPlayerTest(() async {
+      await loadSourceConfig(artOfMotion);
+      await callPlayer((player) => player.play());
+      await expectEvents(R(P(E.timeChanged), 5));
+    });
+  });
 }
