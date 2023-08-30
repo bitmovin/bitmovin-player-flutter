@@ -10,7 +10,9 @@ environment:
 dependencies:
   bitmovin_player:
     path: ../
+  collection: ^1.17.1
   envied: ^0.3.0+3
+  logger: ^1.4.0
 
 dev_dependencies:
   lints: ^2.0.0

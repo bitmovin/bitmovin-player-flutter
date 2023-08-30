@@ -53,4 +53,15 @@ void main() {
       }));
     });
   });
+
+  testWidgets('event sequence expectation test', (tester) async {
+    await startPlayerTest(() async {
+      await loadSourceConfig(artOfMotion);
+      await callPlayer((player) => player.play());
+      await expectEvents(S([
+        P(E.playing),
+        P(E.timeChanged),
+      ]));
+    });
+  });
 }
