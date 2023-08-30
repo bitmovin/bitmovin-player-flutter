@@ -57,11 +57,14 @@ void main() {
   testWidgets('event sequence expectation test', (tester) async {
     await startPlayerTest(() async {
       await loadSourceConfig(artOfMotion);
-      await callPlayer((player) => player.play());
-      await expectEvents(S([
-        P(E.playing),
-        P(E.timeChanged),
-      ]));
+      await callPlayerAndExpectEvents(
+        (player) => player.play(),
+        S([
+          P(E.play),
+          P(E.playing),
+          P(E.timeChanged),
+        ]),
+      );
     });
   });
 
