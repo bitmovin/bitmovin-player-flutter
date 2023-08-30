@@ -35,6 +35,14 @@ Future<T> callPlayerAndExpectEvent<T extends Event>(
       .callPlayerAndExpectEvent(playerCaller, eventExpectation);
 }
 
+Future<void> callPlayerAndExpectEvents(
+  Future<void> Function(Player) playerCaller,
+  MultipleEventsExpectation eventExpectation,
+) async {
+  return PlayerWorld.sharedWorld
+      .callPlayerAndExpectEvents(playerCaller, eventExpectation);
+}
+
 Future<void> callPlayer(
   Future<void> Function(Player) playerCaller,
 ) async {
@@ -50,7 +58,7 @@ Future<T> expectEvent<T extends Event>(
 
 // TODO(mario): add support for `eventHandlerBlock`
 Future<void> expectEvents(
-  MultipleEventsExpectation multipleEventExpectation,
+  MultipleEventsExpectation multipleEventsExpectation,
 ) async {
-  return PlayerWorld.sharedWorld.expectEvents(multipleEventExpectation);
+  return PlayerWorld.sharedWorld.expectEvents(multipleEventsExpectation);
 }

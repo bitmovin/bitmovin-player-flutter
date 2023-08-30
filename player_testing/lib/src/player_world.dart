@@ -25,18 +25,18 @@ class PlayerWorld {
     Future<void> Function(Player) playerCaller,
     SingleEventExpectation eventExpectation,
   ) async {
-    final completer = Completer<T>();
-    final eventReceived = completer.future;
-
-    _player?.onEvent = (receivedEvent) {
-      if (!completer.isCompleted &&
-          eventExpectation.maybeFulfillExpectation(receivedEvent)) {
-        completer.complete(receivedEvent as T);
-      }
-    };
-
+    final eventReceived = expectEvent<T>(eventExpectation);
     await playerCaller.call(_player!);
     return eventReceived;
+  }
+
+  Future<void> callPlayerAndExpectEvents(
+    Future<void> Function(Player) playerCaller,
+    MultipleEventsExpectation eventExpectation,
+  ) async {
+    final eventsReceived = expectEvents(eventExpectation);
+    await playerCaller.call(_player!);
+    return eventsReceived;
   }
 
   Future<void> callPlayer(
@@ -62,7 +62,7 @@ class PlayerWorld {
   }
 
   Future<void> expectEvents(
-    MultipleEventsExpectation multipleEventExpectation,
+    MultipleEventsExpectation multipleEventsExpectation,
   ) async {
     final completer = Completer<void>();
     final eventReceived = completer.future;
@@ -70,10 +70,10 @@ class PlayerWorld {
 
     _player?.onEvent = (receivedEvent) {
       if (!completer.isCompleted &&
-          multipleEventExpectation.isNextExpectationMet(receivedEvent)) {
+          multipleEventsExpectation.isNextExpectationMet(receivedEvent)) {
         fulfilledExpectations++;
         if (fulfilledExpectations >=
-            multipleEventExpectation.expectedFulfillmentCount) {
+            multipleEventsExpectation.expectedFulfillmentCount) {
           completer.complete();
         }
       }
