@@ -1,5 +1,6 @@
 package com.bitmovin.player.flutter.json
 
+import com.bitmovin.analytics.api.RetryPolicy
 import com.bitmovin.player.api.Player
 import com.bitmovin.player.api.SeekMode
 import com.bitmovin.player.api.media.MediaFilter
@@ -81,12 +82,62 @@ internal class JLiveConfig(override val map: Map<*, *>) : JStruct {
     val liveEdgeOffset by GetDouble
 }
 
+internal class JAnalyticsConfig(override val map: Map<*, *>) : JStruct {
+    val licenseKey by GetString.require()
+    val adTrackingDisabled by GetBool
+    val randomizeUserId by GetBool
+    val retryPolicy by enumGetter<RetryPolicy>()
+    val backendUrl by GetString
+    val defaultMetadata by structGetter(::JDefaultMetadata)
+}
+
+internal class JDefaultMetadata(override val map: Map<*, *>) : JStruct {
+    val cdnProvider by GetString
+    val customUserId by GetString
+    val customData by structGetter(::JCustomData)
+}
+
+internal class JCustomData(override val map: Map<*, *>) : JStruct {
+    val customData1 by GetString
+    val customData2 by GetString
+    val customData3 by GetString
+    val customData4 by GetString
+    val customData5 by GetString
+    val customData6 by GetString
+    val customData7 by GetString
+    val customData8 by GetString
+    val customData9 by GetString
+    val customData10 by GetString
+    val customData11 by GetString
+    val customData12 by GetString
+    val customData13 by GetString
+    val customData14 by GetString
+    val customData15 by GetString
+    val customData16 by GetString
+    val customData17 by GetString
+    val customData18 by GetString
+    val customData19 by GetString
+    val customData20 by GetString
+    val customData21 by GetString
+    val customData22 by GetString
+    val customData23 by GetString
+    val customData24 by GetString
+    val customData25 by GetString
+    val customData26 by GetString
+    val customData27 by GetString
+    val customData28 by GetString
+    val customData29 by GetString
+    val customData30 by GetString
+    val experimentName by GetString
+}
+
 internal class JPlayerConfig(override val map: Map<*, *>) : JStruct {
     val key by GetString
     val styleConfig by structGetter(::JStyleConfig)
     val playbackConfig by structGetter(::JPlaybackConfig)
     val licensingConfig by structGetter(::JLicensingConfig)
     val liveConfig by structGetter(::JLiveConfig)
+    val analyticsConfig by structGetter(::JAnalyticsConfig)
 }
 
 // Methods

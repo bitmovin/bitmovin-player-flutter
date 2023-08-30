@@ -26,7 +26,9 @@ class _BasicPlaybackState extends State<BasicPlayback> {
         playbackConfig: PlaybackConfig(
           isAutoplayEnabled: true,
           isMuted: false,
-        )),
+        ),
+      analyticsConfig: AnalyticsConfig(licenseKey: Env.bitmovinAnalyticsLicenseKey)
+    ),
   );
 
   @override

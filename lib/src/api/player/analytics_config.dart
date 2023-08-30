@@ -64,12 +64,14 @@ class AnalyticsConfig extends Equatable {
 enum RetryPolicy {
   /// No retry in case an analytics request cannot be sent
   /// to the analytics backend
+  @JsonValue('NO_RETRY')
   noRetry,
 
   /// A failing request is retried for a maximum of 300 seconds,
   /// while the collector instance is still alive.
   /// The initial license call to verify the analytics license
   /// needs to be successful.
+  @JsonValue('SHORT_TERM')
   shortTerm,
 
   /// A failing request is retried for up to 14 days.
@@ -77,5 +79,6 @@ enum RetryPolicy {
   /// permanently until it is sent successfully or the max lifetime is reached.
   /// This policy can be used for tracking of offline playback.
   /// See https://developer.bitmovin.com/playback/docs/is-tracking-of-analytics-data-support-in-offline-mode for more information.
+  @JsonValue('LONG_TERM')
   longTerm,
 }

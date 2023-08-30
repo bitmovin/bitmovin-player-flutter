@@ -1,6 +1,8 @@
 package com.bitmovin.player.flutter
 
 import android.content.Context
+import com.bitmovin.analytics.api.AnalyticsConfig
+import com.bitmovin.analytics.api.DefaultMetadata
 import com.bitmovin.player.api.Player
 import com.bitmovin.player.api.PlayerConfig
 import com.bitmovin.player.api.drm.WidevineConfig
@@ -26,6 +28,8 @@ class FlutterPlayer(
     private val id: String,
     messenger: BinaryMessenger,
     config: PlayerConfig?,
+    analyticsConfig: AnalyticsConfig?,
+    defaultMetadata: DefaultMetadata?,
 ) : StreamHandler, EventListener() {
     private var widevineCallbacksHandler: WidevineCallbacksHandler? = null
     private val methodChannel = ChannelManager.registerMethodChannel(
@@ -41,7 +45,7 @@ class FlutterPlayer(
     private val player: Player
 
     init {
-        player = PlayerManager.create(id, context, config)
+        player = PlayerManager.create(id, context, config, analyticsConfig, defaultMetadata)
     }
 
     private fun Player.load(jSourceConfig: JSourceConfig) {
