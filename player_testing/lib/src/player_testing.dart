@@ -28,7 +28,7 @@ Future<dynamic> loadSourceConfig(
 
 Future<T> callPlayerAndExpectEvent<T extends Event>(
   Future<void> Function(Player) playerCaller,
-  SingleEventExpectation<T> eventExpectation,
+  SingleEventExpectation eventExpectation,
 ) async {
   return PlayerWorld.sharedWorld
       .callPlayerAndExpectEvent(playerCaller, eventExpectation);
@@ -41,7 +41,7 @@ Future<void> callPlayer(
 }
 
 Future<T> expectEvent<T extends Event>(
-  SingleEventExpectation<T> eventExpectation,
+  SingleEventExpectation eventExpectation,
 ) async {
   return PlayerWorld.sharedWorld.expectEvent(eventExpectation);
 }

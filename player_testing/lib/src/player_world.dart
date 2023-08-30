@@ -23,7 +23,7 @@ class PlayerWorld {
 
   Future<T> callPlayerAndExpectEvent<T extends Event>(
     Future<void> Function(Player) playerCaller,
-    SingleEventExpectation<T> eventExpectation,
+    SingleEventExpectation eventExpectation,
   ) async {
     final completer = Completer<T>();
     final eventReceived = completer.future;
@@ -46,7 +46,7 @@ class PlayerWorld {
   }
 
   Future<T> expectEvent<T extends Event>(
-    SingleEventExpectation<T> eventExpectation,
+    SingleEventExpectation eventExpectation,
   ) async {
     final completer = Completer<T>();
     final eventReceived = completer.future;

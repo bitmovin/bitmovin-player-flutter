@@ -3,13 +3,13 @@ import 'package:bitmovin_player/bitmovin_player.dart';
 typedef P<T extends Event> = PlainEventExpectation<T>;
 typedef F<T extends Event> = FilteredEventExpectation<T>;
 
-abstract class SingleEventExpectation<T extends Event> {
+abstract class SingleEventExpectation {
   bool get isFulfilled;
   Type get eventType;
   bool maybeFulfillExpectation(Event receivedEvent);
 }
 
-class PlainEventExpectation<T extends Event> extends SingleEventExpectation<T> {
+class PlainEventExpectation<T extends Event> implements SingleEventExpectation {
   PlainEventExpectation(T event) {
     this.eventType = event.runtimeType;
   }
