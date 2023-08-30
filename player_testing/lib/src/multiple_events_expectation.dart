@@ -34,15 +34,22 @@ class EventSequenceExpectation implements MultipleEventsExpectation {
 }
 
 class EventBagExpectation extends MultipleEventsExpectation {
+  EventBagExpectation(this.singleExpectations);
+
   @override
-  List<SingleEventExpectation> get singleExpectations =>
-      throw UnimplementedError();
+  final List<SingleEventExpectation> singleExpectations;
   @override
-  int get expectedFulfillmentCount => throw UnimplementedError();
+  int get expectedFulfillmentCount => singleExpectations.length;
 
   @override
   bool isNextExpectationMet(Event receivedEvent) {
-    throw UnimplementedError();
+    final nextUnfulfilled = singleExpectations.firstWhereOrNull(
+      (expectation) =>
+          !expectation.isFulfilled &&
+          expectation.maybeFulfillExpectation(receivedEvent),
+    );
+
+    return nextUnfulfilled?.isFulfilled ?? false;
   }
 }
 
