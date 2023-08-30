@@ -45,6 +45,23 @@ class PlayerWorld {
     await playerCaller.call(_player!);
   }
 
+  Future<TimeChangedEvent> playFor(double seconds) async {
+    final targetTime = await _player!.currentTime + seconds;
+    return playUntil(targetTime);
+  }
+
+  Future<TimeChangedEvent> playUntil(double time) async {
+    final reachedTime = expectEvent<TimeChangedEvent>(
+      F(E.timeChanged, (event) {
+        return event.time >= time;
+      }),
+    );
+
+    await _player?.play();
+
+    return reachedTime;
+  }
+
   Future<T> expectEvent<T extends Event>(
     SingleEventExpectation eventExpectation,
   ) async {

@@ -97,4 +97,27 @@ void main() {
       ]));
     });
   });
+
+  testWidgets('verify player and playFor', (tester) async {
+    await startPlayerTest(() async {
+      await loadSourceConfig(artOfMotion);
+      await playFor(4.0);
+      await verifyPlayer((player) async {
+        final currentTime = await player.currentTime;
+        expect(currentTime, closeTo(4, 1));
+      });
+    });
+  });
+
+  testWidgets('playUntil and playFor', (tester) async {
+    await startPlayerTest(() async {
+      await loadSourceConfig(artOfMotion);
+      await playUntil(4.0);
+      await playFor(2.0);
+      await verifyPlayer((player) async {
+        final currentTime = await player.currentTime;
+        expect(currentTime, closeTo(6, 2));
+      });
+    });
+  });
 }

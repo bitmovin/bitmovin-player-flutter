@@ -49,6 +49,20 @@ Future<void> callPlayer(
   return PlayerWorld.sharedWorld.callPlayer(playerCaller);
 }
 
+Future<void> verifyPlayer(
+  Future<void> Function(Player) playerCaller,
+) async {
+  return PlayerWorld.sharedWorld.callPlayer(playerCaller);
+}
+
+Future<TimeChangedEvent> playFor(double seconds) async {
+  return PlayerWorld.sharedWorld.playFor(seconds);
+}
+
+Future<TimeChangedEvent> playUntil(double time) async {
+  return PlayerWorld.sharedWorld.playUntil(time);
+}
+
 // TODO(mario): add support for `eventHandlerBlock`
 Future<T> expectEvent<T extends Event>(
   SingleEventExpectation eventExpectation,
