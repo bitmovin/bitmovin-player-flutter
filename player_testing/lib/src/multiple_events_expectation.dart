@@ -33,7 +33,7 @@ class EventSequenceExpectation implements MultipleEventsExpectation {
   }
 }
 
-class EventBagExpectation extends MultipleEventsExpectation {
+class EventBagExpectation implements MultipleEventsExpectation {
   EventBagExpectation(this.singleExpectations);
 
   @override
@@ -53,8 +53,7 @@ class EventBagExpectation extends MultipleEventsExpectation {
   }
 }
 
-class RepeatedEventExpectation<T extends Event>
-    extends EventSequenceExpectation {
+class RepeatedEventExpectation extends EventSequenceExpectation {
   RepeatedEventExpectation(SingleEventExpectation singleExpectation, int count)
       : super(
           List<int>.filled(count, 0)
@@ -63,15 +62,20 @@ class RepeatedEventExpectation<T extends Event>
         );
 }
 
-class AnyEventExpectation extends MultipleEventsExpectation {
+class AnyEventExpectation implements MultipleEventsExpectation {
+  AnyEventExpectation(this.singleExpectations);
+
   @override
-  List<SingleEventExpectation> get singleExpectations =>
-      throw UnimplementedError();
+  final List<SingleEventExpectation> singleExpectations;
   @override
-  int get expectedFulfillmentCount => throw UnimplementedError();
+  int get expectedFulfillmentCount => 1;
 
   @override
   bool isNextExpectationMet(Event receivedEvent) {
-    throw UnimplementedError();
+    final nextUnfulfilled = singleExpectations.firstWhereOrNull(
+      (expectation) => expectation.maybeFulfillExpectation(receivedEvent),
+    );
+
+    return nextUnfulfilled?.isFulfilled ?? false;
   }
 }

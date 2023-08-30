@@ -83,4 +83,15 @@ void main() {
       await expectEvents(R(P(E.timeChanged), 5));
     });
   });
+
+  testWidgets('any event expectation test', (tester) async {
+    await startPlayerTest(() async {
+      await loadSourceConfig(artOfMotion);
+      await callPlayer((player) => player.play());
+      await expectEvents(A([
+        P(E.playing),
+        P(E.timeChanged),
+      ]));
+    });
+  });
 }
