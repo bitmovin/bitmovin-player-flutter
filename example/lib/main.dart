@@ -1,3 +1,4 @@
+import 'package:bitmovin_player_example/pages/analytics.dart';
 import 'package:bitmovin_player_example/pages/fullscreen_handling.dart';
 import 'package:flutter/material.dart';
 import 'package:bitmovin_player_example/pages/basic_playback.dart';
@@ -25,6 +26,7 @@ class _MyAppState extends State<MyApp> {
       initialRoute: '/',
       routes: {
         Home.routeName: (_) => const Home(),
+        AnalyticsExample.routeName: (_) => const AnalyticsExample(),
         BasicPlayback.routeName: (_) => const BasicPlayback(),
         DrmPlayback.routeName: (_) => const DrmPlayback(),
         AudioOnly.routeName: (_) => const AudioOnly(),

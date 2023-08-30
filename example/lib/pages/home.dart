@@ -1,3 +1,4 @@
+import 'package:bitmovin_player_example/pages/analytics.dart';
 import 'package:bitmovin_player_example/pages/fullscreen_handling.dart';
 import 'package:flutter/material.dart';
 import 'package:bitmovin_player_example/pages/basic_playback.dart';
@@ -23,6 +24,12 @@ class Home extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            OutlinedButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(AnalyticsExample.routeName);
+              },
+              child: const Text('Collecting Analytics'),
+            ),
             OutlinedButton(
               onPressed: () {
                 Navigator.of(context).pushNamed(BasicPlayback.routeName);

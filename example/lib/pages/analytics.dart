@@ -5,21 +5,26 @@ import 'package:bitmovin_player_example/controls.dart';
 import 'package:bitmovin_player_example/env/env.dart';
 import 'package:flutter/material.dart';
 
-class BasicPlayback extends StatefulWidget {
-  static String routeName = 'BasicPlayback';
-  const BasicPlayback({super.key});
+class AnalyticsExample extends StatefulWidget {
+  static String routeName = 'Collecting Analytics';
+
+  const AnalyticsExample({super.key});
 
   @override
-  State<BasicPlayback> createState() => _BasicPlaybackState();
+  State<AnalyticsExample> createState() => _AnalyticsExampleState();
 }
 
-class _BasicPlaybackState extends State<BasicPlayback> {
+class _AnalyticsExampleState extends State<AnalyticsExample> {
   final _sourceConfig = SourceConfig(
-    url: Platform.isAndroid
-        ? 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd'
-        : 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8',
-    type: Platform.isAndroid ? SourceType.dash : SourceType.hls,
-  );
+      url: Platform.isAndroid
+          ? 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd'
+          : 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8',
+      type: Platform.isAndroid ? SourceType.dash : SourceType.hls,
+      sourceMetadata: const SourceMetadata(
+        title: "Collecting SourceMetadata Title",
+        customData:
+            CustomData(customData1: "Collecting SourceMetadata customData1"),
+      ));
   final _player = Player(
     config: const PlayerConfig(
         key: Env.bitmovinPlayerLicenseKey,
@@ -27,7 +32,8 @@ class _BasicPlaybackState extends State<BasicPlayback> {
           isAutoplayEnabled: true,
           isMuted: false,
         ),
-    ),
+        analyticsConfig:
+            AnalyticsConfig(licenseKey: Env.bitmovinAnalyticsLicenseKey)),
   );
 
   @override
@@ -46,7 +52,7 @@ class _BasicPlaybackState extends State<BasicPlayback> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Basic Playback'),
+        title: const Text('Collecting Analytics'),
       ),
       body: Column(
         children: [
