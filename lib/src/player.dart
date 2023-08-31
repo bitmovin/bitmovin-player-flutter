@@ -171,7 +171,7 @@ class Player with PlayerEventHandler implements PlayerApi {
 
   @override
   Future<void> sendCustomDataEvent(CustomData customData) async =>
-      _invokeMethod<void>(Methods.sendCustomDataEvent, customData);
+      _invokeMethod<void>(Methods.sendCustomDataEvent, customData.toJson());
 
   @override
   Future<double> get currentTime async =>

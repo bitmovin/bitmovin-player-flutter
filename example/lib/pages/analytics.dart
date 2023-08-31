@@ -76,6 +76,16 @@ class _AnalyticsExampleState extends State<AnalyticsExample> {
                   _player.seek(await _player.currentTime - 10),
             ),
           ),
+          OutlinedButton(
+            onPressed: () {
+              _player.sendCustomDataEvent(
+                  const CustomData(customData5: "Button Clicked"));
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                content: Text("Sent custom data"),
+              ));
+            },
+            child: const Text('Send CustomData Event'),
+          ),
         ],
       ),
     );
