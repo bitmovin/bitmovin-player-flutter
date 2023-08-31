@@ -171,6 +171,7 @@ internal class JPlayerMethodArg(override val map: Map<*, *>) : JStruct {
     val asDouble get() = data as Double
     val asSource get() = JSource(dataAsMap)
     val asSourceConfig get() = JSourceConfig(dataAsMap)
+    val asCustomData get() = JCustomData(dataAsMap)
     private val data by GetAny.require()
     private val dataAsMap get() = data as Map<*, *>
 }

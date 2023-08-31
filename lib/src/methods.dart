@@ -16,6 +16,7 @@ class Methods {
   static const String maxTimeShift = 'maxTimeShift';
   static const String isLive = 'isLive';
   static const String isPlaying = 'isPlaying';
+  static const String sendCustomDataEvent = 'sendCustomDataEvent';
 
   /// Player view related methods
   static const String destroyPlayerView = 'destroyPlayerView';

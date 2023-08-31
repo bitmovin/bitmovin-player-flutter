@@ -170,6 +170,10 @@ class Player with PlayerEventHandler implements PlayerApi {
       _invokeMethod<void>(Methods.seek, time);
 
   @override
+  Future<void> sendCustomDataEvent(CustomData customData) async =>
+      _invokeMethod<void>(Methods.sendCustomDataEvent, customData);
+
+  @override
   Future<double> get currentTime async =>
       await _invokeMethod<double>(Methods.currentTime) ?? 0.0;
 

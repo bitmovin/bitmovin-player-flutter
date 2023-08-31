@@ -5,6 +5,7 @@ import com.bitmovin.analytics.api.AnalyticsConfig
 import com.bitmovin.analytics.api.DefaultMetadata
 import com.bitmovin.player.api.Player
 import com.bitmovin.player.api.PlayerConfig
+import com.bitmovin.player.api.analytics.AnalyticsApi.Companion.analytics
 import com.bitmovin.player.api.analytics.create
 import com.bitmovin.player.api.drm.WidevineConfig
 import com.bitmovin.player.api.source.Source
@@ -85,6 +86,9 @@ class FlutterPlayer(
         Methods.MAX_TIME_SHIFT -> maxTimeShift
         Methods.IS_LIVE -> isLive
         Methods.IS_PLAYING -> isPlaying
+        Methods.SEND_CUSTOM_DATA_EVENT -> this.analytics?.sendCustomDataEvent(arg.asCustomData.toNative())
+            ?: Unit
+
         Methods.DESTROY -> destroyPlayer()
         else -> throw NotImplementedError()
     }
