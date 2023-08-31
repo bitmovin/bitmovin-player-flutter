@@ -29,13 +29,13 @@ Future<dynamic> loadSourceConfig(
 
 Future<T> callPlayerAndExpectEvent<T extends Event>(
   Future<void> Function(Player) playerCaller,
-  SingleEventExpectation eventExpectation,
+  SingleEventExpectation<T> eventExpectation,
 ) async {
   return PlayerWorld.sharedWorld
       .callPlayerAndExpectEvent(playerCaller, eventExpectation);
 }
 
-Future<void> callPlayerAndExpectEvents(
+Future<List<Event>> callPlayerAndExpectEvents(
   Future<void> Function(Player) playerCaller,
   MultipleEventsExpectation eventExpectation,
 ) async {
@@ -63,15 +63,13 @@ Future<TimeChangedEvent> playUntil(double time) async {
   return PlayerWorld.sharedWorld.playUntil(time);
 }
 
-// TODO(mario): add support for `eventHandlerBlock`
 Future<T> expectEvent<T extends Event>(
-  SingleEventExpectation eventExpectation,
+  SingleEventExpectation<T> eventExpectation,
 ) async {
   return PlayerWorld.sharedWorld.expectEvent(eventExpectation);
 }
 
-// TODO(mario): add support for `eventHandlerBlock`
-Future<void> expectEvents(
+Future<List<Event>> expectEvents(
   MultipleEventsExpectation multipleEventsExpectation,
 ) async {
   return PlayerWorld.sharedWorld.expectEvents(multipleEventsExpectation);

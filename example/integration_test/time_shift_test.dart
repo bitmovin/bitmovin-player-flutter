@@ -22,12 +22,13 @@ void main() {
   testWidgets('test framework example', (tester) async {
     await startPlayerTest(() async {
       await loadSourceConfig(kronehit);
-      await callPlayerAndExpectEvent(
+      final event = await callPlayerAndExpectEvent(
         (player) async {
           await player.setTimeShift(-100);
         },
         P(E.timeShift),
       );
+      expect(event.target, lessThan(event.position));
       await expectEvent(P(E.timeShifted));
       await callPlayer((player) async {
         final currentTimeShift = await player.timeShift;
@@ -40,7 +41,8 @@ void main() {
     await startPlayerTest(() async {
       await loadSourceConfig(artOfMotion);
       await callPlayer((player) => player.play());
-      await expectEvent(P(E.timeChanged));
+      final event = await expectEvent(P(E.playing));
+      expect(event.time, closeTo(0, 2));
     });
   });
 
@@ -72,10 +74,13 @@ void main() {
     await startPlayerTest(() async {
       await loadSourceConfig(artOfMotion);
       await callPlayer((player) => player.play());
-      await expectEvents(B([
-        P(E.timeChanged),
-        P(E.playing),
-      ]));
+      final events = await expectEvents(
+        B([
+          P(E.timeChanged),
+          P(E.playing),
+        ]),
+      );
+      expect(events.length, 2);
     });
   });
 

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:bitmovin_player/bitmovin_player.dart';
+import 'package:player_testing/src/events.dart';
 import 'package:player_testing/src/multiple_events_expectation.dart';
 import 'package:player_testing/src/single_event_expectation.dart';
 
@@ -23,14 +24,14 @@ class PlayerWorld {
 
   Future<T> callPlayerAndExpectEvent<T extends Event>(
     Future<void> Function(Player) playerCaller,
-    SingleEventExpectation eventExpectation,
+    SingleEventExpectation<T> eventExpectation,
   ) async {
-    final eventReceived = expectEvent<T>(eventExpectation);
+    final eventReceived = expectEvent(eventExpectation);
     await playerCaller.call(_player!);
     return eventReceived;
   }
 
-  Future<void> callPlayerAndExpectEvents(
+  Future<List<Event>> callPlayerAndExpectEvents(
     Future<void> Function(Player) playerCaller,
     MultipleEventsExpectation eventExpectation,
   ) async {
@@ -51,7 +52,7 @@ class PlayerWorld {
   }
 
   Future<TimeChangedEvent> playUntil(double time) async {
-    final reachedTime = expectEvent<TimeChangedEvent>(
+    final reachedTime = expectEvent(
       F(E.timeChanged, (event) {
         return event.time >= time;
       }),
@@ -63,7 +64,7 @@ class PlayerWorld {
   }
 
   Future<T> expectEvent<T extends Event>(
-    SingleEventExpectation eventExpectation,
+    SingleEventExpectation<T> eventExpectation,
   ) async {
     final completer = Completer<T>();
     final eventReceived = completer.future;
@@ -78,20 +79,22 @@ class PlayerWorld {
     return eventReceived;
   }
 
-  Future<void> expectEvents(
+  Future<List<Event>> expectEvents(
     MultipleEventsExpectation multipleEventsExpectation,
   ) async {
-    final completer = Completer<void>();
+    final completer = Completer<List<Event>>();
     final eventReceived = completer.future;
     var fulfilledExpectations = 0;
+    final receivedEvents = <Event>[];
 
     _player?.onEvent = (receivedEvent) {
       if (!completer.isCompleted &&
           multipleEventsExpectation.isNextExpectationMet(receivedEvent)) {
         fulfilledExpectations++;
+        receivedEvents.add(receivedEvent);
         if (fulfilledExpectations >=
             multipleEventsExpectation.expectedFulfillmentCount) {
-          completer.complete();
+          completer.complete(receivedEvents);
         }
       }
     };
