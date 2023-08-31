@@ -56,4 +56,4 @@ The tests can be executed either through VSCode or by running `flutter test inte
 directory.
 
 Integration tests for the player SDK are written using a separate player testing framework which is located 
-under `player_testing`.
+under `player_testing/`.
