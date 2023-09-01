@@ -117,7 +117,7 @@ mixin PlayerEventHandler implements PlayerListener {
       _eventListeners[key] = [];
     }
 
-    _eventListeners[T.toString()]?.add((Event event) {
+    _eventListeners[key]?.add((Event event) {
       listener(event as T);
     });
   }
