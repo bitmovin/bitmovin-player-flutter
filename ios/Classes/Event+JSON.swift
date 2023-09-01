@@ -95,7 +95,9 @@ extension SourceType {
 extension DrmConfig {
     func toJSON() -> [String: Any] {
         var json: [String: Any] = [:]
-        json["licenseUrl"] = self.licenseUrl
+        if let licenseUrl {
+            json["licenseUrl"] = licenseUrl.absoluteString
+        }
         json["uuid"] = self.uuid.uuidString
         return json
     }
