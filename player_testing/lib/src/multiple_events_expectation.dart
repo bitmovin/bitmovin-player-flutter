@@ -13,6 +13,7 @@ abstract class MultipleEventsExpectation {
   bool isNextExpectationMet(Event receivedEvent);
 }
 
+/// To expect a given event sequence in a given order.
 class EventSequenceExpectation implements MultipleEventsExpectation {
   EventSequenceExpectation(this.singleExpectations);
 
@@ -33,6 +34,7 @@ class EventSequenceExpectation implements MultipleEventsExpectation {
   }
 }
 
+/// To expect multiple events in any order.
 class EventBagExpectation implements MultipleEventsExpectation {
   EventBagExpectation(this.singleExpectations);
 
@@ -53,6 +55,7 @@ class EventBagExpectation implements MultipleEventsExpectation {
   }
 }
 
+/// To expect a given eventType to happen multiple times.
 class RepeatedEventExpectation extends EventSequenceExpectation {
   RepeatedEventExpectation(SingleEventExpectation singleExpectation, int count)
       : super(
@@ -62,6 +65,7 @@ class RepeatedEventExpectation extends EventSequenceExpectation {
         );
 }
 
+/// To expect at least one out of multiple events.
 class AnyEventExpectation implements MultipleEventsExpectation {
   AnyEventExpectation(this.singleExpectations);
 

@@ -2,6 +2,9 @@ import 'package:bitmovin_player/bitmovin_player.dart';
 
 typedef E = Events;
 
+/// Provides event objects to be used with the player testing framework to
+/// specify event expectation or rejections. The Dart generic system needs
+/// instances of objects to be able to infer the type of the generic parameter.
 abstract class Events {
   static const play = PlayEvent(time: 0, timestamp: 0);
   static const playing = PlayingEvent(time: 0, timestamp: 0);

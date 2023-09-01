@@ -10,6 +10,7 @@ abstract class SingleEventExpectation<T extends Event> {
   SingleEventExpectation<T> copy();
 }
 
+/// To expect an event of a given type to occur.
 class PlainEventExpectation<T extends Event>
     implements SingleEventExpectation<T> {
   PlainEventExpectation(T event) {
@@ -37,6 +38,7 @@ class PlainEventExpectation<T extends Event>
   }
 }
 
+/// To expect an event of a given type with a certain condition to occur.
 class FilteredEventExpectation<T extends Event>
     extends PlainEventExpectation<T> {
   FilteredEventExpectation(super.event, this.filter);
