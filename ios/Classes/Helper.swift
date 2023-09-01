@@ -21,6 +21,10 @@ class Helper {
     }
 
     static func toJSONString(_ dictionary: [String: Any]) -> String? {
+        guard JSONSerialization.isValidJSONObject(dictionary) else {
+            return nil
+        }
+
         guard let jsonData = try? JSONSerialization.data(withJSONObject: dictionary, options: [.prettyPrinted]),
               let jsonString = String(data: jsonData, encoding: .utf8) else {
             return nil
