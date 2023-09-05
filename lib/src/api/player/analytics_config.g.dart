@@ -33,7 +33,7 @@ Map<String, dynamic> _$AnalyticsConfigToJson(AnalyticsConfig instance) =>
     };
 
 const _$RetryPolicyEnumMap = {
-  RetryPolicy.noRetry: 'NO_RETRY',
-  RetryPolicy.shortTerm: 'SHORT_TERM',
-  RetryPolicy.longTerm: 'LONG_TERM',
+  RetryPolicy.noRetry: 'NoRetry',
+  RetryPolicy.shortTerm: 'ShortTerm',
+  RetryPolicy.longTerm: 'LongTerm',
 };

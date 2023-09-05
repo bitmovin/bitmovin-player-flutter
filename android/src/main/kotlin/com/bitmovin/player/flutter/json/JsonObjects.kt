@@ -96,7 +96,14 @@ internal class JAnalyticsConfig(override val map: Map<*, *>) : JStruct {
     val licenseKey by GetString.require()
     val adTrackingDisabled by GetBool
     val randomizeUserId by GetBool
-    val retryPolicy by enumGetter<RetryPolicy>()
+    val retryPolicy by enumGetter { stringValue ->
+        when (stringValue) {
+            "NoRetry" -> RetryPolicy.NO_RETRY
+            "ShortTerm" -> RetryPolicy.SHORT_TERM
+            "LongTerm" -> RetryPolicy.LONG_TERM
+            else -> throw InvalidParameterException("Unknown enum value $stringValue")
+        }
+    }
     val backendUrl by GetString
     val defaultMetadata by structGetter(::JDefaultMetadata)
 }
@@ -207,6 +214,9 @@ private fun <T> Getter<T?>.require() = Getter<T> { thisRef, property ->
 }
 
 private inline fun <reified T> listGetter() = getter { list: List<*> -> list.map { it as T } }
+
+private inline fun <reified E : Enum<E>> enumGetter(crossinline customEnumValue: (stringValue: String) -> E) =
+    getter { name: String -> customEnumValue(name) }
 
 private inline fun <reified E : Enum<E>> enumGetter() =
     getter { name: String -> enumValueOf<E>(name, ignoreCase = true) }
