@@ -26,7 +26,7 @@ class Home extends StatelessWidget {
           children: [
             OutlinedButton(
               onPressed: () {
-                Navigator.of(context).pushNamed(AnalyticsExample.routeName);
+                Navigator.of(context).pushNamed(PlayerAnalytics.routeName);
               },
               child: const Text('Collecting Analytics'),
             ),

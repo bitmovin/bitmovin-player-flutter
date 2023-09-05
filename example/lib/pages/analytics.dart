@@ -5,16 +5,16 @@ import 'package:bitmovin_player_example/controls.dart';
 import 'package:bitmovin_player_example/env/env.dart';
 import 'package:flutter/material.dart';
 
-class AnalyticsExample extends StatefulWidget {
+class PlayerAnalytics extends StatefulWidget {
   static String routeName = 'Collecting Analytics';
 
-  const AnalyticsExample({super.key});
+  const PlayerAnalytics({super.key});
 
   @override
-  State<AnalyticsExample> createState() => _AnalyticsExampleState();
+  State<PlayerAnalytics> createState() => _PlayerAnalyticsState();
 }
 
-class _AnalyticsExampleState extends State<AnalyticsExample> {
+class _PlayerAnalyticsState extends State<PlayerAnalytics> {
   final _sourceConfig = SourceConfig(
       url: Platform.isAndroid
           ? 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd'

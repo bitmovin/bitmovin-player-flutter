@@ -26,7 +26,7 @@ class _MyAppState extends State<MyApp> {
       initialRoute: '/',
       routes: {
         Home.routeName: (_) => const Home(),
-        AnalyticsExample.routeName: (_) => const AnalyticsExample(),
+        PlayerAnalytics.routeName: (_) => const PlayerAnalytics(),
         BasicPlayback.routeName: (_) => const BasicPlayback(),
         DrmPlayback.routeName: (_) => const DrmPlayback(),
         AudioOnly.routeName: (_) => const AudioOnly(),
