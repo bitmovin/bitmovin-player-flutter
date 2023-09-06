@@ -20,7 +20,7 @@ class _PlayerAnalyticsState extends State<PlayerAnalytics> {
           ? 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd'
           : 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8',
       type: Platform.isAndroid ? SourceType.dash : SourceType.hls,
-      sourceMetadata: const SourceMetadata(
+      analyticsSourceMetadata: const SourceMetadata(
         title: "Collecting SourceMetadata Title",
         customData:
             CustomData(customData1: "Collecting SourceMetadata customData1"),

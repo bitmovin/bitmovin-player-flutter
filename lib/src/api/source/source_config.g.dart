@@ -38,10 +38,10 @@ SourceConfig _$SourceConfigFromJson(Map<String, dynamic> json) {
     drmConfig: json['drmConfig'] == null
         ? null
         : DrmConfig.fromJson(json['drmConfig'] as Map<String, dynamic>),
-    sourceMetadata: json['sourceMetadata'] == null
+    analyticsSourceMetadata: json['analyticsSourceMetadata'] == null
         ? null
         : SourceMetadata.fromJson(
-            json['sourceMetadata'] as Map<String, dynamic>),
+            json['analyticsSourceMetadata'] as Map<String, dynamic>),
   );
 }
 
@@ -60,7 +60,7 @@ Map<String, dynamic> _$SourceConfigToJson(SourceConfig instance) =>
       'audioCodecPriority': instance.audioCodecPriority,
       'options': instance.options.toJson(),
       'drmConfig': instance.drmConfig?.toJson(),
-      'sourceMetadata': instance.sourceMetadata?.toJson(),
+      'analyticsSourceMetadata': instance.analyticsSourceMetadata?.toJson(),
     };
 
 const _$SourceTypeEnumMap = {

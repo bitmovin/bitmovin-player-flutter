@@ -32,7 +32,7 @@ internal class JSourceConfig(override val map: Map<*, *>) : JStruct {
     val posterSource by GetString
     val options by structGetter(::JSourceOptions)
     val drmConfig by structGetter(::JDrmConfig)
-    val sourceMetadata by structGetter(::JSourceMetadata)
+    val analyticsSourceMetadata by structGetter(::JSourceMetadata)
 }
 
 internal class JSourceMetadata(override val map: Map<*, *>) : JStruct {

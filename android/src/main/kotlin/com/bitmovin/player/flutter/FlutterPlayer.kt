@@ -63,7 +63,7 @@ class FlutterPlayer(
             )
         }
 
-        val sourceMetadata = jSourceConfig.sourceMetadata?.toNative()
+        val sourceMetadata = jSourceConfig.analyticsSourceMetadata?.toNative()
         if (sourceMetadata != null) {
             load(Source.create(sourceConfig, sourceMetadata))
         } else {
