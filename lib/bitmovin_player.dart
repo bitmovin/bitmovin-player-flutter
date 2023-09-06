@@ -1,3 +1,4 @@
+export 'src/api/analytics/analytics_config.dart';
 export 'src/api/analytics/custom_data.dart';
 export 'src/api/analytics/default_metadata.dart';
 export 'src/api/analytics/source_metadata.dart';
@@ -32,7 +33,6 @@ export 'src/api/event/source/source_removed_event.dart';
 export 'src/api/event/source/source_unloaded_event.dart';
 export 'src/api/event/source/source_warning_event.dart';
 export 'src/api/media/media_filter.dart';
-export 'src/api/player/analytics_config.dart';
 export 'src/api/player/licensing_config.dart';
 export 'src/api/player/live_config.dart';
 export 'src/api/player/playback_config.dart';
