@@ -1,19 +1,30 @@
 name: Generate documentation
 on:
   workflow_call:
+    inputs:
+      version_number:
+        description: 'Version number of the release (no `-rc.`, `-b.`, `-a.` suffix)'
+        type: string
+        required: true
     secrets:
-      # PLAYER_CI_GH_TOKEN:
-      #   description: GitHub token to access player-ci repo for CI scripts
-      #   required: true
+      PLAYER_CI_GH_TOKEN:
+        description: GitHub token to access player-ci repo for CI scripts
+        required: true
       GCS_ACCOUNT:
         description: Google Cloud Storage account for uploading API docs
         required: true
   workflow_dispatch:
+    inputs:
+      version_number:
+        description: 'Version number of the release (no `-rc.`, `-b.`, `-a.` suffix)'
+        type: string
+        required: true
 jobs:
   generate-documentation:
     env:
-      GH_TOKEN: ${{ github.token }}
+      GH_TOKEN: ${{ secrets.PLAYER_CI_GH_TOKEN }}
       GCS_ACCOUNT: ${{ secrets.GCS_ACCOUNT }}
+      PCI_BRANCH: ${{ inputs.version_number }}
     name: Generate documentation
     runs-on: ubuntu-latest
     steps:
@@ -35,9 +46,15 @@ jobs:
         run: flutter analyze
       - name: Generate documentation
         run: dart doc .
-      - shell: bash
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install CI scripts
         run: |
-          curl -sS -H 'Authorization: token #{GH_TOKEN}' -L https://raw.githubusercontent.com/bitmovin-engineering/player-ci/master/install.sh | bash
-          echo #{GH_TOKEN}
-      # TODO: upload doc to CDN
-      # TODO: purge CDN cache
+          curl -sS -H "Authorization: token ${GH_TOKEN}" -L https://raw.githubusercontent.com/bitmovin-engineering/player-ci/master/install.sh | bash
+      - name: Upload to CDN
+        run: |
+          node ./ci_scripts/src/uploadToGcs.js flutter ./doc/api
+      - name: Purge CDN cache
+        run: |
+          node ci_scripts/src/purgeCloudflarePath.js 'flutter'
