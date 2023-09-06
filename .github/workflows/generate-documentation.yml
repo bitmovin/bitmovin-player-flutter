@@ -7,11 +7,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Flutter action
+      - name: Prepare Flutter environment
         uses: subosito/flutter-action@v2
+      # TODO: Turn this into an action
+      - name: Create env file
+        run: |
+          touch .env
+          echo BITMOVIN_PLAYER_LICENSE_KEY=_unset_ >> .env
+          echo BITMOVIN_ANALYTICS_LICENSE_KEY=_unset_ >> .env
+      - name: Generate missing part files
+        run: flutter pub run build_runner build --delete-conflicting-outputs
       - name: Install dependencies
-        run: dart pub get
+        run: flutter pub get
       - name: Analyze project source
-        run: dart analyze
+        run: flutter analyze
       - name: Generate documentation
         run: dart doc .
