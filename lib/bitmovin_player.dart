@@ -1,3 +1,4 @@
+export 'src/api/analytics/analytics_api.dart';
 export 'src/api/analytics/analytics_config.dart';
 export 'src/api/analytics/custom_data.dart';
 export 'src/api/analytics/default_metadata.dart';

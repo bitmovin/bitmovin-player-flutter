@@ -30,8 +30,6 @@ abstract class PlayerApi {
   /// [setTimeShift].
   Future<void> seek(double time);
 
-  Future<void> sendCustomDataEvent(CustomData customData);
-
   /// The current playback time of the active [Source] in seconds.
   /// For VoD streams the returned time ranges between 0 and the duration of
   /// the asset. For live streams, a Unix timestamp denoting the current
@@ -66,4 +64,6 @@ abstract class PlayerApi {
   /// Whether the player is currently playing, i.e. has started playback and is
   /// not paused.
   Future<bool> get isPlaying;
+
+  AnalyticsApi get analytics;
 }
