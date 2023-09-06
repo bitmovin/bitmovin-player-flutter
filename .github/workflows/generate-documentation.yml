@@ -1,15 +1,26 @@
 name: Generate documentation
 on:
+  workflow_call:
+    secrets:
+      # PLAYER_CI_GH_TOKEN:
+      #   description: GitHub token to access player-ci repo for CI scripts
+      #   required: true
+      GCS_ACCOUNT:
+        description: Google Cloud Storage account for uploading API docs
+        required: true
   workflow_dispatch:
 jobs:
   generate-documentation:
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GCS_ACCOUNT: ${{ secrets.GCS_ACCOUNT }}
     name: Generate documentation
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - name: Prepare Flutter environment
         uses: subosito/flutter-action@v2
-      # TODO: Turn this into an action. Maybe also include flutter-action@v2 there
+      # TODO: Turn this into an action. Maybe also include flutter-action@v2 and generating files there
       - name: Create env file
         run: |
           touch .env
@@ -17,10 +28,16 @@ jobs:
           echo BITMOVIN_ANALYTICS_LICENSE_KEY=_unset_ >> .env
       - name: Generate missing part files
         run: flutter pub run build_runner build --delete-conflicting-outputs
+      # TODO: Turn "Install dependencies" and "Analyze project source" into a single action
       - name: Install dependencies
         run: flutter pub get
       - name: Analyze project source
         run: flutter analyze
       - name: Generate documentation
         run: dart doc .
+      - shell: bash
+        run: |
+          curl -sS -H 'Authorization: token #{GH_TOKEN}' -L https://raw.githubusercontent.com/bitmovin-engineering/player-ci/master/install.sh | bash
+          echo #{GH_TOKEN}
       # TODO: upload doc to CDN
+      # TODO: purge CDN cache
