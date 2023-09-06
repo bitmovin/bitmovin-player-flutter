@@ -85,7 +85,7 @@ class _PlayerAnalyticsState extends State<PlayerAnalytics> {
                 content: Text("Sent custom data"),
               ));
             },
-            child: const Text('Send CustomData Event'),
+            child: const Text('Send custom data'),
           ),
         ],
       ),
