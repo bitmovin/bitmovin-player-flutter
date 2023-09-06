@@ -12,10 +12,22 @@ part 'env.g.dart';
 /// in the project root to generate the `env.g.dart` file.
 @Envied(path: '.env')
 abstract class Env {
+  static const String _unset = '__UNSET__';
+
+  // default value of 'null' is not supported, so we have to work around it
+  // and return null, in case the defaultValue is set;
+  // this will enable us to check optional environment variables against null!
+  static String? _getOptionalValue(String envValue) {
+    if (envValue == _unset) {
+      return null;
+    }
+    return envValue;
+  }
+
   @EnviedField(varName: 'BITMOVIN_PLAYER_LICENSE_KEY')
   static const String bitmovinPlayerLicenseKey = _Env.bitmovinPlayerLicenseKey;
 
-  @EnviedField(varName: 'BITMOVIN_ANALYTICS_LICENSE_KEY')
-  static const String bitmovinAnalyticsLicenseKey =
-      _Env.bitmovinAnalyticsLicenseKey;
+  @EnviedField(varName: 'BITMOVIN_ANALYTICS_LICENSE_KEY', defaultValue: _unset)
+  static String? bitmovinAnalyticsLicenseKey =
+      _getOptionalValue(_Env.bitmovinAnalyticsLicenseKey);
 }

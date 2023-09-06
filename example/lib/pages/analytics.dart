@@ -26,14 +26,15 @@ class _PlayerAnalyticsState extends State<PlayerAnalytics> {
             CustomData(customData1: "Collecting SourceMetadata customData1"),
       ));
   final _player = Player(
-    config: const PlayerConfig(
+    config: PlayerConfig(
         key: Env.bitmovinPlayerLicenseKey,
-        playbackConfig: PlaybackConfig(
+        playbackConfig: const PlaybackConfig(
           isAutoplayEnabled: true,
           isMuted: false,
         ),
-        analyticsConfig:
-            AnalyticsConfig(licenseKey: Env.bitmovinAnalyticsLicenseKey)),
+        analyticsConfig: Env.bitmovinAnalyticsLicenseKey != null
+            ? AnalyticsConfig(licenseKey: Env.bitmovinAnalyticsLicenseKey!)
+            : null),
   );
 
   @override
