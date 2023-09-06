@@ -1,0 +1,10 @@
+name: Generate documentation
+on:
+  workflow_dispatch:
+jobs:
+  generate-documentation:
+    name: Generate documentation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "Generating documentation..."
