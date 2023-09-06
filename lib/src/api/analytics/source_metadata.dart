@@ -1,14 +1,10 @@
-import 'package:bitmovin_player/src/api/analytics/custom_data.dart';
+import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'source_metadata.g.dart';
 
-///  DefaultMetadata that can be used to enrich the analytics data.
-///  DefaultMetadata is not bound to a specific source and can be used to set
-///  fields for the lifecycle of the collector.
-///  If fields are specified in SourceMetadata and DefaultMetadata,
-///  SourceMetadata takes precedence.
+///[SourceMetadata] that can be used to enrich the analytics data.
 @JsonSerializable(explicitToJson: true)
 class SourceMetadata extends Equatable {
   const SourceMetadata({
@@ -35,8 +31,8 @@ class SourceMetadata extends Equatable {
   final String? videoId;
 
   /// CDN Provider used to serve content.
-  /// If field is specified in SourceMetadata and DefaultMetadata,
-  /// SourceMetadata takes precedence.
+  /// If field is specified in [SourceMetadata] and [DefaultMetadata],
+  /// [SourceMetadata] takes precedence.
   @JsonKey(name: 'cdnProvider')
   final String? cdnProvider;
 
@@ -49,8 +45,8 @@ class SourceMetadata extends Equatable {
   final bool? isLive;
 
   /// Free-form data that can be used to enrich the analytics data
-  /// If customData is specified in SourceMetadata and DefaultMetadata
-  /// data is merged on a field basis with SourceMetadata taking precedence.
+  /// If customData is specified in [SourceMetadata] and [DefaultMetadata]
+  /// data is merged on a field basis with [SourceMetadata] taking precedence.
   @JsonKey(name: 'customData')
   final CustomData customData;
 
