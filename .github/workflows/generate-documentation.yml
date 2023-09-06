@@ -7,4 +7,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: echo "Generating documentation..."
+      - name: Flutter action
+        uses: subosito/flutter-action@v2.10.0
+      - name: Install dependencies
+        run: dart pub get
+      - name: Analyze project source
+        run: dart analyze
+      - name: Generate documentation
+        run: dart doc .
