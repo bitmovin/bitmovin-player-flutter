@@ -142,7 +142,7 @@ private extension FlutterPlayer {
         }
         
         let source: Source
-        if (sourceMetadata == nil) {
+        if sourceMetadata == nil {
             source = SourceFactory.create(from: sourceConfig)
         } else {
             source = SourceFactory.create(from: sourceConfig, sourceMetadata: sourceMetadata!)
