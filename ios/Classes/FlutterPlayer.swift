@@ -140,12 +140,12 @@ private extension FlutterPlayer {
                 methodChannel: methodChannel
             )
         }
-        
+
         let source: Source
-        if sourceMetadata == nil {
-            source = SourceFactory.create(from: sourceConfig)
+        if let sourceMetadata {
+            source = SourceFactory.create(from: sourceConfig, sourceMetadata: sourceMetadata)
         } else {
-            source = SourceFactory.create(from: sourceConfig, sourceMetadata: sourceMetadata!)
+            source = SourceFactory.create(from: sourceConfig)
         }
 
         player.load(source: source)
