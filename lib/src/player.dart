@@ -201,17 +201,17 @@ class Player with PlayerEventHandler implements PlayerApi {
   Future<void> dispose() async => _invokeMethod<void>(Methods.destroy);
 
   @override
-  AnalyticsApi get analytics => _AnalyticsApiImpl(this);
+  AnalyticsApi get analytics => _AnalyticsApi(this);
 }
 
-class _AnalyticsApiImpl extends AnalyticsApi {
-  // as flutter does not support inner classes,
-  // we need to pass the player as parameter
-  _AnalyticsApiImpl(this._player);
+class _AnalyticsApi implements AnalyticsApi {
+  // Dart does not support inner classes,
+  // so we need to pass the player as parameter
+  _AnalyticsApi(this._player);
 
   final Player _player;
 
   @override
-  Future<void> sendCustomData(CustomData customData) async => _player
+  Future<void> sendCustomDataEvent(CustomData customData) async => _player
       ._invokeMethod<void>(Methods.sendCustomDataEvent, customData.toJson());
 }

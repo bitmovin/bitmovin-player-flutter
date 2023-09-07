@@ -79,7 +79,7 @@ class _PlayerAnalyticsState extends State<PlayerAnalytics> {
           ),
           OutlinedButton(
             onPressed: () {
-              _player.analytics.sendCustomData(
+              _player.analytics.sendCustomDataEvent(
                   const CustomData(customData5: "Button Clicked"));
               ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                 content: Text("Sent custom data"),
