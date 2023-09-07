@@ -2,10 +2,10 @@ PODS:
   - bitmovin_player (0.0.1):
     - BitmovinPlayer
     - Flutter
-  - BitmovinAnalyticsCollector/BitmovinPlayer (3.1.0):
+  - BitmovinAnalyticsCollector/BitmovinPlayer (3.1.1):
     - BitmovinAnalyticsCollector/Core
     - BitmovinPlayerCore (~> 3.41)
-  - BitmovinAnalyticsCollector/Core (3.1.0)
+  - BitmovinAnalyticsCollector/Core (3.1.1)
   - BitmovinPlayer (3.44.0):
     - BitmovinAnalyticsCollector/BitmovinPlayer (~> 3.0)
     - BitmovinPlayerCore (= 3.44.0)
@@ -31,7 +31,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   bitmovin_player: 446194a0aa46e5b2d76b03a5d45288287f6982b1
-  BitmovinAnalyticsCollector: 74b41c9e0d40462d34ba6b8cf4526984258e28f5
+  BitmovinAnalyticsCollector: 6aa2e995e325d95d1145bcad3d733d2f8c301c00
   BitmovinPlayer: 2e5b0234c4a49a7c95eb3232d18e3e803013e5c6
   BitmovinPlayerCore: 40c239be011d89c81106dea0cb7e37dcf4beee72
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854

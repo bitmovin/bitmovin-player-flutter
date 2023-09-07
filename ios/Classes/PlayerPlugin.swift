@@ -1,5 +1,6 @@
 import Flutter
 import UIKit
+import BitmovinPlayerAnalytics
 
 public class PlayerPlugin: NSObject, FlutterPlugin {
     private let messenger: FlutterBinaryMessenger
@@ -31,6 +32,10 @@ public class PlayerPlugin: NSObject, FlutterPlugin {
         }
     }
 
+    func log(_ message:String){
+        let logger = ConsoleLogger()
+        logger.log(BitmovinPlayerCore.LogEntry(message: message, level: LogLevel.error, code: nil, sender: "LUG", data: nil))
+    }
     private func handleCreatePlayer(arguments: [String: Any], result: @escaping FlutterResult) {
         guard let id = arguments["id"] as? String,
               let playerConfigJson = arguments["playerConfig"] as? [AnyHashable: Any] else {
@@ -39,11 +44,25 @@ public class PlayerPlugin: NSObject, FlutterPlugin {
         }
 
         let config = Helper.playerConfig(playerConfigJson)
+        let analyticsConfig = Helper.analyticsConfig(playerConfigJson["analyticsConfig"])
+        let defaultMetadata = Helper.defaultMetadata(playerConfigJson["analyticsConfig"])
+        
+        
+        log("config: " + (playerConfigJson["analyticsConfig"] as? [AnyHashable: Any])!.description)
+        log("analyticsConfig: " + (analyticsConfig?.description ?? "null"))
+        log("defaultMetadata: " + (defaultMetadata?.description ?? "null"))
+        log("key: " + (analyticsConfig?.licenseKey ?? "null"))
+        
+
         // TODO: Maybe make this nicer. It is weird that we do not retain `PlayerMethod` explicitly. It is only retained
         // by Flutter because it listens to method and event channels. Instead of storing player instance in
         // `PlayerManager` we could store `PlayerMethod` instance, that would make the code a bit more structured and
         // easier to grasp.
-        let _ = FlutterPlayer(id: id, playerConfig: config, messenger: messenger)
+        let _ = FlutterPlayer(id: id,
+                              playerConfig: config,
+                              analyticsConfig: analyticsConfig,
+                              defaultMetadata: defaultMetadata,
+                              messenger: messenger)
         result(true)
     }
 }

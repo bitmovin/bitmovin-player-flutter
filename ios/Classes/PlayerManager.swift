@@ -1,4 +1,5 @@
 import BitmovinPlayer
+import BitmovinPlayerAnalytics
 
 class PlayerManager {
     typealias PlayerCreated = (Player) -> Void
@@ -9,12 +10,21 @@ class PlayerManager {
 
     private init() {}
 
-    func createPlayer(id: String, config: PlayerConfig?) -> Player {
+    func createPlayer(id: String, config: PlayerConfig?, analyticsConfig: AnalyticsConfig?, defaultMetadata: DefaultMetadata?) -> Player {
         if hasPlayer(id: id) {
             destroy(id: id)
         }
+        
+        let player: Player
 
-        let player = PlayerFactory.create(playerConfig: config ?? PlayerConfig())
+        if(analyticsConfig != nil){
+            player = PlayerFactory.create(playerConfig: config ?? PlayerConfig(),
+                                                analyticsConfig: analyticsConfig!,
+                                                defaultMetadata: defaultMetadata ?? DefaultMetadata())
+        } else {
+            player = PlayerFactory.create(playerConfig: config ?? PlayerConfig())
+        }
+        
         players[id] = player
 
         DispatchQueue.main.async { [weak self] in
