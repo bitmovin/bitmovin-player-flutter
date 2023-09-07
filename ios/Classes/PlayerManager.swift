@@ -10,17 +10,23 @@ class PlayerManager {
 
     private init() {}
 
-    func createPlayer(id: String, config: PlayerConfig?, analyticsConfig: AnalyticsConfig?, defaultMetadata: DefaultMetadata?) -> Player {
+    func createPlayer(
+        id: String,
+        config: PlayerConfig?,
+        analyticsConfig: AnalyticsConfig?,
+        defaultMetadata: DefaultMetadata?
+    ) -> Player {
         if hasPlayer(id: id) {
             destroy(id: id)
         }
-        
-        let player: Player
 
-        if(analyticsConfig != nil){
-            player = PlayerFactory.create(playerConfig: config ?? PlayerConfig(),
-                                                analyticsConfig: analyticsConfig!,
-                                                defaultMetadata: defaultMetadata ?? DefaultMetadata())
+        let player: Player
+        if let analyticsConfig {
+            player = PlayerFactory.create(
+                playerConfig: config ?? PlayerConfig(),
+                analyticsConfig: analyticsConfig,
+                defaultMetadata: defaultMetadata ?? DefaultMetadata()
+            )
         } else {
             player = PlayerFactory.create(playerConfig: config ?? PlayerConfig())
         }
