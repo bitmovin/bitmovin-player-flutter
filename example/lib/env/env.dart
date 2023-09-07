@@ -6,7 +6,7 @@ part 'env.g.dart';
 /// which contains the bitmovin player license key as
 /// `BITMOVIN_PLAYER_LICENSE_KEY=YOUR_LICENSE_KEY` where `YOUR_LICENSE_KEY`
 /// is your private bitmovin player license key.
-/// Optionally also add the `BITMOVIN_ANALYTICS_LICENSE_KEY=YOUR_LICENSE_KEY`
+/// Optionally, also add the `BITMOVIN_ANALYTICS_LICENSE_KEY=YOUR_LICENSE_KEY`
 /// where `YOUR_LICENSE_KEY` is your private bitmovin analytics license key.
 /// Then run `flutter pub run build_runner build --delete-conflicting-outputs`
 /// in the project root to generate the `env.g.dart` file.
@@ -14,7 +14,7 @@ part 'env.g.dart';
 abstract class Env {
   static const String _unset = '__UNSET__';
 
-  // default value of 'null' is not supported, so we have to work around it
+  // Default value of 'null' is not supported, so we have to work around it
   // and return null, in case the defaultValue is set;
   // this will enable us to check optional environment variables against null!
   static String? _getOptionalValue(String envValue) {
