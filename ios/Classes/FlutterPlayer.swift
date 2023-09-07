@@ -25,7 +25,12 @@ class FlutterPlayer: NSObject {
         self.id = id
         methodChannel = FlutterMethodChannel(name: Channels.player + "-\(id)", binaryMessenger: messenger)
         eventChannel = FlutterEventChannel(name: Channels.playerEvent + "-\(id)", binaryMessenger: messenger)
-        player = PlayerManager.shared.createPlayer(id: id, config: playerConfig, analyticsConfig: analyticsConfig, defaultMetadata: defaultMetadata)
+        player = PlayerManager.shared.createPlayer(
+            id: id,
+            config: playerConfig,
+            analyticsConfig: analyticsConfig,
+            defaultMetadata: defaultMetadata
+        )
 
         super.init()
 
@@ -63,14 +68,21 @@ private extension FlutterPlayer {
         switch (call.method, arguments) {
         case (Methods.loadWithSourceConfig, .json(let sourceConfigJson)):
             if let (sourceConfig, metadata) = Helper.sourceConfig(sourceConfigJson) {
-                let sourceMetadata = Helper.sourceMetadata(sourceConfigJson["analyticsSourceMetadata"])
+                let sourceMetadata = MessageDecoder.toNative(
+                    type: FlutterSourceMetadata.self,
+                    from: sourceConfigJson["analyticsSourceMetadata"]
+                )
                 handleLoadWithSourceConfig(sourceConfig, metadata: metadata, sourceMetadata: sourceMetadata)
             } else {
                 return FlutterError()
             }
         case (Methods.loadWithSource, .json(let sourceJson)):
-            if let (source, metadata) = Helper.source(sourceJson) {
-                let sourceMetadata = Helper.sourceMetadata(sourceJson["analyticsSourceMetadata"])
+            if let (source, metadata) = Helper.source(sourceJson),
+               let sourceConfigJson = sourceJson["sourceConfig"] as? [String: Any] {
+                let sourceMetadata = MessageDecoder.toNative(
+                    type: FlutterSourceMetadata.self,
+                    from: sourceConfigJson["analyticsSourceMetadata"]
+                )
                 handleLoadWithSourceConfig(source.sourceConfig, metadata: metadata, sourceMetadata: sourceMetadata)
             } else {
                 return FlutterError()
@@ -102,11 +114,11 @@ private extension FlutterPlayer {
         case (Methods.destroy, .empty):
             destroyPlayer()
         case (Methods.sendCustomDataEvent, .json(let customDataJson)):
-            let customData = Helper.customData(customDataJson)
-            if (customData == nil) {
-                return nil
+            if let customData = MessageDecoder.toNative(type: FlutterCustomData.self, from: customDataJson) {
+                sendCustomDataEvent(customData: customData)
+            } else {
+                return FlutterError()
             }
-            sendCustomDataEvent(customData: customData!)
         default:
             return FlutterMethodNotImplemented
         }

@@ -30,7 +30,7 @@ class PlayerManager {
         } else {
             player = PlayerFactory.create(playerConfig: config ?? PlayerConfig())
         }
-        
+
         players[id] = player
 
         DispatchQueue.main.async { [weak self] in

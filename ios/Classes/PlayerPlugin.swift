@@ -32,10 +32,6 @@ public class PlayerPlugin: NSObject, FlutterPlugin {
         }
     }
 
-    func log(_ message:String){
-        let logger = ConsoleLogger()
-        logger.log(BitmovinPlayerCore.LogEntry(message: message, level: LogLevel.error, code: nil, sender: "LUG", data: nil))
-    }
     private func handleCreatePlayer(arguments: [String: Any], result: @escaping FlutterResult) {
         guard let id = arguments["id"] as? String,
               let playerConfigJson = arguments["playerConfig"] as? [AnyHashable: Any] else {
@@ -44,15 +40,16 @@ public class PlayerPlugin: NSObject, FlutterPlugin {
         }
 
         let config = Helper.playerConfig(playerConfigJson)
-        let analyticsConfig = Helper.analyticsConfig(playerConfigJson["analyticsConfig"])
-        let defaultMetadata = Helper.defaultMetadata(playerConfigJson["analyticsConfig"])
-        
-        
-        log("config: " + (playerConfigJson["analyticsConfig"] as? [AnyHashable: Any])!.description)
-        log("analyticsConfig: " + (analyticsConfig?.description ?? "null"))
-        log("defaultMetadata: " + (defaultMetadata?.description ?? "null"))
-        log("key: " + (analyticsConfig?.licenseKey ?? "null"))
-        
+
+        let analyticsConfigJson = playerConfigJson["analyticsConfig"] as? [AnyHashable: Any]
+        let defaultMetadataJson = analyticsConfigJson?["defaultMetadata"] as? [AnyHashable: Any]
+        let analyticsConfig = MessageDecoder.toNative(type: FlutterAnalyticsConfig.self, from: analyticsConfigJson)
+        let defaultMetadata = MessageDecoder.toNative(type: FlutterDefaultMetadata.self, from: defaultMetadataJson)
+
+        getLogger().log("analyticsConfigJson: \(analyticsConfigJson?.debugDescription ?? "")", .info)
+        getLogger().log("analyticsConfig: \(analyticsConfig?.debugDescription ?? "")", .info)
+        getLogger().log("defaultMetadata: \(defaultMetadata?.debugDescription ?? "")", .info)
+        getLogger().log("key: \(analyticsConfig?.licenseKey ?? "")", .info)
 
         // TODO: Maybe make this nicer. It is weird that we do not retain `PlayerMethod` explicitly. It is only retained
         // by Flutter because it listens to method and event channels. Instead of storing player instance in

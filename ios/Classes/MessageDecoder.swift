@@ -9,4 +9,14 @@ class MessageDecoder {
 
         return try? JSONDecoder().decode(type.self, from: jsonData)
     }
+
+    static func toNative<T: FlutterToNativeConvertible>(type: T.Type, from data: Any?) -> T.NativeObject? {
+        guard let dataDict = data as? [String: Any],
+              let jsonData = try? JSONSerialization.data(withJSONObject: dataDict),
+              let decoded = try? JSONDecoder().decode(type.self, from: jsonData) else {
+            return nil
+        }
+
+        return decoded.toNative()
+    }
 }
