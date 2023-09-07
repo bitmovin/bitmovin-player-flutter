@@ -17,19 +17,13 @@ struct FlutterAnalyticsConfig: FlutterToNativeConvertible {
     func toNative() -> AnalyticsConfig {
         let retryPolicy: RetryPolicy
         switch self.retryPolicy {
-        case "NoRetry":
+        case "ShortTerm", "NoRetry":
             retryPolicy = RetryPolicy.noRetry
             break
         case "LongTerm":
             retryPolicy = RetryPolicy.longTerm
             break;
-        case "ShortTerm":
-            // TODO: is this enum value not available on iOS?
-            retryPolicy = RetryPolicy.longTerm
-            break;
         default:
-            // TODO: should we throw here?
-            // fallback to no-retry
             retryPolicy = RetryPolicy.noRetry
             break;
         }
