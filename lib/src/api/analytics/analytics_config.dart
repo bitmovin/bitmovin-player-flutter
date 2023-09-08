@@ -12,7 +12,7 @@ class AnalyticsConfig extends Equatable {
     this.adTrackingDisabled = false,
     this.randomizeUserId = false,
     this.retryPolicy = RetryPolicy.noRetry,
-    this.backendUrl = 'https://analytics-ingress-global.bitmovin.com/',
+    this.backendUrl = 'https://analytics-ingress-global.bitmovin.com',
     this.defaultMetadata = const DefaultMetadata(),
   });
 
@@ -48,7 +48,7 @@ class AnalyticsConfig extends Equatable {
   @JsonKey(name: 'backendUrl')
   final String backendUrl;
 
-  @JsonKey(name:'defaultMetadata')
+  @JsonKey(name: 'defaultMetadata')
   final DefaultMetadata defaultMetadata;
 
   @override

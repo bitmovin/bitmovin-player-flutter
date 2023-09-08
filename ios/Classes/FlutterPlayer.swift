@@ -1,4 +1,5 @@
 import BitmovinPlayer
+import BitmovinPlayerAnalytics
 import Flutter
 import Foundation
 
@@ -17,12 +18,19 @@ class FlutterPlayer: NSObject {
     init(
         id: String,
         playerConfig: PlayerConfig,
+        analyticsConfig: AnalyticsConfig?,
+        defaultMetadata: DefaultMetadata?,
         messenger: FlutterBinaryMessenger
     ) {
         self.id = id
         methodChannel = FlutterMethodChannel(name: Channels.player + "-\(id)", binaryMessenger: messenger)
         eventChannel = FlutterEventChannel(name: Channels.playerEvent + "-\(id)", binaryMessenger: messenger)
-        player = PlayerManager.shared.createPlayer(id: id, config: playerConfig)
+        player = PlayerManager.shared.createPlayer(
+            id: id,
+            config: playerConfig,
+            analyticsConfig: analyticsConfig,
+            defaultMetadata: defaultMetadata
+        )
 
         super.init()
 
@@ -51,6 +59,7 @@ private extension FlutterPlayer {
         result(methodCallResult)
     }
 
+    // swiftlint:disable:next cyclomatic_complexity
     func handleMethodCall(call: FlutterMethodCall) -> Any? {
         guard let arguments = Helper.methodCallArguments(call.arguments) else {
             return FlutterError()
@@ -59,13 +68,22 @@ private extension FlutterPlayer {
         switch (call.method, arguments) {
         case (Methods.loadWithSourceConfig, .json(let sourceConfigJson)):
             if let (sourceConfig, metadata) = Helper.sourceConfig(sourceConfigJson) {
-                handleLoadWithSourceConfig(sourceConfig, metadata: metadata)
+                let sourceMetadata = MessageDecoder.toNative(
+                    type: FlutterSourceMetadata.self,
+                    from: sourceConfigJson["analyticsSourceMetadata"]
+                )
+                handleLoadWithSourceConfig(sourceConfig, metadata: metadata, sourceMetadata: sourceMetadata)
             } else {
                 return FlutterError()
             }
         case (Methods.loadWithSource, .json(let sourceJson)):
-            if let (source, metadata) = Helper.source(sourceJson) {
-                handleLoadWithSourceConfig(source.sourceConfig, metadata: metadata)
+            if let (source, metadata) = Helper.source(sourceJson),
+               let sourceConfigJson = sourceJson["sourceConfig"] as? [String: Any] {
+                let sourceMetadata = MessageDecoder.toNative(
+                    type: FlutterSourceMetadata.self,
+                    from: sourceConfigJson["analyticsSourceMetadata"]
+                )
+                handleLoadWithSourceConfig(source.sourceConfig, metadata: metadata, sourceMetadata: sourceMetadata)
             } else {
                 return FlutterError()
             }
@@ -95,6 +113,12 @@ private extension FlutterPlayer {
             return player.isPlaying
         case (Methods.destroy, .empty):
             destroyPlayer()
+        case (Methods.sendCustomDataEvent, .json(let customDataJson)):
+            if let customData = MessageDecoder.toNative(type: FlutterCustomData.self, from: customDataJson) {
+                sendCustomDataEvent(customData: customData)
+            } else {
+                return FlutterError()
+            }
         default:
             return FlutterMethodNotImplemented
         }
@@ -106,7 +130,8 @@ private extension FlutterPlayer {
 
     func handleLoadWithSourceConfig(
         _ sourceConfig: SourceConfig,
-        metadata: FairplayConfig.Metadata?
+        metadata: FairplayConfig.Metadata?,
+        sourceMetadata: SourceMetadata?
     ) {
         if let fairplayConfig = sourceConfig.drmConfig as? FairplayConfig, let metadata {
             self.fairplayCallbacksHandler = FairplayCallbacksHandler(
@@ -116,13 +141,24 @@ private extension FlutterPlayer {
             )
         }
 
-        player.load(sourceConfig: sourceConfig)
+        let source: Source
+        if let sourceMetadata {
+            source = SourceFactory.create(from: sourceConfig, sourceMetadata: sourceMetadata)
+        } else {
+            source = SourceFactory.create(from: sourceConfig)
+        }
+
+        player.load(source: source)
     }
 
     func destroyPlayer() {
         PlayerManager.shared.destroy(id: id)
         methodChannel.setMethodCallHandler(nil)
         eventChannel.setStreamHandler(nil)
+    }
+    
+    func sendCustomDataEvent(customData:CustomData) {
+        player.analytics?.sendCustomDataEvent(customData: customData)
     }
 }
 
