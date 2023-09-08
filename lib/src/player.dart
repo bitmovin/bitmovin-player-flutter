@@ -55,7 +55,7 @@ class Player with PlayerEventHandler implements PlayerApi {
       _eventChannel = ChannelManager.registerEventChannel(
         name: '${Channels.playerEvent}-$id',
       );
-      _eventChannel.receiveBroadcastStream().listen(onEvent);
+      _eventChannel.receiveBroadcastStream().listen(onPlatformEvent);
 
       _completer.complete(true);
     });
