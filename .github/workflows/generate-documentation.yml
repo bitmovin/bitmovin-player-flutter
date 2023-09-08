@@ -29,8 +29,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install Flutter
-        uses: subosito/flutter-action@v2
       - name: Prepare dependencies and development environment
         uses: ./.github/actions/prepare-dependencies
       - name: Analyze project source
