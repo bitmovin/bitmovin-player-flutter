@@ -95,7 +95,7 @@ maven {
 ```
 
 ## iOS Specific Steps
-Add Bitmovin's Cocoapod repo as a source on top of `ios/Podfile`:
+Add Bitmovin's CocoaPods repo as a source on top of `ios/Podfile`:
 ```ruby
 source 'https://github.com/bitmovin/cocoapod-specs.git'
 ```
