@@ -24,7 +24,7 @@ jobs:
   generate-documentation:
     env:
       GH_TOKEN: ${{ secrets.PLAYER_CI_GH_TOKEN }}
-      GCS_ACCOUNT: ${{ secrets.GCS_ACCOUNT }}
+      GC_SACCOUNT: ${{ secrets.GCS_ACCOUNT }}
       PCI_BRANCH: ${{ inputs.version_number }}
     name: Generate documentation
     runs-on: ubuntu-latest
