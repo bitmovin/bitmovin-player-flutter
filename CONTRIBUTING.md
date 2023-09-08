@@ -62,6 +62,6 @@ Before integration tests can be executed for the first time, a few set-up steps 
 1. Create a file named `.env` inside `player_testing`
 1. Put your private Bitmovin Player license key inside the newly created `.env` file as `BITMOVIN_PLAYER_LICENSE_KEY=YOUR_LICENSE_KEY`, replacing `YOUR_LICENSE_KEY` with your license key which can be obtained from [Bitmovin's Dashboard](https://bitmovin.com/dashboard)
     1. If you already created an `.env` file in the project root, you can just copy it over to `player_testing`
-1. Run `dart pub get` inside `player_testing` (if not done before)
+1. Run `dart pub get` inside `player_testing`, if not done already
 1. Run `dart run build_runner build` inside `player_testing` which should generate the missing `player_testing/lib/env/env.g.dart` file
 1. Execute the integration tests by running `flutter test integration_test` in the `example/` directory
