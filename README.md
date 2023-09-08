@@ -70,10 +70,12 @@ DEVELOPMENT_TEAM = YOUR_TEAM_ID
 ## Example App
 To be able to use the example app, follow these steps:
 1. Create a file named `.env` in the project root
-1. Put your private bitmovin player license key inside the newly created `.env` file as `BITMOVIN_PLAYER_LICENSE_KEY=YOUR_LICENSE_KEY`, replacing `YOUR_LICENSE_KEY` with your license key which can be obtained from [Bitmovin's Dashboard](https://bitmovin.com/dashboard)
+1. Put your private Bitmovin Player license key inside the newly created `.env` file as `BITMOVIN_PLAYER_LICENSE_KEY=YOUR_LICENSE_KEY`, replacing `YOUR_LICENSE_KEY` with your license key which can be obtained from [Bitmovin's Dashboard](https://bitmovin.com/dashboard)
 1. In the [Dashboard](https://bitmovin.com/dashboard), add `com.bitmovin.player.flutter.example` as an allowed package name
+1. Run `flutter pub get` in the project root, if not done already
 1. Run `flutter pub run build_runner build --delete-conflicting-outputs` in the project root which should generate the missing `example/lib/env/env.g.dart` file
 1. Start the example app by running the command `flutter run` inside the `example/` directory
+    1. If you see an error that signing for "Runner" requires a development team, follow the instructions in the section for [getting started with iOS development](#for-ios-development)
 
 # Installation
 The `bitmovin_player` package is still under development and not yet published to [pub.dev](https://pub.dev). 
