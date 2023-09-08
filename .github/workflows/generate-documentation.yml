@@ -58,8 +58,6 @@ jobs:
         run: |
           curl -sS -H "Authorization: token ${GH_TOKEN}" -L https://raw.githubusercontent.com/bitmovin-engineering/player-ci/master/install.sh | bash
       - name: Upload to CDN
-        run: |
-          node ./ci_scripts/src/uploadToGcs.js flutter ./doc/api
+        run: node ./ci_scripts/src/uploadToGcs.js flutter ./doc/api
       - name: Purge CDN cache
-        run: |
-          node ci_scripts/src/purgeCloudflarePath.js 'flutter'
+        run: node ./ci_scripts/src/purgeCloudflarePath.js 'flutter'
