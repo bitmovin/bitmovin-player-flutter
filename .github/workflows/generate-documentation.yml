@@ -52,10 +52,4 @@ jobs:
       - name: Upload to CDN
         run: node ./ci_scripts/src/uploadToGcs.js flutter ../../doc/api
       - name: Purge CDN cache
-        uses: bitmovin-engineering/github-action-ios/purge-cloudflare-path@feature/cloudflare-purge
-        with:
-          cdn-path: 'cdn.bitmovin.com/player/'
-          dirs-to-purge: 'flutter'
-        env:
-          CF_ZONEID: ${{ secrets.CF_ZONEID }}
-          CF_TOKEN: ${{ secrets.CF_TOKEN }}
+        run: node ./ci_scripts/src/purgeCloudflarePath.js 'flutter'
