@@ -4,6 +4,9 @@ import 'package:bitmovin_player/bitmovin_player.dart';
 
 /// Defines events that can be emitted by the player.
 abstract class PlayerListener {
+  /// Receives any event that is emitted by the player.
+  set onEvent(void Function(Event) func);
+
   /// See [SourceAddedEvent] for details on this event.
   set onSourceAdded(void Function(SourceAddedEvent) func);
 

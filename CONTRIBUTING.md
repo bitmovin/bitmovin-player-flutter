@@ -46,3 +46,14 @@ If generating the JSON part files fails consistently, try to clean the project b
 ```bash
 flutter clean && flutter pub get
 ```
+
+## Integration Tests
+
+Integration tests are located under `example/integration_test/`. New integration tests should be added there for new 
+features that get implemented.
+
+The tests can be executed either through VSCode or by running `flutter test integration_test` in the `example/` 
+directory.
+
+Integration tests for the player SDK are written using a separate player testing framework which is located 
+under `player_testing/`.

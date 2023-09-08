@@ -18,7 +18,11 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  integration_test:
+    sdk: flutter
   flutter_lints: ^2.0.0
+  player_testing:
+    path: ../player_testing
 
 flutter:
   uses-material-design: true

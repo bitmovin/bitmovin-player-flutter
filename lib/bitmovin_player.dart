@@ -1,6 +1,7 @@
 export 'src/api/drm/drm_config.dart';
 export 'src/api/drm/fairplay_config.dart';
 export 'src/api/drm/widevine_config.dart';
+export 'src/api/event/data/seek_position.dart';
 export 'src/api/event/event.dart';
 export 'src/api/event/listener/player_listener.dart';
 export 'src/api/event/player/error_event.dart';
