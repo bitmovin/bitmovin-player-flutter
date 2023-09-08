@@ -1,4 +1,3 @@
-# TODO: extract reusable actions where it makes sense
 name: Generate documentation
 on:
   workflow_call:
@@ -30,23 +29,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Prepare Flutter environment
+      - name: Install Flutter
         uses: subosito/flutter-action@v2
-      - name: Create env files
-        run: |
-          touch .env
-          echo BITMOVIN_PLAYER_LICENSE_KEY=_unset_ >> .env
-          echo BITMOVIN_ANALYTICS_LICENSE_KEY=_unset_ >> .env
-          cp .env player_testing/.env
-      - name: Install dependencies and code generation for player library
-        run: | 
-          flutter pub get
-          flutter pub run build_runner build --delete-conflicting-outputs
-      - name: Install dependencies and code generation for player testing library
-        run: | 
-          (cd player_testing && \
-          dart pub get && \
-          dart run build_runner build)
+      - name: Prepare dependencies and development environment
+        uses: ./.github/actions/prepare-dependencies
       - name: Analyze project source
         run: flutter analyze
       - name: Generate documentation
