@@ -37,11 +37,14 @@ jobs:
           touch .env
           echo BITMOVIN_PLAYER_LICENSE_KEY=_unset_ >> .env
           echo BITMOVIN_ANALYTICS_LICENSE_KEY=_unset_ >> .env
-      - name: Generate missing part files
-        run: flutter pub run build_runner build --delete-conflicting-outputs
       # TODO: Turn "Install dependencies" and "Analyze project source" into a single action
       - name: Install dependencies
         run: flutter pub get
+      - name: Generate missing part files
+        run: flutter pub run build_runner build --delete-conflicting-outputs
+      - name: Fix broken file generation
+        run: |
+          cp example/lib/env/env.g.dart player_testing/lib/env
       - name: Analyze project source
         run: flutter analyze
       - name: Generate documentation
