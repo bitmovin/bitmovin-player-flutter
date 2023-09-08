@@ -1,3 +1,4 @@
+# TODO: extract reusable actions where it makes sense
 name: Generate documentation
 on:
   workflow_call:
@@ -31,20 +32,21 @@ jobs:
       - uses: actions/checkout@v4
       - name: Prepare Flutter environment
         uses: subosito/flutter-action@v2
-      # TODO: Turn this into an action. Maybe also include flutter-action@v2 and generating files there
-      - name: Create env file
+      - name: Create env files
         run: |
           touch .env
           echo BITMOVIN_PLAYER_LICENSE_KEY=_unset_ >> .env
           echo BITMOVIN_ANALYTICS_LICENSE_KEY=_unset_ >> .env
-      # TODO: Turn "Install dependencies" and "Analyze project source" into a single action
-      - name: Install dependencies
-        run: flutter pub get
-      - name: Generate missing part files
-        run: flutter pub run build_runner build --delete-conflicting-outputs
-      - name: Fix broken file generation
-        run: |
-          cp example/lib/env/env.g.dart player_testing/lib/env
+          cp .env player_testing/.env
+      - name: Install dependencies and code generation for player library
+        run: | 
+          flutter pub get
+          flutter pub run build_runner build --delete-conflicting-outputs
+      - name: Install dependencies and code generation for player testing library
+        run: | 
+          (cd player_testing && \
+          dart pub get && \
+          dart run build_runner build)
       - name: Analyze project source
         run: flutter analyze
       - name: Generate documentation
