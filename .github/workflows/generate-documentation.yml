@@ -13,6 +13,12 @@ on:
       GCS_ACCOUNT:
         description: Google Cloud Storage account for uploading API docs
         required: true
+      CF_TOKEN:
+        description: CloudFlare token for API docs cache purging
+        required: true
+      CF_ZONEID:
+        description: CloudFlare zone ID for API docs cache purging
+        required: true
   workflow_dispatch:
     inputs:
       version_number:
@@ -25,6 +31,8 @@ jobs:
       GH_TOKEN: ${{ secrets.PLAYER_CI_GH_TOKEN }}
       GC_SACCOUNT: ${{ secrets.GCS_ACCOUNT }}
       PCI_BRANCH: ${{ inputs.version_number }}
+      CF_TOKEN: ${{ secrets.CF_TOKEN }}
+      CF_ZONEID: ${{ secrets.CF_ZONEID }}
     name: Generate documentation
     runs-on: ubuntu-latest
     steps:
