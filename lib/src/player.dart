@@ -197,6 +197,10 @@ class Player with PlayerEventHandler implements PlayerApi {
   Future<bool> get isPlaying async =>
       await _invokeMethod<bool>(Methods.isPlaying) ?? false;
 
+  @override
+  Future<List<SubtitleTrack>> get availableSubtitles =>
+      throw UnimplementedError();
+
   /// Disposes the player instance.
   Future<void> dispose() async => _invokeMethod<void>(Methods.destroy);
 

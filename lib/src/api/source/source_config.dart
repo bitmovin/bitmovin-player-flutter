@@ -1,5 +1,4 @@
 import 'package:bitmovin_player/bitmovin_player.dart';
-import 'package:bitmovin_player/src/api/media/subtitle/subtitle_track.dart';
 import 'package:bitmovin_player/src/api/media/thumbnail/thumbnail_track.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';

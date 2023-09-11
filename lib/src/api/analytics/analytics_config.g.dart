@@ -15,7 +15,7 @@ AnalyticsConfig _$AnalyticsConfigFromJson(Map<String, dynamic> json) =>
           $enumDecodeNullable(_$RetryPolicyEnumMap, json['retryPolicy']) ??
               RetryPolicy.noRetry,
       backendUrl: json['backendUrl'] as String? ??
-          'https://analytics-ingress-global.bitmovin.com/',
+          'https://analytics-ingress-global.bitmovin.com',
       defaultMetadata: json['defaultMetadata'] == null
           ? const DefaultMetadata()
           : DefaultMetadata.fromJson(

@@ -65,5 +65,9 @@ abstract class PlayerApi {
   /// not paused.
   Future<bool> get isPlaying;
 
+  /// A list of all available [SubtitleTrack]s of the active [Source],
+  /// including "off" subtitle track.
+  Future<List<SubtitleTrack>> get availableSubtitles;
+
   AnalyticsApi get analytics;
 }
