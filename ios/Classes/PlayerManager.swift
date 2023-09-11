@@ -1,7 +1,7 @@
 import BitmovinPlayer
 import BitmovinPlayerAnalytics
 
-class PlayerManager {
+internal class PlayerManager {
     typealias PlayerCreated = (Player) -> Void
 
     static let shared = PlayerManager()

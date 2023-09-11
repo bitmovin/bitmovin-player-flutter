@@ -1,6 +1,6 @@
+import BitmovinPlayerAnalytics
 import Flutter
 import UIKit
-import BitmovinPlayerAnalytics
 
 public class PlayerPlugin: NSObject, FlutterPlugin {
     private let messenger: FlutterBinaryMessenger
@@ -46,11 +46,11 @@ public class PlayerPlugin: NSObject, FlutterPlugin {
         let analyticsConfig = MessageDecoder.toNative(type: FlutterAnalyticsConfig.self, from: analyticsConfigJson)
         let defaultMetadata = MessageDecoder.toNative(type: FlutterDefaultMetadata.self, from: defaultMetadataJson)
 
-        // TODO: Maybe make this nicer. It is weird that we do not retain `PlayerMethod` explicitly. It is only retained
-        // by Flutter because it listens to method and event channels. Instead of storing player instance in
+        // TODO: Maybe make this nicer. It is weird that we do not retain `FlutterPlayer` explicitly. It is only
+        // retained by Flutter because it listens to method and event channels. Instead of storing player instance in
         // `PlayerManager` we could store `PlayerMethod` instance, that would make the code a bit more structured and
         // easier to grasp.
-        let _ = FlutterPlayer(
+        _ = FlutterPlayer(
             id: id,
             playerConfig: config,
             analyticsConfig: analyticsConfig,

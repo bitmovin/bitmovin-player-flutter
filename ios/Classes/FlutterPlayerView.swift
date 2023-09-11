@@ -4,14 +4,14 @@ import Foundation
 
 // Wraps a Bitmovin `PlayerView` and is connected to a player view instance that was created on the Flutter side in
 // Dart. Communication with the player view instance on the Flutter side happens through the method channel.
-class FlutterPlayerView: NSObject, FlutterPlatformView {
+internal class FlutterPlayerView: NSObject, FlutterPlatformView {
     struct Arguments: Codable {
         let playerId: String
         let hasFullscreenHandler: Bool
         let isFullscreen: Bool
     }
 
-    private var rootView: UIView = UIView()
+    private var rootView = UIView()
     private var playerView: PlayerView?
     private var methodChannel: FlutterMethodChannel
     private var eventChannel: FlutterEventChannel
