@@ -9,8 +9,8 @@ runs:
       shell: bash
       run: |
         touch .env
-        echo BITMOVIN_PLAYER_LICENSE_KEY=_unset_ >> .env
-        echo BITMOVIN_ANALYTICS_LICENSE_KEY=_unset_ >> .env
+        echo BITMOVIN_PLAYER_LICENSE_KEY=_UNUSED_ >> .env
+        echo BITMOVIN_ANALYTICS_LICENSE_KEY=_UNUSED_ >> .env
         cp .env player_testing/.env
     - name: Install dependencies for player library
       shell: bash
