@@ -64,4 +64,6 @@ abstract class PlayerApi {
   /// Whether the player is currently playing, i.e. has started playback and is
   /// not paused.
   Future<bool> get isPlaying;
+
+  AnalyticsApi get analytics;
 }

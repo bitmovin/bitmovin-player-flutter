@@ -18,6 +18,7 @@ class Methods {
     static let maxTimeShift = "maxTimeShift"
     static let isLive = "isLive"
     static let isPlaying = "isPlaying"
+    static let sendCustomDataEvent = "sendCustomDataEvent"
 
     // Player view related methods
     static let destroyPlayerView = "destroyPlayerView"
