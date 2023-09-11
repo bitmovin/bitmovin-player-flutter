@@ -15,6 +15,6 @@ extension Logger {
     }
 }
 
-func getLogger() -> Logger {
+internal func getLogger() -> Logger {
     DebugConfig.logging.logger ?? ConsoleLogger()
 }

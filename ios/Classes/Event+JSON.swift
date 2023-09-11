@@ -1,6 +1,5 @@
 import BitmovinPlayer
 
-// swiftlint:disable file_length
 extension LoadingState {
     func toValue() -> String {
         switch self {
@@ -25,7 +24,7 @@ extension Source {
             "isAttachedToPlayer": isAttachedToPlayer,
             "sourceConfig": sourceConfig.toJSON()
         ]
-        if let metadata = metadata {
+        if let metadata {
             json["metadata"] = metadata
         }
         return json
@@ -42,9 +41,9 @@ extension SourceConfig {
         json["options"] = self.options.toJSON()
         json["labelingConfig"] = self.labelingConfig.toJSON()
         json["type"] = self.type.toValue()
-        json["tracks"] = self.tracks.map({ track in
-            return track.toJSON()
-        })
+        json["tracks"] = self.tracks.map { track in
+            track.toJSON()
+        }
 
         if let target = self.sourceDescription {
             json["sourceDescription"] = target
@@ -175,11 +174,11 @@ extension SeekEvent {
             "from": [
                 "time": from.time,
                 "source": from.source.toJSON()
-            ] as [String : Any],
+            ] as [String: Any],
             "to": [
                 "time": to.time,
                 "source": to.source.toJSON()
-            ] as [String : Any]
+            ] as [String: Any]
         ]
     }
 }
@@ -221,7 +220,7 @@ extension NSError {
 extension DeficiencyData {
     func toJSON() -> [String: Any] {
         var json: [String: Any] = ["code": code, "message": message]
-        if let underlyingError = underlyingError {
+        if let underlyingError {
             json["underlyingError"] = underlyingError.toJSON()
         }
         return json
@@ -236,7 +235,7 @@ extension PlayerErrorEvent {
             "code": code.rawValue,
             "message": message
         ]
-        if let data = data {
+        if let data {
             json["data"] = data.toJSON()
         }
         return json
@@ -251,7 +250,7 @@ extension PlayerWarningEvent {
             "code": code.rawValue,
             "message": message
         ]
-        if let data = data {
+        if let data {
             json["data"] = data.toJSON()
         }
         return json
@@ -266,7 +265,7 @@ extension SourceErrorEvent {
             "code": code.rawValue,
             "message": message
         ]
-        if let data = data {
+        if let data {
             json["data"] = data.toJSON()
         }
         return json
@@ -281,14 +280,14 @@ extension SourceWarningEvent {
             "code": code.rawValue,
             "message": message
         ]
-        if let data = data {
+        if let data {
             json["data"] = data.toJSON()
         }
         return json
     }
 }
 
-protocol SourceEventType: Event {
+internal protocol SourceEventType: Event {
     var source: Source { get }
 }
 
@@ -304,7 +303,7 @@ extension SourceLoadEvent: SourceEventType {}
 extension SourceLoadedEvent: SourceEventType {}
 extension SourceUnloadedEvent: SourceEventType {}
 
-protocol TimedEventType: Event {
+internal protocol TimedEventType: Event {
     var time: TimeInterval { get }
 }
 

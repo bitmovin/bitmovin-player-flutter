@@ -1,12 +1,14 @@
+// swiftlint:disable:this file_name
+
 import BitmovinPlayer
 import Foundation
 
-protocol FlutterToNativeConvertible: Codable {
+internal protocol FlutterToNativeConvertible: Codable {
     associatedtype NativeObject
     func toNative() -> NativeObject
 }
 
-struct FlutterAnalyticsConfig: FlutterToNativeConvertible {
+internal struct FlutterAnalyticsConfig: FlutterToNativeConvertible {
     let licenseKey: String
     let retryPolicy: String
     let randomizeUserId: Bool
@@ -19,13 +21,10 @@ struct FlutterAnalyticsConfig: FlutterToNativeConvertible {
         switch self.retryPolicy {
         case "ShortTerm", "NoRetry":
             retryPolicy = RetryPolicy.noRetry
-            break
         case "LongTerm":
             retryPolicy = RetryPolicy.longTerm
-            break;
         default:
             retryPolicy = RetryPolicy.noRetry
-            break;
         }
 
         return AnalyticsConfig(
@@ -38,7 +37,7 @@ struct FlutterAnalyticsConfig: FlutterToNativeConvertible {
     }
 }
 
-struct FlutterCustomData: FlutterToNativeConvertible {
+internal struct FlutterCustomData: FlutterToNativeConvertible {
     let customData1: String?
     let customData2: String?
     let customData3: String?
@@ -108,7 +107,7 @@ struct FlutterCustomData: FlutterToNativeConvertible {
     }
 }
 
-struct FlutterDefaultMetadata: FlutterToNativeConvertible {
+internal struct FlutterDefaultMetadata: FlutterToNativeConvertible {
     let cdnProvider: String?
     let customUserId: String?
     let customData: FlutterCustomData

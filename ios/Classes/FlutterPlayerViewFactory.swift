@@ -1,7 +1,7 @@
 import Flutter
 import UIKit
 
-class FlutterPlayerViewFactory: NSObject, FlutterPlatformViewFactory {
+internal class FlutterPlayerViewFactory: NSObject, FlutterPlatformViewFactory {
     private let messenger: FlutterBinaryMessenger
 
     init(messenger: FlutterBinaryMessenger) {

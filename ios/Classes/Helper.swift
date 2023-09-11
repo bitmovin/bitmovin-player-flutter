@@ -3,7 +3,7 @@ import Foundation
 
 // swiftlint:disable file_length
 // swiftlint:disable:next type_body_length
-class Helper {
+internal enum Helper {
     static func methodCallArguments(_ payload: Any?) -> MethodCallArguments? {
         guard let jsonPayload = payload as? [String: Any?],
               let data = jsonPayload["data"] else {
@@ -115,7 +115,7 @@ class Helper {
      - Parameter json: JS object.
      - Returns: The produced `StyleConfig` object.
      */
-    static func styleConfig(_ json: Any?) -> StyleConfig? {
+    static func styleConfig(_ json: Any?) -> StyleConfig? { // swiftlint:disable:this cyclomatic_complexity
         guard let json = json as? [String: Any?] else {
             return nil
         }
@@ -279,7 +279,7 @@ class Helper {
         }
 
         if let thumbnailTrack = json["thumbnailTrack"] as? String {
-            sourceConfig.thumbnailTrack = Helper.thumbnailTrack(thumbnailTrack)
+            sourceConfig.thumbnailTrack = self.thumbnailTrack(thumbnailTrack)
         }
 
         return (sourceConfig, fairplayConfigMetadata)
@@ -389,7 +389,7 @@ class Helper {
     /// - Parameter json: JSON representation of `FairplayConfig`.
     /// - Returns: The created `FairplayConfig.Metadata` object.
     private static func fairplayConfigMetadata(_ fairplayConfig: [String: Any]) -> FairplayConfig.Metadata {
-        return FairplayConfig.Metadata(
+        FairplayConfig.Metadata(
             hasPrepareMessage: fairplayConfig["prepareMessage"] as? Bool ?? false,
             hasPrepareContentId: fairplayConfig["prepareContentId"] as? Bool ?? false,
             hasPrepareCertificate: fairplayConfig["prepareCertificate"] as? Bool ?? false,
@@ -405,9 +405,7 @@ class Helper {
      - Returns: The generated `ThumbnailTrack`.
      */
     static func thumbnailTrack(_ url: String?) -> ThumbnailTrack? {
-        guard
-            let url = URL(string: url!)
-        else {
+        guard let urlString = url, let url = URL(string: urlString) else {
             return nil
         }
         return ThumbnailTrack(
@@ -482,10 +480,14 @@ class Helper {
             return nil
         }
         switch json {
-        case "cea": return .cea
-        case "vtt": return .webVtt
-        case "ttml": return .ttml
-        default: return nil
+        case "cea":
+            return .cea
+        case "vtt":
+            return .webVtt
+        case "ttml":
+            return .ttml
+        default:
+            return nil
         }
     }
 
