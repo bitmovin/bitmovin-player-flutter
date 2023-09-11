@@ -1,5 +1,9 @@
 package com.bitmovin.player.flutter.json
 
+import com.bitmovin.analytics.api.AnalyticsConfig
+import com.bitmovin.analytics.api.CustomData
+import com.bitmovin.analytics.api.DefaultMetadata
+import com.bitmovin.analytics.api.SourceMetadata
 import com.bitmovin.player.api.LicensingConfig
 import com.bitmovin.player.api.PlaybackConfig
 import com.bitmovin.player.api.PlayerConfig
@@ -29,6 +33,17 @@ internal fun JSourceConfig.toNative() = SourceConfig(
     isPosterPersistent?.let { sourceConfig.isPosterPersistent = it }
 }
 
+internal fun JSourceMetadata.toNative() =
+    SourceMetadata.Builder()
+        .apply {
+            cdnProvider?.let { setCdnProvider(it) }
+            isLive?.let { setIsLive(it) }
+            path?.let { setPath(it) }
+            title?.let { setTitle(it) }
+            videoId?.let { setVideoId(it) }
+            customData?.let { setCustomData(it.toNative()) }
+        }.build()
+
 internal fun JSourceOptions.toNative() = SourceOptions(
     startOffset = startOffset,
     startOffsetTimelineReference = startOffsetTimelineReference,
@@ -50,6 +65,57 @@ internal fun JPlayerConfig.toNative() = PlayerConfig(key = key).also { config ->
     licensingConfig?.let { config.licensingConfig = it.toNative() }
     liveConfig?.let { config.liveConfig = it.toNative() }
 }
+
+internal fun JAnalyticsConfig.toNative(): AnalyticsConfig =
+    AnalyticsConfig.Builder(licenseKey = licenseKey).apply {
+        adTrackingDisabled?.let { setAdTrackingDisabled(it) }
+        backendUrl?.let { setBackendUrl(it) }
+        randomizeUserId?.let { setRandomizeUserId(it) }
+        retryPolicy?.let { setRetryPolicy(it) }
+    }.build()
+
+internal fun JDefaultMetadata.toNative(): DefaultMetadata =
+    DefaultMetadata.Builder().apply {
+        cdnProvider?.let { setCdnProvider(it) }
+        customData?.let { setCustomData(it.toNative()) }
+        customUserId?.let { setCustomUserId(it) }
+        customData?.let { setCustomData(it.toNative()) }
+    }.build()
+
+internal fun JCustomData.toNative(): CustomData =
+    CustomData.Builder().apply {
+        customData1?.let { setCustomData1(it) }
+        customData2?.let { setCustomData2(it) }
+        customData3?.let { setCustomData3(it) }
+        customData4?.let { setCustomData4(it) }
+        customData5?.let { setCustomData5(it) }
+        customData6?.let { setCustomData6(it) }
+        customData7?.let { setCustomData7(it) }
+        customData8?.let { setCustomData8(it) }
+        customData9?.let { setCustomData9(it) }
+        customData10?.let { setCustomData10(it) }
+        customData11?.let { setCustomData11(it) }
+        customData12?.let { setCustomData12(it) }
+        customData13?.let { setCustomData13(it) }
+        customData14?.let { setCustomData14(it) }
+        customData15?.let { setCustomData15(it) }
+        customData16?.let { setCustomData16(it) }
+        customData17?.let { setCustomData17(it) }
+        customData18?.let { setCustomData18(it) }
+        customData19?.let { setCustomData19(it) }
+        customData20?.let { setCustomData20(it) }
+        customData21?.let { setCustomData21(it) }
+        customData22?.let { setCustomData22(it) }
+        customData23?.let { setCustomData23(it) }
+        customData24?.let { setCustomData24(it) }
+        customData25?.let { setCustomData25(it) }
+        customData26?.let { setCustomData26(it) }
+        customData27?.let { setCustomData27(it) }
+        customData28?.let { setCustomData28(it) }
+        customData29?.let { setCustomData29(it) }
+        customData30?.let { setCustomData30(it) }
+        experimentName?.let { setExperimentName(it) }
+    }.build()
 
 internal fun JStyleConfig.toNative() = StyleConfig(
     scalingMode = scalingMode ?: ScalingMode.Fit,

@@ -1,5 +1,6 @@
 package com.bitmovin.player.flutter.json
 
+import com.bitmovin.analytics.api.RetryPolicy
 import com.bitmovin.player.api.Player
 import com.bitmovin.player.api.SeekMode
 import com.bitmovin.player.api.media.MediaFilter
@@ -31,6 +32,16 @@ internal class JSourceConfig(override val map: Map<*, *>) : JStruct {
     val posterSource by GetString
     val options by structGetter(::JSourceOptions)
     val drmConfig by structGetter(::JDrmConfig)
+    val analyticsSourceMetadata by structGetter(::JSourceMetadata)
+}
+
+internal class JSourceMetadata(override val map: Map<*, *>) : JStruct {
+    val title by GetString
+    val videoId by GetString
+    val cdnProvider by GetString
+    val path by GetString
+    val isLive by GetBool
+    val customData by structGetter(::JCustomData)
 }
 
 internal class JSourceOptions(override val map: Map<*, *>) : JStruct {
@@ -81,12 +92,69 @@ internal class JLiveConfig(override val map: Map<*, *>) : JStruct {
     val liveEdgeOffset by GetDouble
 }
 
+internal class JAnalyticsConfig(override val map: Map<*, *>) : JStruct {
+    val licenseKey by GetString.require()
+    val adTrackingDisabled by GetBool
+    val randomizeUserId by GetBool
+    val retryPolicy by enumGetter { stringValue ->
+        when (stringValue) {
+            "NoRetry" -> RetryPolicy.NO_RETRY
+            "ShortTerm" -> RetryPolicy.SHORT_TERM
+            "LongTerm" -> RetryPolicy.LONG_TERM
+            else -> throw InvalidParameterException("Unknown enum value $stringValue")
+        }
+    }
+    val backendUrl by GetString
+    val defaultMetadata by structGetter(::JDefaultMetadata)
+}
+
+internal class JDefaultMetadata(override val map: Map<*, *>) : JStruct {
+    val cdnProvider by GetString
+    val customUserId by GetString
+    val customData by structGetter(::JCustomData)
+}
+
+internal class JCustomData(override val map: Map<*, *>) : JStruct {
+    val customData1 by GetString
+    val customData2 by GetString
+    val customData3 by GetString
+    val customData4 by GetString
+    val customData5 by GetString
+    val customData6 by GetString
+    val customData7 by GetString
+    val customData8 by GetString
+    val customData9 by GetString
+    val customData10 by GetString
+    val customData11 by GetString
+    val customData12 by GetString
+    val customData13 by GetString
+    val customData14 by GetString
+    val customData15 by GetString
+    val customData16 by GetString
+    val customData17 by GetString
+    val customData18 by GetString
+    val customData19 by GetString
+    val customData20 by GetString
+    val customData21 by GetString
+    val customData22 by GetString
+    val customData23 by GetString
+    val customData24 by GetString
+    val customData25 by GetString
+    val customData26 by GetString
+    val customData27 by GetString
+    val customData28 by GetString
+    val customData29 by GetString
+    val customData30 by GetString
+    val experimentName by GetString
+}
+
 internal class JPlayerConfig(override val map: Map<*, *>) : JStruct {
     val key by GetString
     val styleConfig by structGetter(::JStyleConfig)
     val playbackConfig by structGetter(::JPlaybackConfig)
     val licensingConfig by structGetter(::JLicensingConfig)
     val liveConfig by structGetter(::JLiveConfig)
+    val analyticsConfig by structGetter(::JAnalyticsConfig)
 }
 
 // Methods
@@ -110,6 +178,7 @@ internal class JPlayerMethodArg(override val map: Map<*, *>) : JStruct {
     val asDouble get() = data as Double
     val asSource get() = JSource(dataAsMap)
     val asSourceConfig get() = JSourceConfig(dataAsMap)
+    val asCustomData get() = JCustomData(dataAsMap)
     private val data by GetAny.require()
     private val dataAsMap get() = data as Map<*, *>
 }
@@ -145,6 +214,9 @@ private fun <T> Getter<T?>.require() = Getter<T> { thisRef, property ->
 }
 
 private inline fun <reified T> listGetter() = getter { list: List<*> -> list.map { it as T } }
+
+private inline fun <reified E : Enum<E>> enumGetter(crossinline customEnumValue: (stringValue: String) -> E) =
+    getter { name: String -> customEnumValue(name) }
 
 private inline fun <reified E : Enum<E>> enumGetter() =
     getter { name: String -> enumValueOf<E>(name, ignoreCase = true) }

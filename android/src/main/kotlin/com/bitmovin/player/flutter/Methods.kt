@@ -19,6 +19,7 @@ class Methods {
         const val MAX_TIME_SHIFT = "maxTimeShift"
         const val IS_LIVE = "isLive"
         const val IS_PLAYING = "isPlaying"
+        const val SEND_CUSTOM_DATA_EVENT = "sendCustomDataEvent"
 
         // Player view related methods
         const val DESTROY_PLAYER_VIEW = "destroyPlayerView"

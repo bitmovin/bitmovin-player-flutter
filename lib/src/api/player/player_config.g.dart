@@ -22,6 +22,10 @@ PlayerConfig _$PlayerConfigFromJson(Map<String, dynamic> json) => PlayerConfig(
       liveConfig: json['liveConfig'] == null
           ? const LiveConfig()
           : LiveConfig.fromJson(json['liveConfig'] as Map<String, dynamic>),
+      analyticsConfig: json['analyticsConfig'] == null
+          ? null
+          : AnalyticsConfig.fromJson(
+              json['analyticsConfig'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$PlayerConfigToJson(PlayerConfig instance) =>
@@ -31,4 +35,5 @@ Map<String, dynamic> _$PlayerConfigToJson(PlayerConfig instance) =>
       'playbackConfig': instance.playbackConfig?.toJson(),
       'licensingConfig': instance.licensingConfig?.toJson(),
       'liveConfig': instance.liveConfig.toJson(),
+      'analyticsConfig': instance.analyticsConfig?.toJson(),
     };

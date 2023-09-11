@@ -24,8 +24,18 @@ class PlayerPlugin : FlutterPlugin, ActivityAware {
     }
 
     private fun createPlayer(args: JCreatePlayerArgs) = flutterPluginBindingReference.get()?.let {
-        val config = args.playerConfig.toNative()
-        FlutterPlayer(it.applicationContext, args.id, it.binaryMessenger, config)
+        val flutterPlayerConfig = args.playerConfig
+        val config = flutterPlayerConfig.toNative()
+        val analyticsConfig = flutterPlayerConfig.analyticsConfig?.toNative()
+        val defaultMetadata = flutterPlayerConfig.analyticsConfig?.defaultMetadata?.toNative()
+        FlutterPlayer(
+            context = it.applicationContext,
+            id = args.id,
+            messenger = it.binaryMessenger,
+            config = config,
+            analyticsConfig = analyticsConfig,
+            defaultMetadata = defaultMetadata,
+        )
     }
 
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {

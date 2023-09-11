@@ -47,8 +47,7 @@ allprojects {
 }
 
 dependencies {
-    implementation 'com.bitmovin.analytics:collector-bitmovin-player:2.12.1'
-    implementation 'com.bitmovin.player:player:3.33.1+jason'
+    implementation 'com.bitmovin.player:player:3.42.0+jason'
     implementation "androidx.multidex:multidex:2.0.1"
     implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.11.1'
     implementation 'androidx.concurrent:concurrent-futures-ktx:1.1.0'

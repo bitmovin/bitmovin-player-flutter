@@ -5,29 +5,36 @@ import 'package:bitmovin_player_example/controls.dart';
 import 'package:bitmovin_player_example/env/env.dart';
 import 'package:flutter/material.dart';
 
-class BasicPlayback extends StatefulWidget {
-  static String routeName = 'BasicPlayback';
-  const BasicPlayback({super.key});
+class PlayerAnalytics extends StatefulWidget {
+  static String routeName = 'Collecting Analytics';
+
+  const PlayerAnalytics({super.key});
 
   @override
-  State<BasicPlayback> createState() => _BasicPlaybackState();
+  State<PlayerAnalytics> createState() => _PlayerAnalyticsState();
 }
 
-class _BasicPlaybackState extends State<BasicPlayback> {
+class _PlayerAnalyticsState extends State<PlayerAnalytics> {
   final _sourceConfig = SourceConfig(
-    url: Platform.isAndroid
-        ? 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd'
-        : 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8',
-    type: Platform.isAndroid ? SourceType.dash : SourceType.hls,
-  );
+      url: Platform.isAndroid
+          ? 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd'
+          : 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8',
+      type: Platform.isAndroid ? SourceType.dash : SourceType.hls,
+      analyticsSourceMetadata: const SourceMetadata(
+        title: "Collecting SourceMetadata Title",
+        customData:
+            CustomData(customData1: "Collecting SourceMetadata customData1"),
+      ));
   final _player = Player(
-    config: const PlayerConfig(
+    config: PlayerConfig(
         key: Env.bitmovinPlayerLicenseKey,
-        playbackConfig: PlaybackConfig(
+        playbackConfig: const PlaybackConfig(
           isAutoplayEnabled: true,
           isMuted: false,
         ),
-    ),
+        analyticsConfig: Env.bitmovinAnalyticsLicenseKey != null
+            ? AnalyticsConfig(licenseKey: Env.bitmovinAnalyticsLicenseKey!)
+            : null),
   );
 
   @override
@@ -46,7 +53,7 @@ class _BasicPlaybackState extends State<BasicPlayback> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Basic Playback'),
+        title: const Text('Collecting Analytics'),
       ),
       body: Column(
         children: [
@@ -69,6 +76,16 @@ class _BasicPlaybackState extends State<BasicPlayback> {
               onSkipBackwardPressed: () async =>
                   _player.seek(await _player.currentTime - 10),
             ),
+          ),
+          OutlinedButton(
+            onPressed: () {
+              _player.analytics.sendCustomDataEvent(
+                  const CustomData(customData5: "Button Clicked"));
+              ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                content: Text("Sent custom data"),
+              ));
+            },
+            child: const Text('Send custom data'),
           ),
         ],
       ),
