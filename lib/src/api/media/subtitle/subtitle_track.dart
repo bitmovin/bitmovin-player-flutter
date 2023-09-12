@@ -25,9 +25,10 @@ class SubtitleTrack extends Equatable {
   @JsonKey(name: 'url')
   final String? url;
 
-  /// Specifies the file format of this [SubtitleTrack].
+  /// Specifies the file format of this [SubtitleTrack]. Common values for each
+  /// platform are defined in [SubtitleFormats].
   @JsonKey(name: 'format')
-  final SubtitleFormat? format;
+  final String? format;
 
   /// The label for this [SubtitleTrack].
   @JsonKey(name: 'label')

@@ -10,7 +10,7 @@ SubtitleTrack _$SubtitleTrackFromJson(Map<String, dynamic> json) =>
     SubtitleTrack(
       id: json['id'] as String,
       url: json['url'] as String?,
-      format: $enumDecodeNullable(_$SubtitleFormatEnumMap, json['format']),
+      format: json['format'] as String?,
       label: json['label'] as String?,
       isDefault: json['isDefault'] as bool? ?? false,
       isForced: json['isForced'] as bool? ?? false,
@@ -24,7 +24,7 @@ SubtitleTrack _$SubtitleTrackFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$SubtitleTrackToJson(SubtitleTrack instance) =>
     <String, dynamic>{
       'url': instance.url,
-      'format': _$SubtitleFormatEnumMap[instance.format],
+      'format': instance.format,
       'label': instance.label,
       'id': instance.id,
       'isDefault': instance.isDefault,
@@ -32,9 +32,3 @@ Map<String, dynamic> _$SubtitleTrackToJson(SubtitleTrack instance) =>
       'isForced': instance.isForced,
       'roles': instance.roles.map((e) => e.toJson()).toList(),
     };
-
-const _$SubtitleFormatEnumMap = {
-  SubtitleFormat.vtt: 'Vtt',
-  SubtitleFormat.ttml: 'Ttml',
-  SubtitleFormat.cea: 'Cea',
-};
