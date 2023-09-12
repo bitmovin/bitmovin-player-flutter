@@ -1,8 +1,13 @@
 package com.bitmovin.player.flutter
 
 import android.content.Context
+import com.bitmovin.analytics.api.AnalyticsConfig
+import com.bitmovin.analytics.api.DefaultMetadata
+import com.bitmovin.analytics.api.SourceMetadata
 import com.bitmovin.player.api.Player
 import com.bitmovin.player.api.PlayerConfig
+import com.bitmovin.player.api.analytics.AnalyticsApi.Companion.analytics
+import com.bitmovin.player.api.analytics.create
 import com.bitmovin.player.api.drm.WidevineConfig
 import com.bitmovin.player.api.source.Source
 import com.bitmovin.player.flutter.drm.WidevineCallbacksHandler
@@ -26,6 +31,8 @@ class FlutterPlayer(
     private val id: String,
     messenger: BinaryMessenger,
     config: PlayerConfig?,
+    analyticsConfig: AnalyticsConfig?,
+    defaultMetadata: DefaultMetadata?,
 ) : StreamHandler, EventListener() {
     private var widevineCallbacksHandler: WidevineCallbacksHandler? = null
     private val methodChannel = ChannelManager.registerMethodChannel(
@@ -41,7 +48,7 @@ class FlutterPlayer(
     private val player: Player
 
     init {
-        player = PlayerManager.create(id, context, config)
+        player = PlayerManager.create(id, context, config, analyticsConfig, defaultMetadata)
     }
 
     private fun Player.load(jSourceConfig: JSourceConfig) {
@@ -57,7 +64,8 @@ class FlutterPlayer(
             )
         }
 
-        load(Source.create(sourceConfig))
+        val sourceMetadata = jSourceConfig.analyticsSourceMetadata?.toNative() ?: SourceMetadata()
+        load(Source.create(sourceConfig, sourceMetadata))
     }
 
     private fun Player.onMethodCall(method: String, arg: JPlayerMethodArg): Any = when (method) {
@@ -75,6 +83,9 @@ class FlutterPlayer(
         Methods.MAX_TIME_SHIFT -> maxTimeShift
         Methods.IS_LIVE -> isLive
         Methods.IS_PLAYING -> isPlaying
+        Methods.SEND_CUSTOM_DATA_EVENT -> this.analytics?.sendCustomDataEvent(arg.asCustomData.toNative())
+            ?: Unit
+
         Methods.DESTROY -> destroyPlayer()
         else -> throw NotImplementedError()
     }

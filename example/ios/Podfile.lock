@@ -2,21 +2,27 @@ PODS:
   - bitmovin_player (0.0.1):
     - BitmovinPlayer
     - Flutter
-  - BitmovinPlayer (3.40.0):
-    - BitmovinPlayerCore (= 3.40.0)
-  - BitmovinPlayerCore (3.40.0)
+  - BitmovinAnalyticsCollector/BitmovinPlayer (3.1.1):
+    - BitmovinAnalyticsCollector/Core
+    - BitmovinPlayerCore (~> 3.41)
+  - BitmovinAnalyticsCollector/Core (3.1.1)
+  - BitmovinPlayer (3.44.0):
+    - BitmovinAnalyticsCollector/BitmovinPlayer (~> 3.0)
+    - BitmovinPlayerCore (= 3.44.0)
+  - BitmovinPlayerCore (3.44.0)
   - Flutter (1.0.0)
   - integration_test (0.0.1):
     - Flutter
 
 DEPENDENCIES:
   - bitmovin_player (from `.symlinks/plugins/bitmovin_player/ios`)
-  - BitmovinPlayer (= 3.40.0)
+  - BitmovinPlayer (= 3.44.0)
   - Flutter (from `Flutter`)
   - integration_test (from `.symlinks/plugins/integration_test/ios`)
 
 SPEC REPOS:
   https://github.com/bitmovin/cocoapod-specs.git:
+    - BitmovinAnalyticsCollector
     - BitmovinPlayer
     - BitmovinPlayerCore
 
@@ -30,11 +36,12 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   bitmovin_player: 446194a0aa46e5b2d76b03a5d45288287f6982b1
-  BitmovinPlayer: 57266ccab7d2fbc15144b422e4b0137c7dc373dc
-  BitmovinPlayerCore: f53717bbedf58ce9b34b0c257a93c5ddd2869e99
+  BitmovinAnalyticsCollector: 6aa2e995e325d95d1145bcad3d733d2f8c301c00
+  BitmovinPlayer: 2e5b0234c4a49a7c95eb3232d18e3e803013e5c6
+  BitmovinPlayerCore: 40c239be011d89c81106dea0cb7e37dcf4beee72
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   integration_test: a1e7d09bd98eca2fc37aefd79d4f41ad37bdbbe5
 
-PODFILE CHECKSUM: c5eef37fa4222017efb1735649791adca7d85613
+PODFILE CHECKSUM: 3a743d2972de14bb7ea6ee584bf7fb090b267938
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.12.1

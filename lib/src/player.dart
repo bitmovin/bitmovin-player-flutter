@@ -199,4 +199,17 @@ class Player with PlayerEventHandler implements PlayerApi {
 
   /// Disposes the player instance.
   Future<void> dispose() async => _invokeMethod<void>(Methods.destroy);
+
+  @override
+  AnalyticsApi get analytics => _AnalyticsApi(this);
+}
+
+class _AnalyticsApi implements AnalyticsApi {
+  _AnalyticsApi(this._player);
+
+  final Player _player;
+
+  @override
+  Future<void> sendCustomDataEvent(CustomData customData) async => _player
+      ._invokeMethod<void>(Methods.sendCustomDataEvent, customData.toJson());
 }
