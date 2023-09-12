@@ -3,6 +3,7 @@ package com.bitmovin.player.flutter
 import android.content.Context
 import com.bitmovin.analytics.api.AnalyticsConfig
 import com.bitmovin.analytics.api.DefaultMetadata
+import com.bitmovin.analytics.api.SourceMetadata
 import com.bitmovin.player.api.Player
 import com.bitmovin.player.api.PlayerConfig
 import com.bitmovin.player.api.analytics.AnalyticsApi.Companion.analytics
@@ -63,12 +64,8 @@ class FlutterPlayer(
             )
         }
 
-        val sourceMetadata = jSourceConfig.analyticsSourceMetadata?.toNative()
-        if (sourceMetadata != null) {
-            load(Source.create(sourceConfig, sourceMetadata))
-        } else {
-            load(Source.create(sourceConfig))
-        }
+        val sourceMetadata = jSourceConfig.analyticsSourceMetadata?.toNative() ?: SourceMetadata()
+        load(Source.create(sourceConfig, sourceMetadata))
     }
 
     private fun Player.onMethodCall(method: String, arg: JPlayerMethodArg): Any = when (method) {
