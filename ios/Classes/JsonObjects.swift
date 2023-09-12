@@ -140,3 +140,46 @@ internal struct FlutterSourceMetadata: FlutterToNativeConvertible {
         )
     }
 }
+
+internal struct FlutterSubtitleTrack: FlutterToNativeConvertible {
+    let url: String?
+    let format: String?
+    let label: String?
+    let id: String
+    let isDefault: Bool
+    let language: String?
+    let isForced: Bool
+
+    // TODO: we also need a fromNative to bridge platform inconsistencies
+
+    func toNative() -> SubtitleTrack {
+        let subtitleTrackUrl: URL?
+        if let url {
+            subtitleTrackUrl = URL(string: url)
+        } else {
+            subtitleTrackUrl = nil
+        }
+
+        let subtitleTrackFormat: SubtitleFormat
+        switch format?.lowercased() {
+        case "webvtt":
+            subtitleTrackFormat = .webVtt
+        case "ttml":
+            subtitleTrackFormat = .ttml
+        case "cea":
+            subtitleTrackFormat = .cea
+        default:
+            subtitleTrackFormat = .webVtt
+        }
+
+        return SubtitleTrack(
+            url: subtitleTrackUrl,
+            format: subtitleTrackFormat,
+            label: label ?? "", // TODO: generate something
+            identifier: id,
+            isDefaultTrack: isDefault,
+            language: language,
+            forced: isForced
+        )
+    }
+}
