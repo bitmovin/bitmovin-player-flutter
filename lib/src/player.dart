@@ -205,8 +205,6 @@ class Player with PlayerEventHandler implements PlayerApi {
 }
 
 class _AnalyticsApi implements AnalyticsApi {
-  // Dart does not support inner classes,
-  // so we need to pass the player as parameter
   _AnalyticsApi(this._player);
 
   final Player _player;

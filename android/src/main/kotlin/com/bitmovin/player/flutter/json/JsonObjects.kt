@@ -215,8 +215,8 @@ private fun <T> Getter<T?>.require() = Getter<T> { thisRef, property ->
 
 private inline fun <reified T> listGetter() = getter { list: List<*> -> list.map { it as T } }
 
-private inline fun <reified E : Enum<E>> enumGetter(crossinline customEnumValue: (stringValue: String) -> E) =
-    getter { name: String -> customEnumValue(name) }
+private inline fun <reified E : Enum<E>> enumGetter(crossinline customEnumValue: (enumValueOf: String) -> E) =
+    getter(enumValueOf)
 
 private inline fun <reified E : Enum<E>> enumGetter() =
     getter { name: String -> enumValueOf<E>(name, ignoreCase = true) }

@@ -1,10 +1,55 @@
 name: Generate documentation
 on:
+  workflow_call:
+    inputs:
+      version_number:
+        description: 'Version number of the release (no `-rc.`, `-b.`, `-a.` suffix)'
+        type: string
+        required: true
+    secrets:
+      PLAYER_CI_GH_TOKEN:
+        description: GitHub token to access player-ci repo for CI scripts
+        required: true
+      GCS_ACCOUNT:
+        description: Google Cloud Storage account for uploading API docs
+        required: true
+      CF_TOKEN:
+        description: CloudFlare token for API docs cache purging
+        required: true
+      CF_ZONEID:
+        description: CloudFlare zone ID for API docs cache purging
+        required: true
   workflow_dispatch:
+    inputs:
+      version_number:
+        description: 'Version number of the release (no `-rc.`, `-b.`, `-a.` suffix)'
+        type: string
+        required: true
 jobs:
   generate-documentation:
+    env:
+      GH_TOKEN: ${{ secrets.PLAYER_CI_GH_TOKEN }}
+      GC_SACCOUNT: ${{ secrets.GCS_ACCOUNT }}
+      PCI_BRANCH: ${{ inputs.version_number }}
+      CF_TOKEN: ${{ secrets.CF_TOKEN }}
+      CF_ZONEID: ${{ secrets.CF_ZONEID }}
     name: Generate documentation
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: echo "Generating documentation..."
+      - name: Prepare dependencies and development environment
+        uses: ./.github/actions/prepare-dependencies
+      - name: Analyze project source
+        run: flutter analyze
+      - name: Generate documentation
+        run: dart doc .
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install CI scripts
+        run: |
+          curl -sS -H "Authorization: token ${GH_TOKEN}" -L https://raw.githubusercontent.com/bitmovin-engineering/player-ci/master/install.sh | bash
+      - name: Upload to CDN
+        run: node ./ci_scripts/src/uploadToGcs.js flutter ../../doc/api
+      - name: Purge CDN cache
+        run: node ./ci_scripts/src/purgeCloudflarePath.js 'flutter'
