@@ -1,0 +1,26 @@
+name: Prepare dependencies and development environment
+description: Prepares dependencies and development environment
+runs:
+  using: "composite"
+  steps:
+    - name: Install Flutter
+      uses: subosito/flutter-action@v2
+    - name: Create env files
+      shell: bash
+      run: |
+        touch .env
+        echo BITMOVIN_PLAYER_LICENSE_KEY=_UNUSED_ >> .env
+        echo BITMOVIN_ANALYTICS_LICENSE_KEY=_UNUSED_ >> .env
+        cp .env player_testing/.env
+    - name: Install dependencies for player library
+      shell: bash
+      run: flutter pub get
+    - name: Run code generation for player library
+      shell: bash
+      run: flutter pub run build_runner build --delete-conflicting-outputs
+    - name: Install dependencies for player testing library
+      shell: bash
+      run: (cd player_testing && dart pub get)
+    - name: Run code generation for player testing library
+      shell: bash
+      run: (cd player_testing && dart run build_runner build)
