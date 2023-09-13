@@ -17,6 +17,7 @@ class Methods {
   static const String isLive = 'isLive';
   static const String isPlaying = 'isPlaying';
   static const String sendCustomDataEvent = 'sendCustomDataEvent';
+  static const String availableSubtitles = 'availableSubtitles';
 
   /// Player view related methods
   static const String destroyPlayerView = 'destroyPlayerView';

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:bitmovin_player/src/api/player/player_api.dart';
@@ -120,6 +121,8 @@ class Player with PlayerEventHandler implements PlayerApi {
     });
   }
 
+  // Can be used to call methods on the platform side that return a single
+  // values.
   Future<T?> _invokeMethod<T>(
     String methodName, [
     dynamic data,
@@ -129,6 +132,34 @@ class Player with PlayerEventHandler implements PlayerApi {
       return Future.error('Error initializing player on native platform side.');
     }
     return _methodChannel.invokeMethod<T>(methodName, _buildPayload(data));
+  }
+
+  // Can be used to call methods on the platform side that return a list of
+  // objects.
+  Future<List<T>> _invokeListObjectsMethod<T>(
+    String methodName,
+    T Function(Map<String, dynamic>) fromJson, [
+    dynamic data,
+  ]) async {
+    final result = await _initializationResult;
+    if (!result) {
+      return Future.error('Error initializing player on native platform side.');
+    }
+
+    final jsonStringList = await _methodChannel.invokeListMethod<String>(
+      methodName,
+      _buildPayload(data),
+    );
+
+    if (jsonStringList == null) {
+      return [];
+    }
+
+    return jsonStringList.map((String jsonString) {
+      return fromJson(
+        jsonDecode(jsonString) as Map<String, dynamic>,
+      );
+    }).toList();
   }
 
   @override
@@ -198,8 +229,11 @@ class Player with PlayerEventHandler implements PlayerApi {
       await _invokeMethod<bool>(Methods.isPlaying) ?? false;
 
   @override
-  Future<List<SubtitleTrack>> get availableSubtitles =>
-      throw UnimplementedError();
+  Future<List<SubtitleTrack>> get availableSubtitles async =>
+      _invokeListObjectsMethod<SubtitleTrack>(
+        Methods.availableSubtitles,
+        SubtitleTrack.fromJson,
+      );
 
   /// Disposes the player instance.
   Future<void> dispose() async => _invokeMethod<void>(Methods.destroy);

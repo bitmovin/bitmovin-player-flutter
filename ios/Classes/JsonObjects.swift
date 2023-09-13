@@ -10,14 +10,25 @@ internal protocol FlutterToNativeConvertible: Codable {
 internal protocol NativeToFlutterConvertible {
     associatedtype FlutterObject where FlutterObject: Codable
     func toFlutter() -> FlutterObject
-    func toJson() -> Data?
+    func toJson() -> [String: Any]?
+    func toJsonString() -> String?
 }
 
 extension NativeToFlutterConvertible {
-    func toJson() -> Data? {
-        try? JSONEncoder().encode(
-            toFlutter()
-        )
+    func toJson() -> [String: Any]? {
+        guard let jsonData = try? JSONEncoder().encode(toFlutter()) else {
+            return nil
+        }
+
+        return try? JSONSerialization.jsonObject(with: jsonData) as? [String: Any]
+    }
+
+    func toJsonString() -> String? {
+        guard let jsonData = try? JSONEncoder().encode(toFlutter()) else {
+            return nil
+        }
+
+        return String(data: jsonData, encoding: .utf8)
     }
 }
 

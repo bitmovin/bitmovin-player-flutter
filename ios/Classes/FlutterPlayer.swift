@@ -121,7 +121,7 @@ private extension FlutterPlayer {
             }
         case (Methods.availableSubtitles, .empty):
             return player.availableSubtitles.compactMap { subtitleTrack in
-                subtitleTrack.toJson()
+                subtitleTrack.toJsonString()
             }
         default:
             return FlutterMethodNotImplemented
