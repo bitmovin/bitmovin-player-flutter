@@ -1,5 +1,4 @@
 // swiftlint:disable:this file_name
-
 import BitmovinPlayer
 import Foundation
 
