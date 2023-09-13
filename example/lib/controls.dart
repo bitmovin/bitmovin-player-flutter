@@ -4,7 +4,6 @@ typedef ControlAction = void Function()?;
 
 class Controls extends StatelessWidget {
   const Controls({
-    super.key,
     required this.onPlayPressed,
     required this.onPausePressed,
     required this.onLoadPressed,
@@ -12,6 +11,7 @@ class Controls extends StatelessWidget {
     required this.onUnmutePressed,
     required this.onSkipForwardPressed,
     required this.onSkipBackwardPressed,
+    super.key,
   });
 
   final ControlAction onPlayPressed;
@@ -21,16 +21,15 @@ class Controls extends StatelessWidget {
   final ControlAction onUnmutePressed;
   final ControlAction onSkipForwardPressed;
   final ControlAction onSkipBackwardPressed;
-  final insetFirst = const EdgeInsets.only(left: 10, right: 5);
-  final insetMiddle = const EdgeInsets.only(left: 5, right: 5);
-  final insetLast = const EdgeInsets.only(left: 5, right: 10);
+  EdgeInsets get insetFirst => const EdgeInsets.only(left: 10, right: 5);
+  EdgeInsets get insetMiddle => const EdgeInsets.only(left: 5, right: 5);
+  EdgeInsets get insetLast => const EdgeInsets.only(left: 5, right: 10);
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
               margin: insetFirst,
@@ -63,7 +62,6 @@ class Controls extends StatelessWidget {
           ],
         ),
         Row(
-          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
               margin: insetFirst,

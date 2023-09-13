@@ -1,13 +1,13 @@
 import 'dart:io';
 
 import 'package:bitmovin_player/bitmovin_player.dart';
+import 'package:bitmovin_player_example/controls.dart';
 import 'package:bitmovin_player_example/env/env.dart';
 import 'package:flutter/material.dart';
-import 'package:bitmovin_player_example/controls.dart';
 
 class AudioOnly extends StatefulWidget {
-  static String routeName = 'AudioOnly';
   const AudioOnly({super.key});
+  static String routeName = 'AudioOnly';
 
   @override
   State<AudioOnly> createState() => _AudioOnlyState();
@@ -50,10 +50,10 @@ class _AudioOnlyState extends State<AudioOnly> {
             margin: const EdgeInsets.only(top: 5),
             child: Controls(
               onLoadPressed: () => _player.loadSourceConfig(_sourceConfig),
-              onPlayPressed: () => _player.play(),
-              onPausePressed: () => _player.pause(),
-              onMutePressed: () => _player.mute(),
-              onUnmutePressed: () => _player.unmute(),
+              onPlayPressed: _player.play,
+              onPausePressed: _player.pause,
+              onMutePressed: _player.mute,
+              onUnmutePressed: _player.unmute,
               onSkipForwardPressed: () async =>
                   _player.seek(await _player.currentTime + 10),
               onSkipBackwardPressed: () async =>
