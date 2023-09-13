@@ -1,6 +1,6 @@
 import Foundation
 
-class Channels {
+internal enum Channels {
     static let main = "channel-manager"
     static let player = "player"
     static let playerEvent = "player-events"

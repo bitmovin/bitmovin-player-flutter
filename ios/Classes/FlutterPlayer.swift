@@ -6,7 +6,7 @@ import Foundation
 // Wraps a Bitmovin `Player` and is connected to a player instance that was created on the Flutter side in Dart.
 // Communication with the player instance on the Flutter side happens through the method channel.
 // Player events are communicated to the Flutter side through the event channel.
-class FlutterPlayer: NSObject {
+internal class FlutterPlayer: NSObject {
     private var id: String
     private var eventSink: FlutterEventSink?
     private var methodChannel: FlutterMethodChannel
@@ -59,7 +59,7 @@ private extension FlutterPlayer {
         result(methodCallResult)
     }
 
-    // swiftlint:disable:next cyclomatic_complexity
+    // swiftlint:disable:next cyclomatic_complexity function_body_length
     func handleMethodCall(call: FlutterMethodCall) -> Any? {
         guard let arguments = Helper.methodCallArguments(call.arguments) else {
             return FlutterError()
@@ -156,8 +156,8 @@ private extension FlutterPlayer {
         methodChannel.setMethodCallHandler(nil)
         eventChannel.setStreamHandler(nil)
     }
-    
-    func sendCustomDataEvent(customData:CustomData) {
+
+    func sendCustomDataEvent(customData: CustomData) {
         player.analytics?.sendCustomDataEvent(customData: customData)
     }
 }

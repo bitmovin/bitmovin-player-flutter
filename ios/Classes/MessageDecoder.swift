@@ -1,6 +1,6 @@
 import Foundation
 
-class MessageDecoder {
+internal enum MessageDecoder {
     static func decode<T: Decodable>(type: T.Type, from data: Any?) -> T? {
         guard let dataDict = data as? [String: Any],
               let jsonData = try? JSONSerialization.data(withJSONObject: dataDict) else {

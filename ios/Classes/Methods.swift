@@ -1,6 +1,6 @@
 import Foundation
 
-class Methods {
+internal enum Methods {
     // Player related methods
     static let createPlayer = "createPlayer"
     static let loadWithSourceConfig = "loadWithSourceConfig"
