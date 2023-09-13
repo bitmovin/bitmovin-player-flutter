@@ -7,6 +7,20 @@ internal protocol FlutterToNativeConvertible: Codable {
     func toNative() -> NativeObject
 }
 
+internal protocol NativeToFlutterConvertible {
+    associatedtype FlutterObject where FlutterObject: Codable
+    func toFlutter() -> FlutterObject
+    func toJson() -> Data?
+}
+
+extension NativeToFlutterConvertible {
+    func toJson() -> Data? {
+        try? JSONEncoder().encode(
+            toFlutter()
+        )
+    }
+}
+
 internal struct FlutterAnalyticsConfig: FlutterToNativeConvertible {
     let licenseKey: String
     let retryPolicy: String
@@ -149,9 +163,6 @@ internal struct FlutterSubtitleTrack: FlutterToNativeConvertible {
     let language: String?
     let isForced: Bool
 
-    // TODO: we also need a fromNative to bridge platform inconsistencies
-    // In that course, remove the according parts from Helper.swift
-
     func toNative() -> SubtitleTrack {
         let subtitleTrackUrl: URL?
         if let url {
@@ -160,26 +171,68 @@ internal struct FlutterSubtitleTrack: FlutterToNativeConvertible {
             subtitleTrackUrl = nil
         }
 
-        let subtitleTrackFormat: SubtitleFormat
-        switch format?.lowercased() {
-        case "webvtt":
-            subtitleTrackFormat = .webVtt
-        case "ttml":
-            subtitleTrackFormat = .ttml
-        case "cea":
-            subtitleTrackFormat = .cea
-        default:
-            subtitleTrackFormat = .webVtt
-        }
-
         return SubtitleTrack(
             url: subtitleTrackUrl,
-            format: subtitleTrackFormat,
+            format: format?.subtitleFormat ?? .webVtt,
             label: label,
             identifier: id,
             isDefaultTrack: isDefault,
             language: language,
             forced: isForced
         )
+    }
+}
+
+extension SubtitleTrack: NativeToFlutterConvertible {
+    func toFlutter() -> FlutterSubtitleTrack {
+        FlutterSubtitleTrack(
+            url: url?.absoluteString,
+            format: format.stringValue,
+            label: label,
+            id: identifier,
+            isDefault: isDefaultTrack,
+            language: language,
+            isForced: isForced
+        )
+    }
+}
+
+private extension String {
+    var subtitleFormat: SubtitleFormat {
+        switch self.lowercased() {
+        case JsonValues.SubtitleFormat.webVtt:
+            return .webVtt
+        case JsonValues.SubtitleFormat.ttml:
+            return .ttml
+        case JsonValues.SubtitleFormat.cea:
+            return .cea
+        default:
+            return .webVtt
+        }
+    }
+}
+
+private extension SubtitleFormat {
+    var stringValue: String {
+        switch self {
+        case .cea:
+            return JsonValues.SubtitleFormat.cea
+        case .ttml:
+            return JsonValues.SubtitleFormat.ttml
+        case .webVtt:
+            return JsonValues.SubtitleFormat.webVtt
+        default:
+            return JsonValues.SubtitleFormat.webVtt
+        }
+    }
+}
+
+// Values used to handle iOS Player SDK objects that are not directly convertible
+// to meaningful JSON compatible values, like for instance Obj-C enums.
+private enum JsonValues {
+    enum SubtitleFormat {
+        static let cea = "cea"
+        static let ttml = "ttml"
+        static let webVtt = "webVtt"
     }
 }
