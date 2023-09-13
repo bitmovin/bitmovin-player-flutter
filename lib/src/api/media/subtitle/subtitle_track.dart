@@ -8,9 +8,9 @@ part 'subtitle_track.g.dart';
 class SubtitleTrack extends Equatable {
   const SubtitleTrack({
     required this.id,
+    required this.label,
     this.url,
     this.format,
-    this.label,
     this.isDefault = false,
     this.isForced = false,
     this.language,
@@ -32,7 +32,7 @@ class SubtitleTrack extends Equatable {
 
   /// The label for this [SubtitleTrack].
   @JsonKey(name: 'label')
-  final String? label;
+  final String label;
 
   /// The unique identifier for this [SubtitleTrack].
   @JsonKey(name: 'id')

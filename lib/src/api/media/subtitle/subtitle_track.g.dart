@@ -9,9 +9,9 @@ part of 'subtitle_track.dart';
 SubtitleTrack _$SubtitleTrackFromJson(Map<String, dynamic> json) =>
     SubtitleTrack(
       id: json['id'] as String,
+      label: json['label'] as String,
       url: json['url'] as String?,
       format: json['format'] as String?,
-      label: json['label'] as String?,
       isDefault: json['isDefault'] as bool? ?? false,
       isForced: json['isForced'] as bool? ?? false,
       language: json['language'] as String?,

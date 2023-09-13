@@ -143,13 +143,14 @@ internal struct FlutterSourceMetadata: FlutterToNativeConvertible {
 internal struct FlutterSubtitleTrack: FlutterToNativeConvertible {
     let url: String?
     let format: String?
-    let label: String?
+    let label: String
     let id: String
     let isDefault: Bool
     let language: String?
     let isForced: Bool
 
     // TODO: we also need a fromNative to bridge platform inconsistencies
+    // In that course, remove the according parts from Helper.swift
 
     func toNative() -> SubtitleTrack {
         let subtitleTrackUrl: URL?
@@ -174,7 +175,7 @@ internal struct FlutterSubtitleTrack: FlutterToNativeConvertible {
         return SubtitleTrack(
             url: subtitleTrackUrl,
             format: subtitleTrackFormat,
-            label: label ?? "", // TODO: generate something
+            label: label,
             identifier: id,
             isDefaultTrack: isDefault,
             language: language,
