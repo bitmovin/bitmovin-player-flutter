@@ -5,8 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:logger/logger.dart';
 
 class FullscreenHandling extends StatefulWidget {
-  static String routeName = 'FullscreenHandling';
   const FullscreenHandling({super.key});
+  static String routeName = 'FullscreenHandling';
 
   @override
   State<FullscreenHandling> createState() => _FullscreenHandlingState();
@@ -62,9 +62,7 @@ class _FullscreenHandlingState extends State<FullscreenHandling> {
 
   @override
   void initState() {
-    _fullscreenHandler.onStateChange = () {
-      _refresh();
-    };
+    _fullscreenHandler.onStateChange = _refresh;
     _player.loadSourceConfig(_sourceConfig);
     super.initState();
   }
@@ -74,7 +72,7 @@ class _FullscreenHandlingState extends State<FullscreenHandling> {
   }
 
   @override
-  void setState(fn) {
+  void setState(VoidCallback fn) {
     if (mounted) {
       super.setState(fn);
     }
@@ -108,13 +106,12 @@ class _FullscreenHandlingState extends State<FullscreenHandling> {
               key: _playerViewKey,
               fullscreenHandler: _fullscreenHandler,
               onFullscreenEnter: (event) =>
-                  _logger.d("received ${event.runtimeType}: ${event.toJson()}"),
+                  _logger.d('received ${event.runtimeType}: ${event.toJson()}'),
               onFullscreenExit: (event) =>
-                  _logger.d("received ${event.runtimeType}: ${event.toJson()}"),
+                  _logger.d('received ${event.runtimeType}: ${event.toJson()}'),
             ),
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
                 margin: const EdgeInsets.only(left: 10, right: 5),

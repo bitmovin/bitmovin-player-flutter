@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
 class EventSubscription extends StatefulWidget {
-  static String routeName = 'EventSubscription';
   const EventSubscription({super.key});
+  static String routeName = 'EventSubscription';
 
   @override
   State<EventSubscription> createState() => _EventSubscriptionState();
@@ -31,76 +31,35 @@ class _EventSubscriptionState extends State<EventSubscription> {
   final _logger = Logger();
 
   void _onEvent(Event event) {
-    final eventName = "${event.runtimeType}";
-    final eventData = "$eventName ${event.toJson()}";
+    final eventName = '${event.runtimeType}';
+    final eventData = '$eventName ${event.toJson()}';
     _logger.d(eventData);
     _eventsKey.currentState?.add(eventName);
   }
 
   void _listen() {
-    _player.onError = (ErrorEvent data) {
-      _onEvent(data);
-    };
-    _player.onInfo = (InfoEvent data) {
-      _onEvent(data);
-    };
-    _player.onSourceLoad = (SourceLoadEvent data) {
-      _onEvent(data);
-    };
-    _player.onSourceLoaded = (SourceLoadedEvent data) {
-      _onEvent(data);
-    };
-    _player.onMuted = (MutedEvent data) {
-      _onEvent(data);
-    };
-    _player.onPaused = (PausedEvent data) {
-      _onEvent(data);
-    };
-    _player.onPlay = (PlayEvent data) {
-      _onEvent(data);
-    };
-    _player.onPlaybackFinished = (PlaybackFinishedEvent data) {
-      _onEvent(data);
-    };
-    _player.onPlaying = (PlayingEvent data) {
-      _onEvent(data);
-    };
-    _player.onReady = (ReadyEvent data) {
-      _onEvent(data);
-    };
-    _player.onSeek = (SeekEvent data) {
-      _onEvent(data);
-    };
-    _player.onSeeked = (SeekedEvent data) {
-      _onEvent(data);
-    };
-    _player.onSourceAdded = (SourceAddedEvent data) {
-      _onEvent(data);
-    };
-    _player.onSourceRemoved = (SourceRemovedEvent data) {
-      _onEvent(data);
-    };
-    _player.onSourceError = (SourceErrorEvent data) {
-      _onEvent(data);
-    };
-    _player.onSourceInfo = (SourceInfoEvent data) {
-      _onEvent(data);
-    };
-    _player.onSourceUnloaded = (SourceUnloadedEvent data) {
-      _onEvent(data);
-    };
-    _player.onSourceWarning = (SourceWarningEvent data) {
-      _onEvent(data);
-    };
-    _player.onTimeChanged = (TimeChangedEvent data) {
-      _onEvent(data);
-    };
-    _player.onUnmuted = (UnmutedEvent data) {
-      _onEvent(data);
-    };
-    _player.onWarning = (WarningEvent data) {
-      _onEvent(data);
-    };
+    _player
+      ..onError = _onEvent
+      ..onInfo = _onEvent
+      ..onSourceLoad = _onEvent
+      ..onSourceLoaded = _onEvent
+      ..onMuted = _onEvent
+      ..onPaused = _onEvent
+      ..onPlay = _onEvent
+      ..onPlaybackFinished = _onEvent
+      ..onPlaying = _onEvent
+      ..onReady = _onEvent
+      ..onSeek = _onEvent
+      ..onSeeked = _onEvent
+      ..onSourceAdded = _onEvent
+      ..onSourceRemoved = _onEvent
+      ..onSourceError = _onEvent
+      ..onSourceInfo = _onEvent
+      ..onSourceUnloaded = _onEvent
+      ..onSourceWarning = _onEvent
+      ..onTimeChanged = _onEvent
+      ..onUnmuted = _onEvent
+      ..onWarning = _onEvent;
   }
 
   @override
@@ -111,7 +70,7 @@ class _EventSubscriptionState extends State<EventSubscription> {
   }
 
   @override
-  void setState(fn) {
+  void setState(VoidCallback fn) {
     if (mounted) {
       super.setState(fn);
     }
@@ -141,10 +100,10 @@ class _EventSubscriptionState extends State<EventSubscription> {
             margin: const EdgeInsets.only(top: 5),
             child: Controls(
               onLoadPressed: () => _player.loadSourceConfig(_sourceConfig),
-              onPlayPressed: () => _player.play(),
-              onPausePressed: () => _player.pause(),
-              onMutePressed: () => _player.mute(),
-              onUnmutePressed: () => _player.unmute(),
+              onPlayPressed: _player.play,
+              onPausePressed: _player.pause,
+              onMutePressed: _player.mute,
+              onUnmutePressed: _player.unmute,
               onSkipForwardPressed: () async =>
                   _player.seek(await _player.currentTime + 10),
               onSkipBackwardPressed: () async =>
