@@ -13,7 +13,7 @@ class EventsState extends State<Events> {
   void add(String newItem) {
     if (items.isNotEmpty && items.first.startsWith(newItem)) {
       final count = _extractNumberFromString(items.first) + 1;
-      final itemWithCount = "$newItem ($count)";
+      final itemWithCount = '$newItem ($count)';
       setState(() {
         items[0] = itemWithCount;
       });

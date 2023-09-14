@@ -1,15 +1,15 @@
 import 'package:bitmovin_player_example/pages/analytics.dart';
-import 'package:bitmovin_player_example/pages/fullscreen_handling.dart';
-import 'package:flutter/material.dart';
-import 'package:bitmovin_player_example/pages/basic_playback.dart';
-import 'package:bitmovin_player_example/pages/event_subscription.dart';
 import 'package:bitmovin_player_example/pages/audio_only.dart';
+import 'package:bitmovin_player_example/pages/basic_playback.dart';
 import 'package:bitmovin_player_example/pages/custom_html_ui.dart';
 import 'package:bitmovin_player_example/pages/drm_playback.dart';
+import 'package:bitmovin_player_example/pages/event_subscription.dart';
+import 'package:bitmovin_player_example/pages/fullscreen_handling.dart';
+import 'package:flutter/material.dart';
 
 class Home extends StatelessWidget {
-  static String routeName = 'Home';
   const Home({super.key});
+  static String routeName = 'Home';
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,6 @@ class Home extends StatelessWidget {
         height: MediaQuery.of(context).size.height,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             OutlinedButton(
               onPressed: () {

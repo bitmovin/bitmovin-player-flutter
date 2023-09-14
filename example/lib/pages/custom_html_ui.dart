@@ -6,8 +6,8 @@ import 'package:bitmovin_player_example/env/env.dart';
 import 'package:flutter/material.dart';
 
 class CustomHtmlUi extends StatefulWidget {
-  static String routeName = 'CustomHtmlUi';
   const CustomHtmlUi({super.key});
+  static String routeName = 'CustomHtmlUi';
 
   @override
   State<CustomHtmlUi> createState() => _CustomHtmlUiState();
@@ -22,15 +22,16 @@ class _CustomHtmlUiState extends State<CustomHtmlUi> {
   );
   final _player = Player(
     config: const PlayerConfig(
-        key: Env.bitmovinPlayerLicenseKey,
-        styleConfig: StyleConfig(
-          playerUiCss:
-              'https://cdn.statically.io/gh/bitmovin/bitmovin-player-ios-samples/main/CustomHtmlUi/Supporting%20Files/bitmovinplayer-ui.min.css',
-          playerUiJs:
-              'https://cdn.statically.io/gh/bitmovin/bitmovin-player-ios-samples/main/CustomHtmlUi/Supporting%20Files/bitmovinplayer-ui.min.js',
-          supplementalPlayerUiCss:
-              'https://cdn.bitmovin.com/player/ui/ui-customized-sample.css',
-        )),
+      key: Env.bitmovinPlayerLicenseKey,
+      styleConfig: StyleConfig(
+        playerUiCss:
+            'https://cdn.statically.io/gh/bitmovin/bitmovin-player-ios-samples/main/CustomHtmlUi/Supporting%20Files/bitmovinplayer-ui.min.css',
+        playerUiJs:
+            'https://cdn.statically.io/gh/bitmovin/bitmovin-player-ios-samples/main/CustomHtmlUi/Supporting%20Files/bitmovinplayer-ui.min.js',
+        supplementalPlayerUiCss:
+            'https://cdn.bitmovin.com/player/ui/ui-customized-sample.css',
+      ),
+    ),
   );
 
   @override
@@ -63,10 +64,10 @@ class _CustomHtmlUiState extends State<CustomHtmlUi> {
             margin: const EdgeInsets.only(top: 5),
             child: Controls(
               onLoadPressed: () => _player.loadSourceConfig(_sourceConfig),
-              onPlayPressed: () => _player.play(),
-              onPausePressed: () => _player.pause(),
-              onMutePressed: () => _player.mute(),
-              onUnmutePressed: () => _player.unmute(),
+              onPlayPressed: _player.play,
+              onPausePressed: _player.pause,
+              onMutePressed: _player.mute,
+              onUnmutePressed: _player.unmute,
               onSkipForwardPressed: () async =>
                   _player.seek(await _player.currentTime + 10),
               onSkipBackwardPressed: () async =>

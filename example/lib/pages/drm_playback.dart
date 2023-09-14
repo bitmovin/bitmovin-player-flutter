@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
 class DrmPlayback extends StatefulWidget {
-  static String routeName = 'DrmPlayback';
   const DrmPlayback({super.key});
+  static String routeName = 'DrmPlayback';
 
   @override
   State<DrmPlayback> createState() => _DrmPlaybackState();
@@ -50,40 +50,23 @@ class _DrmPlaybackState extends State<DrmPlayback> {
   final _logger = Logger();
 
   void _onEvent(Event event) {
-    final eventName = "${event.runtimeType}";
-    final eventData = "$eventName ${event.toJson()}";
+    final eventName = '${event.runtimeType}';
+    final eventData = '$eventName ${event.toJson()}';
     _logger.d(eventData);
     _eventsKey.currentState?.add(eventName);
   }
 
   void _listen() {
-    _player.onSourceLoaded = (SourceLoadedEvent data) {
-      _onEvent(data);
-    };
-    _player.onPlay = (PlayEvent data) {
-      _onEvent(data);
-    };
-    _player.onPaused = (PausedEvent data) {
-      _onEvent(data);
-    };
-    _player.onPlaying = (PlayingEvent data) {
-      _onEvent(data);
-    };
-    _player.onReady = (ReadyEvent data) {
-      _onEvent(data);
-    };
-    _player.onSeek = (SeekEvent data) {
-      _onEvent(data);
-    };
-    _player.onSeeked = (SeekedEvent data) {
-      _onEvent(data);
-    };
-    _player.onMuted = (MutedEvent data) {
-      _onEvent(data);
-    };
-    _player.onUnmuted = (UnmutedEvent data) {
-      _onEvent(data);
-    };
+    _player
+      ..onSourceLoaded = _onEvent
+      ..onPlay = _onEvent
+      ..onPaused = _onEvent
+      ..onPlaying = _onEvent
+      ..onReady = _onEvent
+      ..onSeek = _onEvent
+      ..onSeeked = _onEvent
+      ..onMuted = _onEvent
+      ..onUnmuted = _onEvent;
   }
 
   @override
@@ -94,7 +77,7 @@ class _DrmPlaybackState extends State<DrmPlayback> {
   }
 
   @override
-  setState(fn) {
+  void setState(VoidCallback fn) {
     if (mounted) {
       super.setState(fn);
     }
@@ -124,10 +107,10 @@ class _DrmPlaybackState extends State<DrmPlayback> {
             margin: const EdgeInsets.only(top: 5),
             child: Controls(
               onLoadPressed: () => _player.loadSourceConfig(_sourceConfig),
-              onPlayPressed: () => _player.play(),
-              onPausePressed: () => _player.pause(),
-              onMutePressed: () => _player.mute(),
-              onUnmutePressed: () => _player.unmute(),
+              onPlayPressed: _player.play,
+              onPausePressed: _player.pause,
+              onMutePressed: _player.mute,
+              onUnmutePressed: _player.unmute,
               onSkipForwardPressed: () async =>
                   _player.seek(await _player.currentTime + 10),
               onSkipBackwardPressed: () async =>
