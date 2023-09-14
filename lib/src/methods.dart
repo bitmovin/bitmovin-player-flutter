@@ -18,6 +18,9 @@ class Methods {
   static const String isPlaying = 'isPlaying';
   static const String sendCustomDataEvent = 'sendCustomDataEvent';
   static const String availableSubtitles = 'availableSubtitles';
+  static const String setSubtitle = 'setSubtitle';
+  static const String getSubtitle = 'getSubtitle';
+  static const String removeSubtitle = 'removeSubtitle';
 
   /// Player view related methods
   static const String destroyPlayerView = 'destroyPlayerView';

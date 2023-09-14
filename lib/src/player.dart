@@ -122,7 +122,7 @@ class Player with PlayerEventHandler implements PlayerApi {
   }
 
   // Can be used to call methods on the platform side that return a single
-  // values.
+  // primitive value that is natively supported by the method channel.
   Future<T?> _invokeMethod<T>(
     String methodName, [
     dynamic data,
@@ -134,8 +134,34 @@ class Player with PlayerEventHandler implements PlayerApi {
     return _methodChannel.invokeMethod<T>(methodName, _buildPayload(data));
   }
 
+  // Can be used to call methods on the platform side that return a complex
+  // object that is not natively supported by the method channel.
+  Future<T?> _invokeObjectMethod<T>(
+    String methodName,
+    T Function(Map<String, dynamic>) fromJson, [
+    dynamic data,
+  ]) async {
+    final result = await _initializationResult;
+    if (!result) {
+      return Future.error('Error initializing player on native platform side.');
+    }
+
+    final jsonString = await _methodChannel.invokeMethod<String>(
+      methodName,
+      _buildPayload(data),
+    );
+
+    if (jsonString == null) {
+      return null;
+    }
+
+    return fromJson(
+      jsonDecode(jsonString) as Map<String, dynamic>,
+    );
+  }
+
   // Can be used to call methods on the platform side that return a list of
-  // objects.
+  // complex objects that are not natively supported by the method channel.
   Future<List<T>> _invokeListObjectsMethod<T>(
     String methodName,
     T Function(Map<String, dynamic>) fromJson, [
@@ -234,6 +260,22 @@ class Player with PlayerEventHandler implements PlayerApi {
         Methods.availableSubtitles,
         SubtitleTrack.fromJson,
       );
+
+  @override
+  Future<void> removeSubtitle(String id) async =>
+      _invokeMethod<void>(Methods.removeSubtitle, id);
+
+  @override
+  Future<void> setSubtitle(String? id) async =>
+      _invokeMethod<void>(Methods.setSubtitle, id);
+
+  @override
+  Future<SubtitleTrack> get subtitle async =>
+      await _invokeObjectMethod<SubtitleTrack>(
+        Methods.getSubtitle,
+        SubtitleTrack.fromJson,
+      ) ??
+      SubtitleTrack.off();
 
   /// Disposes the player instance.
   Future<void> dispose() async => _invokeMethod<void>(Methods.destroy);

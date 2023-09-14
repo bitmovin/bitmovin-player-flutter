@@ -21,6 +21,8 @@ class SubtitleTrack extends Equatable {
     return _$SubtitleTrackFromJson(json);
   }
 
+  factory SubtitleTrack.off() => const SubtitleTrack(id: 'off', label: 'off');
+
   /// The URL of the [SubtitleTrack].
   @JsonKey(name: 'url')
   final String? url;

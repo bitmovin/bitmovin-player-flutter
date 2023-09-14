@@ -20,6 +20,9 @@ internal enum Methods {
     static let isPlaying = "isPlaying"
     static let sendCustomDataEvent = "sendCustomDataEvent"
     static let availableSubtitles = "availableSubtitles"
+    static let getSubtitle = "getSubtitle"
+    static let setSubtitle = "setSubtitle"
+    static let removeSubtitle = "removeSubtitle"
 
     // Player view related methods
     static let destroyPlayerView = "destroyPlayerView"

@@ -123,6 +123,14 @@ private extension FlutterPlayer {
             return player.availableSubtitles.compactMap { subtitleTrack in
                 subtitleTrack.toJsonString()
             }
+        case (Methods.getSubtitle, .empty):
+            return player.subtitle.toJsonString()
+        case (Methods.setSubtitle, .string(let trackId)):
+            player.setSubtitle(trackIdentifier: trackId)
+        case (Methods.setSubtitle, .empty):
+            player.setSubtitle(trackIdentifier: nil)
+        case (Methods.removeSubtitle, .string(let trackId)):
+            player.removeSubtitle(trackIdentifier: trackId)
         default:
             return FlutterMethodNotImplemented
         }

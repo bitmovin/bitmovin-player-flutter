@@ -20,6 +20,10 @@ class Methods {
         const val IS_LIVE = "isLive"
         const val IS_PLAYING = "isPlaying"
         const val SEND_CUSTOM_DATA_EVENT = "sendCustomDataEvent"
+        const val AVAILABLE_SUBTITLES = "availableSubtitles"
+        const val SET_SUBTITLE = "setSubtitle"
+        const val GET_SUBTITLE = "getSubtitle"
+        const val REMOVE_SUBTITLE = "removeSubtitle"
 
         // Player view related methods
         const val DESTROY_PLAYER_VIEW = "destroyPlayerView"

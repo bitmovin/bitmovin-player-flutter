@@ -15,6 +15,8 @@ internal enum Helper {
             return .json(jsonArgument)
         case let doubleArgument as Double:
             return .double(doubleArgument)
+        case let stringArgument as String:
+            return .string(stringArgument)
         default:
             return .empty
         }
