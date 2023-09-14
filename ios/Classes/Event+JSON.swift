@@ -41,8 +41,11 @@ extension SourceConfig {
         json["options"] = self.options.toJSON()
         json["labelingConfig"] = self.labelingConfig.toJSON()
         json["type"] = self.type.toValue()
-        json["tracks"] = self.tracks.map { track in
-            track.toJSON()
+        json["subtitleTracks"] = self.tracks.compactMap { track -> [String: Any]? in
+            guard let subtitleTrack = track as? SubtitleTrack else {
+                return nil
+            }
+            return subtitleTrack.toJson()
         }
 
         if let target = self.sourceDescription {
@@ -63,11 +66,6 @@ extension SourceConfig {
             json["drmConfig"] = nil
         }
 
-        if let target = self.thumbnailTrack {
-            json["thumbnailTrack"] = target.toJSON()
-        } else {
-            json["thumbnailTrack"] = nil
-        }
         return json
     }
 }
@@ -151,18 +149,6 @@ extension TrackType {
         @unknown default:
             return "unknown"
         }
-    }
-}
-
-extension Track {
-    func toJSON() -> [String: Any] {
-        var json: [String: Any] = [:]
-        json["url"] = self.url?.absoluteString
-        json["identifier"] = self.identifier
-        json["isDefaultTrack"] = self.isDefaultTrack
-        json["label"] = self.label
-        json["type"] = self.type.toValue()
-        return json
     }
 }
 
@@ -356,21 +342,21 @@ extension AudioChangedEvent {
 }
 
 extension SubtitleAddedEvent {
-    func toJSON() -> [String: Any] {
+    func toJSON() -> [String: Any?] {
         [
             "event": name,
             "timestamp": Int(timestamp),
-            "subtitleTrack": Helper.subtitleTrackJson(subtitleTrack)
+            "subtitleTrack": subtitleTrack.toJson()
         ]
     }
 }
 
 extension SubtitleRemovedEvent {
-    func toJSON() -> [String: Any] {
+    func toJSON() -> [String: Any?] {
         [
             "event": name,
             "timestamp": Int(timestamp),
-            "subtitleTrack": Helper.subtitleTrackJson(subtitleTrack)
+            "subtitleTrack": subtitleTrack.toJson()
         ]
     }
 }
@@ -382,12 +368,12 @@ extension SubtitleChangedEvent {
             "timestamp": Int(timestamp)
         ]
 
-        if let subtitleTrackOld {
-            result["oldSubtitleTrack"] = Helper.subtitleTrackJson(subtitleTrackOld)
+        if let json = subtitleTrackOld?.toJson() {
+            result["oldSubtitleTrack"] = json
         }
 
-        if let subtitleTrackNew {
-            result["newSubtitleTrack"] = Helper.subtitleTrackJson(subtitleTrackNew)
+        if let json = subtitleTrackNew?.toJson() {
+            result["newSubtitleTrack"] = json
         }
 
         return result
