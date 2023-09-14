@@ -16,6 +16,7 @@ import com.bitmovin.player.flutter.json.JPlayerMethodArg
 import com.bitmovin.player.flutter.json.JSourceConfig
 import com.bitmovin.player.flutter.json.JsonMethodHandler
 import com.bitmovin.player.flutter.json.metadata
+import com.bitmovin.player.flutter.json.toJStruct
 import com.bitmovin.player.flutter.json.toNative
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.EventChannel
@@ -85,8 +86,12 @@ class FlutterPlayer(
         Methods.IS_PLAYING -> isPlaying
         Methods.SEND_CUSTOM_DATA_EVENT -> this.analytics?.sendCustomDataEvent(arg.asCustomData.toNative())
             ?: Unit
-
         Methods.DESTROY -> destroyPlayer()
+        Methods.AVAILABLE_SUBTITLES -> availableSubtitles.map { it.toJStruct().toJsonString() }
+        Methods.GET_SUBTITLE -> subtitle?.toJStruct()?.toJsonString() ?: Unit
+        // TODO: Can we make this nicer?
+        Methods.SET_SUBTITLE -> setSubtitle(if (arg.hasData) arg.asString else null)
+        Methods.REMOVE_SUBTITLE -> removeSubtitle(arg.asString)
         else -> throw NotImplementedError()
     }
 

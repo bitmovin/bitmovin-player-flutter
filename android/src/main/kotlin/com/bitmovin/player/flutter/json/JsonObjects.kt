@@ -4,9 +4,11 @@ import com.bitmovin.analytics.api.RetryPolicy
 import com.bitmovin.player.api.Player
 import com.bitmovin.player.api.SeekMode
 import com.bitmovin.player.api.media.MediaFilter
+import com.bitmovin.player.api.media.subtitle.SubtitleTrack
 import com.bitmovin.player.api.source.SourceType
 import com.bitmovin.player.api.source.TimelineReferencePoint
 import com.bitmovin.player.api.ui.ScalingMode
+import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.flutter.plugin.common.MethodCall
 import java.security.InvalidParameterException
 import kotlin.properties.ReadOnlyProperty
@@ -15,6 +17,7 @@ import kotlin.properties.ReadOnlyProperty
 
 private interface JStruct {
     val map: Map<*, *>
+    fun toJsonString() = jacksonObjectMapper().writeValueAsString(this)
 }
 
 internal class JSource(override val map: Map<*, *>) : JStruct {
@@ -157,6 +160,25 @@ internal class JPlayerConfig(override val map: Map<*, *>) : JStruct {
     val analyticsConfig by structGetter(::JAnalyticsConfig)
 }
 
+internal class JSubtitleTrack(override val map: Map<*, *>) : JStruct {
+    val id by GetString.require()
+    val label by GetString.require()
+    val isDefault by GetBool.require()
+    val isForced by GetBool.require()
+    val language by GetString
+}
+
+// TODO: Find a better way where we do not need to build the map and to get rid of hardcoded strings
+internal fun SubtitleTrack.toJStruct() = JSubtitleTrack(
+    mapOf<String, Any?>(
+        "id" to id,
+        "label" to label,
+        "isDefault" to isDefault,
+        "isForced" to isForced,
+        "language" to language,
+    ),
+)
+
 // Methods
 
 /** Arguments for all [Player] methods. */
@@ -176,9 +198,11 @@ internal class JCreatePlayerArgs(override val map: Map<*, *>) : JStruct {
 /** Argument for all [Player] instance methods. */
 internal class JPlayerMethodArg(override val map: Map<*, *>) : JStruct {
     val asDouble get() = data as Double
+    val asString get() = data as String
     val asSource get() = JSource(dataAsMap)
     val asSourceConfig get() = JSourceConfig(dataAsMap)
     val asCustomData get() = JCustomData(dataAsMap)
+    val hasData get() = map.keys.contains("data") && map["data"] != null // TODO: Can we make this nicer?
     private val data by GetAny.require()
     private val dataAsMap get() = data as Map<*, *>
 }
