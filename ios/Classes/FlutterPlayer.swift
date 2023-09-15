@@ -215,7 +215,7 @@ extension FlutterPlayer: PlayerListener {
     }
 
     func onSourceUnload(_ event: SourceUnloadEvent, player: Player) {
-        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
+        broadcast(name: event.name, data: event.toJsonFallback(), sink: eventSink)
     }
 
     func onSourceWarning(_ event: SourceWarningEvent, player: Player) {
@@ -227,11 +227,11 @@ extension FlutterPlayer: PlayerListener {
     }
 
     func onReady(_ event: ReadyEvent, player: Player) {
-        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
+        broadcast(name: event.name, data: event.toJsonFallback(), sink: eventSink)
     }
 
     func onDestroy(_ event: DestroyEvent, player: Player) {
-        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
+        broadcast(name: event.name, data: event.toJsonFallback(), sink: eventSink)
     }
 
     func onPlayerError(_ event: PlayerErrorEvent, player: Player) {
@@ -243,7 +243,7 @@ extension FlutterPlayer: PlayerListener {
     }
 
     func onPlaybackFinished(_ event: PlaybackFinishedEvent, player: Player) {
-        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
+        broadcast(name: event.name, data: event.toJsonFallback(), sink: eventSink)
     }
 
     func onPlay(_ event: PlayEvent, player: Player) {
@@ -263,11 +263,11 @@ extension FlutterPlayer: PlayerListener {
     }
 
     func onMuted(_ event: MutedEvent, player: Player) {
-        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
+        broadcast(name: event.name, data: event.toJsonFallback(), sink: eventSink)
     }
 
     func onUnmuted(_ event: UnmutedEvent, player: Player) {
-        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
+        broadcast(name: event.name, data: event.toJsonFallback(), sink: eventSink)
     }
 
     func onSeek(_ event: SeekEvent, player: Player) {
@@ -275,7 +275,7 @@ extension FlutterPlayer: PlayerListener {
     }
 
     func onSeeked(_ event: SeekedEvent, player: Player) {
-        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
+        broadcast(name: event.name, data: event.toJsonFallback(), sink: eventSink)
     }
 
     func onTimeShift(_ event: TimeShiftEvent, player: Player) {
@@ -283,7 +283,7 @@ extension FlutterPlayer: PlayerListener {
     }
 
     func onTimeShifted(_ event: TimeShiftedEvent, player: Player) {
-        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
+        broadcast(name: event.name, data: event.toJsonFallback(), sink: eventSink)
     }
 
     func onSubtitleAdded(_ event: SubtitleAddedEvent, player: Player) {

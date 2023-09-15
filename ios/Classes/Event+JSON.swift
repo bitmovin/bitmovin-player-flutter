@@ -187,7 +187,7 @@ extension TimeChangedEvent {
 }
 
 extension Event {
-    func toJSON() -> [String: Any] {
+    func toJsonFallback() -> [String: Any] {
         ["event": name, "timestamp": Int(timestamp)]
     }
 }
