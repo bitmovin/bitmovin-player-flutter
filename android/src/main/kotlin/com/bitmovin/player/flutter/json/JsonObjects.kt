@@ -165,13 +165,13 @@ internal class JPlayerConfig(override var map: Map<*, *>) : JStruct {
 
 internal class JSubtitleTrack(override var map: Map<*, *>) : JStruct {
     constructor(subtitleTrack: SubtitleTrack) : this(emptyMap<String, Any>()) {
-        this.url = subtitleTrack.url
-        this.id = subtitleTrack.id
-        this.format = subtitleTrack.mimeType
-        this.label = subtitleTrack.label ?: subtitleTrack.id
-        this.isDefault = subtitleTrack.isDefault
-        this.isForced = subtitleTrack.isForced
-        this.language = subtitleTrack.language
+        url = subtitleTrack.url
+        id = subtitleTrack.id
+        format = subtitleTrack.mimeType
+        label = subtitleTrack.label ?: subtitleTrack.id
+        isDefault = subtitleTrack.isDefault
+        isForced = subtitleTrack.isForced
+        language = subtitleTrack.language
     }
 
     var url by GetSetString
