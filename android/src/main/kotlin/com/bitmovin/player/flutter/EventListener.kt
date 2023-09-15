@@ -4,6 +4,7 @@ import com.bitmovin.player.PlayerView
 import com.bitmovin.player.api.Player
 import com.bitmovin.player.api.event.PlayerEvent
 import com.bitmovin.player.api.event.SourceEvent
+import com.bitmovin.player.flutter.json.JSubtitleTrack
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.flutter.plugin.common.EventChannel
@@ -123,6 +124,34 @@ open class EventListener {
                     "timestamp" to it.timestamp,
                 )
                 broadcast("onPlayerError", target)
+            }
+            on(SourceEvent.SubtitleTrackAdded::class) {
+                val target = mapOf<String, Any?>(
+                    "timestamp" to it.timestamp,
+                    "subtitleTrack" to JSubtitleTrack(it.subtitleTrack).map,
+                )
+                broadcast("onSubtitleAdded", target)
+            }
+            on(SourceEvent.SubtitleTrackRemoved::class) {
+                val target = mapOf<String, Any?>(
+                    "timestamp" to it.timestamp,
+                    "subtitleTrack" to JSubtitleTrack(it.subtitleTrack).map,
+                )
+                broadcast("onSubtitleRemoved", target)
+            }
+            on(SourceEvent.SubtitleTrackChanged::class) {
+                val target = mapOf(
+                    "timestamp" to it.timestamp,
+                    "oldSubtitleTrack" to it.oldSubtitleTrack?.let { sub -> JSubtitleTrack(sub).map },
+                    "newSubtitleTrack" to it.newSubtitleTrack?.let { sub -> JSubtitleTrack(sub).map },
+                )
+                broadcast("onSubtitleChanged", target)
+            }
+            on(PlayerEvent.CueEnter::class) {
+                broadcast("onCueEnter", it)
+            }
+            on(PlayerEvent.CueExit::class) {
+                broadcast("onCueExit", it)
             }
         }
     }
