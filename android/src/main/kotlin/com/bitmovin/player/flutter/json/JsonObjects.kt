@@ -203,11 +203,11 @@ internal class JCreatePlayerArgs(override var map: Map<*, *>) : JStruct {
 internal class JPlayerMethodArg(override var map: Map<*, *>) : JStruct {
     val asDouble get() = data as Double
     val asString get() = data as String
+    val asOptionalString get() = data as String?
     val asSource get() = JSource(dataAsMap)
     val asSourceConfig get() = JSourceConfig(dataAsMap)
     val asCustomData get() = JCustomData(dataAsMap)
-    val hasData get() = map.keys.contains("data") && map["data"] != null // TODO: Can we make this nicer?
-    private val data by GetAny.require()
+    private val data by GetAny
     private val dataAsMap get() = data as Map<*, *>
 }
 

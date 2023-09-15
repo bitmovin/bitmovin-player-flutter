@@ -89,8 +89,7 @@ class FlutterPlayer(
         Methods.DESTROY -> destroyPlayer()
         Methods.AVAILABLE_SUBTITLES -> availableSubtitles.map { JSubtitleTrack(it).toJsonString() }
         Methods.GET_SUBTITLE -> subtitle?.let { JSubtitleTrack(it).toJsonString() } ?: Unit
-        // TODO: Can we make this nicer?
-        Methods.SET_SUBTITLE -> setSubtitle(if (arg.hasData) arg.asString else null)
+        Methods.SET_SUBTITLE -> setSubtitle(arg.asOptionalString)
         Methods.REMOVE_SUBTITLE -> removeSubtitle(arg.asString)
         else -> throw NotImplementedError()
     }
