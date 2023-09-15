@@ -20,6 +20,10 @@ abstract class Events {
   static const timeShifted = TimeShiftedEvent(timestamp: 0);
   static const timeChanged = TimeChangedEvent(time: 0, timestamp: 0);
   static const subtitleChanged = SubtitleChangedEvent(timestamp: 0);
+  static final subtitleAdded = SubtitleAddedEvent(
+    timestamp: 0,
+    subtitleTrack: _subtitleTrack,
+  );
 
   // Private dummy objects which are used to create event objects
   static const _seekPosition = SeekPosition(
@@ -32,4 +36,5 @@ abstract class Events {
       type: SourceType.hls,
     ),
   );
+  static final _subtitleTrack = SubtitleTrack.off();
 }

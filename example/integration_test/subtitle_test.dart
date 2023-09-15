@@ -3,6 +3,17 @@ import 'package:player_testing/player_testing.dart';
 
 void main() {
   group('subtitle test', () {
+    group('when loading a source with subtitles in the manifest', () {
+      testWidgets('emits subtitle added events for each subtitle', (_) async {
+        await startPlayerTest(() async {
+          await callPlayerAndExpectEvents(
+            (player) => player.loadSourceConfig(Sources.sintel),
+            R(P(E.subtitleAdded), 5),
+          );
+        });
+      });
+    });
+
     group('when selecting a subtitle', () {
       testWidgets('subtitle is selected', (_) async {
         await startPlayerTest(() async {
