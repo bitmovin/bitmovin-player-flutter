@@ -19,6 +19,7 @@ abstract class Events {
   static const timeShift = TimeShiftEvent(position: 0, target: 0, timestamp: 0);
   static const timeShifted = TimeShiftedEvent(timestamp: 0);
   static const timeChanged = TimeChangedEvent(time: 0, timestamp: 0);
+  static const subtitleChanged = SubtitleChangedEvent(timestamp: 0);
 
   // Private dummy objects which are used to create event objects
   static const _seekPosition = SeekPosition(
