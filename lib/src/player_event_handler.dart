@@ -108,6 +108,21 @@ mixin PlayerEventHandler implements PlayerListener {
       case 'onReady':
         emit(ReadyEvent.fromJson(data));
         break;
+      case 'onSubtitleAdded':
+        emit(SubtitleAddedEvent.fromJson(data));
+        break;
+      case 'onSubtitleRemoved':
+        emit(SubtitleRemovedEvent.fromJson(data));
+        break;
+      case 'onSubtitleChanged':
+        emit(SubtitleChangedEvent.fromJson(data));
+        break;
+      case 'onCueEnter':
+        emit(CueEnterEvent.fromJson(data));
+        break;
+      case 'onCueExit':
+        emit(CueExitEvent.fromJson(data));
+        break;
     }
   }
 
@@ -239,6 +254,31 @@ mixin PlayerEventHandler implements PlayerListener {
 
   @override
   set onReady(void Function(ReadyEvent) func) {
+    _addListener(func);
+  }
+
+  @override
+  set onSubtitleAdded(void Function(SubtitleAddedEvent) func) {
+    _addListener(func);
+  }
+
+  @override
+  set onSubtitleRemoved(void Function(SubtitleRemovedEvent) func) {
+    _addListener(func);
+  }
+
+  @override
+  set onSubtitleChanged(void Function(SubtitleChangedEvent) func) {
+    _addListener(func);
+  }
+
+  @override
+  set onCueEnter(void Function(CueEnterEvent) func) {
+    _addListener(func);
+  }
+
+  @override
+  set onCueExit(void Function(CueExitEvent) func) {
     _addListener(func);
   }
 }
