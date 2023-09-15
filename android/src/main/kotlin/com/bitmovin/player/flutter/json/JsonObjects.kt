@@ -163,7 +163,6 @@ internal class JPlayerConfig(override var map: Map<*, *>) : JStruct {
     val analyticsConfig by structGetter(::JAnalyticsConfig)
 }
 
-// TODO: support roles
 internal class JSubtitleTrack(override var map: Map<*, *>) : JStruct {
     constructor(subtitleTrack: SubtitleTrack) : this(emptyMap<String, Any>()) {
         this.url = subtitleTrack.url

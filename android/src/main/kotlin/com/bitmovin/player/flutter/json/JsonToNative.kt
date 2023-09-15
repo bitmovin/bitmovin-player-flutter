@@ -150,7 +150,6 @@ internal fun JLiveConfig.toNative() = LiveConfig().also { config ->
     liveEdgeOffset?.let { config.liveEdgeOffset = it }
 }
 
-// TODO: support roles
 internal fun JSubtitleTrack.toNative() = SubtitleTrack(
     url = url,
     label = label,
