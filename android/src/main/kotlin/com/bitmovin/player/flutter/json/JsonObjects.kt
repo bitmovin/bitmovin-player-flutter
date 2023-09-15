@@ -19,7 +19,7 @@ import kotlin.reflect.KProperty
 
 private interface JStruct {
     var map: Map<*, *>
-    fun toJsonString() = jacksonObjectMapper().writeValueAsString(this)
+    fun toJsonString() = jacksonObjectMapper().writeValueAsString(map)
 }
 
 internal class JSource(override var map: Map<*, *>) : JStruct {
