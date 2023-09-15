@@ -12,19 +12,21 @@ import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.flutter.plugin.common.MethodCall
 import java.security.InvalidParameterException
 import kotlin.properties.ReadOnlyProperty
+import kotlin.properties.ReadWriteProperty
+import kotlin.reflect.KProperty
 
 // Deserialize Json objects
 
 private interface JStruct {
-    val map: Map<*, *>
+    var map: Map<*, *>
     fun toJsonString() = jacksonObjectMapper().writeValueAsString(this)
 }
 
-internal class JSource(override val map: Map<*, *>) : JStruct {
+internal class JSource(override var map: Map<*, *>) : JStruct {
     val sourceConfig by structGetter(::JSourceConfig).require()
 }
 
-internal class JSourceConfig(override val map: Map<*, *>) : JStruct {
+internal class JSourceConfig(override var map: Map<*, *>) : JStruct {
     val url by GetString.require()
     val type by enumGetter<SourceType>()
     val title by GetString
@@ -36,9 +38,10 @@ internal class JSourceConfig(override val map: Map<*, *>) : JStruct {
     val options by structGetter(::JSourceOptions)
     val drmConfig by structGetter(::JDrmConfig)
     val analyticsSourceMetadata by structGetter(::JSourceMetadata)
+    val subtitleTracks by structListGetter(::JSubtitleTrack).require()
 }
 
-internal class JSourceMetadata(override val map: Map<*, *>) : JStruct {
+internal class JSourceMetadata(override var map: Map<*, *>) : JStruct {
     val title by GetString
     val videoId by GetString
     val cdnProvider by GetString
@@ -47,16 +50,16 @@ internal class JSourceMetadata(override val map: Map<*, *>) : JStruct {
     val customData by structGetter(::JCustomData)
 }
 
-internal class JSourceOptions(override val map: Map<*, *>) : JStruct {
+internal class JSourceOptions(override var map: Map<*, *>) : JStruct {
     val startOffset by GetDouble
     val startOffsetTimelineReference by enumGetter<TimelineReferencePoint>()
 }
 
-internal class JDrmConfig(override val map: Map<*, *>) : JStruct {
+internal class JDrmConfig(override var map: Map<*, *>) : JStruct {
     val widevine by structGetter(::JWidevineConfig)
 }
 
-internal class JWidevineConfig(override val map: Map<*, *>) : JStruct {
+internal class JWidevineConfig(override var map: Map<*, *>) : JStruct {
     val prepareMessage by GetBool
     val prepareLicense by GetBool
     val licenseUrl by GetString
@@ -65,7 +68,7 @@ internal class JWidevineConfig(override val map: Map<*, *>) : JStruct {
     val httpHeaders by GetStringMap
 }
 
-internal class JStyleConfig(override val map: Map<*, *>) : JStruct {
+internal class JStyleConfig(override var map: Map<*, *>) : JStruct {
     val isUiEnabled by GetBool
     val isHideFirstFrame by GetBool
     val supplementalPlayerUiCss by GetString
@@ -74,7 +77,7 @@ internal class JStyleConfig(override val map: Map<*, *>) : JStruct {
     val playerUiJs by GetString
 }
 
-internal class JPlaybackConfig(override val map: Map<*, *>) : JStruct {
+internal class JPlaybackConfig(override var map: Map<*, *>) : JStruct {
     val isAutoplayEnabled by GetBool
     val isMuted by GetBool
     val isTimeShiftEnabled by GetBool
@@ -86,16 +89,16 @@ internal class JPlaybackConfig(override val map: Map<*, *>) : JStruct {
     val seekMode by enumGetter<SeekMode>()
 }
 
-internal class JLicensingConfig(override val map: Map<*, *>) : JStruct {
+internal class JLicensingConfig(override var map: Map<*, *>) : JStruct {
     val delay by GetInt
 }
 
-internal class JLiveConfig(override val map: Map<*, *>) : JStruct {
+internal class JLiveConfig(override var map: Map<*, *>) : JStruct {
     val minTimeShiftBufferDepth by GetDouble
     val liveEdgeOffset by GetDouble
 }
 
-internal class JAnalyticsConfig(override val map: Map<*, *>) : JStruct {
+internal class JAnalyticsConfig(override var map: Map<*, *>) : JStruct {
     val licenseKey by GetString.require()
     val adTrackingDisabled by GetBool
     val randomizeUserId by GetBool
@@ -111,13 +114,13 @@ internal class JAnalyticsConfig(override val map: Map<*, *>) : JStruct {
     val defaultMetadata by structGetter(::JDefaultMetadata)
 }
 
-internal class JDefaultMetadata(override val map: Map<*, *>) : JStruct {
+internal class JDefaultMetadata(override var map: Map<*, *>) : JStruct {
     val cdnProvider by GetString
     val customUserId by GetString
     val customData by structGetter(::JCustomData)
 }
 
-internal class JCustomData(override val map: Map<*, *>) : JStruct {
+internal class JCustomData(override var map: Map<*, *>) : JStruct {
     val customData1 by GetString
     val customData2 by GetString
     val customData3 by GetString
@@ -151,7 +154,7 @@ internal class JCustomData(override val map: Map<*, *>) : JStruct {
     val experimentName by GetString
 }
 
-internal class JPlayerConfig(override val map: Map<*, *>) : JStruct {
+internal class JPlayerConfig(override var map: Map<*, *>) : JStruct {
     val key by GetString
     val styleConfig by structGetter(::JStyleConfig)
     val playbackConfig by structGetter(::JPlaybackConfig)
@@ -160,24 +163,26 @@ internal class JPlayerConfig(override val map: Map<*, *>) : JStruct {
     val analyticsConfig by structGetter(::JAnalyticsConfig)
 }
 
-internal class JSubtitleTrack(override val map: Map<*, *>) : JStruct {
-    val id by GetString.require()
-    val label by GetString.require()
-    val isDefault by GetBool.require()
-    val isForced by GetBool.require()
-    val language by GetString
-}
+// TODO: support roles
+internal class JSubtitleTrack(override var map: Map<*, *>) : JStruct {
+    constructor(subtitleTrack: SubtitleTrack) : this(emptyMap<String, Any>()) {
+        this.url = subtitleTrack.url
+        this.id = subtitleTrack.id
+        this.format = subtitleTrack.mimeType
+        this.label = subtitleTrack.label ?: subtitleTrack.id
+        this.isDefault = subtitleTrack.isDefault
+        this.isForced = subtitleTrack.isForced
+        this.language = subtitleTrack.language
+    }
 
-// TODO: Find a better way where we do not need to build the map and to get rid of hardcoded strings
-internal fun SubtitleTrack.toJStruct() = JSubtitleTrack(
-    mapOf<String, Any?>(
-        "id" to id,
-        "label" to label,
-        "isDefault" to isDefault,
-        "isForced" to isForced,
-        "language" to language,
-    ),
-)
+    var url by GetSetString
+    var id by GetSetString.require()
+    var format by GetSetString
+    var label by GetSetString.require()
+    var isDefault by GetSetBool.require()
+    var isForced by GetSetBool.require()
+    var language by GetSetString
+}
 
 // Methods
 
@@ -190,13 +195,13 @@ internal value class JMethodArgs(private val call: MethodCall) {
 }
 
 /** Arguments for [Player.create]. */
-internal class JCreatePlayerArgs(override val map: Map<*, *>) : JStruct {
+internal class JCreatePlayerArgs(override var map: Map<*, *>) : JStruct {
     val id by GetString.require()
     val playerConfig by structGetter(::JPlayerConfig).require()
 }
 
 /** Argument for all [Player] instance methods. */
-internal class JPlayerMethodArg(override val map: Map<*, *>) : JStruct {
+internal class JPlayerMethodArg(override var map: Map<*, *>) : JStruct {
     val asDouble get() = data as Double
     val asString get() = data as String
     val asSource get() = JSource(dataAsMap)
@@ -207,7 +212,7 @@ internal class JPlayerMethodArg(override val map: Map<*, *>) : JStruct {
     private val dataAsMap get() = data as Map<*, *>
 }
 
-internal class JPlayerViewCreateArgs(override val map: Map<*, *>) : JStruct {
+internal class JPlayerViewCreateArgs(override var map: Map<*, *>) : JStruct {
     val playerId by GetString.require()
     val hasFullscreenHandler by GetBool.require()
     val isFullscreen by GetBool.require()
@@ -217,18 +222,40 @@ internal class JPlayerViewCreateArgs(override val map: Map<*, *>) : JStruct {
 
 private val GetAny = castGetter<Any>()
 private val GetBool = castGetter<Boolean>()
+private val GetSetBool = CastDelegate<Boolean>()
 private val GetInt = castGetter<Int>()
 private val GetDouble = castGetter<Double>()
 private val GetString = castGetter<String>()
+private val GetSetString = CastDelegate<String>()
 private val GetStringList = listGetter<String>()
 private val GetStringMap = mapGetter<String, String>()
 
 /** Get a field from a JSON struct */
 private fun interface Getter<T> : ReadOnlyProperty<JStruct, T>
+private interface GetterSetter<T> : ReadWriteProperty<JStruct, T>
 
 /** Get a field from it's name, cast it to [I] then convert it to [O] with [build]. */
 private inline fun <reified I, O> getter(crossinline build: (I) -> O) = Getter { thisRef, kProp ->
     (thisRef.map[kProp.name] as I?)?.let(build)
+}
+
+private open class JsonPropertyDelegate<I, O>(val build: (I) -> O) : GetterSetter<O?> {
+    override fun getValue(thisRef: JStruct, property: KProperty<*>): O? =
+        (thisRef.map[property.name] as I?)?.let(build)
+
+    override fun setValue(thisRef: JStruct, property: KProperty<*>, value: O?) {
+        thisRef.map = thisRef.map.toMutableMap().apply { set(property.name, value) }
+    }
+}
+
+private class JsonPropertyDelegateRequired<I, O>(
+    val inner: JsonPropertyDelegate<I, O>,
+) : GetterSetter<O> {
+    override fun getValue(thisRef: JStruct, property: KProperty<*>): O =
+        inner.getValue(thisRef, property)
+            ?: throw InvalidParameterException("Missing argument ${property.name}")
+    override fun setValue(thisRef: JStruct, property: KProperty<*>, value: O) =
+        inner.setValue(thisRef, property, value)
 }
 
 /** Getter decorator: throw if the field is not present. */
@@ -236,6 +263,8 @@ private fun <T> Getter<T?>.require() = Getter<T> { thisRef, property ->
     getValue(thisRef, property)
         ?: throw InvalidParameterException("Missing argument ${property.name}")
 }
+
+private fun <I, O> JsonPropertyDelegate<I, O>.require() = JsonPropertyDelegateRequired(this)
 
 private inline fun <reified T> listGetter() = getter { list: List<*> -> list.map { it as T } }
 
@@ -256,5 +285,10 @@ private inline fun <reified K, reified V> mapGetter() =
     getter { map: Map<*, *> -> map.map { it.key as K to it.value as V }.toMap() }
 
 private inline fun <reified T> castGetter() = getter<T, T> { it }
+private class CastDelegate<T> : JsonPropertyDelegate<T, T>({ it })
+
 private inline fun <reified T : JStruct> structGetter(crossinline build: (Map<*, *>) -> T) =
     getter(build)
+
+private inline fun <reified T : JStruct> structListGetter(crossinline build: (Map<*, *>) -> T) =
+    getter { list: List<Map<*, *>> -> list.map { build(it) } }

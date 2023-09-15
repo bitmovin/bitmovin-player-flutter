@@ -52,9 +52,11 @@ open class EventListener {
                 broadcast("onSourceError", target)
             }
             on(SourceEvent.Load::class) {
+                // TODO: might not work as the the subtitle track definition (side-loaded in source config) is different on Dart side
                 broadcast("onSourceLoad", it)
             }
             on(SourceEvent.Loaded::class) {
+                // TODO: might not work as the the subtitle track definition (side-loaded in source config) is different on Dart side
                 broadcast("onSourceLoaded", it)
             }
             on(SourceEvent.Unloaded::class) {
