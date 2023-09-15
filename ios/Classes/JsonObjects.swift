@@ -165,6 +165,42 @@ internal struct FlutterSourceMetadata: FlutterToNativeConvertible {
     }
 }
 
+internal struct FlutterCueEnterEvent: Codable {
+    let start: TimeInterval
+    let end: TimeInterval
+    let text: String?
+
+    init(start: TimeInterval, end: TimeInterval, text: String?) {
+        self.start = start
+        self.end = end
+        self.text = text
+    }
+}
+
+extension CueEnterEvent: NativeToFlutterConvertible {
+    func toFlutter() -> FlutterCueEnterEvent {
+        FlutterCueEnterEvent(start: startTime, end: endTime, text: text)
+    }
+}
+
+internal struct FlutterCueExitEvent: Codable {
+    let start: TimeInterval
+    let end: TimeInterval
+    let text: String?
+
+    init(start: TimeInterval, end: TimeInterval, text: String?) {
+        self.start = start
+        self.end = end
+        self.text = text
+    }
+}
+
+extension CueExitEvent: NativeToFlutterConvertible {
+    func toFlutter() -> FlutterCueExitEvent {
+        FlutterCueExitEvent(start: startTime, end: endTime, text: text)
+    }
+}
+
 internal struct FlutterSubtitleTrack: FlutterToNativeConvertible {
     let url: String?
     let format: String?

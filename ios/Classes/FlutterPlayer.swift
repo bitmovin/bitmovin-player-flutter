@@ -285,4 +285,26 @@ extension FlutterPlayer: PlayerListener {
     func onTimeShifted(_ event: TimeShiftedEvent, player: Player) {
         broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
     }
+
+    func onSubtitleAdded(_ event: SubtitleAddedEvent, player: Player) {
+        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
+    }
+
+    func onSubtitleRemoved(_ event: SubtitleRemovedEvent, player: Player) {
+        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
+    }
+
+    func onSubtitleChanged(_ event: SubtitleChangedEvent, player: Player) {
+        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
+    }
+
+    func onCueEnter(_ event: CueEnterEvent, player: Player) {
+        guard let eventJson = event.toJson() else { return }
+        broadcast(name: event.name, data: eventJson, sink: eventSink)
+    }
+
+    func onCueExit(_ event: CueExitEvent, player: Player) {
+        guard let eventJson = event.toJson() else { return }
+        broadcast(name: event.name, data: eventJson, sink: eventSink)
+    }
 }
