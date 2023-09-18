@@ -247,11 +247,11 @@ extension SubtitleTrack: NativeToFlutterConvertible {
 private extension String {
     var subtitleFormat: SubtitleFormat {
         switch self.lowercased() {
-        case JsonValues.SubtitleFormat.webVtt:
+        case JsonValues.SubtitleFormat.webVtt.lowercased():
             return .webVtt
-        case JsonValues.SubtitleFormat.ttml:
+        case JsonValues.SubtitleFormat.ttml.lowercased():
             return .ttml
-        case JsonValues.SubtitleFormat.cea:
+        case JsonValues.SubtitleFormat.cea.lowercased():
             return .cea
         default:
             return .webVtt
