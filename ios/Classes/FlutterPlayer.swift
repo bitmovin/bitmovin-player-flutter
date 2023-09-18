@@ -120,9 +120,7 @@ private extension FlutterPlayer {
                 return FlutterError()
             }
         case (Methods.availableSubtitles, .empty):
-            return player.availableSubtitles.compactMap { subtitleTrack in
-                subtitleTrack.toJsonString()
-            }
+            return player.availableSubtitles.compactMap { $0.toJsonString() }
         case (Methods.getSubtitle, .empty):
             return player.subtitle.toJsonString()
         case (Methods.setSubtitle, .string(let trackId)):
