@@ -4,6 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'subtitle_track.g.dart';
 
+/// Represents a subtitle track.
 @JsonSerializable(explicitToJson: true)
 class SubtitleTrack extends Equatable {
   const SubtitleTrack({

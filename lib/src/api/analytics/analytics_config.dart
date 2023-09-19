@@ -61,6 +61,7 @@ class AnalyticsConfig extends Equatable {
       ];
 }
 
+/// Specifies the retry behavior in case an analytics request cannot be sent.
 enum RetryPolicy {
   /// No retry in case an analytics request cannot be sent
   /// to the analytics backend
