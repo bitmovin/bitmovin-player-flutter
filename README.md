@@ -90,7 +90,7 @@ dependencies:
 
 ## Android Specific Steps
 Add Bitmovin's maven repo to `android/build.gradle`:
-```gradle
+```ruby
 maven {
     url 'https://artifacts.bitmovin.com/artifactory/public-releases'
 }
