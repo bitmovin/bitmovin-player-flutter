@@ -59,7 +59,12 @@ class _EventSubscriptionState extends State<EventSubscription> {
       ..onSourceWarning = _onEvent
       ..onTimeChanged = _onEvent
       ..onUnmuted = _onEvent
-      ..onWarning = _onEvent;
+      ..onWarning = _onEvent
+      ..onSubtitleAdded = _onEvent
+      ..onSubtitleRemoved = _onEvent
+      ..onSubtitleChanged = _onEvent
+      ..onCueEnter = _onEvent
+      ..onCueExit = _onEvent;
   }
 
   @override

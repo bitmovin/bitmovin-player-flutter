@@ -75,4 +75,19 @@ abstract class PlayerListener {
 
   /// See [ReadyEvent] for details on this event.
   set onReady(void Function(ReadyEvent) func);
+
+  /// See [SubtitleAddedEvent] for details on this event.
+  set onSubtitleAdded(void Function(SubtitleAddedEvent) func);
+
+  /// See [SubtitleRemovedEvent] for details on this event.
+  set onSubtitleRemoved(void Function(SubtitleRemovedEvent) func);
+
+  /// See [SubtitleChangedEvent] for details on this event.
+  set onSubtitleChanged(void Function(SubtitleChangedEvent) func);
+
+  /// See [CueEnterEvent] for details on this event.
+  set onCueEnter(void Function(CueEnterEvent) func);
+
+  /// See [CueExitEvent] for details on this event.
+  set onCueExit(void Function(CueExitEvent) func);
 }

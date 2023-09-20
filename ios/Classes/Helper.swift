@@ -1,7 +1,6 @@
 import BitmovinPlayer
 import Foundation
 
-// swiftlint:disable file_length
 // swiftlint:disable:next type_body_length
 internal enum Helper {
     static func methodCallArguments(_ payload: Any?) -> MethodCallArguments? {
@@ -15,6 +14,8 @@ internal enum Helper {
             return .json(jsonArgument)
         case let doubleArgument as Double:
             return .double(doubleArgument)
+        case let stringArgument as String:
+            return .string(stringArgument)
         default:
             return .empty
         }
@@ -268,8 +269,8 @@ internal enum Helper {
 
         if let subtitleTracks = json["subtitleTracks"] as? [[String: Any]] {
             subtitleTracks.forEach {
-                if let track = subtitleTrack($0) {
-                    sourceConfig.add(subtitleTrack: track)
+                if let subtitleTrack = MessageDecoder.toNative(type: FlutterSubtitleTrack.self, from: $0) {
+                    sourceConfig.add(subtitleTrack: subtitleTrack)
                 }
             }
         }
@@ -428,94 +429,6 @@ internal enum Helper {
             "isDefault": audioTrack.isDefaultTrack,
             "identifier": audioTrack.identifier,
             "language": audioTrack.language ?? ""
-        ]
-    }
-
-    /**
-     Utility method to get a `SubtitleTrack` instance from a JS object.
-     - Parameter json: JS object.
-     - Returns: The generated `SubtitleTrack`.
-     */
-    static func subtitleTrack(_ json: [String: Any]) -> SubtitleTrack? {
-        guard let urlString = json["url"] as? String,
-              let url = URL(string: urlString),
-              let label = json["label"] as? String else {
-            return nil
-        }
-
-        let language = json["language"] as? String
-        let isDefaultTrack = json["isDefault"] as? Bool ?? false
-        let isForced = json["isForced"] as? Bool ?? false
-        let identifier = json["identifier"] as? String ?? UUID().uuidString
-
-        if let format = subtitleFormat(json["format"]) {
-            return SubtitleTrack(
-                url: url,
-                format: format,
-                label: label,
-                identifier: identifier,
-                isDefaultTrack: isDefaultTrack,
-                language: language,
-                forced: isForced
-            )
-        }
-
-        return SubtitleTrack(
-            url: url,
-            label: label,
-            identifier: identifier,
-            isDefaultTrack: isDefaultTrack,
-            language: language,
-            forced: isForced
-        )
-    }
-
-    /**
-     Utility method to get a `SubtitleFormat` value from a JS object.
-     - Parameter json: JS object.
-     - Returns: The associated `SubtitleFormat` value or nil.
-     */
-    static func subtitleFormat(_ json: Any?) -> SubtitleFormat? {
-        guard let json = json as? String else {
-            return nil
-        }
-        switch json {
-        case "cea":
-            return .cea
-        case "vtt":
-            return .webVtt
-        case "ttml":
-            return .ttml
-        default:
-            return nil
-        }
-    }
-
-    /**
-     Utility method to get a json dictionary value from a `SubtitleTrack` object.
-     - Parameter subtitleTrack: The track to convert to json format.
-     - Returns: The generated json dictionary.
-     */
-    static func subtitleTrackJson(_ subtitleTrack: SubtitleTrack) -> [AnyHashable: Any] {
-        [
-            "url": subtitleTrack.url?.absoluteString ?? "",
-            "label": subtitleTrack.label,
-            "isDefault": subtitleTrack.isDefaultTrack,
-            "identifier": subtitleTrack.identifier,
-            "language": subtitleTrack.language ?? "",
-            "isForced": subtitleTrack.isForced,
-            "format": {
-                switch subtitleTrack.format {
-                case .cea:
-                    return "cea"
-                case .webVtt:
-                    return "vtt"
-                case .ttml:
-                    return "ttml"
-                default:
-                    return ""
-                }
-            }()
         ]
     }
 

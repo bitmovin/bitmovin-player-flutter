@@ -7,6 +7,31 @@ internal protocol FlutterToNativeConvertible: Codable {
     func toNative() -> NativeObject
 }
 
+internal protocol NativeToFlutterConvertible {
+    associatedtype FlutterObject where FlutterObject: Codable
+    func toFlutter() -> FlutterObject
+    func toJson() -> [String: Any]?
+    func toJsonString() -> String?
+}
+
+extension NativeToFlutterConvertible {
+    func toJson() -> [String: Any]? {
+        guard let jsonData = try? JSONEncoder().encode(toFlutter()) else {
+            return nil
+        }
+
+        return try? JSONSerialization.jsonObject(with: jsonData) as? [String: Any]
+    }
+
+    func toJsonString() -> String? {
+        guard let jsonData = try? JSONEncoder().encode(toFlutter()) else {
+            return nil
+        }
+
+        return String(data: jsonData, encoding: .utf8)
+    }
+}
+
 internal struct FlutterAnalyticsConfig: FlutterToNativeConvertible {
     let licenseKey: String
     let retryPolicy: String
@@ -137,5 +162,124 @@ internal struct FlutterSourceMetadata: FlutterToNativeConvertible {
             cdnProvider: cdnProvider,
             customData: customData.toNative()
         )
+    }
+}
+
+internal struct FlutterCueEnterEvent: Codable {
+    let start: TimeInterval
+    let end: TimeInterval
+    let text: String?
+
+    init(start: TimeInterval, end: TimeInterval, text: String?) {
+        self.start = start
+        self.end = end
+        self.text = text
+    }
+}
+
+extension CueEnterEvent: NativeToFlutterConvertible {
+    func toFlutter() -> FlutterCueEnterEvent {
+        FlutterCueEnterEvent(start: startTime, end: endTime, text: text)
+    }
+}
+
+internal struct FlutterCueExitEvent: Codable {
+    let start: TimeInterval
+    let end: TimeInterval
+    let text: String?
+
+    init(start: TimeInterval, end: TimeInterval, text: String?) {
+        self.start = start
+        self.end = end
+        self.text = text
+    }
+}
+
+extension CueExitEvent: NativeToFlutterConvertible {
+    func toFlutter() -> FlutterCueExitEvent {
+        FlutterCueExitEvent(start: startTime, end: endTime, text: text)
+    }
+}
+
+internal struct FlutterSubtitleTrack: FlutterToNativeConvertible {
+    let url: String?
+    let format: String?
+    let label: String
+    let id: String
+    let isDefault: Bool
+    let language: String?
+    let isForced: Bool
+
+    func toNative() -> SubtitleTrack {
+        let subtitleTrackUrl: URL?
+        if let url {
+            subtitleTrackUrl = URL(string: url)
+        } else {
+            subtitleTrackUrl = nil
+        }
+
+        return SubtitleTrack(
+            url: subtitleTrackUrl,
+            format: format?.subtitleFormat ?? .webVtt,
+            label: label,
+            identifier: id,
+            isDefaultTrack: isDefault,
+            language: language,
+            forced: isForced
+        )
+    }
+}
+
+extension SubtitleTrack: NativeToFlutterConvertible {
+    func toFlutter() -> FlutterSubtitleTrack {
+        FlutterSubtitleTrack(
+            url: url?.absoluteString,
+            format: format.stringValue,
+            label: label,
+            id: identifier,
+            isDefault: isDefaultTrack,
+            language: language,
+            isForced: isForced
+        )
+    }
+}
+
+private extension String {
+    var subtitleFormat: SubtitleFormat {
+        switch self.lowercased() {
+        case JsonValues.SubtitleFormat.vtt:
+            return .webVtt
+        case JsonValues.SubtitleFormat.ttml:
+            return .ttml
+        case let value where value.hasPrefix(JsonValues.SubtitleFormat.cea):
+            return .cea
+        default:
+            return .webVtt
+        }
+    }
+}
+
+private extension SubtitleFormat {
+    var stringValue: String {
+        switch self {
+        case .cea:
+            return JsonValues.SubtitleFormat.cea
+        case .ttml:
+            return JsonValues.SubtitleFormat.ttml
+        case .webVtt:
+            return JsonValues.SubtitleFormat.vtt
+        default:
+            return JsonValues.SubtitleFormat.vtt
+        }
+    }
+}
+
+// Values used to handle iOS Player SDK objects that are not directly convertible
+// to meaningful JSON compatible values, like for instance Obj-C enums.
+private enum JsonValues {
+    enum SubtitleFormat {
+        static let cea = "application/cea"
+        static let ttml = "application/ttml+xml"
+        static let vtt = "text/vtt"
     }
 }

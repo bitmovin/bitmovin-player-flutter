@@ -10,6 +10,7 @@ import com.bitmovin.player.api.PlayerConfig
 import com.bitmovin.player.api.drm.DrmConfig
 import com.bitmovin.player.api.drm.WidevineConfig
 import com.bitmovin.player.api.live.LiveConfig
+import com.bitmovin.player.api.media.subtitle.SubtitleTrack
 import com.bitmovin.player.api.source.SourceConfig
 import com.bitmovin.player.api.source.SourceOptions
 import com.bitmovin.player.api.source.SourceType
@@ -31,6 +32,7 @@ internal fun JSourceConfig.toNative() = SourceConfig(
     audioCodecPriority?.let { sourceConfig.audioCodecPriority = it }
     videoCodecPriority?.let { sourceConfig.videoCodecPriority = it }
     isPosterPersistent?.let { sourceConfig.isPosterPersistent = it }
+    subtitleTracks.forEach { sourceConfig.addSubtitleTrack(it.toNative()) }
 }
 
 internal fun JSourceMetadata.toNative() =
@@ -147,3 +149,13 @@ internal fun JLiveConfig.toNative() = LiveConfig().also { config ->
     minTimeShiftBufferDepth?.let { config.minTimeShiftBufferDepth = it }
     liveEdgeOffset?.let { config.liveEdgeOffset = it }
 }
+
+internal fun JSubtitleTrack.toNative() = SubtitleTrack(
+    url = url,
+    label = label,
+    id = id,
+    mimeType = format,
+    isDefault = isDefault,
+    isForced = isForced,
+    language = language,
+)

@@ -133,10 +133,10 @@ extension FlutterPlayerView: UserInterfaceListener {
     }
 
     func onFullscreenEnter(_ event: FullscreenEnterEvent, view: PlayerView) {
-        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
+        broadcast(name: event.name, data: event.toJsonFallback(), sink: eventSink)
     }
 
     func onFullscreenExit(_ event: FullscreenExitEvent, view: PlayerView) {
-        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
+        broadcast(name: event.name, data: event.toJsonFallback(), sink: eventSink)
     }
 }

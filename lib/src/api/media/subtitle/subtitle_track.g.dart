@@ -8,10 +8,10 @@ part of 'subtitle_track.dart';
 
 SubtitleTrack _$SubtitleTrackFromJson(Map<String, dynamic> json) =>
     SubtitleTrack(
+      id: json['id'] as String,
+      label: json['label'] as String,
       url: json['url'] as String?,
-      mimeType: json['mimeType'] as String?,
-      label: json['label'] as String?,
-      id: json['id'] as String?,
+      format: json['format'] as String?,
       isDefault: json['isDefault'] as bool? ?? false,
       isForced: json['isForced'] as bool? ?? false,
       language: json['language'] as String?,
@@ -24,11 +24,11 @@ SubtitleTrack _$SubtitleTrackFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$SubtitleTrackToJson(SubtitleTrack instance) =>
     <String, dynamic>{
       'url': instance.url,
-      'mimeType': instance.mimeType,
+      'format': instance.format,
       'label': instance.label,
       'id': instance.id,
       'isDefault': instance.isDefault,
       'language': instance.language,
       'isForced': instance.isForced,
-      'roles': instance.roles?.map((e) => e.toJson()).toList(),
+      'roles': instance.roles.map((e) => e.toJson()).toList(),
     };

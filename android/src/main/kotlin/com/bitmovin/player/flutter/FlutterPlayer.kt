@@ -14,6 +14,7 @@ import com.bitmovin.player.flutter.drm.WidevineCallbacksHandler
 import com.bitmovin.player.flutter.json.JMethodArgs
 import com.bitmovin.player.flutter.json.JPlayerMethodArg
 import com.bitmovin.player.flutter.json.JSourceConfig
+import com.bitmovin.player.flutter.json.JSubtitleTrack
 import com.bitmovin.player.flutter.json.JsonMethodHandler
 import com.bitmovin.player.flutter.json.metadata
 import com.bitmovin.player.flutter.json.toNative
@@ -85,8 +86,11 @@ class FlutterPlayer(
         Methods.IS_PLAYING -> isPlaying
         Methods.SEND_CUSTOM_DATA_EVENT -> this.analytics?.sendCustomDataEvent(arg.asCustomData.toNative())
             ?: Unit
-
         Methods.DESTROY -> destroyPlayer()
+        Methods.AVAILABLE_SUBTITLES -> availableSubtitles.map { JSubtitleTrack(it).toJsonString() }
+        Methods.GET_SUBTITLE -> subtitle?.let { JSubtitleTrack(it).toJsonString() } ?: Unit
+        Methods.SET_SUBTITLE -> setSubtitle(arg.asOptionalString)
+        Methods.REMOVE_SUBTITLE -> removeSubtitle(arg.asString)
         else -> throw NotImplementedError()
     }
 

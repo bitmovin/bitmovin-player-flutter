@@ -15,13 +15,13 @@ class MediaTrackRole extends Equatable {
     return _$MediaTrackRoleFromJson(json);
   }
 
-  @JsonKey(name: 'schemeIdUri', disallowNullValue: true)
+  /// Specifies a URI to identify the Role scheme as described in the MPD.
   final String schemeIdUri;
 
-  @JsonKey(name: 'value')
+  /// Specifies the value for the Role as described in the MPD.
   final String? value;
 
-  @JsonKey(name: 'id')
+  /// Specifies an identifier for the Role as described in the MPD.
   final String? id;
 
   Map<String, dynamic> toJson() => _$MediaTrackRoleToJson(this);

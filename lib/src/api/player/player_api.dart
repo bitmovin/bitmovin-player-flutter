@@ -65,5 +65,25 @@ abstract class PlayerApi {
   /// not paused.
   Future<bool> get isPlaying;
 
+  /// A list of all available [SubtitleTrack]s of the active [Source],
+  /// including "off" subtitle track.
+  Future<List<SubtitleTrack>> get availableSubtitles;
+
+  /// The currently selected [SubtitleTrack].
+  Future<SubtitleTrack> get subtitle;
+
+  /// Sets the currently selected [SubtitleTrack] based on the provided [id].
+  /// Using `null` as [id] disables subtitles. A list of currently available
+  /// [SubtitleTrack]s can be retrieved via [availableSubtitles].
+  Future<void> setSubtitle(String? id);
+
+  /// Removes the existing [SubtitleTrack] specified by [id]. If the track is
+  /// currently active, it will be deactivated and then removed. If no
+  /// [SubtitleTrack] with the given [id] exists, the call will be ignored.
+  /// Using this API removes the [SubtitleTrack] from the [availableSubtitles],
+  /// use [setSubtitle] to disable an active [SubtitleTrack].
+  Future<void> removeSubtitle(String id);
+
+  /// Provides access to Analytics related functionality.
   AnalyticsApi get analytics;
 }

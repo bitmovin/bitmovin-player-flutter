@@ -1,4 +1,4 @@
-import 'package:bitmovin_player/src/api/media/media_track_role.dart';
+import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -7,10 +7,10 @@ part 'subtitle_track.g.dart';
 @JsonSerializable(explicitToJson: true)
 class SubtitleTrack extends Equatable {
   const SubtitleTrack({
+    required this.id,
+    required this.label,
     this.url,
-    this.mimeType,
-    this.label,
-    this.id,
+    this.format,
     this.isDefault = false,
     this.isForced = false,
     this.language,
@@ -21,41 +21,41 @@ class SubtitleTrack extends Equatable {
     return _$SubtitleTrackFromJson(json);
   }
 
-  @JsonKey(name: 'url')
+  factory SubtitleTrack.off() => const SubtitleTrack(id: 'off', label: 'off');
+
+  /// The URL of the [SubtitleTrack].
   final String? url;
 
-  @JsonKey(name: 'mimeType')
-  final String? mimeType;
+  /// Specifies the file format of this [SubtitleTrack]. Common values for each
+  /// platform are defined in [SubtitleFormats].
+  final String? format;
 
-  @JsonKey(name: 'label')
-  final String? label;
+  /// The label for this [SubtitleTrack].
+  final String label;
 
-  @JsonKey(name: 'id')
-  final String? id;
+  /// The unique identifier for this [SubtitleTrack].
+  final String id;
 
-  @JsonKey(name: 'isDefault')
-  final bool? isDefault;
+  /// Specifies whether the [SubtitleTrack] is a default track.
+  /// Default value is `false`.
+  final bool isDefault;
 
-  @JsonKey(name: 'language')
+  /// The IETF BCP 47 language tag associated with the [SubtitleTrack].
   final String? language;
 
-  @JsonKey(name: 'isForced')
-  final bool? isForced;
+  /// Tells if a [SubtitleTrack] is forced. If set to `true` it means that the
+  /// player should automatically select and switch this subtitle according to
+  /// the selected audio language. Forced subtitles do not appear in
+  /// [Player.availableSubtitles].
+  /// Default value is `false`.
+  final bool isForced;
 
-  @JsonKey(name: 'roles')
-  final List<MediaTrackRole>? roles;
+  /// Specifies all the DASH roles that are associated with the [SubtitleTrack].
+  /// This is only supported on Android.
+  final List<MediaTrackRole> roles;
 
   Map<String, dynamic> toJson() => _$SubtitleTrackToJson(this);
 
   @override
-  List<Object?> get props => [
-        id,
-        mimeType,
-        label,
-        url,
-        isDefault,
-        language,
-        isForced,
-        roles,
-      ];
+  List<Object?> get props => [id];
 }
