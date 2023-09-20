@@ -18,7 +18,6 @@ class SubtitleAddedEvent extends Event with EquatableMixin {
   }
 
   /// The [SubtitleTrack] that was added.
-  @JsonKey(name: 'subtitleTrack')
   final SubtitleTrack subtitleTrack;
 
   @override

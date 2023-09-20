@@ -19,11 +19,9 @@ class SubtitleChangedEvent extends Event with EquatableMixin {
   }
 
   /// The [SubtitleTrack] before the change.
-  @JsonKey(name: 'oldSubtitleTrack')
   final SubtitleTrack? oldSubtitleTrack;
 
   /// The [SubtitleTrack] after the change.
-  @JsonKey(name: 'newSubtitleTrack')
   final SubtitleTrack? newSubtitleTrack;
 
   @override

@@ -6,17 +6,12 @@ part of 'media_track_role.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-MediaTrackRole _$MediaTrackRoleFromJson(Map<String, dynamic> json) {
-  $checkKeys(
-    json,
-    disallowNullValues: const ['schemeIdUri'],
-  );
-  return MediaTrackRole(
-    schemeIdUri: json['schemeIdUri'] as String,
-    id: json['id'] as String?,
-    value: json['value'] as String?,
-  );
-}
+MediaTrackRole _$MediaTrackRoleFromJson(Map<String, dynamic> json) =>
+    MediaTrackRole(
+      schemeIdUri: json['schemeIdUri'] as String,
+      id: json['id'] as String?,
+      value: json['value'] as String?,
+    );
 
 Map<String, dynamic> _$MediaTrackRoleToJson(MediaTrackRole instance) =>
     <String, dynamic>{

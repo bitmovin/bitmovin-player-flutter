@@ -19,15 +19,12 @@ class CueEnterEvent extends Event with EquatableMixin {
   }
 
   /// The start time of the cue.
-  @JsonKey(name: 'start')
   final double start;
 
   /// The end time of the cue.
-  @JsonKey(name: 'end')
   final double end;
 
   /// The text of the cue.
-  @JsonKey(name: 'text')
   final String? text;
 
   @override

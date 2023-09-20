@@ -18,7 +18,6 @@ class SubtitleRemovedEvent extends Event with EquatableMixin {
   }
 
   /// The [SubtitleTrack] that was removed.
-  @JsonKey(name: 'subtitleTrack')
   final SubtitleTrack subtitleTrack;
 
   @override
