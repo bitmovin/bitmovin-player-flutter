@@ -40,7 +40,7 @@ SPEC CHECKSUMS:
   BitmovinPlayer: 2e5b0234c4a49a7c95eb3232d18e3e803013e5c6
   BitmovinPlayerCore: 40c239be011d89c81106dea0cb7e37dcf4beee72
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
-  integration_test: a1e7d09bd98eca2fc37aefd79d4f41ad37bdbbe5
+  integration_test: 13825b8a9334a850581300559b8839134b124670
 
 PODFILE CHECKSUM: 3a743d2972de14bb7ea6ee584bf7fb090b267938
 
