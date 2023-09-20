@@ -247,11 +247,11 @@ extension SubtitleTrack: NativeToFlutterConvertible {
 private extension String {
     var subtitleFormat: SubtitleFormat {
         switch self.lowercased() {
-        case JsonValues.SubtitleFormat.webVtt.lowercased():
+        case JsonValues.SubtitleFormat.vtt:
             return .webVtt
-        case JsonValues.SubtitleFormat.ttml.lowercased():
+        case JsonValues.SubtitleFormat.ttml:
             return .ttml
-        case JsonValues.SubtitleFormat.cea.lowercased():
+        case let value where value.hasPrefix(JsonValues.SubtitleFormat.cea):
             return .cea
         default:
             return .webVtt
@@ -267,9 +267,9 @@ private extension SubtitleFormat {
         case .ttml:
             return JsonValues.SubtitleFormat.ttml
         case .webVtt:
-            return JsonValues.SubtitleFormat.webVtt
+            return JsonValues.SubtitleFormat.vtt
         default:
-            return JsonValues.SubtitleFormat.webVtt
+            return JsonValues.SubtitleFormat.vtt
         }
     }
 }
@@ -278,8 +278,8 @@ private extension SubtitleFormat {
 // to meaningful JSON compatible values, like for instance Obj-C enums.
 private enum JsonValues {
     enum SubtitleFormat {
-        static let cea = "cea"
-        static let ttml = "ttml"
-        static let webVtt = "webVtt"
+        static let cea = "application/cea"
+        static let ttml = "application/ttml+xml"
+        static let vtt = "text/vtt"
     }
 }
