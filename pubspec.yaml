@@ -1,5 +1,5 @@
 name: bitmovin_player
-description: Video and audio player for Android and iOS, building on top of Bitmovin's native mobile player SDKs.
+description: Official Flutter bindings for Bitmovin's mobile Player SDKs.
 # Safeguard for accidental publishing to pub.dev
 # Remove the following line if you wish to publish to pub.dev
 publish_to: 'none'
