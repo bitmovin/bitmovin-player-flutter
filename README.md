@@ -58,7 +58,7 @@ If you want to play around with the code, implement a new feature or just run th
 - Run `mint bootstrap` in the root of the cloned repository to install packages from `Mintfile`
 
 To build the example project with your own developer account, create the config file 
-`example/iOS/Flutter/Developer.xcconfig`. In this file, add your development team like this:
+`example/ios/Flutter/Developer.xcconfig`. In this file, add your development team like this:
 
 ```yml
 DEVELOPMENT_TEAM = YOUR_TEAM_ID
