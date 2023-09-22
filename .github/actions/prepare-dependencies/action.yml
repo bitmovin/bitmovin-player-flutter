@@ -17,7 +17,7 @@ runs:
       run: flutter pub get
     - name: Run code generation for player library
       shell: bash
-      run: flutter pub run build_runner build --delete-conflicting-outputs
+      run: dart run build_runner build --delete-conflicting-outputs
     - name: Install dependencies for player testing library
       shell: bash
       run: (cd player_testing && dart pub get)
