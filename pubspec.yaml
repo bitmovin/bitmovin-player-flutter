@@ -3,7 +3,7 @@ description: Official Flutter bindings for Bitmovin's mobile Player SDKs.
 # Safeguard for accidental publishing to pub.dev
 # Remove the following line if you wish to publish to pub.dev
 publish_to: 'none'
-version: 0.0.1
+version: 0.1.0
 homepage: https://bitmovin.com
 repository: https://github.com/bitmovin/bitmovin-player-flutter
 issue_tracker: https://github.com/bitmovin/bitmovin-player-flutter/issues

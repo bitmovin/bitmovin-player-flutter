@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name = 'bitmovin_player'
-  s.version = '0.0.1'
+  s.version = '0.1.0'
   s.summary = 'Bitmovin Player Flutter plugin'
   s.description = <<-DESC
 Flutter plugin for Bitmovin Player.

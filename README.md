@@ -1,6 +1,6 @@
-# Bitmovin Flutter SDK (Alpha) 
+# Bitmovin Flutter SDK (Beta) 
 
-Official Flutter bindings for Bitmovin's mobile Player SDKs, currently in Alpha.
+Official Flutter bindings for Bitmovin's mobile Player SDKs, currently in Beta.
 
 > As the library is under active development, this means certain features from our native SDKs are not yet exposed 
 > through these Flutter bindings. See [Feature Support](#feature-support) for an overview of the supported features.
