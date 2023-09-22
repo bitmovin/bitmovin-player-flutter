@@ -46,6 +46,7 @@ class PlayerView extends StatefulWidget with PlayerViewEventHandler {
   State<StatefulWidget> createState() => PlayerViewState();
 }
 
+/// Provides the state for a [PlayerView].
 class PlayerViewState extends State<PlayerView> {
   late final MethodChannel _methodChannel;
   late final EventChannel _eventChannel;
@@ -81,8 +82,10 @@ class PlayerViewState extends State<PlayerView> {
     return Future.value(true);
   }
 
+  /// Returns whether the [PlayerView] is currently in fullscreen mode.
   bool get isFullscreen => widget.fullscreenHandler?.isFullscreen ?? false;
 
+  /// Enters fullscreen mode for the [PlayerView].
   void enterFullscreen() {
     _methodChannel.invokeMethod(Methods.enterFullscreen);
   }
@@ -91,6 +94,7 @@ class PlayerViewState extends State<PlayerView> {
     widget.fullscreenHandler?.enterFullscreen();
   }
 
+  /// Exits fullscreen mode for the [PlayerView].
   void exitFullscreen() {
     _methodChannel.invokeMethod(Methods.exitFullscreen);
   }
@@ -119,8 +123,8 @@ class PlayerViewState extends State<PlayerView> {
             surfaceFactory: (context, controller) {
               return AndroidViewSurface(
                 controller: controller as ExpensiveAndroidViewController,
-                gestureRecognizers: const <
-                    Factory<OneSequenceGestureRecognizer>>{},
+                gestureRecognizers: const <Factory<
+                    OneSequenceGestureRecognizer>>{},
                 hitTestBehavior: PlatformViewHitTestBehavior.opaque,
               );
             },

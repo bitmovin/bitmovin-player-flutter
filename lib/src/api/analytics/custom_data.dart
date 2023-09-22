@@ -3,6 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'custom_data.g.dart';
 
+/// Free-form data that can be used to enrich the analytics data.
 @JsonSerializable(explicitToJson: true)
 class CustomData extends Equatable {
   const CustomData({

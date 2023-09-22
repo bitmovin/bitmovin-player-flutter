@@ -21,14 +21,14 @@ Features of the native mobile Player SDKs are progressively being implemented in
 | Feature | Android | iOS, iPadOS |
 | :--- | :--- | :--- |
 | Supported media formats | DASH, HLS, Progressive | HLS, Progressive |
-| Playback of DRM-protected media | :white_check_mark: (Widevine) | :white_check_mark: (FairPlay) |
-| Bitmovin Web UI | :white_check_mark: | :white_check_mark:|
-| Full-screen support | :white_check_mark: | :white_check_mark: |
-| [Bitmovin Analytics](https://developer.bitmovin.com/playback/docs/enabling-bitmovin-analytics) | :white_check_mark: | :white_check_mark: |
-| Subtitles & Captions | :white_check_mark: | :white_check_mark: |
-| Support for Apple TV / Android TV / Fire TV | :hourglass: Planned for H2, 2023 | :hourglass: Planned for H2, 2023 |
-| Casting | :hourglass: Planned for H2, 2023 | :hourglass: Planned for H2, 2023 |
-| AirPlay | :hourglass: Planned for H2, 2023 | :hourglass: Planned for H2, 2023 |
+| Playback of DRM-protected media | &#9989; (Widevine) | &#9989; (FairPlay) |
+| Bitmovin Web UI | &#9989; | &#9989;|
+| Full-screen support | &#9989; | &#9989; |
+| [Bitmovin Analytics](https://developer.bitmovin.com/playback/docs/enabling-bitmovin-analytics) | &#9989; | &#9989; |
+| Subtitles & Captions | &#9989; | &#9989; |
+| Support for Apple TV / Android TV / Fire TV | &#9203; Planned for H2, 2023 | &#9203; Planned for H2, 2023 |
+| Casting | &#9203; Planned for H2, 2023 | &#9203; Planned for H2, 2023 |
+| AirPlay | &#9203; Planned for H2, 2023 | &#9203; Planned for H2, 2023 |
 | Picture-in-Picture | Later | Later |
 | Background Playback | Later | Later |
 | Advertising (Google IMA CSAI) | Later | Later |
@@ -90,7 +90,7 @@ dependencies:
 
 ## Android Specific Steps
 Add Bitmovin's maven repo to `android/build.gradle`:
-```gradle
+```ruby
 maven {
     url 'https://artifacts.bitmovin.com/artifactory/public-releases'
 }
