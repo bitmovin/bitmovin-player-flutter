@@ -71,10 +71,10 @@ DEVELOPMENT_TEAM = YOUR_TEAM_ID
 To be able to use the example app, follow these steps:
 1. Create a file named `.env` in the project root
 1. Put your private Bitmovin Player license key inside the newly created `.env` file as `BITMOVIN_PLAYER_LICENSE_KEY=YOUR_LICENSE_KEY`, replacing `YOUR_LICENSE_KEY` with your license key which can be obtained from [Bitmovin's Dashboard](https://bitmovin.com/dashboard)
-1. If you also want to enable Bitmovin Analytics, additionally add your private Bitmovin Analytics license key to the `.env` as 
+1. If you also want to enable Bitmovin Analytics, additionally add your private Bitmovin Analytics license key to the `.env` file as 
 `BITMOVIN_ANALYTICS_LICENSE_KEY=YOUR_ANALYTICS_LICENSE_KEY`, replacing `YOUR_ANALYTICS_LICENSE_KEY` with your Analytics 
-license key which can be also obtained from [Bitmovin's Dashboard](https://bitmovin.com/dashboard)
-1. In the [Dashboard](https://bitmovin.com/dashboard), add `com.bitmovin.player.flutter.example` as an allowed package name for your player license and optionally for your Analytics license
+license key which can be obtained from [Bitmovin's Dashboard](https://bitmovin.com/dashboard)
+1. In the [Dashboard](https://bitmovin.com/dashboard), add `com.bitmovin.player.flutter.example` as an allowed package name for your Player license and optionally for your Analytics license
 1. Run `flutter pub get` in the project root, if not done already
 1. Run `dart run build_runner build --delete-conflicting-outputs` in the project root which should generate the missing `example/lib/env/env.g.dart` file
 1. Start the example app by running the command `flutter run` inside the `example/` directory
