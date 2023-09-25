@@ -1,0 +1,50 @@
+name: Build workspace
+on:
+  pull_request:
+    paths-ignore:
+      - '**.md'
+  push:
+    branches: [ main ]
+    paths-ignore:
+      - '**.md'
+env:
+  LC_ALL: en_US.UTF-8
+  LANG: en_US.UTF-8
+jobs:
+  analyze_source_code:
+    name: Analyze Source Code
+    runs-on: ubuntu-latest
+    concurrency:
+      group: build-workspace-analyze-${{ inputs.ref || github.event.pull_request.number || github.ref }}
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/prepare-dependencies
+      - name: Analyze Dart
+        run: flutter analyze
+      - name: Analyze Kotlin
+        run: ktlint
+      - name: Analyze Swift
+        run: mint run swiftlint --strict
+  build_ios:
+    needs: analyze_source_code
+    runs-on: macos-latest
+    concurrency:
+      group: build-workspace-ios-${{ inputs.ref || github.event.pull_request.number || github.ref }}
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/prepare-dependencies
+      - name: Build
+        run: cd example && flutter build ios
+  build_android:
+    needs: analyze_source_code
+    runs-on: ubuntu-latest
+    concurrency:
+      group: build-workspace-android-${{ inputs.ref || github.event.pull_request.number || github.ref }}
+      cancel-in-progress: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/prepare-dependencies
+      - name: Build
+        run: cd example && flutter build apk
