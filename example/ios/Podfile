@@ -1,7 +1,5 @@
 use_frameworks!
-# Uncomment this line to define a global platform for your project
 platform :ios, '14.0'
-# source 'https://github.com/CocoaPods/Specs.git'
 source 'https://github.com/bitmovin/cocoapod-specs.git'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
