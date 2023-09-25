@@ -36,7 +36,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/prepare-dependencies
       - name: Build
-        run: cd example && flutter build ios
+        run: cd example && flutter build ios --no-codesign
   build_android:
     needs: analyze_source_code
     runs-on: ubuntu-latest
