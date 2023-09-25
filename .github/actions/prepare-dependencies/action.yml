@@ -28,7 +28,3 @@ runs:
       shell: bash
       if: runner.os == 'macOS'
       run: brew bundle install
-    - name: Install mint dependencies
-      shell: bash
-      if: runner.os == 'macOS'
-      run: mint bootstrap

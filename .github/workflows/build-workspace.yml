@@ -25,7 +25,7 @@ jobs:
       - name: Analyze Kotlin
         run: ktlint
       - name: Analyze Swift
-        run: mint run swiftlint --strict
+        run: swiftlint --strict
   build_ios:
     needs: analyze_source_code
     runs-on: macos-latest
