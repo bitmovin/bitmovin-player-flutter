@@ -39,7 +39,7 @@ jobs:
         run: cd example && flutter build ios
   build_android:
     needs: analyze_source_code
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     concurrency:
       group: build-workspace-android-${{ inputs.ref || github.event.pull_request.number || github.ref }}
       cancel-in-progress: true
