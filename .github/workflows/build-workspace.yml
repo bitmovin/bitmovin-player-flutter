@@ -13,7 +13,7 @@ env:
 jobs:
   analyze_source_code:
     name: Analyze Source Code
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     concurrency:
       group: build-workspace-analyze-${{ inputs.ref || github.event.pull_request.number || github.ref }}
       cancel-in-progress: true
@@ -39,7 +39,7 @@ jobs:
         run: cd example && flutter build ios
   build_android:
     needs: analyze_source_code
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     concurrency:
       group: build-workspace-android-${{ inputs.ref || github.event.pull_request.number || github.ref }}
       cancel-in-progress: true
