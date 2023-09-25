@@ -1,2 +1,2 @@
-brew "mint"
 brew "ktlint"
+brew "swiftlint"

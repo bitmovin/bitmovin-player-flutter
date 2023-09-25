@@ -52,20 +52,17 @@ If you want to play around with the code, implement a new feature or just run th
 - Install `Node.js` and `npm` on your machine
 - Run `npm ci` in the root of the cloned repository
   - This will setup [husky](https://github.com/typicode/husky) powered pre-commit git hooks
+- Run `brew bundle install` in the root of the cloned repository to install needed dependencies:
+  - `ktlint` for linting Kotlin code
+  - `swiftlint` for linting Swift code
 
 ## For iOS Development
-- Install `Mint` on your machine (e.g. `brew install mint`)
-- Run `mint bootstrap` in the root of the cloned repository to install packages from `Mintfile`
-
 To build the example project with your own developer account, create the config file 
 `example/ios/Flutter/Developer.xcconfig`. In this file, add your development team like this:
 
 ```yml
 DEVELOPMENT_TEAM = YOUR_TEAM_ID
 ```
-
-## For Android Development
-- Install `ktlint` (e.g. `brew install ktlint`)
 
 ## Example App
 To be able to use the example app, follow these steps:

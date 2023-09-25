@@ -264,7 +264,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\n(\n  cd ../../\n  if mint which swiftlint > /dev/null; then\n    mint run swiftlint\n  else\n    echo \"warning: SwiftLint not installed, run \\`mint bootstrap\\` in project root to install\"\n  fi\n)\n";
+			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\n(\n  cd ../../\n  if which swiftlint > /dev/null; then\n    swiftlint\n  else\n    echo \"warning: SwiftLint not installed, run \\`brew bundle install\\` in project root to install\"\n  fi\n)\n";
 		};
 		C55F1090AB91C27A96CE3E21 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
