@@ -23,12 +23,13 @@ object PlayerManager {
             destroy(id)
         }
 
-        val player = when {
-            playerConfig == null -> Player.create(context)
-            analyticsConfig == null -> Player.create(context, playerConfig)
-            defaultMetadata == null -> Player.create(context, playerConfig, analyticsConfig)
-            else -> Player.create(context, playerConfig, analyticsConfig, defaultMetadata)
-        }
+        val player =
+            when {
+                playerConfig == null -> Player.create(context)
+                analyticsConfig == null -> Player.create(context, playerConfig)
+                defaultMetadata == null -> Player.create(context, playerConfig, analyticsConfig)
+                else -> Player.create(context, playerConfig, analyticsConfig, defaultMetadata)
+            }
         players[id] = player
 
         postToMainThread { handleCallbacks(id, player) }
@@ -36,7 +37,10 @@ object PlayerManager {
         return player
     }
 
-    fun onPlayerCreated(id: String, onCreated: (Player) -> Unit) {
+    fun onPlayerCreated(
+        id: String,
+        onCreated: (Player) -> Unit,
+    ) {
         players[id]?.let {
             onCreated(it)
         } ?: run {
@@ -54,7 +58,10 @@ object PlayerManager {
         }
     }
 
-    private fun handleCallbacks(id: String, player: Player) {
+    private fun handleCallbacks(
+        id: String,
+        player: Player,
+    ) {
         playerCallbacks[id]?.forEach { it(player) }
         playerCallbacks.remove(id)
     }
