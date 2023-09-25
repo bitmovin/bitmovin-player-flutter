@@ -36,16 +36,18 @@ class FlutterPlayer(
     defaultMetadata: DefaultMetadata?,
 ) : StreamHandler, EventListener() {
     private var widevineCallbacksHandler: WidevineCallbacksHandler? = null
-    private val methodChannel = ChannelManager.registerMethodChannel(
-        "${Channels.PLAYER}-$id",
-        JsonMethodHandler(this::onMethodCall),
-        messenger,
-    )
-    private val eventChannel = ChannelManager.registerEventChannel(
-        "${Channels.PLAYER_EVENT}-$id",
-        this@FlutterPlayer,
-        messenger,
-    )
+    private val methodChannel =
+        ChannelManager.registerMethodChannel(
+            "${Channels.PLAYER}-$id",
+            JsonMethodHandler(this::onMethodCall),
+            messenger,
+        )
+    private val eventChannel =
+        ChannelManager.registerEventChannel(
+            "${Channels.PLAYER_EVENT}-$id",
+            this@FlutterPlayer,
+            messenger,
+        )
     private val player: Player
 
     init {
@@ -58,41 +60,47 @@ class FlutterPlayer(
         val widevineMetadata = jSourceConfig.drmConfig?.widevine?.metadata
 
         if (widevineConfig != null && widevineMetadata != null) {
-            widevineCallbacksHandler = WidevineCallbacksHandler(
-                widevineMetadata,
-                widevineConfig,
-                methodChannel,
-            )
+            widevineCallbacksHandler =
+                WidevineCallbacksHandler(
+                    widevineMetadata,
+                    widevineConfig,
+                    methodChannel,
+                )
         }
 
         val sourceMetadata = jSourceConfig.analyticsSourceMetadata?.toNative() ?: SourceMetadata()
         load(Source.create(sourceConfig, sourceMetadata))
     }
 
-    private fun Player.onMethodCall(method: String, arg: JPlayerMethodArg): Any = when (method) {
-        Methods.LOAD_WITH_SOURCE_CONFIG -> load(arg.asSourceConfig)
-        Methods.LOAD_WITH_SOURCE -> load(arg.asSource.sourceConfig)
-        Methods.PLAY -> play()
-        Methods.PAUSE -> pause()
-        Methods.MUTE -> mute()
-        Methods.UNMUTE -> unmute()
-        Methods.SEEK -> seek(arg.asDouble)
-        Methods.CURRENT_TIME -> currentTime
-        Methods.DURATION -> duration
-        Methods.GET_TIME_SHIFT -> timeShift
-        Methods.SET_TIME_SHIFT -> timeShift(arg.asDouble)
-        Methods.MAX_TIME_SHIFT -> maxTimeShift
-        Methods.IS_LIVE -> isLive
-        Methods.IS_PLAYING -> isPlaying
-        Methods.SEND_CUSTOM_DATA_EVENT -> this.analytics?.sendCustomDataEvent(arg.asCustomData.toNative())
-            ?: Unit
-        Methods.DESTROY -> destroyPlayer()
-        Methods.AVAILABLE_SUBTITLES -> availableSubtitles.map { JSubtitleTrack(it).toJsonString() }
-        Methods.GET_SUBTITLE -> subtitle?.let { JSubtitleTrack(it).toJsonString() } ?: Unit
-        Methods.SET_SUBTITLE -> setSubtitle(arg.asOptionalString)
-        Methods.REMOVE_SUBTITLE -> removeSubtitle(arg.asString)
-        else -> throw NotImplementedError()
-    }
+    private fun Player.onMethodCall(
+        method: String,
+        arg: JPlayerMethodArg,
+    ): Any =
+        when (method) {
+            Methods.LOAD_WITH_SOURCE_CONFIG -> load(arg.asSourceConfig)
+            Methods.LOAD_WITH_SOURCE -> load(arg.asSource.sourceConfig)
+            Methods.PLAY -> play()
+            Methods.PAUSE -> pause()
+            Methods.MUTE -> mute()
+            Methods.UNMUTE -> unmute()
+            Methods.SEEK -> seek(arg.asDouble)
+            Methods.CURRENT_TIME -> currentTime
+            Methods.DURATION -> duration
+            Methods.GET_TIME_SHIFT -> timeShift
+            Methods.SET_TIME_SHIFT -> timeShift(arg.asDouble)
+            Methods.MAX_TIME_SHIFT -> maxTimeShift
+            Methods.IS_LIVE -> isLive
+            Methods.IS_PLAYING -> isPlaying
+            Methods.SEND_CUSTOM_DATA_EVENT ->
+                this.analytics?.sendCustomDataEvent(arg.asCustomData.toNative())
+                    ?: Unit
+            Methods.DESTROY -> destroyPlayer()
+            Methods.AVAILABLE_SUBTITLES -> availableSubtitles.map { JSubtitleTrack(it).toJsonString() }
+            Methods.GET_SUBTITLE -> subtitle?.let { JSubtitleTrack(it).toJsonString() } ?: Unit
+            Methods.SET_SUBTITLE -> setSubtitle(arg.asOptionalString)
+            Methods.REMOVE_SUBTITLE -> removeSubtitle(arg.asString)
+            else -> throw NotImplementedError()
+        }
 
     private fun destroyPlayer() {
         PlayerManager.destroy(id)
@@ -100,11 +108,17 @@ class FlutterPlayer(
         eventChannel.setStreamHandler(null)
     }
 
-    private fun onMethodCall(method: String, arguments: JMethodArgs): Any {
+    private fun onMethodCall(
+        method: String,
+        arguments: JMethodArgs,
+    ): Any {
         return player.onMethodCall(method, arguments.asPlayerMethodArgs)
     }
 
-    override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
+    override fun onListen(
+        arguments: Any?,
+        events: EventChannel.EventSink?,
+    ) {
         sink = events
         listenToEvent(player)
     }

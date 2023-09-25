@@ -18,25 +18,30 @@ class PlayerPlugin : FlutterPlugin, ActivityAware {
             .registerViewFactory(Channels.PLAYER_VIEW, FlutterPlayerViewFactory(registrar.binaryMessenger))
     }
 
-    private fun onMethodCall(method: String, arguments: JMethodArgs): Any = when (method) {
-        Methods.CREATE_PLAYER -> createPlayer(arguments.asCreatePlayerArgs) != null
-        else -> throw NotImplementedError()
-    }
+    private fun onMethodCall(
+        method: String,
+        arguments: JMethodArgs,
+    ): Any =
+        when (method) {
+            Methods.CREATE_PLAYER -> createPlayer(arguments.asCreatePlayerArgs) != null
+            else -> throw NotImplementedError()
+        }
 
-    private fun createPlayer(args: JCreatePlayerArgs) = flutterPluginBindingReference.get()?.let {
-        val flutterPlayerConfig = args.playerConfig
-        val config = flutterPlayerConfig.toNative()
-        val analyticsConfig = flutterPlayerConfig.analyticsConfig?.toNative()
-        val defaultMetadata = flutterPlayerConfig.analyticsConfig?.defaultMetadata?.toNative()
-        FlutterPlayer(
-            context = it.applicationContext,
-            id = args.id,
-            messenger = it.binaryMessenger,
-            config = config,
-            analyticsConfig = analyticsConfig,
-            defaultMetadata = defaultMetadata,
-        )
-    }
+    private fun createPlayer(args: JCreatePlayerArgs) =
+        flutterPluginBindingReference.get()?.let {
+            val flutterPlayerConfig = args.playerConfig
+            val config = flutterPlayerConfig.toNative()
+            val analyticsConfig = flutterPlayerConfig.analyticsConfig?.toNative()
+            val defaultMetadata = flutterPlayerConfig.analyticsConfig?.defaultMetadata?.toNative()
+            FlutterPlayer(
+                context = it.applicationContext,
+                id = args.id,
+                messenger = it.binaryMessenger,
+                config = config,
+                analyticsConfig = analyticsConfig,
+                defaultMetadata = defaultMetadata,
+            )
+        }
 
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         flutterPluginBindingReference = WeakReference(flutterPluginBinding)

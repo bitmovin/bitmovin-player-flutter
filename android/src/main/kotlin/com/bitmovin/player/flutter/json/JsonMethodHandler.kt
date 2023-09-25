@@ -6,7 +6,10 @@ import io.flutter.plugin.common.MethodChannel
 /** set Result from returned object or set an error if an exception is thrown. */
 internal class JsonMethodHandler(private val handler: (String, JMethodArgs) -> Any) :
     MethodChannel.MethodCallHandler {
-    override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
+    override fun onMethodCall(
+        call: MethodCall,
+        result: MethodChannel.Result,
+    ) {
         try {
             val successResult = handler(call.method, JMethodArgs(call))
             // Flutter requires returning null if there are no results.

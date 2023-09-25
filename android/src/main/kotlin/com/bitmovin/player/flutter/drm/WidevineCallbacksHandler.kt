@@ -20,29 +20,34 @@ class WidevineCallbacksHandler(
 
     private fun assignHandlers() {
         if (metadata.hasPrepareMessage) {
-            widevineConfig.prepareMessageCallback = PrepareMessageCallback { keyMessage ->
-                handleCallback(
-                    Methods.WIDEVINE_PREPARE_MESSAGE,
-                    mapOf(
-                        "keyMessage" to Base64.encodeToString(keyMessage, Base64.NO_WRAP),
-                    ),
-                )
-            }
+            widevineConfig.prepareMessageCallback =
+                PrepareMessageCallback { keyMessage ->
+                    handleCallback(
+                        Methods.WIDEVINE_PREPARE_MESSAGE,
+                        mapOf(
+                            "keyMessage" to Base64.encodeToString(keyMessage, Base64.NO_WRAP),
+                        ),
+                    )
+                }
         }
 
         if (metadata.hasPrepareLicense) {
-            widevineConfig.prepareLicenseCallback = PrepareLicenseCallback { licenseResponse ->
-                handleCallback(
-                    Methods.WIDEVINE_PREPARE_LICENSE,
-                    mapOf(
-                        "licenseResponse" to Base64.encodeToString(licenseResponse, Base64.NO_WRAP),
-                    ),
-                )
-            }
+            widevineConfig.prepareLicenseCallback =
+                PrepareLicenseCallback { licenseResponse ->
+                    handleCallback(
+                        Methods.WIDEVINE_PREPARE_LICENSE,
+                        mapOf(
+                            "licenseResponse" to Base64.encodeToString(licenseResponse, Base64.NO_WRAP),
+                        ),
+                    )
+                }
         }
     }
 
-    private fun handleCallback(methodName: String, arguments: Map<String, Any>): ByteArray {
+    private fun handleCallback(
+        methodName: String,
+        arguments: Map<String, Any>,
+    ): ByteArray {
         return CallbackToFutureAdapter.getFuture { completer ->
             runOnMainThread {
                 methodChannel.invokeMethod(
@@ -60,7 +65,11 @@ class WidevineCallbacksHandler(
                             completer.set(Base64.decode(result, Base64.NO_WRAP))
                         }
 
-                        override fun error(errorCode: String, errorMessage: String?, errorDetails: Any?) {
+                        override fun error(
+                            errorCode: String,
+                            errorMessage: String?,
+                            errorDetails: Any?,
+                        ) {
                             completer.setException(
                                 Exception("Error when calling $methodName. Error code: $errorCode, message: $errorMessage"),
                             )
