@@ -41,9 +41,10 @@ class Helper {
         }
 
         fun requestSystemWritePermission(context: Context) {
-            val intent = Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS).apply {
-                data = Uri.parse("package:" + context.packageName)
-            }
+            val intent =
+                Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS).apply {
+                    data = Uri.parse("package:" + context.packageName)
+                }
             ContextCompat.startActivity(context, intent, null)
         }
 

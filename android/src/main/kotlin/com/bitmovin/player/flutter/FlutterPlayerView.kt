@@ -23,15 +23,17 @@ class FlutterPlayerView(
     args: Any?,
 ) : MethodChannel.MethodCallHandler, EventChannel.StreamHandler, PlatformView, EventListener() {
     private val playerView: PlayerView
-    private val methodChannel: MethodChannel = MethodChannel(
-        messenger,
-        "${Channels.PLAYER_VIEW}-$id",
-    ).apply { setMethodCallHandler(this@FlutterPlayerView) }
-    private val eventChannel = ChannelManager.registerEventChannel(
-        "${Channels.PLAYER_VIEW_EVENT}-$id",
-        this@FlutterPlayerView,
-        messenger,
-    )
+    private val methodChannel: MethodChannel =
+        MethodChannel(
+            messenger,
+            "${Channels.PLAYER_VIEW}-$id",
+        ).apply { setMethodCallHandler(this@FlutterPlayerView) }
+    private val eventChannel =
+        ChannelManager.registerEventChannel(
+            "${Channels.PLAYER_VIEW_EVENT}-$id",
+            this@FlutterPlayerView,
+            messenger,
+        )
 
     init {
         val playerViewCreateArgs = JPlayerViewCreateArgs(args as Map<*, *>)
@@ -50,7 +52,10 @@ class FlutterPlayerView(
         }
     }
 
-    override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) = when (call.method) {
+    override fun onMethodCall(
+        call: MethodCall,
+        result: MethodChannel.Result,
+    ) = when (call.method) {
         Methods.ENTER_FULLSCREEN -> playerView.enterFullscreen()
         Methods.EXIT_FULLSCREEN -> playerView.exitFullscreen()
         Methods.DESTROY_PLAYER_VIEW -> { /* no-op */ }
@@ -66,7 +71,10 @@ class FlutterPlayerView(
         eventChannel.setStreamHandler(null)
     }
 
-    override fun onListen(arguments: Any?, events: EventChannel.EventSink?) {
+    override fun onListen(
+        arguments: Any?,
+        events: EventChannel.EventSink?,
+    ) {
         sink = events
         listenToEvent(playerView)
     }

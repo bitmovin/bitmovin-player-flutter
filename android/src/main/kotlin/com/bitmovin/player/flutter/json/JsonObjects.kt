@@ -19,6 +19,7 @@ import kotlin.reflect.KProperty
 
 private interface JStruct {
     var map: Map<*, *>
+
     fun toJsonString() = jacksonObjectMapper().writeValueAsString(map)
 }
 
@@ -231,18 +232,26 @@ private val GetStringMap = mapGetter<String, String>()
 
 /** Get a field from a JSON struct */
 private fun interface Getter<T> : ReadOnlyProperty<JStruct, T>
+
 private interface GetterSetter<T> : ReadWriteProperty<JStruct, T>
 
 /** Get a field from it's name, cast it to [I] then convert it to [O] with [build]. */
-private inline fun <reified I, O> getter(crossinline build: (I) -> O) = Getter { thisRef, kProp ->
-    (thisRef.map[kProp.name] as I?)?.let(build)
-}
+private inline fun <reified I, O> getter(crossinline build: (I) -> O) =
+    Getter { thisRef, kProp ->
+        (thisRef.map[kProp.name] as I?)?.let(build)
+    }
 
 private open class JsonPropertyDelegate<I, O>(val build: (I) -> O) : GetterSetter<O?> {
-    override fun getValue(thisRef: JStruct, property: KProperty<*>): O? =
-        (thisRef.map[property.name] as I?)?.let(build)
+    override fun getValue(
+        thisRef: JStruct,
+        property: KProperty<*>,
+    ): O? = (thisRef.map[property.name] as I?)?.let(build)
 
-    override fun setValue(thisRef: JStruct, property: KProperty<*>, value: O?) {
+    override fun setValue(
+        thisRef: JStruct,
+        property: KProperty<*>,
+        value: O?,
+    ) {
         thisRef.map = thisRef.map.toMutableMap().apply { set(property.name, value) }
     }
 }
@@ -250,44 +259,52 @@ private open class JsonPropertyDelegate<I, O>(val build: (I) -> O) : GetterSette
 private class JsonPropertyDelegateRequired<I, O>(
     val inner: JsonPropertyDelegate<I, O>,
 ) : GetterSetter<O> {
-    override fun getValue(thisRef: JStruct, property: KProperty<*>): O =
+    override fun getValue(
+        thisRef: JStruct,
+        property: KProperty<*>,
+    ): O =
         inner.getValue(thisRef, property)
             ?: throw InvalidParameterException("Missing argument ${property.name}")
-    override fun setValue(thisRef: JStruct, property: KProperty<*>, value: O) =
-        inner.setValue(thisRef, property, value)
+
+    override fun setValue(
+        thisRef: JStruct,
+        property: KProperty<*>,
+        value: O,
+    ) = inner.setValue(thisRef, property, value)
 }
 
 /** Getter decorator: throw if the field is not present. */
-private fun <T> Getter<T?>.require() = Getter<T> { thisRef, property ->
-    getValue(thisRef, property)
-        ?: throw InvalidParameterException("Missing argument ${property.name}")
-}
+private fun <T> Getter<T?>.require() =
+    Getter<T> { thisRef, property ->
+        getValue(thisRef, property)
+            ?: throw InvalidParameterException("Missing argument ${property.name}")
+    }
 
 private fun <I, O> JsonPropertyDelegate<I, O>.require() = JsonPropertyDelegateRequired(this)
 
 private inline fun <reified T> listGetter() = getter { list: List<*> -> list.map { it as T } }
 
-private inline fun <reified E : Enum<E>> enumGetter(crossinline enumValueOf: (String) -> E) =
-    getter(enumValueOf)
+private inline fun <reified E : Enum<E>> enumGetter(crossinline enumValueOf: (String) -> E) = getter(enumValueOf)
 
-private inline fun <reified E : Enum<E>> enumGetter() =
-    getter { name: String -> enumValueOf<E>(name, ignoreCase = true) }
+private inline fun <reified E : Enum<E>> enumGetter() = getter { name: String -> enumValueOf<E>(name, ignoreCase = true) }
 
-private inline fun <reified E : Enum<E>> enumValueOf(name: String, ignoreCase: Boolean): E {
+private inline fun <reified E : Enum<E>> enumValueOf(
+    name: String,
+    ignoreCase: Boolean,
+): E {
     enumValues<E>().forEach {
         if (name.equals(it.name, ignoreCase)) return it
     }
     throw InvalidParameterException("Unknown enum value $name")
 }
 
-private inline fun <reified K, reified V> mapGetter() =
-    getter { map: Map<*, *> -> map.map { it.key as K to it.value as V }.toMap() }
+private inline fun <reified K, reified V> mapGetter() = getter { map: Map<*, *> -> map.map { it.key as K to it.value as V }.toMap() }
 
 private inline fun <reified T> castGetter() = getter<T, T> { it }
+
 private class CastDelegate<T> : JsonPropertyDelegate<T, T>({ it })
 
-private inline fun <reified T : JStruct> structGetter(crossinline build: (Map<*, *>) -> T) =
-    getter(build)
+private inline fun <reified T : JStruct> structGetter(crossinline build: (Map<*, *>) -> T) = getter(build)
 
 private inline fun <reified T : JStruct> structListGetter(crossinline build: (Map<*, *>) -> T) =
     getter { list: List<Map<*, *>> -> list.map { build(it) } }

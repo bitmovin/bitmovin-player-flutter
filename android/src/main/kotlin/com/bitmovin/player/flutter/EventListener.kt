@@ -12,17 +12,21 @@ import io.flutter.plugin.common.EventChannel
 open class EventListener {
     open var sink: EventChannel.EventSink? = null
 
-    private fun broadcast(eventName: String, data: Any?) {
+    private fun broadcast(
+        eventName: String,
+        data: Any?,
+    ) {
         data?.let {
             val mapper = jacksonObjectMapper()
             mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false)
 
-            val payload = mapper.writeValueAsString(
-                mapOf(
-                    "event" to eventName,
-                    "data" to data,
-                ),
-            )
+            val payload =
+                mapper.writeValueAsString(
+                    mapOf(
+                        "event" to eventName,
+                        "data" to data,
+                    ),
+                )
 
             runOnMainThread { sink?.success(payload) }
         }
@@ -34,22 +38,24 @@ open class EventListener {
              * Source Events
              */
             on(SourceEvent.Warning::class) {
-                val target = mapOf<String, Any?>(
-                    "code" to it.code.value,
-                    "message" to it.message,
-                    "timestamp" to it.timestamp,
-                )
+                val target =
+                    mapOf<String, Any?>(
+                        "code" to it.code.value,
+                        "message" to it.message,
+                        "timestamp" to it.timestamp,
+                    )
                 broadcast("onSourceWarning", target)
             }
             on(SourceEvent.Info::class) {
                 broadcast("onSourceInfo", it)
             }
             on(SourceEvent.Error::class) {
-                val target = mapOf<String, Any?>(
-                    "code" to it.code.value,
-                    "message" to it.message,
-                    "timestamp" to it.timestamp,
-                )
+                val target =
+                    mapOf<String, Any?>(
+                        "code" to it.code.value,
+                        "message" to it.message,
+                        "timestamp" to it.timestamp,
+                    )
                 broadcast("onSourceError", target)
             }
             on(SourceEvent.Load::class) {
@@ -110,41 +116,46 @@ open class EventListener {
                 broadcast("onPlayerInfo", it)
             }
             on(PlayerEvent.Warning::class) {
-                val target = mapOf<String, Any?>(
-                    "code" to it.code.value,
-                    "message" to it.message,
-                    "timestamp" to it.timestamp,
-                )
+                val target =
+                    mapOf<String, Any?>(
+                        "code" to it.code.value,
+                        "message" to it.message,
+                        "timestamp" to it.timestamp,
+                    )
                 broadcast("onPlayerWarning", target)
             }
             on(PlayerEvent.Error::class) {
-                val target = mapOf<String, Any?>(
-                    "code" to it.code.value,
-                    "message" to it.message,
-                    "timestamp" to it.timestamp,
-                )
+                val target =
+                    mapOf<String, Any?>(
+                        "code" to it.code.value,
+                        "message" to it.message,
+                        "timestamp" to it.timestamp,
+                    )
                 broadcast("onPlayerError", target)
             }
             on(SourceEvent.SubtitleTrackAdded::class) {
-                val target = mapOf<String, Any?>(
-                    "timestamp" to it.timestamp,
-                    "subtitleTrack" to JSubtitleTrack(it.subtitleTrack).map,
-                )
+                val target =
+                    mapOf<String, Any?>(
+                        "timestamp" to it.timestamp,
+                        "subtitleTrack" to JSubtitleTrack(it.subtitleTrack).map,
+                    )
                 broadcast("onSubtitleAdded", target)
             }
             on(SourceEvent.SubtitleTrackRemoved::class) {
-                val target = mapOf<String, Any?>(
-                    "timestamp" to it.timestamp,
-                    "subtitleTrack" to JSubtitleTrack(it.subtitleTrack).map,
-                )
+                val target =
+                    mapOf<String, Any?>(
+                        "timestamp" to it.timestamp,
+                        "subtitleTrack" to JSubtitleTrack(it.subtitleTrack).map,
+                    )
                 broadcast("onSubtitleRemoved", target)
             }
             on(SourceEvent.SubtitleTrackChanged::class) {
-                val target = mapOf(
-                    "timestamp" to it.timestamp,
-                    "oldSubtitleTrack" to it.oldSubtitleTrack?.let { sub -> JSubtitleTrack(sub).map },
-                    "newSubtitleTrack" to it.newSubtitleTrack?.let { sub -> JSubtitleTrack(sub).map },
-                )
+                val target =
+                    mapOf(
+                        "timestamp" to it.timestamp,
+                        "oldSubtitleTrack" to it.oldSubtitleTrack?.let { sub -> JSubtitleTrack(sub).map },
+                        "newSubtitleTrack" to it.newSubtitleTrack?.let { sub -> JSubtitleTrack(sub).map },
+                    )
                 broadcast("onSubtitleChanged", target)
             }
             on(PlayerEvent.CueEnter::class) {

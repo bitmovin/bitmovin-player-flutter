@@ -9,7 +9,11 @@ import io.flutter.plugin.platform.PlatformViewFactory
 class FlutterPlayerViewFactory(
     private val messenger: BinaryMessenger,
 ) : PlatformViewFactory(StandardMessageCodec.INSTANCE) {
-    override fun create(context: Context, viewId: Int, args: Any?): PlatformView {
+    override fun create(
+        context: Context,
+        viewId: Int,
+        args: Any?,
+    ): PlatformView {
         return FlutterPlayerView(context, messenger, viewId, args)
     }
 }

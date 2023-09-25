@@ -20,20 +20,21 @@ import com.bitmovin.player.flutter.drm.WidevineConfigMetadata
 
 // Build Native objects from the corresponding Json object
 
-internal fun JSourceConfig.toNative() = SourceConfig(
-    url = url,
-    type = type ?: SourceType.Progressive,
-    title = title,
-    description = description,
-    posterSource = posterSource,
-    options = options?.toNative() ?: SourceOptions(),
-    drmConfig = drmConfig?.toNative(),
-).also { sourceConfig ->
-    audioCodecPriority?.let { sourceConfig.audioCodecPriority = it }
-    videoCodecPriority?.let { sourceConfig.videoCodecPriority = it }
-    isPosterPersistent?.let { sourceConfig.isPosterPersistent = it }
-    subtitleTracks.forEach { sourceConfig.addSubtitleTrack(it.toNative()) }
-}
+internal fun JSourceConfig.toNative() =
+    SourceConfig(
+        url = url,
+        type = type ?: SourceType.Progressive,
+        title = title,
+        description = description,
+        posterSource = posterSource,
+        options = options?.toNative() ?: SourceOptions(),
+        drmConfig = drmConfig?.toNative(),
+    ).also { sourceConfig ->
+        audioCodecPriority?.let { sourceConfig.audioCodecPriority = it }
+        videoCodecPriority?.let { sourceConfig.videoCodecPriority = it }
+        isPosterPersistent?.let { sourceConfig.isPosterPersistent = it }
+        subtitleTracks.forEach { sourceConfig.addSubtitleTrack(it.toNative()) }
+    }
 
 internal fun JSourceMetadata.toNative() =
     SourceMetadata.Builder()
@@ -46,27 +47,31 @@ internal fun JSourceMetadata.toNative() =
             customData?.let { setCustomData(it.toNative()) }
         }.build()
 
-internal fun JSourceOptions.toNative() = SourceOptions(
-    startOffset = startOffset,
-    startOffsetTimelineReference = startOffsetTimelineReference,
-)
+internal fun JSourceOptions.toNative() =
+    SourceOptions(
+        startOffset = startOffset,
+        startOffsetTimelineReference = startOffsetTimelineReference,
+    )
 
 private fun JDrmConfig.toNative(): DrmConfig? = widevine?.toNative()
-private fun JWidevineConfig.toNative() = WidevineConfig(licenseUrl).also {
-    it.preferredSecurityLevel = preferredSecurityLevel
-    it.shouldKeepDrmSessionsAlive = shouldKeepDrmSessionsAlive ?: false
-    it.httpHeaders = httpHeaders?.toMutableMap()
-}
+
+private fun JWidevineConfig.toNative() =
+    WidevineConfig(licenseUrl).also {
+        it.preferredSecurityLevel = preferredSecurityLevel
+        it.shouldKeepDrmSessionsAlive = shouldKeepDrmSessionsAlive ?: false
+        it.httpHeaders = httpHeaders?.toMutableMap()
+    }
 
 internal val JWidevineConfig.metadata: WidevineConfigMetadata
     get() = WidevineConfigMetadata(prepareMessage ?: false, prepareLicense ?: false)
 
-internal fun JPlayerConfig.toNative() = PlayerConfig(key = key).also { config ->
-    styleConfig?.let { config.styleConfig = it.toNative() }
-    playbackConfig?.let { config.playbackConfig = it.toNative() }
-    licensingConfig?.let { config.licensingConfig = it.toNative() }
-    liveConfig?.let { config.liveConfig = it.toNative() }
-}
+internal fun JPlayerConfig.toNative() =
+    PlayerConfig(key = key).also { config ->
+        styleConfig?.let { config.styleConfig = it.toNative() }
+        playbackConfig?.let { config.playbackConfig = it.toNative() }
+        licensingConfig?.let { config.licensingConfig = it.toNative() }
+        liveConfig?.let { config.liveConfig = it.toNative() }
+    }
 
 internal fun JAnalyticsConfig.toNative(): AnalyticsConfig =
     AnalyticsConfig.Builder(licenseKey = licenseKey).apply {
@@ -119,43 +124,48 @@ internal fun JCustomData.toNative(): CustomData =
         experimentName?.let { setExperimentName(it) }
     }.build()
 
-internal fun JStyleConfig.toNative() = StyleConfig(
-    scalingMode = scalingMode ?: ScalingMode.Fit,
-    supplementalPlayerUiCss = supplementalPlayerUiCss,
-).also { config ->
-    isUiEnabled?.let { config.isUiEnabled = it }
-    isHideFirstFrame?.let { config.isHideFirstFrame = it }
-    playerUiCss?.let { config.playerUiCss = it }
-    playerUiJs?.let { config.playerUiJs = it }
-}
+internal fun JStyleConfig.toNative() =
+    StyleConfig(
+        scalingMode = scalingMode ?: ScalingMode.Fit,
+        supplementalPlayerUiCss = supplementalPlayerUiCss,
+    ).also { config ->
+        isUiEnabled?.let { config.isUiEnabled = it }
+        isHideFirstFrame?.let { config.isHideFirstFrame = it }
+        playerUiCss?.let { config.playerUiCss = it }
+        playerUiJs?.let { config.playerUiJs = it }
+    }
 
-internal fun JPlaybackConfig.toNative() = PlaybackConfig().also { config ->
-    isAutoplayEnabled?.let { config.isAutoplayEnabled = it }
-    isMuted?.let { config.isMuted = it }
-    isTimeShiftEnabled?.let { config.isTimeShiftEnabled = it }
-    isTunneledPlaybackEnabled?.let { config.isTunneledPlaybackEnabled = it }
-    audioCodecPriority?.let { config.audioCodecPriority = it }
-    videoCodecPriority?.let { config.videoCodecPriority = it }
-    audioFilter?.let { config.audioFilter = it }
-    videoFilter?.let { config.videoFilter = it }
-    seekMode?.let { config.seekMode = it }
-}
+internal fun JPlaybackConfig.toNative() =
+    PlaybackConfig().also { config ->
+        isAutoplayEnabled?.let { config.isAutoplayEnabled = it }
+        isMuted?.let { config.isMuted = it }
+        isTimeShiftEnabled?.let { config.isTimeShiftEnabled = it }
+        isTunneledPlaybackEnabled?.let { config.isTunneledPlaybackEnabled = it }
+        audioCodecPriority?.let { config.audioCodecPriority = it }
+        videoCodecPriority?.let { config.videoCodecPriority = it }
+        audioFilter?.let { config.audioFilter = it }
+        videoFilter?.let { config.videoFilter = it }
+        seekMode?.let { config.seekMode = it }
+    }
 
-internal fun JLicensingConfig.toNative() = LicensingConfig().also { config ->
-    delay?.let { config.delay = it }
-}
+internal fun JLicensingConfig.toNative() =
+    LicensingConfig().also { config ->
+        delay?.let { config.delay = it }
+    }
 
-internal fun JLiveConfig.toNative() = LiveConfig().also { config ->
-    minTimeShiftBufferDepth?.let { config.minTimeShiftBufferDepth = it }
-    liveEdgeOffset?.let { config.liveEdgeOffset = it }
-}
+internal fun JLiveConfig.toNative() =
+    LiveConfig().also { config ->
+        minTimeShiftBufferDepth?.let { config.minTimeShiftBufferDepth = it }
+        liveEdgeOffset?.let { config.liveEdgeOffset = it }
+    }
 
-internal fun JSubtitleTrack.toNative() = SubtitleTrack(
-    url = url,
-    label = label,
-    id = id,
-    mimeType = format,
-    isDefault = isDefault,
-    isForced = isForced,
-    language = language,
-)
+internal fun JSubtitleTrack.toNative() =
+    SubtitleTrack(
+        url = url,
+        label = label,
+        id = id,
+        mimeType = format,
+        isDefault = isDefault,
+        isForced = isForced,
+        language = language,
+    )
