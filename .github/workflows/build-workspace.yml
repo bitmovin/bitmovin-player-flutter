@@ -27,7 +27,6 @@ jobs:
       - name: Analyze Swift
         run: swiftlint --strict
   build_ios:
-    needs: analyze_source_code
     runs-on: macos-latest
     concurrency:
       group: build-workspace-ios-${{ inputs.ref || github.event.pull_request.number || github.ref }}
@@ -38,7 +37,6 @@ jobs:
       - name: Build
         run: cd example && flutter build ios --no-codesign --verbose
   build_android:
-    needs: analyze_source_code
     runs-on: ubuntu-latest
     concurrency:
       group: build-workspace-android-${{ inputs.ref || github.event.pull_request.number || github.ref }}
