@@ -169,12 +169,6 @@ internal struct FlutterCueEnterEvent: Codable {
     let start: TimeInterval
     let end: TimeInterval
     let text: String?
-
-    init(start: TimeInterval, end: TimeInterval, text: String?) {
-        self.start = start
-        self.end = end
-        self.text = text
-    }
 }
 
 extension CueEnterEvent: NativeToFlutterConvertible {
@@ -187,12 +181,6 @@ internal struct FlutterCueExitEvent: Codable {
     let start: TimeInterval
     let end: TimeInterval
     let text: String?
-
-    init(start: TimeInterval, end: TimeInterval, text: String?) {
-        self.start = start
-        self.end = end
-        self.text = text
-    }
 }
 
 extension CueExitEvent: NativeToFlutterConvertible {

@@ -24,3 +24,7 @@ runs:
     - name: Run code generation for player testing library
       shell: bash
       run: (cd player_testing && dart run build_runner build)
+    - name: Install brew dependencies
+      shell: bash
+      if: runner.os == 'macOS'
+      run: brew bundle install

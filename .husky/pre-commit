@@ -2,5 +2,5 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 flutter analyze
-mint run swiftlint --strict
+swiftlint --strict
 ktlint

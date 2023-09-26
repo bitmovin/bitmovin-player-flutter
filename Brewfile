@@ -1,0 +1,2 @@
+brew "ktlint"
+brew "swiftlint"
