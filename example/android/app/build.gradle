@@ -46,7 +46,7 @@ android {
         applicationId "com.bitmovin.player.flutter.example"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion 19 //flutter.minSdkVersion
+        minSdkVersion flutter.minSdkVersion
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -71,7 +71,6 @@ flutter {
 }
 
 dependencies {
-    implementation "androidx.appcompat:appcompat:$appcompat_version"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "androidx.multidex:multidex:$multidexVersion"
+    implementation "androidx.appcompat:appcompat:1.6.1"
+    implementation "androidx.multidex:multidex:2.0.1"
 }

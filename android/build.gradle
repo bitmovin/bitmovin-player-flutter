@@ -1,20 +1,18 @@
 buildscript {
-    ext.multidexVersion = "2.0.1"
-    ext.kotlin_version = '1.7.10'
+    ext.kotlin_version = '1.8.20'
     repositories {
         google()
         mavenCentral()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.2.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.8.20-RC"
+        classpath 'com.android.tools.build:gradle:7.3.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'org.jetbrains.kotlin.android'
 
 android {
     compileSdkVersion 33
@@ -34,7 +32,6 @@ android {
 
     defaultConfig {
         minSdkVersion 19
-        targetSdk 33
         multiDexEnabled true
     }
 }
@@ -47,8 +44,7 @@ allprojects {
 }
 
 dependencies {
-    implementation 'com.bitmovin.player:player:3.42.0+jason'
-    implementation "androidx.multidex:multidex:2.0.1"
-    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.11.1'
+    implementation 'com.bitmovin.player:player:3.45.0+jason'
+    implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.14.1'
     implementation 'androidx.concurrent:concurrent-futures-ktx:1.1.0'
 }
