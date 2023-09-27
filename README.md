@@ -89,12 +89,33 @@ dependencies:
 ```
 
 ## Android Specific Steps
-Add Bitmovin's maven repo to `android/build.gradle`:
-```ruby
-maven {
-    url 'https://artifacts.bitmovin.com/artifactory/public-releases'
-}
-```
+1. Add Bitmovin's maven repo to `android/build.gradle`:
+     ```groovy
+    allprojects {
+        repositories {
+            google()
+            mavenCentral()
+            
+            maven {
+                url 'https://artifacts.bitmovin.com/artifactory/public-releases'
+            }
+        }
+    }
+     ```
+
+2. Enable Multidex support if needed. Follow this guide to enable it: https://developer.android.com/build/multidex
+
+3. If you are using `android:label`, `android:allowBackup` or `android:supportsRtl` in your application's 
+`AndroidManifest.xml` please enable field replacement, otherwise the build will fail with a manifest merger error.
+
+    For example:
+    ```
+    <application
+         ...
+         android:label="@string/app_name"
+         tools:replace="android:label">
+    ```
+    The need for this workaround will be removed with a future release.
 
 ## iOS Specific Steps
 Add Bitmovin's CocoaPods repo as a source on top of `ios/Podfile`:
