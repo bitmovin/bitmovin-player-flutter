@@ -46,5 +46,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/prepare-dependencies
+      - uses: actions/setup-java@v3
+        with:
+            distribution: 'zulu'
+            java-version: '17'
       - name: Build
         run: cd example && flutter build apk
