@@ -109,11 +109,12 @@ dependencies:
 `AndroidManifest.xml` please enable field replacement, otherwise the build will fail with a manifest merger error.
 
     For example:
-    ```
+    ```xml
     <application
-         ...
          android:label="@string/app_name"
          tools:replace="android:label">
+         ...
+    </application>
     ```
     The need for this workaround will be removed with a future release.
 
