@@ -89,7 +89,7 @@ dependencies:
 ```
 
 ## Android Specific Steps
-1. Add Bitmovin's maven repo to `android/build.gradle`:
+1. Add Bitmovin's Maven repository to `android/build.gradle`:
      ```groovy
     allprojects {
         repositories {
