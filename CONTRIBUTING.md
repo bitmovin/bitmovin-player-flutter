@@ -33,10 +33,6 @@ license key which can be obtained from [Bitmovin's Dashboard](https://bitmovin.c
 1. Start the example app by running the command `flutter run` inside the `example/` directory
     1. If you see an error that signing for "Runner" requires a development team, follow the instructions in the section for [getting started with iOS development](#for-ios-development)
 
-## Issues
-
-With bugs and problems, please try to describe the issue as detailed as possible to help us reproduce it.
-
 ## Pull Requests
 
 Before creating a pull request, please
