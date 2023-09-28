@@ -4,7 +4,7 @@ version: 0.1.0
 homepage: https://bitmovin.com
 repository: https://github.com/bitmovin/bitmovin-player-flutter
 issue_tracker: https://github.com/bitmovin/bitmovin-player-flutter/issues
-documentation: https://developer.bitmovin.com/playback/reference/player-flutter-sdk
+documentation: https://developer.bitmovin.com/playback/docs/overview-flutter
 topics:
   - video
   - player
