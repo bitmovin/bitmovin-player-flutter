@@ -1,8 +1,37 @@
 # Contributing
 
-## Issues
+## Project Setup Guide
+If you want to play around with the code, implement a new feature or just run the example apps, follow along with this section. If you just want to use the player in your own flutter app, you can skip this and follow the instructions in the [Getting Started Guide](README.md#getting-started-guide) section.
 
-With bugs and problems, please try to describe the issue as detailed as possible to help us reproduce it.
+- [Install](https://docs.flutter.dev/get-started/install) `flutter` on your machine
+- Install `Node.js` and `npm` on your machine
+- Run `npm ci` in the root of the cloned repository
+  - This will setup [husky](https://github.com/typicode/husky) powered pre-commit git hooks
+- Run `brew bundle install` in the root of the cloned repository to install needed dependencies:
+  - `ktlint` for linting Kotlin code
+  - `swiftlint` for linting Swift code
+- Follow instructions under [Example App](#example-app) and [Integration Tests](#integration-tests) in order to have a fully working project setup, where the linter commands from the pre-commit hook succeeds
+
+### For iOS Development
+To build the example project with your own developer account, create the config file 
+`example/ios/Flutter/Developer.xcconfig`. In this file, add your development team like this:
+
+```yml
+DEVELOPMENT_TEAM = YOUR_TEAM_ID
+```
+
+## Example App
+To be able to use the example app, follow these steps:
+1. Create a file named `.env` in the project root
+1. Put your private Bitmovin Player license key inside the newly created `.env` file as `BITMOVIN_PLAYER_LICENSE_KEY=YOUR_LICENSE_KEY`, replacing `YOUR_LICENSE_KEY` with your license key which can be obtained from [Bitmovin's Dashboard](https://bitmovin.com/dashboard)
+1. If you also want to enable Bitmovin Analytics, additionally add your private Bitmovin Analytics license key to the `.env` file as 
+`BITMOVIN_ANALYTICS_LICENSE_KEY=YOUR_ANALYTICS_LICENSE_KEY`, replacing `YOUR_ANALYTICS_LICENSE_KEY` with your Analytics 
+license key which can be obtained from [Bitmovin's Dashboard](https://bitmovin.com/dashboard)
+1. In the [Dashboard](https://bitmovin.com/dashboard), add `com.bitmovin.player.flutter.example` as an allowed package name for your Player license and optionally for your Analytics license
+1. Run `flutter pub get` in the project root, if not done already
+1. Run `dart run build_runner build --delete-conflicting-outputs` in the project root which should generate the missing `example/lib/env/env.g.dart` file
+1. Start the example app by running the command `flutter run` inside the `example/` directory
+    1. If you see an error that signing for "Runner" requires a development team, follow the instructions in the section for [getting started with iOS development](#for-ios-development)
 
 ## Pull Requests
 
