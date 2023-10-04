@@ -123,15 +123,26 @@ class Player with PlayerEventHandler implements PlayerApi {
 
   // Can be used to call methods on the platform side that return a single
   // primitive value that is natively supported by the method channel.
-  Future<T?> _invokeMethod<T>(
+  Future<T?> _invokeMethodNullable<T>(
     String methodName, [
     dynamic data,
   ]) async {
     final result = await _initializationResult;
     if (!result) {
-      return Future.error('Error initializing player on native platform side.');
+      throw Exception('Error initializing player on native platform side.');
     }
     return _methodChannel.invokeMethod<T>(methodName, _buildPayload(data));
+  }
+
+  Future<T> _invokeMethod<T>(
+    String methodName, [
+    dynamic data,
+  ]) async {
+    final result = await _invokeMethodNullable<T>(methodName, data);
+    if (result == null) {
+      throw Exception('Invalid type returned from the native platform side.');
+    }
+    return result;
   }
 
   // Can be used to call methods on the platform side that return a complex
@@ -143,7 +154,7 @@ class Player with PlayerEventHandler implements PlayerApi {
   ]) async {
     final result = await _initializationResult;
     if (!result) {
-      return Future.error('Error initializing player on native platform side.');
+      throw Exception('Error initializing player on native platform side.');
     }
 
     final jsonString = await _methodChannel.invokeMethod<String>(
@@ -228,15 +239,14 @@ class Player with PlayerEventHandler implements PlayerApi {
 
   @override
   Future<double> get currentTime async =>
-      await _invokeMethod<double>(Methods.currentTime) ?? 0.0;
+      _invokeMethod<double>(Methods.currentTime);
 
   @override
-  Future<double> get duration async =>
-      await _invokeMethod<double>(Methods.duration) ?? 0.0;
+  Future<double> get duration async => _invokeMethod<double>(Methods.duration);
 
   @override
   Future<double> get timeShift async =>
-      await _invokeMethod<double>(Methods.getTimeShift) ?? 0.0;
+      _invokeMethod<double>(Methods.getTimeShift);
 
   @override
   Future<void> setTimeShift(double timeShift) async =>
@@ -244,15 +254,13 @@ class Player with PlayerEventHandler implements PlayerApi {
 
   @override
   Future<double> get maxTimeShift async =>
-      await _invokeMethod<double>(Methods.maxTimeShift) ?? 0.0;
+      _invokeMethod<double>(Methods.maxTimeShift);
 
   @override
-  Future<bool> get isLive async =>
-      await _invokeMethod<bool>(Methods.isLive) ?? false;
+  Future<bool> get isLive async => _invokeMethod<bool>(Methods.isLive);
 
   @override
-  Future<bool> get isPlaying async =>
-      await _invokeMethod<bool>(Methods.isPlaying) ?? false;
+  Future<bool> get isPlaying async => _invokeMethod<bool>(Methods.isPlaying);
 
   @override
   Future<List<SubtitleTrack>> get availableSubtitles async =>
