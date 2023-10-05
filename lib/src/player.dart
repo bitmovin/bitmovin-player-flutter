@@ -123,17 +123,6 @@ class Player with PlayerEventHandler implements PlayerApi {
 
   // Can be used to call methods on the platform side that return a single
   // primitive value that is natively supported by the method channel.
-  Future<T?> _invokeMethodNullable<T>(
-    String methodName, [
-    dynamic data,
-  ]) async {
-    final result = await _initializationResult;
-    if (!result) {
-      throw Exception('Error initializing player on native platform side.');
-    }
-    return _methodChannel.invokeMethod<T>(methodName, _buildPayload(data));
-  }
-
   Future<T> _invokeMethod<T>(
     String methodName, [
     dynamic data,
