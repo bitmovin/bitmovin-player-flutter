@@ -86,19 +86,4 @@ abstract class PlayerApi {
 
   /// Provides access to Analytics related functionality.
   AnalyticsApi get analytics;
-
-  /// Whether casting to a cast-compatible remote device is available.
-  /// `CastAvailableEvent` signals when casting becomes available.
-  Future<bool> get isCastAvailable;
-
-  /// Whether video is currently being casted to a remote device and not played
-  /// locally.
-  Future<bool> get isCasting;
-
-  /// Initiates casting the current video to a cast-compatible remote device.
-  /// The user has to choose to which device it should be sent.
-  Future<void> get castVideo;
-
-  /// Stops casting the current video. Has no effect if `isCasting` is false.
-  Future<void> get castStop;
 }

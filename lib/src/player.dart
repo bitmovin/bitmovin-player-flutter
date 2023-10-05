@@ -285,19 +285,6 @@ class Player with PlayerEventHandler implements PlayerApi {
 
   @override
   AnalyticsApi get analytics => _AnalyticsApi(this);
-
-  @override
-  Future<bool> get isCastAvailable => _invokeMethod(Methods.isCastAvailable);
-
-  @override
-  Future<bool> get isCasting => _invokeMethod(Methods.isCasting);
-
-  @override
-  Future<void> get castVideo async => _invokeMethod<void>(Methods.castVideo);
-
-  @override
-  Future<void> get castStop => _invokeMethod<void>(Methods.castStop);
-
 }
 
 class _AnalyticsApi implements AnalyticsApi {
