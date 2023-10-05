@@ -146,7 +146,7 @@ class Player with PlayerEventHandler implements PlayerApi {
     final result = await _methodChannel.invokeMethod<T>(methodName, payload);
     if (result is! T) {
       // result is T?, if it `is` not T => T is not nullable and result is null.
-      throw Exception('Unexpected null result from the native platform side.');
+      throw Exception('Native $methodName returned null.');
     }
     return result;
   }
