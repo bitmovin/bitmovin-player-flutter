@@ -21,6 +21,10 @@ class Methods {
   static const String setSubtitle = 'setSubtitle';
   static const String getSubtitle = 'getSubtitle';
   static const String removeSubtitle = 'removeSubtitle';
+  static const String isCastAvailable = 'isCastAvailable';
+  static const String isCasting = 'isCasting';
+  static const String castVideo = 'castVideo';
+  static const String castStop = 'castSTop';
 
   /// Player view related methods
   static const String destroyPlayerView = 'destroyPlayerView';

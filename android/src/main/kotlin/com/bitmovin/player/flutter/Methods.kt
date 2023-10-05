@@ -24,6 +24,10 @@ class Methods {
         const val SET_SUBTITLE = "setSubtitle"
         const val GET_SUBTITLE = "getSubtitle"
         const val REMOVE_SUBTITLE = "removeSubtitle"
+        const val IS_CAST_AVAILABLE = "isCastAvailable"
+        const val IS_CASTING = "isCasting"
+        const val CAST_VIDEO = "castVideo"
+        const val CAST_STOP = "castSTop"
 
         // Player view related methods
         const val DESTROY_PLAYER_VIEW = "destroyPlayerView"
