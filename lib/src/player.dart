@@ -138,9 +138,15 @@ class Player with PlayerEventHandler implements PlayerApi {
     String methodName, [
     dynamic data,
   ]) async {
-    final result = await _invokeMethodNullable<T>(methodName, data);
-    if (result == null) {
-      throw Exception('Invalid type returned from the native platform side.');
+    final initSuccess = await _initializationResult;
+    if (!initSuccess) {
+      throw Exception('Error initializing player on native platform side.');
+    }
+    final payload = _buildPayload(data);
+    final result = await _methodChannel.invokeMethod<T>(methodName, payload);
+    if (result is! T) {
+      // result is T?, if it `is` not T => T is not nullable and result is null.
+      throw Exception('Unexpected null result from the native platform side.');
     }
     return result;
   }
