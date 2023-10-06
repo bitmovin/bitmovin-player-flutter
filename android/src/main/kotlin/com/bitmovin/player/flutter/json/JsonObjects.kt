@@ -162,6 +162,16 @@ internal class JPlayerConfig(override var map: Map<*, *>) : JStruct {
     val licensingConfig by structGetter(::JLicensingConfig)
     val liveConfig by structGetter(::JLiveConfig)
     val analyticsConfig by structGetter(::JAnalyticsConfig)
+    val remoteControlConfig by structGetter(::JRemoteControlConfig)
+}
+
+internal class JRemoteControlConfig(override var map: Map<*, *>) : JStruct {
+    val receiverStylesheetUrl by GetString
+    val customReceiverConfig by GetStringMap
+    val isCastEnabled by GetBool
+    val sendManifestRequestsWithCredentials by GetBool
+    val sendSegmentRequestsWithCredentials by GetBool
+    val sendDrmLicenseRequestsWithCredentials by GetBool
 }
 
 internal class JSubtitleTrack(override var map: Map<*, *>) : JStruct {
