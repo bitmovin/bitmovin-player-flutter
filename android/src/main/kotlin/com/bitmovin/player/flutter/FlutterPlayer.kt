@@ -75,7 +75,7 @@ class FlutterPlayer(
     private fun Player.onMethodCall(
         method: String,
         arg: JPlayerMethodArg,
-    ): Any =
+    ): Any? =
         when (method) {
             Methods.LOAD_WITH_SOURCE_CONFIG -> load(arg.asSourceConfig)
             Methods.LOAD_WITH_SOURCE -> load(arg.asSource.sourceConfig)
@@ -92,11 +92,11 @@ class FlutterPlayer(
             Methods.IS_LIVE -> isLive
             Methods.IS_PLAYING -> isPlaying
             Methods.SEND_CUSTOM_DATA_EVENT ->
-                this.analytics?.sendCustomDataEvent(arg.asCustomData.toNative())
-                    ?: Unit
+                analytics?.sendCustomDataEvent(arg.asCustomData.toNative())
             Methods.DESTROY -> destroyPlayer()
-            Methods.AVAILABLE_SUBTITLES -> availableSubtitles.map { JSubtitleTrack(it).toJsonString() }
-            Methods.GET_SUBTITLE -> subtitle?.let { JSubtitleTrack(it).toJsonString() } ?: Unit
+            Methods.AVAILABLE_SUBTITLES ->
+                availableSubtitles.map { JSubtitleTrack(it).toJsonString() }
+            Methods.GET_SUBTITLE -> subtitle?.let { JSubtitleTrack(it).toJsonString() }
             Methods.SET_SUBTITLE -> setSubtitle(arg.asOptionalString)
             Methods.REMOVE_SUBTITLE -> removeSubtitle(arg.asString)
             else -> throw NotImplementedError()
@@ -111,7 +111,7 @@ class FlutterPlayer(
     private fun onMethodCall(
         method: String,
         arguments: JMethodArgs,
-    ): Any {
+    ): Any? {
         return player.onMethodCall(method, arguments.asPlayerMethodArgs)
     }
 

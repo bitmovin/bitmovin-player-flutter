@@ -67,10 +67,12 @@ abstract class PlayerApi {
 
   /// A list of all available [SubtitleTrack]s of the active [Source],
   /// including "off" subtitle track.
-  Future<List<SubtitleTrack>> get availableSubtitles;
+  /// `null` if there are no active [Source].
+  Future<List<SubtitleTrack>?> get availableSubtitles;
 
   /// The currently selected [SubtitleTrack].
-  Future<SubtitleTrack> get subtitle;
+  /// `null` if there is no currently selected [SubtitleTrack].
+  Future<SubtitleTrack?> get subtitle;
 
   /// Sets the currently selected [SubtitleTrack] based on the provided [id].
   /// Using `null` as [id] disables subtitles. A list of currently available

@@ -21,11 +21,11 @@ void main() {
     group('when selecting a subtitle', () {
       testWidgets('subtitle is selected', (_) async {
         await startPlayerTest(() async {
-          var subtitleToSelect = '';
+          String? subtitleToSelect;
           await loadSourceConfig(Sources.sintel);
           await callPlayer((player) async {
             final subtitles = await player.availableSubtitles;
-            subtitleToSelect = subtitles.last.id;
+            subtitleToSelect = subtitles?.last.id;
           });
 
           final subtitleChanged = await callPlayerAndExpectEvent(
