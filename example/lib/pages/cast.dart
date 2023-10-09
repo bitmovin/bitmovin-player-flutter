@@ -66,7 +66,8 @@ class _CastState extends State<Cast> {
         }
         final error = snapshot.error;
         if (error != null) {
-          throw error;
+          // ignore: only_throw_errors
+          throw error; // Rethrow the error.
         }
         return buildScaffold(); // Placeholder until player is created
       },
