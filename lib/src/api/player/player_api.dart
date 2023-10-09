@@ -97,8 +97,8 @@ abstract class PlayerApi {
 
   /// Initiates casting the current video to a cast-compatible remote device.
   /// The user has to choose to which device it should be sent.
-  Future<void> get castVideo;
+  Future<void> castVideo();
 
   /// Stops casting the current video. Has no effect if `isCasting` is false.
-  Future<void> get castStop;
+  Future<void> castStop();
 }

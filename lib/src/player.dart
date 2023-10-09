@@ -89,9 +89,7 @@ class Player with PlayerEventHandler implements PlayerApi {
   /// Handles Widevine DRM related method calls.
   WidevineHandler? _widevineHandler;
 
-  Future<dynamic> _playerMethodCallHandler(MethodCall methodCall) {
-    dynamic result;
-
+  Future<String?> _playerMethodCallHandler(MethodCall methodCall) async {
     switch (methodCall.method) {
       case Methods.fairplayPrepareMessage:
       case Methods.fairplayPrepareContentId:
@@ -99,19 +97,13 @@ class Player with PlayerEventHandler implements PlayerApi {
       case Methods.fairplayPrepareLicense:
       case Methods.fairplayPrepareLicenseServerUrl:
       case Methods.fairplayPrepareSyncMessage:
-        result = _fairplayHandler?.handleMethodCall(methodCall);
-        break;
+        return _fairplayHandler?.handleMethodCall(methodCall);
       case Methods.widevinePrepareMessage:
       case Methods.widevinePrepareLicense:
-        result = _widevineHandler?.handleMethodCall(methodCall);
-        break;
+        return _widevineHandler?.handleMethodCall(methodCall);
+      default:
+        throw UnsupportedError('Unsupported method ${methodCall.method}');
     }
-
-    if (result == null) {
-      return Future.error('playerMethodCallHandler was unsuccessful');
-    }
-
-    return Future.value(result);
   }
 
   Map<String, dynamic> _buildPayload([dynamic data]) {
@@ -293,10 +285,10 @@ class Player with PlayerEventHandler implements PlayerApi {
   Future<bool> get isCasting => _invokeMethod(Methods.isCasting);
 
   @override
-  Future<void> get castVideo async => _invokeMethod<void>(Methods.castVideo);
+  Future<void> castVideo() async => _invokeMethod<void>(Methods.castVideo);
 
   @override
-  Future<void> get castStop => _invokeMethod<void>(Methods.castStop);
+  Future<void> castStop() => _invokeMethod<void>(Methods.castStop);
 
 }
 

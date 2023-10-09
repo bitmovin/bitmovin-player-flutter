@@ -1,5 +1,9 @@
 package com.bitmovin.player.flutter
 
+import android.app.Activity
+import com.bitmovin.player.casting.BitmovinCastManager
+import com.bitmovin.player.flutter.json.JBitmovinCastManagerOptions
+import com.bitmovin.player.flutter.json.JBitmovinCastManagerSendMessageArgs
 import com.bitmovin.player.flutter.json.JCreatePlayerArgs
 import com.bitmovin.player.flutter.json.JMethodArgs
 import com.bitmovin.player.flutter.json.JsonMethodHandler
@@ -11,6 +15,7 @@ import java.lang.ref.WeakReference
 
 class PlayerPlugin : FlutterPlugin, ActivityAware {
     private var flutterPluginBindingReference = WeakReference<FlutterPlugin.FlutterPluginBinding>(null)
+    private var activity = WeakReference<Activity?>(null)
 
     private fun register(registrar: FlutterPlugin.FlutterPluginBinding) {
         registrar
@@ -24,6 +29,9 @@ class PlayerPlugin : FlutterPlugin, ActivityAware {
     ): Any =
         when (method) {
             Methods.CREATE_PLAYER -> createPlayer(arguments.asCreatePlayerArgs) != null
+            Methods.CAST_MANAGER_INITIALIZE -> initializeCastManager(arguments.asCastManagerOptions)
+            Methods.CAST_MANAGER_UPDATE_CONTEXT -> castManagerUpdateContext()
+            Methods.CAST_MANAGER_SEND_MESSAGE -> sendCastMessage(arguments.asCastSendMessageArgs)
             else -> throw NotImplementedError()
         }
 
@@ -43,6 +51,18 @@ class PlayerPlugin : FlutterPlugin, ActivityAware {
             )
         }
 
+    private fun initializeCastManager(options: JBitmovinCastManagerOptions) {
+        BitmovinCastManager.initialize(options.applicationId, options.messageNamespace)
+    }
+    private fun castManagerUpdateContext() {
+        activity.get()?.let {
+            BitmovinCastManager.getInstance().updateContext(it)
+        }
+    }
+    private fun sendCastMessage(options: JBitmovinCastManagerSendMessageArgs) {
+        BitmovinCastManager.getInstance().sendMessage(options.message, options.messageNamespace)
+    }
+
     override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         flutterPluginBindingReference = WeakReference(flutterPluginBinding)
         val handler = JsonMethodHandler(this::onMethodCall)
@@ -54,6 +74,7 @@ class PlayerPlugin : FlutterPlugin, ActivityAware {
     }
 
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
+        activity = WeakReference(binding.activity)
         flutterPluginBindingReference.get()?.let {
             register(it)
         }
@@ -63,5 +84,7 @@ class PlayerPlugin : FlutterPlugin, ActivityAware {
 
     override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {}
 
-    override fun onDetachedFromActivity() {}
+    override fun onDetachedFromActivity() {
+        activity = WeakReference(null)
+    }
 }

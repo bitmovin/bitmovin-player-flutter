@@ -8,6 +8,7 @@ import com.bitmovin.player.api.media.subtitle.SubtitleTrack
 import com.bitmovin.player.api.source.SourceType
 import com.bitmovin.player.api.source.TimelineReferencePoint
 import com.bitmovin.player.api.ui.ScalingMode
+import com.bitmovin.player.casting.BitmovinCastManager
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.flutter.plugin.common.MethodCall
 import java.security.InvalidParameterException
@@ -201,7 +202,21 @@ internal class JSubtitleTrack(override var map: Map<*, *>) : JStruct {
 internal value class JMethodArgs(private val call: MethodCall) {
     val asCreatePlayerArgs get() = JCreatePlayerArgs(asMap)
     val asPlayerMethodArgs get() = JPlayerMethodArg(asMap)
+    val asCastManagerOptions get() = JBitmovinCastManagerOptions(asMap)
+    val asCastSendMessageArgs get() = JBitmovinCastManagerSendMessageArgs(asMap)
     private val asMap get() = call.arguments as Map<*, *>
+}
+
+/** Arguments for [BitmovinCastManager.initialize]*/
+internal class JBitmovinCastManagerOptions(override var map: Map<*, *>) : JStruct {
+    val applicationId by GetString
+    val messageNamespace by GetString
+}
+
+/** Arguments for [BitmovinCastManager.sendMessage]*/
+internal class JBitmovinCastManagerSendMessageArgs(override var map: Map<*, *>) : JStruct {
+    val message by GetString
+    val messageNamespace by GetString
 }
 
 /** Arguments for [Player.create]. */

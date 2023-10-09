@@ -43,4 +43,9 @@ class Methods {
   /// Widevine DRM related methods
   static const String widevinePrepareMessage = 'widevinePrepareMessage';
   static const String widevinePrepareLicense = 'widevinePrepareLicense';
+
+  /// Bitmovin cast manager related methods
+  static const String castManagerInitialize = 'castManagerInitialize';
+  static const String castManagerUpdateContext = 'castManagerUpdateContext';
+  static const String castManagerSendMessage = 'castManagerSendMessage';
 }
