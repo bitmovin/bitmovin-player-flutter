@@ -1,4 +1,5 @@
 import 'package:bitmovin_player/bitmovin_player.dart';
+import 'package:bitmovin_player/src/casting/casting_config.dart';
 import 'package:bitmovin_player/src/channel_manager.dart';
 import 'package:bitmovin_player/src/channels.dart';
 import 'package:bitmovin_player/src/methods.dart';
@@ -45,7 +46,10 @@ class BitmovinCastManager implements BitmovinCastManagerApi {
     String? messageNamespace,
   }) => _mainChannel.invokeMethod<void>(
     Methods.castManagerSendMessage,
-    {message, messageNamespace},
+    BitmovinCastManagerSendMessage(
+        message: message,
+        messageNamespace: messageNamespace,
+    ).toJson(),
   );
 
   @override

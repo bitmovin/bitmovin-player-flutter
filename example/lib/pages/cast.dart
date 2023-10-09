@@ -122,11 +122,11 @@ class _CastState extends State<Cast> {
             children: [
               OutlinedButton(
                 onPressed: castManager.updateContext,
-                child: const Text('update cast context'),
+                child: const Text('Update cast context'),
               ),
               OutlinedButton(
                 onPressed: () { castManager.sendMessage(message: 'message'); },
-                child: const Text('send cast message'),
+                child: const Text('Send cast message'),
               ),
             ],
           )

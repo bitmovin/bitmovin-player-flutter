@@ -1,12 +1,13 @@
 package com.bitmovin.player.flutter.example
 
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.util.Log
 import com.google.android.gms.cast.framework.CastContext
-import io.flutter.embedding.android.FlutterActivity
+import io.flutter.embedding.android.FlutterFragmentActivity
 
-class MainActivity : FlutterActivity() {
+// Bitmovin Cast SDK requires the Activity to be a subclass of
+// `FragmentActivity`.
+class MainActivity : FlutterFragmentActivity() {
     @Override
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

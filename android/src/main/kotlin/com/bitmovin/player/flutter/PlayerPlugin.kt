@@ -52,7 +52,9 @@ class PlayerPlugin : FlutterPlugin, ActivityAware {
         }
 
     private fun initializeCastManager(options: JBitmovinCastManagerOptions) {
+        val wasInitialized = BitmovinCastManager.isInitialized()
         BitmovinCastManager.initialize(options.applicationId, options.messageNamespace)
+        if (!wasInitialized) castManagerUpdateContext()
     }
     private fun castManagerUpdateContext() {
         activity.get()?.let {
@@ -77,6 +79,9 @@ class PlayerPlugin : FlutterPlugin, ActivityAware {
         activity = WeakReference(binding.activity)
         flutterPluginBindingReference.get()?.let {
             register(it)
+        }
+        if (BitmovinCastManager.isInitialized()) {
+            castManagerUpdateContext()
         }
     }
 
