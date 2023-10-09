@@ -22,7 +22,14 @@ class ChannelManager {
     return target;
   }
 
-  static EventChannel registerEventChannel({required String name}) {
-    return EventChannel(name);
+  static EventChannel registerEventChannel({
+    required String name,
+    void Function(dynamic event)? onEvent,
+    }) {
+    final target = EventChannel(name);
+    if (onEvent != null) {
+      target.receiveBroadcastStream().listen(onEvent);
+    }
+    return target;
   }
 }

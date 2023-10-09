@@ -25,41 +25,37 @@ class Player with PlayerEventHandler implements PlayerApi {
   Player({
     this.config = const PlayerConfig(),
   }) {
-    _initializationResult = _completer.future;
     _uuid = hashCode.toString();
+    _nativePlayerHandle = _createNativePlayer();
+  }
 
+  Future<_NativePlayerHandle> _createNativePlayer() async {
     final mainChannel = ChannelManager.registerMethodChannel(
       name: Channels.main,
     );
 
-    mainChannel
-        .invokeMethod<bool>(
-      Methods.createPlayer,
-      Map<String, dynamic>.from(
-        {
-          'id': id,
-          'playerConfig': config.toJson(),
-        },
-      ),
-    )
-        .then((value) {
-      if (value == null || value == false) {
-        _completer.complete(false);
-        return;
+    final success = await mainChannel.invokeMethod<bool>(
+        Methods.createPlayer,
+        Map<String, dynamic>.from(
+          {
+            'id': id,
+            'playerConfig': config.toJson(),
+          },
+        ),
+      );
+      if (success == null || success == false) {
+        throw Exception('Error initializing player on native platform side.');
       }
-
-      _methodChannel = ChannelManager.registerMethodChannel(
+      final methodChannel = ChannelManager.registerMethodChannel(
         name: '${Channels.player}-$id',
         handler: _playerMethodCallHandler,
       );
-
-      _eventChannel = ChannelManager.registerEventChannel(
+      final eventChannel = ChannelManager.registerEventChannel(
         name: '${Channels.playerEvent}-$id',
+        onEvent: onPlatformEvent,
       );
-      _eventChannel.receiveBroadcastStream().listen(onPlatformEvent);
 
-      _completer.complete(true);
-    });
+      return _NativePlayerHandle(methodChannel, eventChannel);
   }
 
   @override
@@ -69,19 +65,9 @@ class Player with PlayerEventHandler implements PlayerApi {
   String get id => _uuid;
   late String _uuid;
 
-  /// Whether the player has been created successfully on the native platform
-  /// side. If `true`, the player is ready to be used. If `false`, there was an
-  /// error during player creation on the native platform side.
-  late Future<bool> _initializationResult;
-
-  /// Used to generate the [_initializationResult] future.
-  final _completer = Completer<bool>();
-
-  /// Private method channel for this player instance
-  late MethodChannel _methodChannel;
-
-  /// Private method channel for this player instance to receive events
-  late EventChannel _eventChannel;
+  /// Player native communication channels.
+  /// Available once the native player is created.
+  late Future<_NativePlayerHandle> _nativePlayerHandle;
 
   /// Handles Fairplay DRM related method calls.
   FairplayHandler? _fairplayHandler;
@@ -127,12 +113,9 @@ class Player with PlayerEventHandler implements PlayerApi {
     String methodName, [
     dynamic data,
   ]) async {
-    final initSuccess = await _initializationResult;
-    if (!initSuccess) {
-      throw Exception('Error initializing player on native platform side.');
-    }
+    final methodChannel = (await _nativePlayerHandle).methodChannel;
     final payload = _buildPayload(data);
-    final result = await _methodChannel.invokeMethod<T>(methodName, payload);
+    final result = await methodChannel.invokeMethod<T>(methodName, payload);
     if (result is! T) {
       // result is T?, if it `is` not T => T is not nullable and result is null.
       throw Exception('Native $methodName returned null.');
@@ -142,28 +125,21 @@ class Player with PlayerEventHandler implements PlayerApi {
 
   // Can be used to call methods on the platform side that return a complex
   // object that is not natively supported by the method channel.
-  Future<T?> _invokeObjectMethod<T>(
+  Future<T> _invokeObjectMethod<T>(
     String methodName,
     T Function(Map<String, dynamic>) fromJson, [
     dynamic data,
   ]) async {
-    final result = await _initializationResult;
-    if (!result) {
-      throw Exception('Error initializing player on native platform side.');
+    final String jsonString;
+    const T? tNull = null;
+    if (tNull is T) { // T is nullable
+      final jsonStringOrNull = await _invokeMethod<String?>(methodName, data);
+      if (jsonStringOrNull == null) return tNull;
+      jsonString = jsonStringOrNull;
+    } else {
+      jsonString = await _invokeMethod<String>(methodName, data);
     }
-
-    final jsonString = await _methodChannel.invokeMethod<String>(
-      methodName,
-      _buildPayload(data),
-    );
-
-    if (jsonString == null) {
-      return null;
-    }
-
-    return fromJson(
-      jsonDecode(jsonString) as Map<String, dynamic>,
-    );
+    return fromJson(jsonDecode(jsonString) as Map<String, dynamic>);
   }
 
   // Can be used to call methods on the platform side that return a list of
@@ -173,12 +149,9 @@ class Player with PlayerEventHandler implements PlayerApi {
     T Function(Map<String, dynamic>) fromJson, [
     dynamic data,
   ]) async {
-    final result = await _initializationResult;
-    if (!result) {
-      return Future.error('Error initializing player on native platform side.');
-    }
+    final methodChannel = (await _nativePlayerHandle).methodChannel;
 
-    final jsonStringList = await _methodChannel.invokeListMethod<String>(
+    final jsonStringList = await methodChannel.invokeListMethod<String>(
       methodName,
       _buildPayload(data),
     );
@@ -274,7 +247,7 @@ class Player with PlayerEventHandler implements PlayerApi {
 
   @override
   Future<SubtitleTrack?> get subtitle async =>
-      _invokeObjectMethod<SubtitleTrack>(
+      _invokeObjectMethod<SubtitleTrack?>(
         Methods.getSubtitle,
         SubtitleTrack.fromJson,
       );
@@ -294,4 +267,14 @@ class _AnalyticsApi implements AnalyticsApi {
   @override
   Future<void> sendCustomDataEvent(CustomData customData) async => _player
       ._invokeMethod<void>(Methods.sendCustomDataEvent, customData.toJson());
+}
+
+class _NativePlayerHandle {
+  _NativePlayerHandle(this.methodChannel, this.eventChannel);
+
+  /// Private method channel for this player instance
+  MethodChannel methodChannel;
+
+  /// Private method channel for this player instance to receive events
+  EventChannel eventChannel;
 }
