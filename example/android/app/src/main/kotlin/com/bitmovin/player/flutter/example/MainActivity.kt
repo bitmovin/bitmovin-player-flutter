@@ -5,8 +5,7 @@ import android.util.Log
 import com.google.android.gms.cast.framework.CastContext
 import io.flutter.embedding.android.FlutterFragmentActivity
 
-// Bitmovin Cast SDK requires the Activity to be a subclass of
-// `FragmentActivity`.
+// Bitmovin Cast SDK requires the Activity to be a subclass of `FragmentActivity`.
 class MainActivity : FlutterFragmentActivity() {
     @Override
     override fun onCreate(savedInstanceState: Bundle?) {
