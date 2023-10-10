@@ -8,7 +8,7 @@ part 'casting_config.g.dart';
 class BitmovinCastManagerSendMessage extends Equatable {
   const BitmovinCastManagerSendMessage({
     required this.message,
-    this.messageNamespace
+    this.messageNamespace,
   });
 
   factory BitmovinCastManagerSendMessage.fromJson(Map<String, dynamic> json) {

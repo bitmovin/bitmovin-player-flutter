@@ -57,82 +57,74 @@ class _CastState extends State<Cast> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: _playerState,
-      builder: (BuildContext context, AsyncSnapshot<_PlayerState> snapshot) {
-        final data = snapshot.data;
-        if (data != null) {
-          return buildWithPlayer(data.player, data.castManager);
-        }
-        final error = snapshot.error;
-        if (error != null) {
-          // ignore: only_throw_errors
-          throw error; // Rethrow the error.
-        }
-        return buildScaffold(); // Placeholder until player is created
-      },
-    );
-  }
-
-  Widget buildScaffold({Widget? body}) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Basic Playback'),
       ),
-      body: body,
+      body: FutureBuilder(future: _playerState, builder: buildPlayer),
     );
   }
 
+  Widget buildPlayer(BuildContext _, AsyncSnapshot<_PlayerState> snapshot) {
+    final data = snapshot.data;
+    if (data != null) {
+      return buildWithPlayer(data.player, data.castManager);
+    }
+    final error = snapshot.error;
+    if (error != null) {
+      return Text('Platform error when creating Player: $error');
+    }
+    return const Text('Loading player...');
+  }
+
   Widget buildWithPlayer(Player player, BitmovinCastManager castManager) {
-    return buildScaffold(
-      body: Column(
-        children: [
-          SizedBox.fromSize(
-            size: const Size.fromHeight(226),
-            child: PlayerView(
-              player: player,
+    return Column(
+      children: [
+        SizedBox.fromSize(
+          size: const Size.fromHeight(226),
+          child: PlayerView(
+            player: player,
+          ),
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: 5),
+          child: Controls(
+            onLoadPressed: () => player.loadSourceConfig(_sourceConfig),
+            onPlayPressed: player.play,
+            onPausePressed: player.pause,
+            onMutePressed: player.mute,
+            onUnmutePressed: player.unmute,
+            onSkipForwardPressed: () async =>
+                player.seek(await player.currentTime + 10),
+            onSkipBackwardPressed: () async =>
+                player.seek(await player.currentTime - 10),
+          ),
+        ),
+        Row(
+          children: [
+            OutlinedButton(
+              onPressed: player.castVideo,
+              child: const Text('Cast Video'),
             ),
-          ),
-          Container(
-            margin: const EdgeInsets.only(top: 5),
-            child: Controls(
-              onLoadPressed: () => player.loadSourceConfig(_sourceConfig),
-              onPlayPressed: player.play,
-              onPausePressed: player.pause,
-              onMutePressed: player.mute,
-              onUnmutePressed: player.unmute,
-              onSkipForwardPressed: () async =>
-                  player.seek(await player.currentTime + 10),
-              onSkipBackwardPressed: () async =>
-                  player.seek(await player.currentTime - 10),
+            OutlinedButton(
+              onPressed: player.castStop,
+              child: const Text('Stop Casting'),
             ),
-          ),
-          Row(
-            children: [
-              OutlinedButton(
-                onPressed: player.castVideo,
-                child: const Text('Cast Video'),
-              ),
-              OutlinedButton(
-                onPressed: player.castStop,
-                child: const Text('Stop Casting'),
-              ),
-            ],
-          ),
-          Row(
-            children: [
-              OutlinedButton(
-                onPressed: castManager.updateContext,
-                child: const Text('Update cast context'),
-              ),
-              OutlinedButton(
-                onPressed: () { castManager.sendMessage(message: 'message'); },
-                child: const Text('Send cast message'),
-              ),
-            ],
-          )
-        ],
-      ),
+          ],
+        ),
+        Row(
+          children: [
+            OutlinedButton(
+              onPressed: castManager.updateContext,
+              child: const Text('Update cast context'),
+            ),
+            OutlinedButton(
+              onPressed: () { castManager.sendMessage(message: 'message'); },
+              child: const Text('Send cast message'),
+            ),
+          ],
+        )
+      ],
     );
   }
 }
