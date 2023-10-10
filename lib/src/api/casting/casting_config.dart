@@ -27,7 +27,7 @@ class RemoteControlConfig extends Equatable {
   /// app will be used.
   final String? receiverStylesheetUrl;
 
-  /// A Map containing custom configuration values that are sent to the remote
+  /// A map containing custom configuration values that are sent to the remote
   /// control receiver.
   /// Default value is an empty map.
   final Map<String, String> customReceiverConfig;
