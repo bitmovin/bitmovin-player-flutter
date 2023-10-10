@@ -87,6 +87,6 @@ class BitmovinCastManagerOptions extends Equatable {
   @override
   List<Object?> get props => [
     applicationId,
-    messageNamespace
+    messageNamespace,
   ];
 }

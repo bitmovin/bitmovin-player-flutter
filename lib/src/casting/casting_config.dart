@@ -27,6 +27,6 @@ class BitmovinCastManagerSendMessage extends Equatable {
   @override
   List<Object?> get props => [
     message,
-    messageNamespace
+    messageNamespace,
   ];
 }

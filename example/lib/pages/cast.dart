@@ -123,7 +123,7 @@ class _CastState extends State<Cast> {
               child: const Text('Send cast message'),
             ),
           ],
-        )
+        ),
       ],
     );
   }
