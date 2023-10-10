@@ -13,7 +13,7 @@ class MainActivity : FlutterFragmentActivity() {
         try {
             // Load Google Cast context eagerly in order to ensure that
             // the cast state is updated correctly.
-            CastContext.getSharedInstance(this, Runnable::run);
+            CastContext.getSharedInstance(this, Runnable::run)
         } catch (e: Exception) {
             Log.w("MainActivity", "Could not initialize cast context", e)
         }

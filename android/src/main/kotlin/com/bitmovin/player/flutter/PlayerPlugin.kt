@@ -56,11 +56,13 @@ class PlayerPlugin : FlutterPlugin, ActivityAware {
         BitmovinCastManager.initialize(options.applicationId, options.messageNamespace)
         if (!wasInitialized) castManagerUpdateContext()
     }
+
     private fun castManagerUpdateContext() {
         activity.get()?.let {
             BitmovinCastManager.getInstance().updateContext(it)
         }
     }
+
     private fun sendCastMessage(options: JBitmovinCastManagerSendMessageArgs) {
         BitmovinCastManager.getInstance().sendMessage(options.message, options.messageNamespace)
     }
