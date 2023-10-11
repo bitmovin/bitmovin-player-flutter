@@ -164,6 +164,24 @@ open class EventListener {
             on(PlayerEvent.CueExit::class) {
                 broadcast("onCueExit", it)
             }
+            on(PlayerEvent.CastAvailable::class) {
+                broadcast("onCastAvailable", it)
+            }
+            on(PlayerEvent.CastWaitingForDevice::class) {
+                broadcast("onCastWaitingForDevice", it)
+            }
+            on(PlayerEvent.CastStart::class) {
+                broadcast("onCastStart", it)
+            }
+            on(PlayerEvent.CastStarted::class) {
+                broadcast("onCastStarted", it)
+            }
+            on(PlayerEvent.CastStopped::class) {
+                broadcast("onCastStopped", it)
+            }
+            on(PlayerEvent.CastTimeUpdated::class) {
+                broadcast("onCastTimeUpdated", it)
+            }
         }
     }
 
