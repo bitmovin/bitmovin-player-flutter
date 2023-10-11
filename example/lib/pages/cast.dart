@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:bitmovin_player_example/controls.dart';
 import 'package:bitmovin_player_example/env/env.dart';
+import 'package:bitmovin_player_example/events.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 
 class Cast extends StatefulWidget {
   const Cast({super.key});
@@ -22,6 +24,7 @@ class _PlayerState {
 }
 
 class _CastState extends State<Cast> {
+  final _eventsKey = GlobalKey<EventsState>();
   final _sourceConfig = SourceConfig(
     url: Platform.isAndroid
         ? 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd'
@@ -42,10 +45,29 @@ class _CastState extends State<Cast> {
     );
     return _PlayerState(player, castManager);
   }();
+  final _logger = Logger();
+
+  void _onEvent(Event event) {
+    final eventName = '${event.runtimeType}';
+    final eventData = '$eventName ${event.toJson()}';
+    _logger.d(eventData);
+    _eventsKey.currentState?.add(eventName);
+  }
+
+  void _setupListener(Player player) {
+    player
+      ..onCastAvailable = _onEvent
+      ..onCastWaitingForDevice = _onEvent
+      ..onCastStart = _onEvent
+      ..onCastStarted = _onEvent
+      ..onCastStopped = _onEvent
+      ..onCastTimeUpdated = _onEvent;
+  }
 
   @override
   void initState() {
-    _playerState.then((state) => state.player.loadSourceConfig(_sourceConfig));
+    _playerState..then((state) => _setupListener(state.player))
+      ..then((state) => state.player.loadSourceConfig(_sourceConfig));
     super.initState();
   }
 
