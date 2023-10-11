@@ -90,4 +90,22 @@ abstract class PlayerListener {
 
   /// See [CueExitEvent] for details on this event.
   set onCueExit(void Function(CueExitEvent) func);
+
+  /// See [CastAvailableEvent] for details on this event.
+  set onCastAvailable(void Function(CastAvailableEvent) func);
+
+  /// See [CastWaitingForDeviceEvent] for details on this event.
+  set onCastWaitingForDevice(void Function(CastWaitingForDeviceEvent) func);
+
+  /// See [CastStartEvent] for details on this event.
+  set onCastStart(void Function(CastStartEvent) func);
+
+  /// See [CastStartedEvent] for details on this event.
+  set onCastStarted(void Function(CastStartedEvent) func);
+
+  /// See [CastStoppedEvent] for details on this event.
+  set onCastStopped(void Function(CastStoppedEvent) func);
+
+  /// See [CastTimeUpdatedEvent] for details on this event.
+  set onCastTimeUpdated(void Function(CastTimeUpdatedEvent) func);
 }
