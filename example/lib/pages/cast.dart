@@ -35,8 +35,9 @@ class _CastState extends State<Cast> {
    factory _CastState() {
     final logger = Logger();
     final eventsKey = GlobalKey<EventsState>();
+    void eventListener(Event event) => _onEvent(logger, eventsKey, event);
 
-    return _CastState._(createPlayerState(logger, eventsKey, _sourceConfig));
+    return _CastState._(createPlayerState(_sourceConfig, eventListener));
   }
 
   _CastState._(this._playerState);
@@ -44,10 +45,9 @@ class _CastState extends State<Cast> {
   final Future<_PlayerState> _playerState;
 
   static Future<_PlayerState> createPlayerState(
-      Logger logger,
-      GlobalKey<EventsState> eventsKey,
       SourceConfig sourceConfig,
-      ) async {
+    void Function(Event event) eventListener,
+  ) async {
     final castManager = await BitmovinCastManager.initialize();
     final player = Player(
       config: const PlayerConfig(
@@ -56,9 +56,7 @@ class _CastState extends State<Cast> {
           isAutoplayEnabled: true,
         ),
       ),
-    );
-    void eventListener(Event event) => _onEvent(logger, eventsKey, event);
-    player
+    )
       ..onCastAvailable = eventListener
       ..onCastWaitingForDevice = eventListener
       ..onCastStart = eventListener
@@ -73,7 +71,7 @@ class _CastState extends State<Cast> {
       Logger logger,
       GlobalKey<EventsState> eventsKey,
       Event event,
-      ) {
+  ) {
     final eventName = '${event.runtimeType}';
     final eventData = '$eventName ${event.toJson()}';
     logger.d(eventData);
