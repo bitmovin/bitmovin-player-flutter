@@ -16,7 +16,4 @@ class CastTimeUpdatedEvent extends Event with EquatableMixin {
 
   @override
   Map<String, dynamic> toJson() => _$CastTimeUpdatedEventToJson(this);
-
-  @override
-  List<Object?> get props => [timestamp];
 }

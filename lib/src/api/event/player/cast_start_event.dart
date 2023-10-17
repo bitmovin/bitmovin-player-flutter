@@ -16,7 +16,4 @@ class CastStartEvent extends Event with EquatableMixin {
 
   @override
   Map<String, dynamic> toJson() => _$CastStartEventToJson(this);
-
-  @override
-  List<Object?> get props => [timestamp];
 }

@@ -15,7 +15,4 @@ class CastStoppedEvent extends Event with EquatableMixin {
 
   @override
   Map<String, dynamic> toJson() => _$CastStoppedEventToJson(this);
-
-  @override
-  List<Object?> get props => [timestamp];
 }
