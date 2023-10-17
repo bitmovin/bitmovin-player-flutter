@@ -18,8 +18,7 @@ class CastWaitingForDeviceEvent extends Event with EquatableMixin {
     return _$CastWaitingForDeviceEventFromJson(json);
   }
 
-  /// The [CastPayload] object for the event
-  @JsonKey(name: 'castPayload')
+  /// The [CastPayload] object for the event.
   final CastPayload castPayload;
 
   @override
