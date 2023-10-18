@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:bitmovin_player_example/controls.dart';
 import 'package:bitmovin_player_example/env/env.dart';
-import 'package:bitmovin_player_example/events.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
@@ -34,8 +33,7 @@ final SourceConfig _sourceConfig = SourceConfig(
 class _CastState extends State<Cast> {
    factory _CastState() {
     final logger = Logger();
-    final eventsKey = GlobalKey<EventsState>();
-    void eventListener(Event event) => _onEvent(logger, eventsKey, event);
+    void eventListener(Event event) => _onEvent(logger, event);
 
     return _CastState._(createPlayerState(_sourceConfig, eventListener));
   }
@@ -69,13 +67,11 @@ class _CastState extends State<Cast> {
 
   static void _onEvent(
       Logger logger,
-      GlobalKey<EventsState> eventsKey,
       Event event,
   ) {
     final eventName = '${event.runtimeType}';
     final eventData = '$eventName ${event.toJson()}';
     logger.d(eventData);
-    eventsKey.currentState?.add(eventName);
   }
 
   @override
