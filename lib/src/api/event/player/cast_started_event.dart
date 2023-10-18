@@ -8,8 +8,8 @@ part 'cast_started_event.g.dart';
 @JsonSerializable(explicitToJson: true)
 class CastStartedEvent extends Event with EquatableMixin {
   const CastStartedEvent({
-    required this.deviceName,
     required super.timestamp,
+    this.deviceName,
   });
 
   factory CastStartedEvent.fromJson(Map<String, dynamic> json) {
@@ -23,5 +23,5 @@ class CastStartedEvent extends Event with EquatableMixin {
   Map<String, dynamic> toJson() => _$CastStartedEventToJson(this);
 
   @override
-  List<Object?> get props => [deviceName, timestamp];
+  List<Object?> get props => [timestamp, deviceName];
 }
