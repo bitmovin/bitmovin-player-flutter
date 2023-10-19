@@ -271,3 +271,58 @@ private enum JsonValues {
         static let vtt = "text/vtt"
     }
 }
+
+internal struct FlutterRemoteControlConfig: FlutterToNativeConvertible {
+    let receiverStylesheetUrl: String?
+    let customReceiverConfig: [String: String]
+    let isCastEnabled: Bool
+    let sendManifestRequestsWithCredentials: Bool
+    let sendSegmentRequestsWithCredentials: Bool
+    let sendDrmLicenseRequestsWithCredentials: Bool
+
+    func toNative() -> RemoteControlConfig {
+        let result = RemoteControlConfig()
+        if let receiverStylesheetUrl {
+            result.receiverStylesheetUrl = URL(string: receiverStylesheetUrl)
+        }
+
+        result.customReceiverConfig = customReceiverConfig
+        result.isCastEnabled = isCastEnabled
+        result.sendManifestRequestsWithCredentials = sendManifestRequestsWithCredentials
+        result.sendSegmentRequestsWithCredentials = sendSegmentRequestsWithCredentials
+        result.sendDrmLicenseRequestsWithCredentials = sendDrmLicenseRequestsWithCredentials
+
+        return result
+    }
+}
+
+extension RemoteControlConfig: NativeToFlutterConvertible {
+    func toFlutter() -> FlutterRemoteControlConfig {
+        FlutterRemoteControlConfig(
+            receiverStylesheetUrl: receiverStylesheetUrl?.absoluteString,
+            customReceiverConfig: customReceiverConfig,
+            isCastEnabled: isCastEnabled,
+            sendManifestRequestsWithCredentials: sendManifestRequestsWithCredentials,
+            sendSegmentRequestsWithCredentials: sendSegmentRequestsWithCredentials,
+            sendDrmLicenseRequestsWithCredentials: sendDrmLicenseRequestsWithCredentials
+        )
+    }
+}
+
+internal struct FlutterBitmovinCastManagerOptions: FlutterToNativeConvertible {
+    let applicationId: String?
+    let messageNamespace: String?
+
+    func toNative() -> BitmovinCastManagerOptions {
+        let result = BitmovinCastManagerOptions()
+        result.applicationId = applicationId
+        result.messageNamespace = messageNamespace
+
+        return result
+    }
+}
+
+internal struct BitmovinCastManagerSendMessageArgs: Codable {
+    let message: String
+    let messageNamespace: String?
+}

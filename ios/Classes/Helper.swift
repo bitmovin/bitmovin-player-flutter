@@ -66,6 +66,11 @@ internal enum Helper {
             playerConfig.liveConfig = liveConfig
         }
 
+        if let remoteConfigJson = json["remoteControlConfig"] as? [String: Any],
+           let remoteConfig = MessageDecoder.toNative(type: FlutterRemoteControlConfig.self, from: remoteConfigJson) {
+            playerConfig.remoteControlConfig = remoteConfig
+        }
+
         return playerConfig
     }
 
