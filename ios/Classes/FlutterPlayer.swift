@@ -129,6 +129,14 @@ private extension FlutterPlayer {
             player.setSubtitle(trackIdentifier: nil)
         case (Methods.removeSubtitle, .string(let trackId)):
             player.removeSubtitle(trackIdentifier: trackId)
+        case (Methods.isCastAvailable, .empty):
+            return player.isCastAvailable
+        case (Methods.isCasting, .empty):
+            return player.isCasting
+        case (Methods.castVideo, .empty):
+            player.castVideo()
+        case (Methods.castStop, .empty):
+            player.castStop()
         default:
             return FlutterMethodNotImplemented
         }
