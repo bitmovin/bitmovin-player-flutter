@@ -23,6 +23,10 @@ internal enum Methods {
     static let getSubtitle = "getSubtitle"
     static let setSubtitle = "setSubtitle"
     static let removeSubtitle = "removeSubtitle"
+    static let isCastAvailable = "isCastAvailable"
+    static let isCasting = "isCasting"
+    static let castVideo = "castVideo"
+    static let castStop = "castStop"
 
     // Player view related methods
     static let destroyPlayerView = "destroyPlayerView"
@@ -36,4 +40,8 @@ internal enum Methods {
     static let fairplayPrepareLicense = "fairplayPrepareLicense"
     static let fairplayPrepareLicenseServerUrl = "fairplayPrepareLicenseServerUrl"
     static let fairplayPrepareSyncMessage = "fairplayPrepareSyncMessage"
+
+    // Cast related methods
+    static let castManagerInitialize = "castManagerInitialize"
+    static let castManagerSendMessage = "castManagerSendMessage"
 }
