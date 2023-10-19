@@ -23,20 +23,51 @@ public class PlayerPlugin: NSObject, FlutterPlugin {
 
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         guard let arguments = call.arguments as? [String: Any] else {
-            result(FlutterError())
+            result(FlutterError.general("Could not parse method call arguments: \(call.method)"))
             return
         }
 
-        if call.method == Methods.createPlayer {
-            handleCreatePlayer(arguments: arguments, result: result)
+        do {
+            let methodCallResult = try handleMethodCall(method: call.method, arguments: arguments)
+            result(methodCallResult)
+        } catch let bitmovinError as BitmovinError {
+            result(FlutterError.from(bitmovinError))
+        } catch {
+            result(
+                FlutterError.general(
+                    "Error while executing method call \"\(call.method)\": \(error.localizedDescription)"
+                )
+            )
         }
     }
 
-    private func handleCreatePlayer(arguments: [String: Any], result: @escaping FlutterResult) {
+    private func handleMethodCall(method: String, arguments: [String: Any]) throws -> Any? {
+        switch method {
+        case Methods.createPlayer:
+            try handleCreatePlayer(arguments: arguments)
+        case Methods.castManagerInitialize:
+            if let options = MessageDecoder.toNative(type: FlutterBitmovinCastManagerOptions.self, from: arguments) {
+                BitmovinCastManager.initializeCasting(options: options)
+            } else {
+                throw BitmovinError.parsingError("Could not parse arguments to initialize casting")
+            }
+        case Methods.castManagerSendMessage:
+            if let args = MessageDecoder.decode(type: BitmovinCastManagerSendMessageArgs.self, from: arguments) {
+                BitmovinCastManager.sharedInstance().sendMessage(args.message, withNamespace: args.messageNamespace)
+            } else {
+                throw BitmovinError.parsingError("Could not parse arguments to send custom cast message")
+            }
+        default:
+            throw BitmovinError.unknownMethod(method)
+        }
+
+        return true
+    }
+
+    private func handleCreatePlayer(arguments: [String: Any]) throws {
         guard let id = arguments["id"] as? String,
               let playerConfigJson = arguments["playerConfig"] as? [AnyHashable: Any] else {
-            result(FlutterError())
-            return
+            throw BitmovinError.parsingError("Could not parse arguments to create player instance")
         }
 
         let config = Helper.playerConfig(playerConfigJson)
@@ -57,6 +88,5 @@ public class PlayerPlugin: NSObject, FlutterPlugin {
             defaultMetadata: defaultMetadata,
             messenger: messenger
         )
-        result(true)
     }
 }
