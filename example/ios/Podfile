@@ -1,5 +1,6 @@
 use_frameworks!
 platform :ios, '14.0'
+source 'https://cdn.cocoapods.org'
 source 'https://github.com/bitmovin/cocoapod-specs.git'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
@@ -33,7 +34,9 @@ target 'Runner' do
   use_modular_headers!
 
   pod 'BitmovinPlayer', '3.44.0'
-  
+  # Only needed if the casting feature is used
+  pod 'google-cast-sdk', '4.8.0'
+
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 end
 
