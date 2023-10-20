@@ -23,10 +23,13 @@ class _PlayerState {
   final BitmovinCastManager castManager;
 }
 
+const artOfMotionDash =
+    'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd';
+const artOfMotionHls =
+    'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8';
+
 final SourceConfig _sourceConfig = SourceConfig(
-  url: Platform.isAndroid
-      ? 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd'
-      : 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8',
+  url: Platform.isAndroid ? artOfMotionDash : artOfMotionHls,
   type: Platform.isAndroid ? SourceType.dash : SourceType.hls,
 );
 
@@ -61,7 +64,21 @@ class _CastState extends State<Cast> {
       ..onCastStarted = eventListener
       ..onCastStopped = eventListener
       ..onCastTimeUpdated = eventListener;
-    await player.loadSourceConfig(sourceConfig);
+
+    // Configure playing DASH source on Chromecast, even if on iOS the local
+    // played back asset is HLS. This is to demonstrate how a different source
+    // can be used for remote playback than for local playback.
+    final source = Source(
+      sourceConfig: sourceConfig,
+      remoteControl: const SourceRemoteControlConfig(
+        castSourceConfig: SourceConfig(
+          url: artOfMotionDash,
+          type: SourceType.dash,
+        ),
+      ),
+    );
+
+    await player.loadSource(source);
     return _PlayerState(player, castManager);
   }
 

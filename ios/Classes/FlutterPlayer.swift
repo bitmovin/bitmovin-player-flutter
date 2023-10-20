@@ -67,23 +67,19 @@ private extension FlutterPlayer {
 
         switch (call.method, arguments) {
         case (Methods.loadWithSourceConfig, .json(let sourceConfigJson)):
-            if let (sourceConfig, metadata) = Helper.sourceConfig(sourceConfigJson) {
-                let sourceMetadata = MessageDecoder.toNative(
-                    type: FlutterSourceMetadata.self,
-                    from: sourceConfigJson["analyticsSourceMetadata"]
+            if let flutterSourceConfig = Helper.sourceConfig(sourceConfigJson) {
+                handleLoadSource(
+                    flutterSource: FlutterSource(
+                        sourceConfig: flutterSourceConfig,
+                        remoteControl: nil
+                    )
                 )
-                handleLoadWithSourceConfig(sourceConfig, metadata: metadata, sourceMetadata: sourceMetadata)
             } else {
                 return FlutterError()
             }
         case (Methods.loadWithSource, .json(let sourceJson)):
-            if let (source, metadata) = Helper.source(sourceJson),
-               let sourceConfigJson = sourceJson["sourceConfig"] as? [String: Any] {
-                let sourceMetadata = MessageDecoder.toNative(
-                    type: FlutterSourceMetadata.self,
-                    from: sourceConfigJson["analyticsSourceMetadata"]
-                )
-                handleLoadWithSourceConfig(source.sourceConfig, metadata: metadata, sourceMetadata: sourceMetadata)
+            if let flutterSource = Helper.source(sourceJson) {
+                handleLoadSource(flutterSource: flutterSource)
             } else {
                 return FlutterError()
             }
@@ -146,12 +142,9 @@ private extension FlutterPlayer {
         return nil
     }
 
-    func handleLoadWithSourceConfig(
-        _ sourceConfig: SourceConfig,
-        metadata: FairplayConfig.Metadata?,
-        sourceMetadata: SourceMetadata?
-    ) {
-        if let fairplayConfig = sourceConfig.drmConfig as? FairplayConfig, let metadata {
+    func handleLoadSource(flutterSource: FlutterSource) {
+        if let fairplayConfig = flutterSource.sourceConfig.config.drmConfig as? FairplayConfig,
+           let metadata = flutterSource.sourceConfig.drmMetadata {
             self.fairplayCallbacksHandler = FairplayCallbacksHandler(
                 fairplayConfig: fairplayConfig,
                 metadata: metadata,
@@ -160,10 +153,20 @@ private extension FlutterPlayer {
         }
 
         let source: Source
-        if let sourceMetadata {
-            source = SourceFactory.create(from: sourceConfig, sourceMetadata: sourceMetadata)
+        if let sourceMetadata = flutterSource.sourceConfig.analyticsSourceMetadata {
+            source = SourceFactory.create(
+                from: flutterSource.sourceConfig.config,
+                sourceMetadata: sourceMetadata
+            )
         } else {
-            source = SourceFactory.create(from: sourceConfig)
+            source = SourceFactory.create(from: flutterSource.sourceConfig.config)
+        }
+
+        if let castSourceConfig = flutterSource.remoteControl?.castSourceConfig {
+            player.config.remoteControlConfig.prepareSource = { type, sourceConfig in
+                guard type == .cast else { return sourceConfig }
+                return castSourceConfig.config
+            }
         }
 
         player.load(source: source)

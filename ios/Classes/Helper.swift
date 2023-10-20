@@ -220,16 +220,30 @@ internal enum Helper {
         return tweaksConfig
     }
 
-    static func source(_ json: [String: Any]) -> (Source, FairplayConfig.Metadata?)? {
+    static func source(_ json: [String: Any]) -> FlutterSource? {
         guard let sourceConfigJson = json["sourceConfig"] as? [String: Any],
-              let (sourceConfig, fairplayConfigMetadata) = sourceConfig(sourceConfigJson) else {
+              let flutterSourceConfig = sourceConfig(sourceConfigJson) else {
             return nil
         }
 
-        return (
-            SourceFactory.create(from: sourceConfig),
-            fairplayConfigMetadata
+        var remoteControl: SourceRemoteControlConfig?
+        if let remoteControlJson = json["remoteControl"] as? [String: Any] {
+            remoteControl = sourceRemoteControlConfig(remoteControlJson)
+        }
+
+        return FlutterSource(
+            sourceConfig: flutterSourceConfig,
+            remoteControl: remoteControl
         )
+    }
+
+    static func sourceRemoteControlConfig(_ json: [String: Any]) -> SourceRemoteControlConfig {
+        var castSourceConfig: FlutterSourceConfig?
+        if let castSourceConfigJson = json["castSourceConfig"] as? [String: Any] {
+            castSourceConfig = sourceConfig(castSourceConfigJson)
+        }
+
+        return SourceRemoteControlConfig(castSourceConfig: castSourceConfig)
     }
 
     /**
@@ -237,7 +251,7 @@ internal enum Helper {
      - Parameter json: JS object
      - Returns: The produced `SourceConfig` object
      */
-    static func sourceConfig(_ json: [String: Any]) -> (SourceConfig, FairplayConfig.Metadata?)? {
+    static func sourceConfig(_ json: [String: Any]) -> FlutterSourceConfig? {
         guard let sourceUrlString = json["url"] as? String,
               let sourceUrl = URL(string: sourceUrlString) else {
             return nil
@@ -288,7 +302,16 @@ internal enum Helper {
             sourceConfig.thumbnailTrack = self.thumbnailTrack(thumbnailTrack)
         }
 
-        return (sourceConfig, fairplayConfigMetadata)
+        let analyticsSourceMetadata = MessageDecoder.toNative(
+            type: FlutterSourceMetadata.self,
+            from: json["analyticsSourceMetadata"]
+        )
+
+        return FlutterSourceConfig(
+            config: sourceConfig,
+            drmMetadata: fairplayConfigMetadata,
+            analyticsSourceMetadata: analyticsSourceMetadata
+        )
     }
 
     static func sourceOptions(_ json: [String: Any]) -> SourceOptions {

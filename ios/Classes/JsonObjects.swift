@@ -326,3 +326,18 @@ internal struct BitmovinCastManagerSendMessageArgs: Codable {
     let message: String
     let messageNamespace: String?
 }
+
+internal struct FlutterSourceConfig {
+    let config: SourceConfig
+    let drmMetadata: FairplayConfig.Metadata?
+    let analyticsSourceMetadata: SourceMetadata?
+}
+
+internal struct FlutterSource {
+    let sourceConfig: FlutterSourceConfig
+    let remoteControl: SourceRemoteControlConfig?
+}
+
+internal struct SourceRemoteControlConfig {
+    let castSourceConfig: FlutterSourceConfig?
+}
