@@ -55,14 +55,24 @@ extension FlutterPlayer: FlutterStreamHandler {
 
 private extension FlutterPlayer {
     func handleMethodCall(call: FlutterMethodCall, result: @escaping FlutterResult) {
-        let methodCallResult = handleMethodCall(call: call)
-        result(methodCallResult)
+        do {
+            let methodCallResult = try handleMethodCall(call: call)
+            result(methodCallResult)
+        } catch let bitmovinError as BitmovinError {
+            result(FlutterError.from(bitmovinError))
+        } catch {
+            result(
+                FlutterError.general(
+                    "Error while executing method call \"\(call.method)\": \(error.localizedDescription)"
+                )
+            )
+        }
     }
 
     // swiftlint:disable:next cyclomatic_complexity function_body_length
-    func handleMethodCall(call: FlutterMethodCall) -> Any? {
+    func handleMethodCall(call: FlutterMethodCall) throws -> Any? {
         guard let arguments = Helper.methodCallArguments(call.arguments) else {
-            return FlutterError()
+            throw BitmovinError.parsingError("Could not parse arguments for \(call.method)")
         }
 
         switch (call.method, arguments) {
@@ -75,13 +85,13 @@ private extension FlutterPlayer {
                     )
                 )
             } else {
-                return FlutterError()
+                throw BitmovinError.parsingError("Could not parse arguments for \(call.method)")
             }
         case (Methods.loadWithSource, .json(let sourceJson)):
             if let flutterSource = Helper.source(sourceJson) {
                 handleLoadSource(flutterSource: flutterSource)
             } else {
-                return FlutterError()
+                throw BitmovinError.parsingError("Could not parse arguments for \(call.method)")
             }
         case (Methods.play, .empty):
             player.play()
@@ -113,7 +123,7 @@ private extension FlutterPlayer {
             if let customData = MessageDecoder.toNative(type: FlutterCustomData.self, from: customDataJson) {
                 sendCustomDataEvent(customData: customData)
             } else {
-                return FlutterError()
+                throw BitmovinError.parsingError("Could not parse arguments for \(call.method)")
             }
         case (Methods.availableSubtitles, .empty):
             return player.availableSubtitles.compactMap { $0.toJsonString() }
@@ -134,7 +144,7 @@ private extension FlutterPlayer {
         case (Methods.castStop, .empty):
             player.castStop()
         default:
-            return FlutterMethodNotImplemented
+            throw BitmovinError.unknownMethod(call.method)
         }
 
         // Returning `nil` here handles the case that a void method was called successfully.

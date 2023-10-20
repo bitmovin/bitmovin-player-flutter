@@ -49,19 +49,21 @@ public class PlayerPlugin: NSObject, FlutterPlugin {
             if let options = MessageDecoder.toNative(type: FlutterBitmovinCastManagerOptions.self, from: arguments) {
                 BitmovinCastManager.initializeCasting(options: options)
             } else {
-                throw BitmovinError.parsingError("Could not parse arguments to initialize casting")
+                throw BitmovinError.parsingError("Could not parse arguments for \(method)")
             }
         case Methods.castManagerSendMessage:
             if let args = MessageDecoder.decode(type: BitmovinCastManagerSendMessageArgs.self, from: arguments) {
                 BitmovinCastManager.sharedInstance().sendMessage(args.message, withNamespace: args.messageNamespace)
             } else {
-                throw BitmovinError.parsingError("Could not parse arguments to send custom cast message")
+                throw BitmovinError.parsingError("Could not parse arguments for \(method)")
             }
         default:
             throw BitmovinError.unknownMethod(method)
         }
 
-        return true
+        // Returning `nil` here handles the case that a void method was called successfully.
+        // If an error happened or we need to return a specific value, it needs to be handled explicitly
+        return nil
     }
 
     private func handleCreatePlayer(arguments: [String: Any]) throws {
