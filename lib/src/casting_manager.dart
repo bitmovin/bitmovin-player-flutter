@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:bitmovin_player/src/casting/casting_config.dart';
 import 'package:bitmovin_player/src/channel_manager.dart';
@@ -53,6 +55,10 @@ class BitmovinCastManager implements BitmovinCastManagerApi {
   );
 
   @override
-  Future<void> updateContext() =>
-      _mainChannel.invokeMethod(Methods.castManagerUpdateContext);
+  Future<void> updateContext() {
+    if (Platform.isIOS) {
+      return Future.value();
+    }
+    return _mainChannel.invokeMethod(Methods.castManagerUpdateContext);
+  }
 }
