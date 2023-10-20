@@ -56,6 +56,9 @@ class _CastState extends State<Cast> {
         playbackConfig: PlaybackConfig(
           isAutoplayEnabled: true,
         ),
+        remoteControlConfig: RemoteControlConfig(
+          customReceiverConfig: {'key': 'value'},
+        ),
       ),
     )
       ..onCastAvailable = eventListener
