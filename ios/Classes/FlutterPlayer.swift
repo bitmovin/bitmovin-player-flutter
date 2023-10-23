@@ -173,8 +173,8 @@ private extension FlutterPlayer {
         }
 
         if let castSourceConfig = flutterSource.remoteControl?.castSourceConfig {
-            player.config.remoteControlConfig.prepareSource = { type, sourceConfig in
-                guard type == .cast else { return sourceConfig }
+            player.config.remoteControlConfig.prepareSource = { type, _ in
+                guard type == .cast else { return nil }
                 return castSourceConfig.config
             }
         }
