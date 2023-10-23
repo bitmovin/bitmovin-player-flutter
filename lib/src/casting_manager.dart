@@ -55,9 +55,9 @@ class BitmovinCastManager implements BitmovinCastManagerApi {
   );
 
   @override
-  Future<void> updateContext() {
+  Future<void> updateContext() async {
     if (Platform.isIOS) {
-      return Future.value();
+      return;
     }
     return _mainChannel.invokeMethod(Methods.castManagerUpdateContext);
   }
