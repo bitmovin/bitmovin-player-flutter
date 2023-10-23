@@ -7,8 +7,8 @@ internal enum BitmovinError: Error {
 }
 
 extension FlutterError {
-    enum ErrorCodes {
-        static let general = "General"
+    enum ErrorCodes: String {
+        case general
     }
 
     static func from(_ bitmovinError: BitmovinError) -> FlutterError {
@@ -26,7 +26,7 @@ extension FlutterError {
 
     static func general(_ errorMessage: String) -> FlutterError {
         FlutterError(
-            code: ErrorCodes.general,
+            code: ErrorCodes.general.rawValue,
             message: errorMessage,
             details: nil
         )
