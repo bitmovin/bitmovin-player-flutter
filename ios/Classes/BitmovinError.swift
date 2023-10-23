@@ -21,11 +21,7 @@ extension FlutterError {
             errorMessage = "Unknown method: \(message)"
         }
 
-        return FlutterError(
-            code: ErrorCodes.general,
-            message: errorMessage,
-            details: nil
-        )
+        return general(errorMessage)
     }
 
     static func general(_ errorMessage: String) -> FlutterError {
