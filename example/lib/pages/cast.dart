@@ -28,10 +28,9 @@ const artOfMotionDash =
 const artOfMotionHls =
     'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8';
 
-final SourceConfig _sourceConfig = SourceConfig(
-  url: Platform.isAndroid ? artOfMotionDash : artOfMotionHls,
-  type: Platform.isAndroid ? SourceType.dash : SourceType.hls,
-);
+final SourceConfig _sourceConfig = Platform.isAndroid
+    ? const SourceConfig(url: artOfMotionDash, type: SourceType.dash)
+    : const SourceConfig(url: artOfMotionHls, type: SourceType.hls);
 
 class _CastState extends State<Cast> {
    factory _CastState() {
