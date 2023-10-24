@@ -88,7 +88,7 @@ abstract class PlayerApi {
   AnalyticsApi get analytics;
 
   /// Whether casting to a cast-compatible remote device is available.
-  /// `CastAvailableEvent` signals when casting becomes available.
+  /// [CastAvailableEvent] signals when casting becomes available.
   Future<bool> get isCastAvailable;
 
   /// Whether video is currently being casted to a remote device and not played
