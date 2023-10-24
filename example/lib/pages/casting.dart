@@ -5,13 +5,13 @@ import 'package:bitmovin_player_example/controls.dart';
 import 'package:bitmovin_player_example/env/env.dart';
 import 'package:flutter/material.dart';
 
-class Cast extends StatefulWidget {
-  const Cast({super.key});
+class Casting extends StatefulWidget {
+  const Casting({super.key});
 
   static String routeName = 'Cast';
 
   @override
-  State<Cast> createState() => _CastState();
+  State<Casting> createState() => _CastingState();
 }
 
 class _PlayerState {
@@ -21,7 +21,7 @@ class _PlayerState {
   final BitmovinCastManager castManager;
 }
 
-class _CastState extends State<Cast> {
+class _CastingState extends State<Casting> {
   final _sourceConfig = SourceConfig(
     url: Platform.isAndroid
         ? 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd'
@@ -35,9 +35,6 @@ class _CastState extends State<Cast> {
     final player = Player(
       config: const PlayerConfig(
         key: Env.bitmovinPlayerLicenseKey,
-        playbackConfig: PlaybackConfig(
-          isAutoplayEnabled: true,
-        ),
       ),
     );
     return _PlayerState(player, castManager);
