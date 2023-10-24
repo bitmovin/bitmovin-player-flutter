@@ -99,6 +99,6 @@ abstract class PlayerApi {
   /// The user has to choose to which device it should be sent.
   Future<void> castVideo();
 
-  /// Stops casting the current video. Has no effect if `isCasting` is false.
+  /// Stops casting the current video.
   Future<void> castStop();
 }
