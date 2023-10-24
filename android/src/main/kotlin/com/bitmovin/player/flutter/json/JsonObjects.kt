@@ -207,13 +207,13 @@ internal value class JMethodArgs(private val call: MethodCall) {
     private val asMap get() = call.arguments as Map<*, *>
 }
 
-/** Arguments for [BitmovinCastManager.initialize]*/
+/** Arguments for [BitmovinCastManager.initialize] */
 internal class JBitmovinCastManagerOptions(override var map: Map<*, *>) : JStruct {
     val applicationId by GetString
     val messageNamespace by GetString
 }
 
-/** Arguments for [BitmovinCastManager.sendMessage]*/
+/** Arguments for [BitmovinCastManager.sendMessage] */
 internal class JBitmovinCastManagerSendMessageArgs(override var map: Map<*, *>) : JStruct {
     val message by GetString
     val messageNamespace by GetString
