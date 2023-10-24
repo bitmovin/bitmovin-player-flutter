@@ -1,6 +1,4 @@
 import 'package:bitmovin_player/bitmovin_player.dart';
-import 'package:bitmovin_player/src/api/casting/bitmovin_cast_manager_api.dart';
-import 'package:bitmovin_player/src/api/casting/bitmovin_cast_manager_options.dart';
 import 'package:bitmovin_player/src/casting/bitmovin_cast_manager_send_message.dart';
 import 'package:bitmovin_player/src/channel_manager.dart';
 import 'package:bitmovin_player/src/channels.dart';
