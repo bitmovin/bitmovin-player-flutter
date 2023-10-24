@@ -1,5 +1,5 @@
 import 'package:bitmovin_player/bitmovin_player.dart';
-import 'package:bitmovin_player/src/casting/bitmovin_cast_manager_send_message.dart';
+import 'package:bitmovin_player/src/casting/custom_cast_message.dart';
 import 'package:bitmovin_player/src/channel_manager.dart';
 import 'package:bitmovin_player/src/channels.dart';
 import 'package:bitmovin_player/src/methods.dart';
