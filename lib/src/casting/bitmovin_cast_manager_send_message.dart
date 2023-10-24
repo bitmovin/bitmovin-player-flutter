@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'casting_config.g.dart';
+part 'bitmovin_cast_manager_send_message.g.dart';
 
 /// Arguments to send a message to the cast receiver.
 @JsonSerializable(explicitToJson: true)
