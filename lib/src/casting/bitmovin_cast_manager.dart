@@ -46,7 +46,7 @@ class BitmovinCastManager implements BitmovinCastManagerApi {
     String? messageNamespace,
   }) => _mainChannel.invokeMethod<void>(
     Methods.castManagerSendMessage,
-    BitmovinCastManagerSendMessage(
+    CustomCastMessage(
         message: message,
         messageNamespace: messageNamespace,
     ).toJson(),
