@@ -5,6 +5,7 @@ export 'src/api/analytics/default_metadata.dart';
 export 'src/api/analytics/source_metadata.dart';
 export 'src/api/casting/bitmovin_cast_manager_api.dart';
 export 'src/api/casting/bitmovin_cast_manager_options.dart';
+export 'src/api/casting/remote_control_config.dart';
 export 'src/api/drm/drm_config.dart';
 export 'src/api/drm/fairplay_config.dart';
 export 'src/api/drm/widevine_config.dart';

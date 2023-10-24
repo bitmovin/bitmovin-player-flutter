@@ -23,6 +23,7 @@ class _CustomHtmlUiState extends State<CustomHtmlUi> {
   final _player = Player(
     config: const PlayerConfig(
       key: Env.bitmovinPlayerLicenseKey,
+      remoteControlConfig: RemoteControlConfig(isCastEnabled: false),
       styleConfig: StyleConfig(
         playerUiCss:
             'https://cdn.statically.io/gh/bitmovin/bitmovin-player-ios-samples/main/CustomHtmlUi/Supporting%20Files/bitmovinplayer-ui.min.css',

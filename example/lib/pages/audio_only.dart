@@ -23,6 +23,7 @@ class _AudioOnlyState extends State<AudioOnly> {
   final _player = Player(
     config: const PlayerConfig(
       key: Env.bitmovinPlayerLicenseKey,
+      remoteControlConfig: RemoteControlConfig(isCastEnabled: false),
     ),
   );
 
