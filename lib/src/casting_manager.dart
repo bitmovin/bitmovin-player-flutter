@@ -4,7 +4,7 @@ import 'package:bitmovin_player/src/channel_manager.dart';
 import 'package:bitmovin_player/src/channels.dart';
 import 'package:bitmovin_player/src/methods.dart';
 
-/// Singleton providing access to GoogleCast related features.
+/// Singleton, providing access to GoogleCast related features.
 /// Retrieve the singleton instance using [initialize].
 class BitmovinCastManager implements BitmovinCastManagerApi {
   BitmovinCastManager._(); // private constructor

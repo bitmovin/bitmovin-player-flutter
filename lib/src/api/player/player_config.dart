@@ -50,7 +50,7 @@ class PlayerConfig extends Equatable {
   @JsonKey(name: 'analyticsConfig')
   final AnalyticsConfig? analyticsConfig;
 
-  /// Configures remote playback functionality
+  /// Configures remote playback functionality.
   final RemoteControlConfig? remoteControlConfig;
 
   Map<String, dynamic> toJson() => _$PlayerConfigToJson(this);

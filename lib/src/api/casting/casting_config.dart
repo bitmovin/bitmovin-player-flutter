@@ -40,17 +40,17 @@ class RemoteControlConfig extends Equatable {
   final bool isCastEnabled;
 
   /// Indicates whether cookies and credentials will be sent along manifest
-  /// requests on the cast receiver
+  /// requests on the cast receiver.
   /// Default value is `false`.
   final bool sendManifestRequestsWithCredentials;
 
   /// Indicates whether cookies and credentials will be sent along segment
-  /// requests on the cast receiver
+  /// requests on the cast receiver.
   /// Default value is `false`.
   final bool sendSegmentRequestsWithCredentials;
 
   /// Indicates whether cookies and credentials will be sent along DRM licence
-  /// requests on the cast receiver
+  /// requests on the cast receiver.
   /// Default value is `false`.
   final bool sendDrmLicenseRequestsWithCredentials;
 
@@ -77,11 +77,11 @@ class BitmovinCastManagerOptions extends Equatable {
   Map<String, dynamic> toJson() => _$BitmovinCastManagerOptionsToJson(this);
 
   /// ID of receiver application.
-  /// Using `null` value will result in using the default application ID
+  /// Using `null` value will result in using the default application ID.
   final String? applicationId;
   /// A custom message namespace to be used for communication between sender and
   /// receiver.
-  /// Using `null` value will result in using the default message namespace
+  /// Using `null` value will result in using the default message namespace.
   final String? messageNamespace;
 
   @override
