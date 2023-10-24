@@ -70,7 +70,7 @@ class Home extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).pushNamed(Casting.routeName);
               },
-              child: const Text('Cast'),
+              child: const Text('Casting'),
             ),
           ],
         ),
