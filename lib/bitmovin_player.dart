@@ -57,7 +57,7 @@ export 'src/api/source/timeline_reference_point.dart';
 export 'src/api/ui/fullscreen_handler.dart';
 export 'src/api/ui/scaling_mode.dart';
 export 'src/api/ui/style_config.dart';
-export 'src/casting_manager.dart';
+export 'src/casting/bitmovin_cast_manager.dart';
 export 'src/player.dart';
 export 'src/player_view.dart';
 export 'src/source.dart';
