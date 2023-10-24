@@ -285,7 +285,7 @@ class Player with PlayerEventHandler implements PlayerApi {
   Future<bool> get isCasting => _invokeMethod(Methods.isCasting);
 
   @override
-  Future<void> castVideo() async => _invokeMethod<void>(Methods.castVideo);
+  Future<void> castVideo() => _invokeMethod<void>(Methods.castVideo);
 
   @override
   Future<void> castStop() => _invokeMethod<void>(Methods.castStop);

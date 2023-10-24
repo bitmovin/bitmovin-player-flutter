@@ -1,10 +1,12 @@
 import 'package:bitmovin_player/bitmovin_player.dart';
-import 'package:bitmovin_player/src/casting/casting_config.dart';
+import 'package:bitmovin_player/src/api/casting/bitmovin_cast_manager_api.dart';
+import 'package:bitmovin_player/src/api/casting/bitmovin_cast_manager_options.dart';
+import 'package:bitmovin_player/src/casting/bitmovin_cast_manager_send_message.dart';
 import 'package:bitmovin_player/src/channel_manager.dart';
 import 'package:bitmovin_player/src/channels.dart';
 import 'package:bitmovin_player/src/methods.dart';
 
-/// Singleton providing access to GoogleCast related features.
+/// Singleton, providing access to GoogleCast related features.
 /// Retrieve the singleton instance using [initialize].
 class BitmovinCastManager implements BitmovinCastManagerApi {
   BitmovinCastManager._(); // private constructor
@@ -51,8 +53,4 @@ class BitmovinCastManager implements BitmovinCastManagerApi {
         messageNamespace: messageNamespace,
     ).toJson(),
   );
-
-  @override
-  Future<void> updateContext() =>
-      _mainChannel.invokeMethod(Methods.castManagerUpdateContext);
 }

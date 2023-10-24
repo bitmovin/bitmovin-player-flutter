@@ -29,7 +29,7 @@ class Methods {
         const val IS_CAST_AVAILABLE = "isCastAvailable"
         const val IS_CASTING = "isCasting"
         const val CAST_VIDEO = "castVideo"
-        const val CAST_STOP = "castSTop"
+        const val CAST_STOP = "castStop"
 
         // Player view related methods
         const val DESTROY_PLAYER_VIEW = "destroyPlayerView"
@@ -42,7 +42,6 @@ class Methods {
 
         // Cast related methods
         const val CAST_MANAGER_INITIALIZE = "castManagerInitialize"
-        const val CAST_MANAGER_UPDATE_CONTEXT = "castManagerUpdateContext"
         const val CAST_MANAGER_SEND_MESSAGE = "castManagerSendMessage"
     }
 }
