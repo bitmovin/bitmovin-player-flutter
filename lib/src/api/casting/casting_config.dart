@@ -1,4 +1,4 @@
-import 'package:bitmovin_player/src/casting_manager.dart';
+import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -35,8 +35,8 @@ class RemoteControlConfig extends Equatable {
   /// Whether casting is enabled.
   /// Default value is `true`.
   ///
-  /// Has no effect if the `BitmovinCastManager` is not initialized before the
-  /// `Player` is created with this configuration.
+  /// Has no effect if the [BitmovinCastManager] is not initialized before the
+  /// [Player] is created with this configuration.
   final bool isCastEnabled;
 
   /// Indicates whether cookies and credentials will be sent along manifest
