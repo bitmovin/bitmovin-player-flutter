@@ -42,7 +42,6 @@ class Methods {
 
         // Cast related methods
         const val CAST_MANAGER_INITIALIZE = "castManagerInitialize"
-        const val CAST_MANAGER_UPDATE_CONTEXT = "castManagerUpdateContext"
         const val CAST_MANAGER_SEND_MESSAGE = "castManagerSendMessage"
     }
 }

@@ -51,8 +51,4 @@ class BitmovinCastManager implements BitmovinCastManagerApi {
         messageNamespace: messageNamespace,
     ).toJson(),
   );
-
-  @override
-  Future<void> updateContext() =>
-      _mainChannel.invokeMethod(Methods.castManagerUpdateContext);
 }

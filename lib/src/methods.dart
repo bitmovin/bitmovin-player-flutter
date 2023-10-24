@@ -46,6 +46,5 @@ class Methods {
 
   /// Bitmovin cast manager related methods
   static const String castManagerInitialize = 'castManagerInitialize';
-  static const String castManagerUpdateContext = 'castManagerUpdateContext';
   static const String castManagerSendMessage = 'castManagerSendMessage';
 }
