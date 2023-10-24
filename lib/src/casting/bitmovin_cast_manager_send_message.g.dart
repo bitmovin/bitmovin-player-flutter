@@ -1,18 +1,20 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'custom_cast_message.dart';
+part of 'bitmovin_cast_manager_send_message.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-CustomCastMessage _$CustomCastMessageFromJson(Map<String, dynamic> json) =>
-    CustomCastMessage(
+BitmovinCastManagerSendMessage _$BitmovinCastManagerSendMessageFromJson(
+        Map<String, dynamic> json) =>
+    BitmovinCastManagerSendMessage(
       message: json['message'] as String,
       messageNamespace: json['messageNamespace'] as String?,
     );
 
-Map<String, dynamic> _$CustomCastMessageToJson(CustomCastMessage instance) =>
+Map<String, dynamic> _$BitmovinCastManagerSendMessageToJson(
+        BitmovinCastManagerSendMessage instance) =>
     <String, dynamic>{
       'message': instance.message,
       'messageNamespace': instance.messageNamespace,
