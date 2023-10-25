@@ -123,6 +123,24 @@ mixin PlayerEventHandler implements PlayerListener {
       case 'onCueExit':
         emit(CueExitEvent.fromJson(data));
         break;
+      case 'onCastAvailable':
+        emit(CastAvailableEvent.fromJson(data));
+        break;
+      case 'onCastWaitingForDevice':
+        emit(CastWaitingForDeviceEvent.fromJson(data));
+        break;
+      case 'onCastStart':
+        emit(CastStartEvent.fromJson(data));
+        break;
+      case 'onCastStarted':
+        emit(CastStartedEvent.fromJson(data));
+        break;
+      case 'onCastStopped':
+        emit(CastStoppedEvent.fromJson(data));
+        break;
+      case 'onCastTimeUpdated':
+        emit(CastTimeUpdatedEvent.fromJson(data));
+        break;
     }
   }
 
@@ -280,5 +298,35 @@ mixin PlayerEventHandler implements PlayerListener {
   @override
   set onCueExit(void Function(CueExitEvent) func) {
     _addListener(func);
+  }
+
+  @override
+  set onCastAvailable(void Function(CastAvailableEvent) func) {
+      _addListener(func);
+  }
+
+  @override
+  set onCastWaitingForDevice(void Function(CastWaitingForDeviceEvent) func) {
+      _addListener(func);
+  }
+
+  @override
+  set onCastStart(void Function(CastStartEvent) func) {
+      _addListener(func);
+  }
+
+  @override
+  set onCastStarted(void Function(CastStartedEvent) func) {
+      _addListener(func);
+  }
+
+  @override
+  set onCastStopped(void Function(CastStoppedEvent) func) {
+      _addListener(func);
+  }
+
+  @override
+  set onCastTimeUpdated(void Function(CastTimeUpdatedEvent) func) {
+      _addListener(func);
   }
 }

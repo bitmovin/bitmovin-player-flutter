@@ -1,9 +1,11 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:bitmovin_player_example/controls.dart';
 import 'package:bitmovin_player_example/env/env.dart';
 import 'package:flutter/material.dart';
+import 'package:logger/logger.dart';
 
 class Casting extends StatefulWidget {
   const Casting({super.key});
@@ -21,29 +23,52 @@ class _PlayerState {
   final BitmovinCastManager castManager;
 }
 
-class _CastingState extends State<Casting> {
-  final _sourceConfig = SourceConfig(
-    url: Platform.isAndroid
-        ? 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd'
-        : 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8',
-    type: Platform.isAndroid ? SourceType.dash : SourceType.hls,
-  );
+final SourceConfig _sourceConfig = SourceConfig(
+  url: Platform.isAndroid
+      ? 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd'
+      : 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8',
+  type: Platform.isAndroid ? SourceType.dash : SourceType.hls,
+);
 
-  final Future<_PlayerState> _playerState = () async {
-    // The cast manager must be created before the player.
+class _CastingState extends State<Casting> {
+   factory _CastingState() {
+    final logger = Logger();
+    void eventListener(Event event) => _onEvent(logger, event);
+
+    return _CastingState._(createPlayerState(_sourceConfig, eventListener));
+  }
+
+  _CastingState._(this._playerState);
+
+  final Future<_PlayerState> _playerState;
+
+  static Future<_PlayerState> createPlayerState(
+      SourceConfig sourceConfig,
+    void Function(Event event) eventListener,
+  ) async {
     final castManager = await BitmovinCastManager.initialize();
     final player = Player(
       config: const PlayerConfig(
         key: Env.bitmovinPlayerLicenseKey,
       ),
-    );
+    )
+      ..onCastAvailable = eventListener
+      ..onCastWaitingForDevice = eventListener
+      ..onCastStart = eventListener
+      ..onCastStarted = eventListener
+      ..onCastStopped = eventListener
+      ..onCastTimeUpdated = eventListener;
+    await player.loadSourceConfig(sourceConfig);
     return _PlayerState(player, castManager);
-  }();
+  }
 
-  @override
-  void initState() {
-    _playerState.then((state) => state.player.loadSourceConfig(_sourceConfig));
-    super.initState();
+  static void _onEvent(
+      Logger logger,
+      Event event,
+  ) {
+    final eventName = '${event.runtimeType}';
+    final eventData = '$eventName ${event.toJson()}';
+    logger.d(eventData);
   }
 
   @override
