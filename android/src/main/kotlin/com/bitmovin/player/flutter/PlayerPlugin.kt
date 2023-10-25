@@ -30,7 +30,6 @@ class PlayerPlugin : FlutterPlugin, ActivityAware {
         when (method) {
             Methods.CREATE_PLAYER -> createPlayer(arguments.asCreatePlayerArgs) != null
             Methods.CAST_MANAGER_INITIALIZE -> initializeCastManager(arguments.asCastManagerOptions)
-            Methods.CAST_MANAGER_UPDATE_CONTEXT -> castManagerUpdateContext()
             Methods.CAST_MANAGER_SEND_MESSAGE -> sendCastMessage(arguments.asCastSendMessageArgs)
             else -> throw NotImplementedError()
         }

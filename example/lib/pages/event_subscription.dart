@@ -26,6 +26,7 @@ class _EventSubscriptionState extends State<EventSubscription> {
   final _player = Player(
     config: const PlayerConfig(
       key: Env.bitmovinPlayerLicenseKey,
+      remoteControlConfig: RemoteControlConfig(isCastEnabled: false),
     ),
   );
   final _logger = Logger();

@@ -7,13 +7,13 @@ import 'package:bitmovin_player_example/env/env.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
-class Cast extends StatefulWidget {
-  const Cast({super.key});
+class Casting extends StatefulWidget {
+  const Casting({super.key});
 
-  static String routeName = 'Cast';
+  static String routeName = 'Casting';
 
   @override
-  State<Cast> createState() => _CastState();
+  State<Casting> createState() => _CastingState();
 }
 
 class _PlayerState {
@@ -32,15 +32,15 @@ final SourceConfig _sourceConfig = Platform.isAndroid
     ? const SourceConfig(url: artOfMotionDash, type: SourceType.dash)
     : const SourceConfig(url: artOfMotionHls, type: SourceType.hls);
 
-class _CastState extends State<Cast> {
-   factory _CastState() {
+class _CastingState extends State<Casting> {
+   factory _CastingState() {
     final logger = Logger();
     void eventListener(Event event) => _onEvent(logger, event);
 
-    return _CastState._(createPlayerState(_sourceConfig, eventListener));
+    return _CastingState._(createPlayerState(_sourceConfig, eventListener));
   }
 
-  _CastState._(this._playerState);
+  _CastingState._(this._playerState);
 
   final Future<_PlayerState> _playerState;
 
@@ -52,9 +52,6 @@ class _CastState extends State<Cast> {
     final player = Player(
       config: const PlayerConfig(
         key: Env.bitmovinPlayerLicenseKey,
-        playbackConfig: PlaybackConfig(
-          isAutoplayEnabled: true,
-        ),
         remoteControlConfig: RemoteControlConfig(
           customReceiverConfig: {'key': 'value'},
         ),
@@ -159,11 +156,7 @@ class _CastState extends State<Cast> {
         Row(
           children: [
             OutlinedButton(
-              onPressed: castManager.updateContext,
-              child: const Text('Update cast context'),
-            ),
-            OutlinedButton(
-              onPressed: () { castManager.sendMessage(message: 'message'); },
+              onPressed: () => castManager.sendMessage(message: 'message'),
               child: const Text('Send cast message'),
             ),
           ],

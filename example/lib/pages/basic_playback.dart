@@ -26,6 +26,7 @@ class _BasicPlaybackState extends State<BasicPlayback> {
       playbackConfig: PlaybackConfig(
         isAutoplayEnabled: true,
       ),
+      remoteControlConfig: RemoteControlConfig(isCastEnabled: false),
     ),
   );
 
