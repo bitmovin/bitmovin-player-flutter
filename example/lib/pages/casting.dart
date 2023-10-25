@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 class Casting extends StatefulWidget {
   const Casting({super.key});
 
-  static String routeName = 'Cast';
+  static String routeName = 'Casting';
 
   @override
   State<Casting> createState() => _CastingState();
