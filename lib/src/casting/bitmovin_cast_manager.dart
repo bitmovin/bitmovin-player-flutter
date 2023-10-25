@@ -36,19 +36,20 @@ class BitmovinCastManager implements BitmovinCastManagerApi {
 
   Future<void> _initialize(BitmovinCastManagerOptions options) =>
       _mainChannel.invokeMethod<void>(
-          Methods.castManagerInitialize,
-          options.toJson(),
+        Methods.castManagerInitialize,
+        options.toJson(),
       );
 
   @override
   Future<void> sendMessage({
     required String message,
     String? messageNamespace,
-  }) => _mainChannel.invokeMethod<void>(
-    Methods.castManagerSendMessage,
-    CustomCastMessage(
-        message: message,
-        messageNamespace: messageNamespace,
-    ).toJson(),
-  );
+  }) =>
+      _mainChannel.invokeMethod<void>(
+        Methods.castManagerSendMessage,
+        CustomCastMessage(
+          message: message,
+          messageNamespace: messageNamespace,
+        ).toJson(),
+      );
 }

@@ -33,7 +33,7 @@ final SourceConfig _sourceConfig = Platform.isAndroid
     : const SourceConfig(url: artOfMotionHls, type: SourceType.hls);
 
 class _CastingState extends State<Casting> {
-   factory _CastingState() {
+  factory _CastingState() {
     final logger = Logger();
     void eventListener(Event event) => _onEvent(logger, event);
 
@@ -45,7 +45,7 @@ class _CastingState extends State<Casting> {
   final Future<_PlayerState> _playerState;
 
   static Future<_PlayerState> createPlayerState(
-      SourceConfig sourceConfig,
+    SourceConfig sourceConfig,
     void Function(Event event) eventListener,
   ) async {
     final castManager = await BitmovinCastManager.initialize();
@@ -82,8 +82,8 @@ class _CastingState extends State<Casting> {
   }
 
   static void _onEvent(
-      Logger logger,
-      Event event,
+    Logger logger,
+    Event event,
   ) {
     final eventName = '${event.runtimeType}';
     final eventData = '$eventName ${event.toJson()}';

@@ -56,11 +56,11 @@ class RemoteControlConfig extends Equatable {
 
   @override
   List<Object?> get props => [
-    receiverStylesheetUrl,
-    customReceiverConfig,
-    isCastEnabled,
-    sendManifestRequestsWithCredentials,
-    sendSegmentRequestsWithCredentials,
-    sendDrmLicenseRequestsWithCredentials,
-  ];
+        receiverStylesheetUrl,
+        customReceiverConfig,
+        isCastEnabled,
+        sendManifestRequestsWithCredentials,
+        sendSegmentRequestsWithCredentials,
+        sendDrmLicenseRequestsWithCredentials,
+      ];
 }
