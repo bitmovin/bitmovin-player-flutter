@@ -143,21 +143,30 @@ class _CastingState extends State<Casting> {
         ),
         Row(
           children: [
-            OutlinedButton(
-              onPressed: player.castVideo,
-              child: const Text('Cast Video'),
+            Container(
+              margin: const EdgeInsets.only(left: 10, right: 5),
+              child: OutlinedButton(
+                onPressed: player.castVideo,
+                child: const Text('Cast Video'),
+              ),
             ),
-            OutlinedButton(
-              onPressed: player.castStop,
-              child: const Text('Stop Casting'),
+            Container(
+              margin: const EdgeInsets.only(left: 5, right: 5),
+              child: OutlinedButton(
+                onPressed: player.castStop,
+                child: const Text('Stop Casting'),
+              ),
             ),
           ],
         ),
         Row(
           children: [
-            OutlinedButton(
-              onPressed: () => castManager.sendMessage(message: 'message'),
-              child: const Text('Send cast message'),
+            Container(
+              margin: const EdgeInsets.only(left: 10, right: 5),
+              child: OutlinedButton(
+                onPressed: () => castManager.sendMessage(message: 'message'),
+                child: const Text('Send cast message'),
+              ),
             ),
           ],
         ),
