@@ -326,4 +326,28 @@ extension FlutterPlayer: PlayerListener {
         guard let eventJson = event.toJson() else { return }
         broadcast(name: event.name, data: eventJson, sink: eventSink)
     }
+
+    func onCastAvailable(_ event: CastAvailableEvent, player: Player) {
+        broadcast(name: event.name, data: event.toJsonFallback(), sink: eventSink)
+    }
+
+    func onCastStart(_ event: CastStartEvent, player: Player) {
+        broadcast(name: event.name, data: event.toJsonFallback(), sink: eventSink)
+    }
+
+    func onCastStarted(_ event: CastStartedEvent, player: Player) {
+        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
+    }
+
+    func onCastStopped(_ event: CastStoppedEvent, player: Player) {
+        broadcast(name: event.name, data: event.toJsonFallback(), sink: eventSink)
+    }
+
+    func onCastWaiting(forDevice event: CastWaitingForDeviceEvent, player: Player) {
+        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
+    }
+
+    func onCastTimeUpdated(_ event: CastTimeUpdatedEvent, player: Player) {
+        broadcast(name: event.name, data: event.toJsonFallback(), sink: eventSink)
+    }
 }

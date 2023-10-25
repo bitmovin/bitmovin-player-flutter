@@ -399,6 +399,29 @@ extension VideoDownloadQualityChangedEvent {
     }
 }
 
+extension CastStartedEvent {
+    func toJSON() -> [String: Any] {
+        [
+            "event": name,
+            "timestamp": Int(timestamp),
+            "deviceName": deviceName
+        ]
+    }
+}
+
+extension CastWaitingForDeviceEvent {
+    func toJSON() -> [String: Any] {
+        [
+            "event": name,
+            "timestamp": Int(timestamp),
+            "castPayload": [
+                "currentTime": castPayload.currentTime,
+                "deviceName": castPayload.deviceName
+            ] as [String: Any]
+        ]
+    }
+}
+
 extension Double {
     var jsonValue: Any {
         switch self {
