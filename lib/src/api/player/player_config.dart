@@ -15,6 +15,7 @@ class PlayerConfig extends Equatable {
     this.licensingConfig = const LicensingConfig(),
     this.liveConfig = const LiveConfig(),
     this.analyticsConfig,
+    this.remoteControlConfig,
   });
 
   factory PlayerConfig.fromJson(Map<String, dynamic> json) {
@@ -48,6 +49,9 @@ class PlayerConfig extends Equatable {
   /// Configuration for the Bitmovin Analytics Collector.
   @JsonKey(name: 'analyticsConfig')
   final AnalyticsConfig? analyticsConfig;
+
+  /// Configures remote playback functionality.
+  final RemoteControlConfig? remoteControlConfig;
 
   Map<String, dynamic> toJson() => _$PlayerConfigToJson(this);
 

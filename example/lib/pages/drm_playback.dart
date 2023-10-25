@@ -45,6 +45,7 @@ class _DrmPlaybackState extends State<DrmPlayback> {
   final _player = Player(
     config: const PlayerConfig(
       key: Env.bitmovinPlayerLicenseKey,
+      remoteControlConfig: RemoteControlConfig(isCastEnabled: false),
     ),
   );
   final _logger = Logger();

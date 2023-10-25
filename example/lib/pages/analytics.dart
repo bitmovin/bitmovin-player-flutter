@@ -31,6 +31,7 @@ class _PlayerAnalyticsState extends State<PlayerAnalytics> {
       playbackConfig: const PlaybackConfig(
         isAutoplayEnabled: true,
       ),
+      remoteControlConfig: const RemoteControlConfig(isCastEnabled: false),
       analyticsConfig: Env.bitmovinAnalyticsLicenseKey != null
           ? AnalyticsConfig(licenseKey: Env.bitmovinAnalyticsLicenseKey!)
           : null,

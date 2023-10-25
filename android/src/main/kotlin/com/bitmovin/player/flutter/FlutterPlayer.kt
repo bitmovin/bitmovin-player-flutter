@@ -99,6 +99,10 @@ class FlutterPlayer(
             Methods.GET_SUBTITLE -> subtitle?.let { JSubtitleTrack(it).toJsonString() } ?: Unit
             Methods.SET_SUBTITLE -> setSubtitle(arg.asOptionalString)
             Methods.REMOVE_SUBTITLE -> removeSubtitle(arg.asString)
+            Methods.IS_CAST_AVAILABLE -> isCastAvailable
+            Methods.IS_CASTING -> isCasting
+            Methods.CAST_VIDEO -> castVideo()
+            Methods.CAST_STOP -> castStop()
             else -> throw NotImplementedError()
         }
 

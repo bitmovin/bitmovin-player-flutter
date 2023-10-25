@@ -21,6 +21,10 @@ class Methods {
   static const String setSubtitle = 'setSubtitle';
   static const String getSubtitle = 'getSubtitle';
   static const String removeSubtitle = 'removeSubtitle';
+  static const String isCastAvailable = 'isCastAvailable';
+  static const String isCasting = 'isCasting';
+  static const String castVideo = 'castVideo';
+  static const String castStop = 'castStop';
 
   /// Player view related methods
   static const String destroyPlayerView = 'destroyPlayerView';
@@ -39,4 +43,8 @@ class Methods {
   /// Widevine DRM related methods
   static const String widevinePrepareMessage = 'widevinePrepareMessage';
   static const String widevinePrepareLicense = 'widevinePrepareLicense';
+
+  /// Bitmovin cast manager related methods
+  static const String castManagerInitialize = 'castManagerInitialize';
+  static const String castManagerSendMessage = 'castManagerSendMessage';
 }
