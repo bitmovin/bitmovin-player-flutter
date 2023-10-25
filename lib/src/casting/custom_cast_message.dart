@@ -1,21 +1,21 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'bitmovin_cast_manager_send_message.g.dart';
+part 'custom_cast_message.g.dart';
 
 /// Arguments to send a message to the cast receiver.
 @JsonSerializable(explicitToJson: true)
-class BitmovinCastManagerSendMessage extends Equatable {
-  const BitmovinCastManagerSendMessage({
+class CustomCastMessage extends Equatable {
+  const CustomCastMessage({
     required this.message,
     this.messageNamespace,
   });
 
-  factory BitmovinCastManagerSendMessage.fromJson(Map<String, dynamic> json) {
-    return _$BitmovinCastManagerSendMessageFromJson(json);
+  factory CustomCastMessage.fromJson(Map<String, dynamic> json) {
+    return _$CustomCastMessageFromJson(json);
   }
 
-  Map<String, dynamic> toJson() => _$BitmovinCastManagerSendMessageToJson(this);
+  Map<String, dynamic> toJson() => _$CustomCastMessageToJson(this);
 
   /// The message to send.
   final String message;

@@ -55,6 +55,7 @@ class _FullscreenHandlingState extends State<FullscreenHandling> {
   final _player = Player(
     config: const PlayerConfig(
       key: Env.bitmovinPlayerLicenseKey,
+      remoteControlConfig: RemoteControlConfig(isCastEnabled: false),
     ),
   );
   final _fullscreenHandler = ExampleFullscreenHandler();
