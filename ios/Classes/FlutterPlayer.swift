@@ -55,37 +55,43 @@ extension FlutterPlayer: FlutterStreamHandler {
 
 private extension FlutterPlayer {
     func handleMethodCall(call: FlutterMethodCall, result: @escaping FlutterResult) {
-        let methodCallResult = handleMethodCall(call: call)
-        result(methodCallResult)
+        do {
+            let methodCallResult = try handleMethodCall(call: call)
+            result(methodCallResult)
+        } catch let bitmovinError as BitmovinError {
+            result(FlutterError.from(bitmovinError))
+        } catch {
+            result(
+                FlutterError.general(
+                    "Error while executing method call \"\(call.method)\": \(error.localizedDescription)"
+                )
+            )
+        }
     }
 
     // swiftlint:disable:next cyclomatic_complexity function_body_length
-    func handleMethodCall(call: FlutterMethodCall) -> Any? {
+    func handleMethodCall(call: FlutterMethodCall) throws -> Any? {
         guard let arguments = Helper.methodCallArguments(call.arguments) else {
-            return FlutterError()
+            throw BitmovinError.parsingError("Could not parse arguments for \(call.method)")
         }
 
         switch (call.method, arguments) {
         case (Methods.loadWithSourceConfig, .json(let sourceConfigJson)):
-            if let (sourceConfig, metadata) = Helper.sourceConfig(sourceConfigJson) {
-                let sourceMetadata = MessageDecoder.toNative(
-                    type: FlutterSourceMetadata.self,
-                    from: sourceConfigJson["analyticsSourceMetadata"]
+            if let flutterSourceConfig = Helper.sourceConfig(sourceConfigJson) {
+                handleLoadSource(
+                    flutterSource: FlutterSource(
+                        sourceConfig: flutterSourceConfig,
+                        remoteControl: nil
+                    )
                 )
-                handleLoadWithSourceConfig(sourceConfig, metadata: metadata, sourceMetadata: sourceMetadata)
             } else {
-                return FlutterError()
+                throw BitmovinError.parsingError("Could not parse arguments for \(call.method)")
             }
         case (Methods.loadWithSource, .json(let sourceJson)):
-            if let (source, metadata) = Helper.source(sourceJson),
-               let sourceConfigJson = sourceJson["sourceConfig"] as? [String: Any] {
-                let sourceMetadata = MessageDecoder.toNative(
-                    type: FlutterSourceMetadata.self,
-                    from: sourceConfigJson["analyticsSourceMetadata"]
-                )
-                handleLoadWithSourceConfig(source.sourceConfig, metadata: metadata, sourceMetadata: sourceMetadata)
+            if let flutterSource = Helper.source(sourceJson) {
+                handleLoadSource(flutterSource: flutterSource)
             } else {
-                return FlutterError()
+                throw BitmovinError.parsingError("Could not parse arguments for \(call.method)")
             }
         case (Methods.play, .empty):
             player.play()
@@ -117,7 +123,7 @@ private extension FlutterPlayer {
             if let customData = MessageDecoder.toNative(type: FlutterCustomData.self, from: customDataJson) {
                 sendCustomDataEvent(customData: customData)
             } else {
-                return FlutterError()
+                throw BitmovinError.parsingError("Could not parse arguments for \(call.method)")
             }
         case (Methods.availableSubtitles, .empty):
             return player.availableSubtitles.compactMap { $0.toJsonString() }
@@ -129,8 +135,16 @@ private extension FlutterPlayer {
             player.setSubtitle(trackIdentifier: nil)
         case (Methods.removeSubtitle, .string(let trackId)):
             player.removeSubtitle(trackIdentifier: trackId)
+        case (Methods.isCastAvailable, .empty):
+            return player.isCastAvailable
+        case (Methods.isCasting, .empty):
+            return player.isCasting
+        case (Methods.castVideo, .empty):
+            player.castVideo()
+        case (Methods.castStop, .empty):
+            player.castStop()
         default:
-            return FlutterMethodNotImplemented
+            throw BitmovinError.unknownMethod(call.method)
         }
 
         // Returning `nil` here handles the case that a void method was called successfully.
@@ -138,12 +152,9 @@ private extension FlutterPlayer {
         return nil
     }
 
-    func handleLoadWithSourceConfig(
-        _ sourceConfig: SourceConfig,
-        metadata: FairplayConfig.Metadata?,
-        sourceMetadata: SourceMetadata?
-    ) {
-        if let fairplayConfig = sourceConfig.drmConfig as? FairplayConfig, let metadata {
+    func handleLoadSource(flutterSource: FlutterSource) {
+        if let fairplayConfig = flutterSource.sourceConfig.config.drmConfig as? FairplayConfig,
+           let metadata = flutterSource.sourceConfig.drmMetadata {
             self.fairplayCallbacksHandler = FairplayCallbacksHandler(
                 fairplayConfig: fairplayConfig,
                 metadata: metadata,
@@ -152,10 +163,20 @@ private extension FlutterPlayer {
         }
 
         let source: Source
-        if let sourceMetadata {
-            source = SourceFactory.create(from: sourceConfig, sourceMetadata: sourceMetadata)
+        if let sourceMetadata = flutterSource.sourceConfig.analyticsSourceMetadata {
+            source = SourceFactory.create(
+                from: flutterSource.sourceConfig.config,
+                sourceMetadata: sourceMetadata
+            )
         } else {
-            source = SourceFactory.create(from: sourceConfig)
+            source = SourceFactory.create(from: flutterSource.sourceConfig.config)
+        }
+
+        if let castSourceConfig = flutterSource.remoteControl?.castSourceConfig {
+            player.config.remoteControlConfig.prepareSource = { type, _ in
+                guard type == .cast else { return nil }
+                return castSourceConfig.config
+            }
         }
 
         player.load(source: source)
@@ -304,5 +325,29 @@ extension FlutterPlayer: PlayerListener {
     func onCueExit(_ event: CueExitEvent, player: Player) {
         guard let eventJson = event.toJson() else { return }
         broadcast(name: event.name, data: eventJson, sink: eventSink)
+    }
+
+    func onCastAvailable(_ event: CastAvailableEvent, player: Player) {
+        broadcast(name: event.name, data: event.toJsonFallback(), sink: eventSink)
+    }
+
+    func onCastStart(_ event: CastStartEvent, player: Player) {
+        broadcast(name: event.name, data: event.toJsonFallback(), sink: eventSink)
+    }
+
+    func onCastStarted(_ event: CastStartedEvent, player: Player) {
+        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
+    }
+
+    func onCastStopped(_ event: CastStoppedEvent, player: Player) {
+        broadcast(name: event.name, data: event.toJsonFallback(), sink: eventSink)
+    }
+
+    func onCastWaiting(forDevice event: CastWaitingForDeviceEvent, player: Player) {
+        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
+    }
+
+    func onCastTimeUpdated(_ event: CastTimeUpdatedEvent, player: Player) {
+        broadcast(name: event.name, data: event.toJsonFallback(), sink: eventSink)
     }
 }

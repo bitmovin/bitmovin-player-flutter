@@ -19,6 +19,7 @@ class CustomCastMessage extends Equatable {
 
   /// The message to send.
   final String message;
+
   /// A custom message namespace to be used for communication between sender and
   /// receiver.
   /// Using `null` value will result in using the default message namespace.
@@ -26,7 +27,7 @@ class CustomCastMessage extends Equatable {
 
   @override
   List<Object?> get props => [
-    message,
-    messageNamespace,
-  ];
+        message,
+        messageNamespace,
+      ];
 }

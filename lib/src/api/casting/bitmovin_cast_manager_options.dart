@@ -18,6 +18,7 @@ class BitmovinCastManagerOptions extends Equatable {
   /// ID of receiver application.
   /// Using `null` value will result in using the default application ID.
   final String? applicationId;
+
   /// A custom message namespace to be used for communication between sender and
   /// receiver.
   /// Using `null` value will result in using the default message namespace.
@@ -25,7 +26,7 @@ class BitmovinCastManagerOptions extends Equatable {
 
   @override
   List<Object?> get props => [
-    applicationId,
-    messageNamespace,
-  ];
+        applicationId,
+        messageNamespace,
+      ];
 }

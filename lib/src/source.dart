@@ -11,6 +11,7 @@ class Source extends Equatable {
   const Source({
     required this.sourceConfig,
     this.id,
+    this.remoteControl,
   });
 
   factory Source.fromJson(Map<String, dynamic> json) {
@@ -28,8 +29,12 @@ class Source extends Equatable {
   @JsonKey(name: 'sourceConfig', required: true)
   final SourceConfig sourceConfig;
 
+  /// The remote control config for this source.
+  /// Only supported on iOS.
+  final SourceRemoteControlConfig? remoteControl;
+
   @override
-  List<Object?> get props => [id, sourceConfig];
+  List<Object?> get props => [id, sourceConfig, remoteControl];
 
   /// Converts this [Source] into a JSON friendly type of Map<String, dynamic>
   ///

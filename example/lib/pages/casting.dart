@@ -23,15 +23,17 @@ class _PlayerState {
   final BitmovinCastManager castManager;
 }
 
-final SourceConfig _sourceConfig = SourceConfig(
-  url: Platform.isAndroid
-      ? 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd'
-      : 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8',
-  type: Platform.isAndroid ? SourceType.dash : SourceType.hls,
-);
+const artOfMotionDash =
+    'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd';
+const artOfMotionHls =
+    'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8';
+
+final SourceConfig _sourceConfig = Platform.isAndroid
+    ? const SourceConfig(url: artOfMotionDash, type: SourceType.dash)
+    : const SourceConfig(url: artOfMotionHls, type: SourceType.hls);
 
 class _CastingState extends State<Casting> {
-   factory _CastingState() {
+  factory _CastingState() {
     final logger = Logger();
     void eventListener(Event event) => _onEvent(logger, event);
 
@@ -43,13 +45,16 @@ class _CastingState extends State<Casting> {
   final Future<_PlayerState> _playerState;
 
   static Future<_PlayerState> createPlayerState(
-      SourceConfig sourceConfig,
+    SourceConfig sourceConfig,
     void Function(Event event) eventListener,
   ) async {
     final castManager = await BitmovinCastManager.initialize();
     final player = Player(
       config: const PlayerConfig(
         key: Env.bitmovinPlayerLicenseKey,
+        remoteControlConfig: RemoteControlConfig(
+          customReceiverConfig: {'key': 'value'},
+        ),
       ),
     )
       ..onCastAvailable = eventListener
@@ -58,13 +63,27 @@ class _CastingState extends State<Casting> {
       ..onCastStarted = eventListener
       ..onCastStopped = eventListener
       ..onCastTimeUpdated = eventListener;
-    await player.loadSourceConfig(sourceConfig);
+
+    // Configure playing DASH source on Chromecast, even if on iOS the local
+    // played back asset is HLS. This is to demonstrate how a different source
+    // can be used for remote playback than for local playback.
+    final source = Source(
+      sourceConfig: sourceConfig,
+      remoteControl: const SourceRemoteControlConfig(
+        castSourceConfig: SourceConfig(
+          url: artOfMotionDash,
+          type: SourceType.dash,
+        ),
+      ),
+    );
+
+    await player.loadSource(source);
     return _PlayerState(player, castManager);
   }
 
   static void _onEvent(
-      Logger logger,
-      Event event,
+    Logger logger,
+    Event event,
   ) {
     final eventName = '${event.runtimeType}';
     final eventData = '$eventName ${event.toJson()}';
@@ -124,21 +143,30 @@ class _CastingState extends State<Casting> {
         ),
         Row(
           children: [
-            OutlinedButton(
-              onPressed: player.castVideo,
-              child: const Text('Cast Video'),
+            Container(
+              margin: const EdgeInsets.only(left: 10, right: 5),
+              child: OutlinedButton(
+                onPressed: player.castVideo,
+                child: const Text('Cast Video'),
+              ),
             ),
-            OutlinedButton(
-              onPressed: player.castStop,
-              child: const Text('Stop Casting'),
+            Container(
+              margin: const EdgeInsets.only(left: 5, right: 5),
+              child: OutlinedButton(
+                onPressed: player.castStop,
+                child: const Text('Stop Casting'),
+              ),
             ),
           ],
         ),
         Row(
           children: [
-            OutlinedButton(
-              onPressed: () => castManager.sendMessage(message: 'message'),
-              child: const Text('Send cast message'),
+            Container(
+              margin: const EdgeInsets.only(left: 10, right: 5),
+              child: OutlinedButton(
+                onPressed: () => castManager.sendMessage(message: 'message'),
+                child: const Text('Send cast message'),
+              ),
             ),
           ],
         ),

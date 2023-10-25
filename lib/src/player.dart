@@ -289,7 +289,6 @@ class Player with PlayerEventHandler implements PlayerApi {
 
   @override
   Future<void> castStop() => _invokeMethod<void>(Methods.castStop);
-
 }
 
 class _AnalyticsApi implements AnalyticsApi {

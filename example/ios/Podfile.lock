@@ -11,13 +11,20 @@ PODS:
     - BitmovinPlayerCore (= 3.44.0)
   - BitmovinPlayerCore (3.44.0)
   - Flutter (1.0.0)
+  - google-cast-sdk (4.8.0):
+    - google-cast-sdk/Core (= 4.8.0)
+    - Protobuf (~> 3.13)
+  - google-cast-sdk/Core (4.8.0):
+    - Protobuf (~> 3.13)
   - integration_test (0.0.1):
     - Flutter
+  - Protobuf (3.24.3)
 
 DEPENDENCIES:
   - bitmovin_player (from `.symlinks/plugins/bitmovin_player/ios`)
   - BitmovinPlayer (= 3.44.0)
   - Flutter (from `Flutter`)
+  - google-cast-sdk (= 4.8.0)
   - integration_test (from `.symlinks/plugins/integration_test/ios`)
 
 SPEC REPOS:
@@ -25,6 +32,9 @@ SPEC REPOS:
     - BitmovinAnalyticsCollector
     - BitmovinPlayer
     - BitmovinPlayerCore
+  trunk:
+    - google-cast-sdk
+    - Protobuf
 
 EXTERNAL SOURCES:
   bitmovin_player:
@@ -40,8 +50,10 @@ SPEC CHECKSUMS:
   BitmovinPlayer: 2e5b0234c4a49a7c95eb3232d18e3e803013e5c6
   BitmovinPlayerCore: 40c239be011d89c81106dea0cb7e37dcf4beee72
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  google-cast-sdk: afeb1aac0744b1bc4f70bc3db8468e33fabbff38
   integration_test: 13825b8a9334a850581300559b8839134b124670
+  Protobuf: 970f7ee93a3a08e3cf64859b8efd95ee32b4f87f
 
-PODFILE CHECKSUM: 32e4e7622e8eadce048faf0e26e3cd38688dae91
+PODFILE CHECKSUM: e8313ee3446cb7a867855d589a741918797df0b4
 
 COCOAPODS: 1.12.1
