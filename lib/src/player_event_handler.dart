@@ -302,31 +302,31 @@ mixin PlayerEventHandler implements PlayerListener {
 
   @override
   set onCastAvailable(void Function(CastAvailableEvent) func) {
-      _addListener(func);
+    _addListener(func);
   }
 
   @override
   set onCastWaitingForDevice(void Function(CastWaitingForDeviceEvent) func) {
-      _addListener(func);
+    _addListener(func);
   }
 
   @override
   set onCastStart(void Function(CastStartEvent) func) {
-      _addListener(func);
+    _addListener(func);
   }
 
   @override
   set onCastStarted(void Function(CastStartedEvent) func) {
-      _addListener(func);
+    _addListener(func);
   }
 
   @override
   set onCastStopped(void Function(CastStoppedEvent) func) {
-      _addListener(func);
+    _addListener(func);
   }
 
   @override
   set onCastTimeUpdated(void Function(CastTimeUpdatedEvent) func) {
-      _addListener(func);
+    _addListener(func);
   }
 }
