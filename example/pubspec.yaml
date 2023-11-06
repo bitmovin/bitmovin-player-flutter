@@ -1,7 +1,7 @@
 name: bitmovin_player_example
 description: Demonstrates how to use the Bitmovin Player Flutter SDK.
 version: 0.1.0
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: 'none'
 
 environment:
   sdk: '>=2.19.1 <4.0.0'
