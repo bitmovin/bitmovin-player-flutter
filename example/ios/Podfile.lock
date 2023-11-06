@@ -1,5 +1,5 @@
 PODS:
-  - bitmovin_player (0.1.0):
+  - bitmovin_player (0.2.0):
     - BitmovinPlayer
     - Flutter
   - BitmovinAnalyticsCollector/BitmovinPlayer (3.1.1):
@@ -45,7 +45,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/integration_test/ios"
 
 SPEC CHECKSUMS:
-  bitmovin_player: de99be98b4ef8b7dc0a247f8f5e40847bdfc138a
+  bitmovin_player: 53d71fc6050f3ca441a64a736aec39d5737269c7
   BitmovinAnalyticsCollector: 6aa2e995e325d95d1145bcad3d733d2f8c301c00
   BitmovinPlayer: 2e5b0234c4a49a7c95eb3232d18e3e803013e5c6
   BitmovinPlayerCore: 40c239be011d89c81106dea0cb7e37dcf4beee72
