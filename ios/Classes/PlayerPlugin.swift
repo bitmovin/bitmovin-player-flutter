@@ -45,7 +45,6 @@ public class PlayerPlugin: NSObject, FlutterPlugin {
         switch method {
         case Methods.createPlayer:
             try handleCreatePlayer(arguments: arguments)
-            // TODO: Remove return value once https://github.com/bitmovin/bitmovin-player-flutter/pull/65 is merged.
             return true
         case Methods.castManagerInitialize:
             if let options = MessageDecoder.toNative(type: FlutterBitmovinCastManagerOptions.self, from: arguments) {
