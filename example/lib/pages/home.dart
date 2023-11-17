@@ -1,5 +1,6 @@
 import 'package:bitmovin_player_example/pages/analytics.dart';
 import 'package:bitmovin_player_example/pages/audio_only.dart';
+import 'package:bitmovin_player_example/pages/background_playback.dart';
 import 'package:bitmovin_player_example/pages/basic_playback.dart';
 import 'package:bitmovin_player_example/pages/casting.dart';
 import 'package:bitmovin_player_example/pages/custom_html_ui.dart';
@@ -71,6 +72,12 @@ class Home extends StatelessWidget {
                 Navigator.of(context).pushNamed(Casting.routeName);
               },
               child: const Text('Casting'),
+            ),
+            OutlinedButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(BackgroundPlayback.routeName);
+              },
+              child: const Text('Background Playback'),
             ),
           ],
         ),
