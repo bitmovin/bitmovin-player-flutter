@@ -42,7 +42,11 @@ class _MyAppState extends State<MyApp> {
         body: Home(),
       ),
       theme: ThemeData(
-        useMaterial3: false,
+        useMaterial3: true,
+        appBarTheme: const AppBarTheme(
+          color: Colors.blue,
+          foregroundColor: Colors.white,
+        ),
       ),
     );
   }
