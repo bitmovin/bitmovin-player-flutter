@@ -11,6 +11,7 @@ class PlaybackConfig extends Equatable {
     this.isAutoplayEnabled = false,
     this.isMuted = false,
     this.isTimeShiftEnabled = true,
+    this.isBackgroundPlaybackEnabled = false,
     this.videoCodecPriority,
     this.audioCodecPriority,
     this.isTunneledPlaybackEnabled = false,
@@ -37,6 +38,18 @@ class PlaybackConfig extends Equatable {
   /// Default value is `true`.
   @JsonKey(name: 'isTimeShiftEnabled')
   final bool isTimeShiftEnabled;
+
+  /// Specifies if background playback is enabled or not.
+  /// Default is `false`.
+  ///
+  /// When set to `true`, playback is not automatically paused
+  /// anymore when the app moves to the background.
+  /// When set to `true`, also make sure to properly configure your app to allow
+  /// background playback.
+  ///
+  /// This is only supported on iOS.
+  @JsonKey(name: 'isBackgroundPlaybackEnabled')
+  final bool isBackgroundPlaybackEnabled;
 
   /// The video codec priority where the index has the highest priority.
   /// For a single [SourceConfig] this can be overwritten using
@@ -96,6 +109,7 @@ class PlaybackConfig extends Equatable {
         isAutoplayEnabled,
         isMuted,
         isTimeShiftEnabled,
+        isBackgroundPlaybackEnabled,
         videoCodecPriority,
         videoFilter,
         audioCodecPriority,
