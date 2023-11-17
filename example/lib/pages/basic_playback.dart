@@ -25,7 +25,6 @@ class _BasicPlaybackState extends State<BasicPlayback> {
       key: Env.bitmovinPlayerLicenseKey,
       playbackConfig: PlaybackConfig(
         isAutoplayEnabled: true,
-        isBackgroundPlaybackEnabled: true,
       ),
       remoteControlConfig: RemoteControlConfig(isCastEnabled: false),
     ),
