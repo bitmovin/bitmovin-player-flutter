@@ -39,6 +39,9 @@ class _MyAppState extends State<MyApp> {
       home: const Scaffold(
         body: Home(),
       ),
+      theme: ThemeData(
+        useMaterial3: false,
+      ),
     );
   }
 }
