@@ -11,6 +11,8 @@ PlaybackConfig _$PlaybackConfigFromJson(Map<String, dynamic> json) =>
       isAutoplayEnabled: json['isAutoplayEnabled'] as bool? ?? false,
       isMuted: json['isMuted'] as bool? ?? false,
       isTimeShiftEnabled: json['isTimeShiftEnabled'] as bool? ?? true,
+      isBackgroundPlaybackEnabled:
+          json['isBackgroundPlaybackEnabled'] as bool? ?? false,
       videoCodecPriority: (json['videoCodecPriority'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
@@ -34,6 +36,7 @@ Map<String, dynamic> _$PlaybackConfigToJson(PlaybackConfig instance) =>
       'isAutoplayEnabled': instance.isAutoplayEnabled,
       'isMuted': instance.isMuted,
       'isTimeShiftEnabled': instance.isTimeShiftEnabled,
+      'isBackgroundPlaybackEnabled': instance.isBackgroundPlaybackEnabled,
       'videoCodecPriority': instance.videoCodecPriority,
       'audioCodecPriority': instance.audioCodecPriority,
       'isTunneledPlaybackEnabled': instance.isTunneledPlaybackEnabled,
