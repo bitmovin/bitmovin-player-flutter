@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ### Added
 - `isBackgroundPlaybackEnabled` to `PlaybackConfig`. For now this is only supported on iOS.
+- `BackgroundPlayback` example to the example Application
 
 ## [0.2.0] - 2023-11-06
 ### Added

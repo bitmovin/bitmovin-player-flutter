@@ -1,19 +1,24 @@
 import 'dart:io';
 
+import 'package:audio_session/audio_session.dart';
 import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:bitmovin_player_example/controls.dart';
 import 'package:bitmovin_player_example/env/env.dart';
 import 'package:flutter/material.dart';
 
-class BasicPlayback extends StatefulWidget {
-  const BasicPlayback({super.key});
-  static String routeName = 'BasicPlayback';
+/// This example showcases how to achieve background playback with the
+/// Bitmovin Player using the `audio_session` package.
+/// https://pub.dev/packages/audio_session
+
+class BackgroundPlayback extends StatefulWidget {
+  const BackgroundPlayback({super.key});
+  static String routeName = 'BackgroundPlayback';
 
   @override
-  State<BasicPlayback> createState() => _BasicPlaybackState();
+  State<BackgroundPlayback> createState() => _BackgroundPlaybackState();
 }
 
-class _BasicPlaybackState extends State<BasicPlayback> {
+class _BackgroundPlaybackState extends State<BackgroundPlayback> {
   final _sourceConfig = SourceConfig(
     url: Platform.isAndroid
         ? 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd'
@@ -25,6 +30,7 @@ class _BasicPlaybackState extends State<BasicPlayback> {
       key: Env.bitmovinPlayerLicenseKey,
       playbackConfig: PlaybackConfig(
         isAutoplayEnabled: true,
+        isBackgroundPlaybackEnabled: true,
       ),
       remoteControlConfig: RemoteControlConfig(isCastEnabled: false),
     ),
@@ -32,8 +38,15 @@ class _BasicPlaybackState extends State<BasicPlayback> {
 
   @override
   void initState() {
+    setupAudioSession();
+
     _player.loadSourceConfig(_sourceConfig);
     super.initState();
+  }
+
+  Future<void> setupAudioSession() async {
+    final session = await AudioSession.instance;
+    await session.configure(const AudioSessionConfiguration.music());
   }
 
   @override
@@ -46,7 +59,7 @@ class _BasicPlaybackState extends State<BasicPlayback> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Basic Playback'),
+        title: const Text('Background Playback'),
       ),
       body: Column(
         children: [

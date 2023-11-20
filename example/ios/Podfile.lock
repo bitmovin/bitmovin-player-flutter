@@ -1,4 +1,6 @@
 PODS:
+  - audio_session (0.0.1):
+    - Flutter
   - bitmovin_player (0.2.0):
     - BitmovinPlayer
     - Flutter
@@ -21,6 +23,7 @@ PODS:
   - Protobuf (3.24.3)
 
 DEPENDENCIES:
+  - audio_session (from `.symlinks/plugins/audio_session/ios`)
   - bitmovin_player (from `.symlinks/plugins/bitmovin_player/ios`)
   - BitmovinPlayer (= 3.44.0)
   - Flutter (from `Flutter`)
@@ -37,6 +40,8 @@ SPEC REPOS:
     - Protobuf
 
 EXTERNAL SOURCES:
+  audio_session:
+    :path: ".symlinks/plugins/audio_session/ios"
   bitmovin_player:
     :path: ".symlinks/plugins/bitmovin_player/ios"
   Flutter:
@@ -45,6 +50,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/integration_test/ios"
 
 SPEC CHECKSUMS:
+  audio_session: 4f3e461722055d21515cf3261b64c973c062f345
   bitmovin_player: 53d71fc6050f3ca441a64a736aec39d5737269c7
   BitmovinAnalyticsCollector: 6aa2e995e325d95d1145bcad3d733d2f8c301c00
   BitmovinPlayer: 2e5b0234c4a49a7c95eb3232d18e3e803013e5c6
@@ -56,4 +62,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: e8313ee3446cb7a867855d589a741918797df0b4
 
-COCOAPODS: 1.12.1
+COCOAPODS: 1.13.0

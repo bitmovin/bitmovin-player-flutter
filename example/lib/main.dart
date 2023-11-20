@@ -1,5 +1,6 @@
 import 'package:bitmovin_player_example/pages/analytics.dart';
 import 'package:bitmovin_player_example/pages/audio_only.dart';
+import 'package:bitmovin_player_example/pages/background_playback.dart';
 import 'package:bitmovin_player_example/pages/basic_playback.dart';
 import 'package:bitmovin_player_example/pages/casting.dart';
 import 'package:bitmovin_player_example/pages/custom_html_ui.dart';
@@ -35,6 +36,7 @@ class _MyAppState extends State<MyApp> {
         CustomHtmlUi.routeName: (_) => const CustomHtmlUi(),
         FullscreenHandling.routeName: (_) => const FullscreenHandling(),
         Casting.routeName: (_) => const Casting(),
+        BackgroundPlayback.routeName: (_) => const BackgroundPlayback(),
       },
       home: const Scaffold(
         body: Home(),
