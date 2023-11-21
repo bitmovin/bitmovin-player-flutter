@@ -96,8 +96,8 @@ class _EventSubscriptionState extends State<EventSubscription> {
       ),
       body: Column(
         children: [
-          SizedBox.fromSize(
-            size: const Size.fromHeight(226),
+          AspectRatio(
+            aspectRatio: 16 / 9,
             child: PlayerView(
               player: _player,
             ),
