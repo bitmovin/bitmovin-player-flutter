@@ -44,7 +44,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         useMaterial3: true,
         appBarTheme: const AppBarTheme(
-          color: Colors.blue,
+          color: Color(0xFF006AED),
           foregroundColor: Colors.white,
         ),
       ),
