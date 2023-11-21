@@ -21,9 +21,6 @@ class Controls extends StatelessWidget {
   final ControlAction onUnmutePressed;
   final ControlAction onSkipForwardPressed;
   final ControlAction onSkipBackwardPressed;
-  EdgeInsets get insetFirst => const EdgeInsets.only(left: 10, right: 5);
-  EdgeInsets get insetMiddle => const EdgeInsets.only(left: 5, right: 5);
-  EdgeInsets get insetLast => const EdgeInsets.only(left: 5, right: 10);
 
   @override
   Widget build(BuildContext context) {
@@ -31,57 +28,58 @@ class Controls extends StatelessWidget {
       children: [
         Row(
           children: [
-            Container(
-              margin: insetFirst,
-              child: OutlinedButton(
-                onPressed: onPlayPressed,
-                child: const Text('Play'),
-              ),
-            ),
-            Container(
-              margin: insetMiddle,
-              child: OutlinedButton(
-                onPressed: onPausePressed,
-                child: const Text('Pause'),
-              ),
-            ),
-            Container(
-              margin: insetMiddle,
-              child: OutlinedButton(
-                onPressed: onMutePressed,
-                child: const Text('Mute'),
-              ),
-            ),
-            Container(
-              margin: insetLast,
-              child: OutlinedButton(
-                onPressed: onUnmutePressed,
-                child: const Text('Unmute'),
+            Expanded(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Wrap(
+                  spacing: 8,
+                  children: [
+                    OutlinedButton(
+                      onPressed: onPlayPressed,
+                      child: const Text('Play'),
+                    ),
+                    OutlinedButton(
+                      onPressed: onPausePressed,
+                      child: const Text('Pause'),
+                    ),
+                    OutlinedButton(
+                      onPressed: onMutePressed,
+                      child: const Text('Mute'),
+                    ),
+                    OutlinedButton(
+                      onPressed: onUnmutePressed,
+                      child: const Text('Unmute'),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
         ),
         Row(
           children: [
-            Container(
-              margin: insetFirst,
-              child: OutlinedButton(
-                onPressed: onLoadPressed,
-                child: const Text('Reload'),
-              ),
-            ),
-            Container(
-              margin: insetMiddle,
-              child: OutlinedButton(
-                onPressed: onSkipBackwardPressed,
-                child: const Text('Skip Back'),
-              ),
-            ),
-            Container(
-              margin: insetLast,
-              child: OutlinedButton(
-                onPressed: onSkipForwardPressed,
-                child: const Text('Skip Forward'),
+            Expanded(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                child: Wrap(
+                  spacing: 8,
+                  children: [
+                    OutlinedButton(
+                      onPressed: onLoadPressed,
+                      child: const Text('Reload'),
+                    ),
+                    OutlinedButton(
+                      onPressed: onSkipBackwardPressed,
+                      child: const Text('Skip Back'),
+                    ),
+                    OutlinedButton(
+                      onPressed: onSkipForwardPressed,
+                      child: const Text('Skip Forward'),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
