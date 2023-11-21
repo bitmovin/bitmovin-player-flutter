@@ -27,7 +27,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       initialRoute: '/',
       routes: {
-        Home.routeName: (_) => const Home(),
+        Home.routeName: (_) => Home(),
         PlayerAnalytics.routeName: (_) => const PlayerAnalytics(),
         BasicPlayback.routeName: (_) => const BasicPlayback(),
         DrmPlayback.routeName: (_) => const DrmPlayback(),
@@ -38,7 +38,7 @@ class _MyAppState extends State<MyApp> {
         Casting.routeName: (_) => const Casting(),
         BackgroundPlayback.routeName: (_) => const BackgroundPlayback(),
       },
-      home: const Scaffold(
+      home: Scaffold(
         body: Home(),
       ),
       theme: ThemeData(

@@ -31,13 +31,13 @@ void buildSamples() {
 }
 
 class Home extends StatelessWidget {
-  const Home({super.key});
+  Home({super.key}) {
+    buildSamples();
+  }
   static String routeName = 'Home';
 
   @override
   Widget build(BuildContext context) {
-    buildSamples();
-
     return Scaffold(
       appBar: AppBar(
         title: const Text('Bitmovin Player Demo'),
