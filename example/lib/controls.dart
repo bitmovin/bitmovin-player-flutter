@@ -62,7 +62,7 @@ class Controls extends StatelessWidget {
             Expanded(
               child: SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: Wrap(
                   spacing: 8,
                   children: [
