@@ -4,6 +4,7 @@ import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:bitmovin_player_example/controls.dart';
 import 'package:bitmovin_player_example/env/env.dart';
 import 'package:bitmovin_player_example/events.dart';
+import 'package:bitmovin_player_example/player_view_container.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
@@ -98,12 +99,7 @@ class _DrmPlaybackState extends State<DrmPlayback> {
       ),
       body: Column(
         children: [
-          AspectRatio(
-            aspectRatio: 16 / 9,
-            child: PlayerView(
-              player: _player,
-            ),
-          ),
+          PlayerViewContainer(player: _player),
           Container(
             margin: const EdgeInsets.only(top: 5),
             child: Controls(
