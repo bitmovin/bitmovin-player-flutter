@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:bitmovin_player/bitmovin_player.dart';
+import 'package:flutter/material.dart';
 
 class PlayerViewContainer extends StatelessWidget {
   const PlayerViewContainer({
