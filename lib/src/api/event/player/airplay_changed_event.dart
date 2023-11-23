@@ -21,7 +21,6 @@ class AirPlayChangedEvent extends Event with EquatableMixin {
   final bool isAirPlayActive;
 
   // The current playback time (in seconds).
-  @JsonKey(name: 'time')
   final double time;
 
   @override
