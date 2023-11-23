@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:bitmovin_player_example/controls.dart';
 import 'package:bitmovin_player_example/env/env.dart';
+import 'package:bitmovin_player_example/player_view_container.dart';
 import 'package:flutter/material.dart';
 
 class BasicPlayback extends StatefulWidget {
@@ -50,12 +51,7 @@ class _BasicPlaybackState extends State<BasicPlayback> {
       ),
       body: Column(
         children: [
-          SizedBox.fromSize(
-            size: const Size.fromHeight(226),
-            child: PlayerView(
-              player: _player,
-            ),
-          ),
+          PlayerViewContainer(player: _player),
           Container(
             margin: const EdgeInsets.only(top: 5),
             child: Controls(

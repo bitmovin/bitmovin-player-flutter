@@ -11,8 +11,29 @@ import 'package:bitmovin_player_example/pages/event_subscription.dart';
 import 'package:bitmovin_player_example/pages/fullscreen_handling.dart';
 import 'package:flutter/material.dart';
 
+List<_Sample> _samples = [];
+
+void buildSamples() {
+  _samples = [
+    _Sample('Collecting Analytics', PlayerAnalytics.routeName),
+    _Sample('Basic Playback', BasicPlayback.routeName),
+    _Sample('DRM Playback', DrmPlayback.routeName),
+    _Sample('Audio Only', AudioOnly.routeName),
+    _Sample('Event Subscription', EventSubscription.routeName),
+    _Sample('Custom HTML UI', CustomHtmlUi.routeName),
+    _Sample('Fullscreen Handling', FullscreenHandling.routeName),
+    _Sample('Casting', Casting.routeName),
+  ];
+
+  if (Platform.isIOS) {
+    _samples.add(_Sample('Background Playback', BackgroundPlayback.routeName));
+  }
+}
+
 class Home extends StatelessWidget {
-  const Home({super.key});
+  Home({super.key}) {
+    buildSamples();
+  }
   static String routeName = 'Home';
 
   @override
@@ -21,72 +42,26 @@ class Home extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Bitmovin Player Demo'),
       ),
-      body: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            OutlinedButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(PlayerAnalytics.routeName);
-              },
-              child: const Text('Collecting Analytics'),
-            ),
-            OutlinedButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(BasicPlayback.routeName);
-              },
-              child: const Text('Basic Playback'),
-            ),
-            OutlinedButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(DrmPlayback.routeName);
-              },
-              child: const Text('DRM Playback'),
-            ),
-            OutlinedButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(AudioOnly.routeName);
-              },
-              child: const Text('Audio Only'),
-            ),
-            OutlinedButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(EventSubscription.routeName);
-              },
-              child: const Text('Event Subscription'),
-            ),
-            OutlinedButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(CustomHtmlUi.routeName);
-              },
-              child: const Text('Custom HTML UI'),
-            ),
-            OutlinedButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(FullscreenHandling.routeName);
-              },
-              child: const Text('Fullscreen Handling'),
-            ),
-            OutlinedButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(Casting.routeName);
-              },
-              child: const Text('Casting'),
-            ),
-            Visibility(
-              visible: Platform.isIOS,
-              child: OutlinedButton(
-                onPressed: () {
-                  Navigator.of(context).pushNamed(BackgroundPlayback.routeName);
-                },
-                child: const Text('Background Playback'),
-              ),
-            ),
-          ],
-        ),
+      body: ListView.builder(
+        itemCount: _samples.length,
+        itemBuilder: (context, index) {
+          final sample = _samples[index];
+          return ListTile(
+            onTap: () {
+              Navigator.of(context).pushNamed(sample.routeName);
+            },
+            trailing: const Icon(Icons.chevron_right),
+            title: Text(sample.name),
+          );
+        },
       ),
     );
   }
+}
+
+class _Sample {
+  const _Sample(this.name, this.routeName);
+
+  final String name;
+  final String routeName;
 }
