@@ -10,17 +10,10 @@ class PlayerViewContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ConstrainedBox(
-      constraints: BoxConstraints(
-        maxHeight: MediaQuery.of(context).orientation == Orientation.landscape
-            ? 200
-            : double.infinity,
-      ),
-      child: AspectRatio(
-        aspectRatio: 16 / 9,
-        child: PlayerView(
-          player: player,
-        ),
+    return AspectRatio(
+      aspectRatio: 16 / 9,
+      child: PlayerView(
+        player: player,
       ),
     );
   }

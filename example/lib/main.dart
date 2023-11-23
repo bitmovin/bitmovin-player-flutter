@@ -9,8 +9,14 @@ import 'package:bitmovin_player_example/pages/event_subscription.dart';
 import 'package:bitmovin_player_example/pages/fullscreen_handling.dart';
 import 'package:bitmovin_player_example/pages/home.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations(
+    [DeviceOrientation.portraitUp],
+  );
+
   runApp(const MyApp());
 }
 
