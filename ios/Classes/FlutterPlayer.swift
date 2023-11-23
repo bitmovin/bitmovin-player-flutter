@@ -143,6 +143,12 @@ private extension FlutterPlayer {
             player.castVideo()
         case (Methods.castStop, .empty):
             player.castStop()
+        case (Methods.isAirPlayActive, .empty):
+            return player.isAirPlayActive
+        case (Methods.isAirPlayAvailable, .empty):
+            return player.isAirPlayAvailable
+        case (Methods.showAirPlayTargetPicker, .empty):
+            return player.showAirPlayTargetPicker()
         default:
             throw BitmovinError.unknownMethod(call.method)
         }
