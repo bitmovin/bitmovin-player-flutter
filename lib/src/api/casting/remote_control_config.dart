@@ -10,6 +10,7 @@ class RemoteControlConfig extends Equatable {
   const RemoteControlConfig({
     this.receiverStylesheetUrl,
     this.customReceiverConfig = const {},
+    this.isAirPlayEnabled = true,
     this.isCastEnabled = true,
     this.sendManifestRequestsWithCredentials = false,
     this.sendSegmentRequestsWithCredentials = false,
@@ -31,6 +32,14 @@ class RemoteControlConfig extends Equatable {
   /// control receiver.
   /// Default value is an empty map.
   final Map<String, String> customReceiverConfig;
+
+  /// Whether the AirPlay option is enabled or not. Default value is `true`.
+  ///
+  /// Calling [Player.showAirPlayTargetPicker] when the value is `false` will
+  /// not have any effect.
+  ///
+  /// Only available on iOS. Does not have any effect on tvOS.
+  final bool isAirPlayEnabled;
 
   /// Whether casting is enabled.
   /// Default value is `true`.
@@ -58,6 +67,7 @@ class RemoteControlConfig extends Equatable {
   List<Object?> get props => [
         receiverStylesheetUrl,
         customReceiverConfig,
+        isAirPlayEnabled,
         isCastEnabled,
         sendManifestRequestsWithCredentials,
         sendSegmentRequestsWithCredentials,
