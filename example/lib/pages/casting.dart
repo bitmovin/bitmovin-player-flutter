@@ -100,7 +100,7 @@ class _CastingState extends State<Casting> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Basic Playback'),
+        title: const Text('Casting'),
       ),
       body: FutureBuilder(future: _playerState, builder: buildPlayer),
     );
