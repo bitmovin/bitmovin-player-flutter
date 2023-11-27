@@ -66,7 +66,11 @@ class _EventSubscriptionState extends State<EventSubscription> {
       ..onSubtitleRemoved = _onEvent
       ..onSubtitleChanged = _onEvent
       ..onCueEnter = _onEvent
-      ..onCueExit = _onEvent;
+      ..onCueExit = _onEvent
+      ..onPictureInPictureEnter = _onEvent
+      ..onPictureInPictureEntered = _onEvent
+      ..onPictureInPictureExit = _onEvent
+      ..onPictureInPictureExited = _onEvent;
   }
 
   @override
