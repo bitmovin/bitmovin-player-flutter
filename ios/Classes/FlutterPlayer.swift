@@ -362,6 +362,6 @@ extension FlutterPlayer: PlayerListener {
     }
 
     func onAirPlayChanged(_ event: AirPlayChangedEvent, player: Player) {
-        broadcast(name: event.name, data: event.toJsonFallback(), sink: eventSink)
+        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
     }
 }
