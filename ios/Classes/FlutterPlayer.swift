@@ -350,4 +350,20 @@ extension FlutterPlayer: PlayerListener {
     func onCastTimeUpdated(_ event: CastTimeUpdatedEvent, player: Player) {
         broadcast(name: event.name, data: event.toJsonFallback(), sink: eventSink)
     }
+
+    func onPictureInPictureEnter(_ event: PictureInPictureEnterEvent, player: Player) {
+        broadcast(name: event.name, data: event.toJsonFallback(), sink: eventSink)
+    }
+
+    func onPictureInPictureEntered(_ event: PictureInPictureEnteredEvent, player: Player) {
+        broadcast(name: event.name, data: event.toJsonFallback(), sink: eventSink)
+    }
+
+    func onPictureInPictureExitEnter(_ event: PictureInPictureExitEvent, player: Player) {
+        broadcast(name: event.name, data: event.toJsonFallback(), sink: eventSink)
+    }
+
+    func onPictureInPictureExitedEnter(_ event: PictureInPictureExitedEvent, player: Player) {
+        broadcast(name: event.name, data: event.toJsonFallback(), sink: eventSink)
+    }
 }
