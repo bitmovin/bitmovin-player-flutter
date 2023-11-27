@@ -148,7 +148,7 @@ private extension FlutterPlayer {
         case (Methods.isAirPlayAvailable, .empty):
             return player.isAirPlayAvailable
         case (Methods.showAirPlayTargetPicker, .empty):
-            return player.showAirPlayTargetPicker()
+            player.showAirPlayTargetPicker()
         default:
             throw BitmovinError.unknownMethod(call.method)
         }
