@@ -9,8 +9,14 @@ import 'package:bitmovin_player_example/pages/event_subscription.dart';
 import 'package:bitmovin_player_example/pages/fullscreen_handling.dart';
 import 'package:bitmovin_player_example/pages/home.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setPreferredOrientations(
+    [DeviceOrientation.portraitUp],
+  );
+
   runApp(const MyApp());
 }
 
@@ -27,7 +33,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       initialRoute: '/',
       routes: {
-        Home.routeName: (_) => const Home(),
+        Home.routeName: (_) => Home(),
         PlayerAnalytics.routeName: (_) => const PlayerAnalytics(),
         BasicPlayback.routeName: (_) => const BasicPlayback(),
         DrmPlayback.routeName: (_) => const DrmPlayback(),
@@ -38,11 +44,15 @@ class _MyAppState extends State<MyApp> {
         Casting.routeName: (_) => const Casting(),
         BackgroundPlayback.routeName: (_) => const BackgroundPlayback(),
       },
-      home: const Scaffold(
+      home: Scaffold(
         body: Home(),
       ),
       theme: ThemeData(
-        useMaterial3: false,
+        useMaterial3: true,
+        appBarTheme: const AppBarTheme(
+          color: Color(0xFF006AED),
+          foregroundColor: Colors.white,
+        ),
       ),
     );
   }
