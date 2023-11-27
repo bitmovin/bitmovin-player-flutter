@@ -38,7 +38,7 @@ class RemoteControlConfig extends Equatable {
   /// Calling [Player.showAirPlayTargetPicker] when the value is `false` will
   /// not have any effect.
   ///
-  /// Only available on iOS. Does not have any effect on tvOS.
+  /// Only available on iOS.
   final bool isAirPlayEnabled;
 
   /// Whether casting is enabled.

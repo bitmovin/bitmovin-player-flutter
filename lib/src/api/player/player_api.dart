@@ -104,16 +104,16 @@ abstract class PlayerApi {
 
   /// Returns `true` when media is played externally using AirPlay.
   ///
-  /// Only available on iOS. Result in a no-op on tvOS.
+  /// Only available on iOS.
   Future<bool> get isAirPlayActive;
 
   /// Returns `true` when AirPlay is available.
   ///
-  /// Only available on iOS. Result in a no-op on tvOS.
+  /// Only available on iOS.
   Future<bool> get isAirPlayAvailable;
 
   /// Shows the AirPlay playback target picker.
   ///
-  /// Only available on iOS. Result in a no-op on tvOS.
+  /// Only available on iOS.
   Future<void> showAirPlayTargetPicker();
 }
