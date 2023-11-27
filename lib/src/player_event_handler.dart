@@ -141,10 +141,11 @@ mixin PlayerEventHandler implements PlayerListener {
       case 'onCastTimeUpdated':
         emit(CastTimeUpdatedEvent.fromJson(data));
         break;
-      case 'onAirPlayAvailableEvent':
+      case 'onAirPlayAvailable':
+      case 'onAirplayAvailable':
         emit(AirPlayAvailableEvent.fromJson(data));
         break;
-      case 'onAirPlayChangedEvent':
+      case 'onAirPlayChanged':
         emit(AirPlayChangedEvent.fromJson(data));
         break;
     }
