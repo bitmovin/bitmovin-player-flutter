@@ -141,6 +141,13 @@ mixin PlayerEventHandler implements PlayerListener {
       case 'onCastTimeUpdated':
         emit(CastTimeUpdatedEvent.fromJson(data));
         break;
+      case 'onAirPlayAvailable':
+      case 'onAirplayAvailable':
+        emit(AirPlayAvailableEvent.fromJson(data));
+        break;
+      case 'onAirPlayChanged':
+        emit(AirPlayChangedEvent.fromJson(data));
+        break;
       case 'onPictureInPictureEnter':
         emit(PictureInPictureEnterEvent.fromJson(data));
         break;
@@ -339,6 +346,16 @@ mixin PlayerEventHandler implements PlayerListener {
 
   @override
   set onCastTimeUpdated(void Function(CastTimeUpdatedEvent) func) {
+    _addListener(func);
+  }
+
+  @override
+  set onAirPlayAvailable(void Function(AirPlayAvailableEvent) func) {
+    _addListener(func);
+  }
+
+  @override
+  set onAirPlayChanged(void Function(AirPlayChangedEvent) func) {
     _addListener(func);
   }
 

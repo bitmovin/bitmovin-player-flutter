@@ -27,6 +27,9 @@ internal enum Methods {
     static let isCasting = "isCasting"
     static let castVideo = "castVideo"
     static let castStop = "castStop"
+    static let isAirPlayActive = "isAirPlayActive"
+    static let isAirPlayAvailable = "isAirPlayAvailable"
+    static let showAirPlayTargetPicker = "showAirPlayTargetPicker"
 
     // Player view related methods
     static let destroyPlayerView = "destroyPlayerView"

@@ -25,6 +25,9 @@ class Methods {
   static const String isCasting = 'isCasting';
   static const String castVideo = 'castVideo';
   static const String castStop = 'castStop';
+  static const String isAirPlayActive = 'isAirPlayActive';
+  static const String isAirPlayAvailable = 'isAirPlayAvailable';
+  static const String showAirPlayTargetPicker = 'showAirPlayTargetPicker';
 
   /// Player view related methods
   static const String destroyPlayerView = 'destroyPlayerView';

@@ -13,6 +13,8 @@ export 'src/api/event/data/cast_payload.dart';
 export 'src/api/event/data/seek_position.dart';
 export 'src/api/event/event.dart';
 export 'src/api/event/listener/player_listener.dart';
+export 'src/api/event/player/airplay_available_event.dart';
+export 'src/api/event/player/airplay_changed_event.dart';
 export 'src/api/event/player/cast_available_event.dart';
 export 'src/api/event/player/cast_start_event.dart';
 export 'src/api/event/player/cast_started_event.dart';

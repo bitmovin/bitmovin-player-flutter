@@ -143,6 +143,12 @@ private extension FlutterPlayer {
             player.castVideo()
         case (Methods.castStop, .empty):
             player.castStop()
+        case (Methods.isAirPlayActive, .empty):
+            return player.isAirPlayActive
+        case (Methods.isAirPlayAvailable, .empty):
+            return player.isAirPlayAvailable
+        case (Methods.showAirPlayTargetPicker, .empty):
+            player.showAirPlayTargetPicker()
         default:
             throw BitmovinError.unknownMethod(call.method)
         }
@@ -349,6 +355,14 @@ extension FlutterPlayer: PlayerListener {
 
     func onCastTimeUpdated(_ event: CastTimeUpdatedEvent, player: Player) {
         broadcast(name: event.name, data: event.toJsonFallback(), sink: eventSink)
+    }
+
+    func onAirPlayAvailable(_ event: AirPlayAvailableEvent, player: Player) {
+        broadcast(name: event.name, data: event.toJsonFallback(), sink: eventSink)
+    }
+
+    func onAirPlayChanged(_ event: AirPlayChangedEvent, player: Player) {
+        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
     }
 
     func onPictureInPictureEnter(_ event: PictureInPictureEnterEvent, player: Player) {

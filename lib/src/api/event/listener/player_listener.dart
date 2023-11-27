@@ -109,6 +109,12 @@ abstract class PlayerListener {
   /// See [CastTimeUpdatedEvent] for details on this event.
   set onCastTimeUpdated(void Function(CastTimeUpdatedEvent) func);
 
+  /// See [AirPlayAvailableEvent] for details on this event.
+  set onAirPlayAvailable(void Function(AirPlayAvailableEvent) func);
+
+  /// See [AirPlayChangedEvent] for details on this event.
+  set onAirPlayChanged(void Function(AirPlayChangedEvent) func);
+
   /// See [PictureInPictureEnterEvent] for details on this event.
   set onPictureInPictureEnter(void Function(PictureInPictureEnterEvent) func);
 
