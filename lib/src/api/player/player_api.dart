@@ -101,4 +101,19 @@ abstract class PlayerApi {
 
   /// Stops casting the current video.
   Future<void> castStop();
+
+  /// Returns `true` when media is played externally using AirPlay.
+  ///
+  /// Only available on iOS.
+  Future<bool> get isAirPlayActive;
+
+  /// Returns `true` when AirPlay is available.
+  ///
+  /// Only available on iOS.
+  Future<bool> get isAirPlayAvailable;
+
+  /// Shows the AirPlay playback target picker.
+  ///
+  /// Only available on iOS.
+  Future<void> showAirPlayTargetPicker();
 }

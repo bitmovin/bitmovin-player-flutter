@@ -422,6 +422,17 @@ extension CastWaitingForDeviceEvent {
     }
 }
 
+extension AirPlayChangedEvent {
+    func toJSON() -> [String: Any] {
+        [
+            "event": name,
+            "timestamp": Int(timestamp),
+            "isAirPlayActive": isAirPlayActive,
+            "time": time
+        ]
+    }
+}
+
 extension Double {
     var jsonValue: Any {
         switch self {

@@ -275,6 +275,7 @@ private enum JsonValues {
 internal struct FlutterRemoteControlConfig: FlutterToNativeConvertible {
     let receiverStylesheetUrl: String?
     let customReceiverConfig: [String: String]
+    let isAirPlayEnabled: Bool
     let isCastEnabled: Bool
     let sendManifestRequestsWithCredentials: Bool
     let sendSegmentRequestsWithCredentials: Bool
@@ -287,6 +288,7 @@ internal struct FlutterRemoteControlConfig: FlutterToNativeConvertible {
         }
 
         result.customReceiverConfig = customReceiverConfig
+        result.isAirPlayEnabled = isAirPlayEnabled
         result.isCastEnabled = isCastEnabled
         result.sendManifestRequestsWithCredentials = sendManifestRequestsWithCredentials
         result.sendSegmentRequestsWithCredentials = sendSegmentRequestsWithCredentials
@@ -301,6 +303,7 @@ extension RemoteControlConfig: NativeToFlutterConvertible {
         FlutterRemoteControlConfig(
             receiverStylesheetUrl: receiverStylesheetUrl?.absoluteString,
             customReceiverConfig: customReceiverConfig,
+            isAirPlayEnabled: isAirPlayEnabled,
             isCastEnabled: isCastEnabled,
             sendManifestRequestsWithCredentials: sendManifestRequestsWithCredentials,
             sendSegmentRequestsWithCredentials: sendSegmentRequestsWithCredentials,

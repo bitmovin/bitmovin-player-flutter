@@ -289,6 +289,17 @@ class Player with PlayerEventHandler implements PlayerApi {
 
   @override
   Future<void> castStop() => _invokeMethod<void>(Methods.castStop);
+
+  @override
+  Future<bool> get isAirPlayActive => _invokeMethod(Methods.isAirPlayActive);
+
+  @override
+  Future<bool> get isAirPlayAvailable =>
+      _invokeMethod(Methods.isAirPlayAvailable);
+
+  @override
+  Future<void> showAirPlayTargetPicker() =>
+      _invokeMethod<void>(Methods.showAirPlayTargetPicker);
 }
 
 class _AnalyticsApi implements AnalyticsApi {

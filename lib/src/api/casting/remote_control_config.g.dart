@@ -14,6 +14,7 @@ RemoteControlConfig _$RemoteControlConfigFromJson(Map<String, dynamic> json) =>
                 (k, e) => MapEntry(k, e as String),
               ) ??
               const {},
+      isAirPlayEnabled: json['isAirPlayEnabled'] as bool? ?? true,
       isCastEnabled: json['isCastEnabled'] as bool? ?? true,
       sendManifestRequestsWithCredentials:
           json['sendManifestRequestsWithCredentials'] as bool? ?? false,
@@ -28,6 +29,7 @@ Map<String, dynamic> _$RemoteControlConfigToJson(
     <String, dynamic>{
       'receiverStylesheetUrl': instance.receiverStylesheetUrl,
       'customReceiverConfig': instance.customReceiverConfig,
+      'isAirPlayEnabled': instance.isAirPlayEnabled,
       'isCastEnabled': instance.isCastEnabled,
       'sendManifestRequestsWithCredentials':
           instance.sendManifestRequestsWithCredentials,
