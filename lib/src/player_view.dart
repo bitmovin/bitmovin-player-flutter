@@ -140,7 +140,8 @@ class PlayerViewState extends State<PlayerView> {
                 },
               )
                 ..addOnPlatformViewCreatedListener(params.onPlatformViewCreated)
-                ..addOnPlatformViewCreatedListener(_onPlatformViewCreated)
+                ..addOnPlatformViewCreatedListener(
+                    _onPlatformViewCreated) // TODO: possible race condition: _methodChannel has no value before this line, so if you manage to call a method like enterFullScreen(), which depends on it, before this line, there will be a race condition
                 ..create();
             },
           )
