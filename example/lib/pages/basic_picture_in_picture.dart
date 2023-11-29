@@ -25,6 +25,12 @@ class _BasicPictureInPictureState extends State<BasicPictureInPicture> {
     ),
   );
   final _logger = Logger();
+  final _playerViewConfig = const PlayerViewConfig(
+    pictureInPictureConfig: PictureInPictureConfig(
+      isEnabled: true,
+      shouldEnterOnBackground: true,
+    ),
+  );
 
   @override
   void initState() {
@@ -51,6 +57,7 @@ class _BasicPictureInPictureState extends State<BasicPictureInPicture> {
             child: PlayerView(
               player: _player,
               key: _playerViewKey,
+              playerViewConfig: _playerViewConfig,
               onPictureInPictureEnter: (event) =>
                   _logger.d('received ${event.runtimeType}: ${event.toJson()}'),
               onPictureInPictureEntered: (event) =>
