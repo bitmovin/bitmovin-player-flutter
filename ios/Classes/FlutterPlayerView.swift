@@ -70,16 +70,39 @@ extension FlutterPlayerView: FlutterStreamHandler {
 
 private extension FlutterPlayerView {
     func handleMethodCall(call: FlutterMethodCall, result: @escaping FlutterResult) {
-        switch call.method {
-        case Methods.destroyPlayerView:
+        do {
+            let methodCallResult = try handleMethodCall(call: call)
+            result(methodCallResult)
+        } catch let bitmovinError as BitmovinError {
+            result(FlutterError.from(bitmovinError))
+        } catch {
+            result(
+                FlutterError.general(
+                    "Error while executing method call \"\(call.method)\": \(error.localizedDescription)"
+                )
+            )
+        }
+    }
+
+    func handleMethodCall(call: FlutterMethodCall) throws -> Any? {
+        guard let arguments = Helper.methodCallArguments(call.arguments) else {
+            throw BitmovinError.parsingError("Could not parse arguments for \(call.method)")
+        }
+
+        switch (call.method, arguments) {
+        case (Methods.destroyPlayerView, .empty):
             destroyPlayerView()
-        case Methods.enterFullscreen:
+        case (Methods.enterFullscreen, .empty):
             playerView?.enterFullscreen()
-        case Methods.exitFullscreen:
+        case (Methods.exitFullscreen, .empty):
             playerView?.exitFullscreen()
         default:
-            break
+            throw BitmovinError.unknownMethod(call.method)
         }
+
+        // Returning `nil` here handles the case that a void method was called successfully.
+        // If an error happened or we need to return a specific value, it needs to be handled explicitly
+        return nil
     }
 
     func createPlayerView(
