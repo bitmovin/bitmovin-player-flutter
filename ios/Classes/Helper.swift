@@ -74,6 +74,20 @@ internal enum Helper {
         return playerConfig
     }
 
+    static func playerViewConfig(_ json: [AnyHashable: Any]) -> PlayerViewConfig? {
+        let playerViewConfig = PlayerViewConfig()
+
+        guard let json = json as? [String: Any] else {
+            return playerViewConfig
+        }
+
+        if let pictureInPictureConfig = pictureInPictureConfig(json["liveConfig"]) {
+            playerViewConfig.pictureInPictureConfig = pictureInPictureConfig
+        }
+
+        return playerViewConfig
+    }
+
     static func pictureInPictureConfig(_ json: Any?) -> PictureInPictureConfig? {
         guard let json = json as? [String: Any] else {
             return nil
