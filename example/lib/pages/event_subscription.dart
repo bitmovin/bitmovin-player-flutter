@@ -68,11 +68,7 @@ class _EventSubscriptionState extends State<EventSubscription> {
       ..onCueEnter = _onEvent
       ..onCueExit = _onEvent
       ..onAirPlayAvailable = _onEvent
-      ..onAirPlayChanged = _onEvent
-      ..onPictureInPictureEnter = _onEvent
-      ..onPictureInPictureEntered = _onEvent
-      ..onPictureInPictureExit = _onEvent
-      ..onPictureInPictureExited = _onEvent;
+      ..onAirPlayChanged = _onEvent;
   }
 
   @override
