@@ -98,12 +98,26 @@ class PlayerViewState extends State<PlayerView> {
     return Future.value(true);
   }
 
+  // Can be used to call methods on the platform side that return a single
+  // primitive value that is natively supported by the method channel.
+  Future<T> _invokeMethod<T>(
+    String methodName, [
+    dynamic data,
+  ]) async {
+    final result = await _methodChannel.invokeMethod<T>(methodName, data);
+    if (result is! T) {
+      // result is T?, if it `is` not T => T is not nullable and result is null.
+      throw Exception('Native $methodName returned null.');
+    }
+    return result;
+  }
+
   /// Returns whether the [PlayerView] is currently in fullscreen mode.
   bool get isFullscreen => widget.fullscreenHandler?.isFullscreen ?? false;
 
   /// Enters fullscreen mode for the [PlayerView].
   void enterFullscreen() {
-    _methodChannel.invokeMethod(Methods.enterFullscreen);
+    _invokeMethod<void>(Methods.enterFullscreen);
   }
 
   void _handleEnterFullscreen() {
@@ -112,7 +126,7 @@ class PlayerViewState extends State<PlayerView> {
 
   /// Exits fullscreen mode for the [PlayerView].
   void exitFullscreen() {
-    _methodChannel.invokeMethod(Methods.exitFullscreen);
+    _invokeMethod<void>(Methods.exitFullscreen);
   }
 
   void _handleExitFullscreen() {
@@ -121,7 +135,7 @@ class PlayerViewState extends State<PlayerView> {
 
   @override
   void dispose() {
-    _methodChannel.invokeMethod(Methods.destroyPlayerView);
+    _invokeMethod<void>(Methods.destroyPlayerView);
     super.dispose();
   }
 
