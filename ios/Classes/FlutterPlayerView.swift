@@ -85,24 +85,20 @@ private extension FlutterPlayerView {
     }
 
     func handleMethodCall(call: FlutterMethodCall) throws -> Any? {
-        guard let arguments = Helper.methodCallArguments(call.arguments) else {
-            throw BitmovinError.parsingError("Could not parse arguments for \(call.method)")
-        }
-
-        switch (call.method, arguments) {
-        case (Methods.destroyPlayerView, .empty):
+        switch call.method {
+        case Methods.destroyPlayerView:
             destroyPlayerView()
-        case (Methods.enterFullscreen, .empty):
+        case Methods.enterFullscreen:
             playerView?.enterFullscreen()
-        case (Methods.exitFullscreen, .empty):
+        case Methods.exitFullscreen:
             playerView?.exitFullscreen()
-        case (Methods.isPictureInPicture, .empty):
+        case Methods.isPictureInPicture:
             return playerView?.isPictureInPicture
-        case (Methods.isPictureInPictureAvailable, .empty):
+        case Methods.isPictureInPictureAvailable:
             return playerView?.isPictureInPictureAvailable
-        case (Methods.enterPictureInPicture, .empty):
+        case Methods.enterPictureInPicture:
             playerView?.enterPictureInPicture()
-        case (Methods.exitPictureInPicture, .empty):
+        case Methods.exitPictureInPicture:
             playerView?.exitPictureInPicture()
         default:
             throw BitmovinError.unknownMethod(call.method)
