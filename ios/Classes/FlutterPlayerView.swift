@@ -96,6 +96,14 @@ private extension FlutterPlayerView {
             playerView?.enterFullscreen()
         case (Methods.exitFullscreen, .empty):
             playerView?.exitFullscreen()
+        case (Methods.isPictureInPicture, .empty):
+            return playerView?.isPictureInPicture
+        case (Methods.isPictureInPictureAvailable, .empty):
+            return playerView?.isPictureInPictureAvailable
+        case (Methods.enterPictureInPicture, .empty):
+            playerView?.enterPictureInPicture()
+        case (Methods.exitPictureInPicture, .empty):
+            playerView?.exitPictureInPicture()
         default:
             throw BitmovinError.unknownMethod(call.method)
         }
