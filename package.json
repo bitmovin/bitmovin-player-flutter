@@ -3,6 +3,15 @@
     "husky": "^8.0.3"
   },
   "scripts": {
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "lint": "flutter analyze && ktlint && swiftlint --strict",
+    "build": "dart run build_runner build",
+    "build:clean": "npm run build -- --delete-conflicting-outputs",
+    "install": "flutter pub get",
+    "install:clean": "flutter clean && npm run install",
+    "start": "(cd example && flutter run)",
+    "test:integration": "(cd example && flutter test integration_test)",
+    "docs": "dart doc .",
+    "fix:caching": "npm run install:clean && npm run build:clean && npm run build:clean"
   }
 }
