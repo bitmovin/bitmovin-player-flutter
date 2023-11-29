@@ -17,6 +17,7 @@ class PlayerView extends StatefulWidget with PlayerViewEventHandler {
   PlayerView({
     required this.player,
     super.key,
+    this.playerViewConfig = const PlayerViewConfig(),
     this.onViewCreated,
     this.fullscreenHandler,
     this.onFullscreenEnter,
@@ -29,6 +30,10 @@ class PlayerView extends StatefulWidget with PlayerViewEventHandler {
 
   /// The [Player] instance that is attached to this view.
   final Player player;
+
+  /// The player view config.
+  /// A default [PlayerViewConfig] is set initially
+  final PlayerViewConfig playerViewConfig;
 
   /// Callback that is invoked when the view has been created and is ready to be
   /// used. Can be for instance used to load a source into the [player].
@@ -178,6 +183,7 @@ class PlayerViewState extends State<PlayerView> {
       'playerId': widget.player.id,
       'hasFullscreenHandler': widget.fullscreenHandler != null,
       'isFullscreen': isFullscreen,
+      'playerViewConfig': widget.playerViewConfig,
     };
 
     return Platform.isAndroid
