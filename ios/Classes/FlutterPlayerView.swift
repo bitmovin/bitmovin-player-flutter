@@ -9,6 +9,7 @@ internal class FlutterPlayerView: NSObject, FlutterPlatformView {
         let playerId: String
         let hasFullscreenHandler: Bool
         let isFullscreen: Bool
+        let playerViewConfig: FlutterPlayerViewConfig
     }
 
     private var rootView = UIView()
@@ -44,7 +45,8 @@ internal class FlutterPlayerView: NSObject, FlutterPlatformView {
             self?.createPlayerView(
                 player: player,
                 hasFullscreenHandler: arguments.hasFullscreenHandler,
-                isFullscreen: arguments.isFullscreen
+                isFullscreen: arguments.isFullscreen,
+                playerViewConfig: arguments.playerViewConfig.toNative()
             )
         }
     }
