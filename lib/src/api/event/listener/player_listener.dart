@@ -114,18 +114,4 @@ abstract class PlayerListener {
 
   /// See [AirPlayChangedEvent] for details on this event.
   set onAirPlayChanged(void Function(AirPlayChangedEvent) func);
-
-  /// See [PictureInPictureEnterEvent] for details on this event.
-  set onPictureInPictureEnter(void Function(PictureInPictureEnterEvent) func);
-
-  /// See [PictureInPictureEnteredEvent] for details on this event.
-  set onPictureInPictureEntered(
-    void Function(PictureInPictureEnteredEvent) func,
-  );
-
-  /// See [PictureInPictureExitEvent] for details on this event.
-  set onPictureInPictureExit(void Function(PictureInPictureExitEvent) func);
-
-  /// See [PictureInPictureExitedEvent] for details on this event.
-  set onPictureInPictureExited(void Function(PictureInPictureExitedEvent) func);
 }

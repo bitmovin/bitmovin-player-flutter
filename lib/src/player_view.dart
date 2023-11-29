@@ -21,6 +21,10 @@ class PlayerView extends StatefulWidget with PlayerViewEventHandler {
     this.fullscreenHandler,
     this.onFullscreenEnter,
     this.onFullscreenExit,
+    this.onPictureInPictureEnter,
+    this.onPictureInPictureEntered,
+    this.onPictureInPictureExit,
+    this.onPictureInPictureExited,
   });
 
   /// The [Player] instance that is attached to this view.
@@ -41,6 +45,18 @@ class PlayerView extends StatefulWidget with PlayerViewEventHandler {
 
   @override
   final void Function(FullscreenExitEvent)? onFullscreenExit;
+
+  @override
+  final void Function(PictureInPictureEnterEvent)? onPictureInPictureEnter;
+
+  @override
+  final void Function(PictureInPictureEnteredEvent)? onPictureInPictureEntered;
+
+  @override
+  final void Function(PictureInPictureExitEvent)? onPictureInPictureExit;
+
+  @override
+  final void Function(PictureInPictureExitedEvent)? onPictureInPictureExited;
 
   @override
   State<StatefulWidget> createState() => PlayerViewState();

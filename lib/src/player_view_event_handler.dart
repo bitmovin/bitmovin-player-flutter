@@ -8,6 +8,10 @@ mixin PlayerViewEventHandler {
 
   void Function(FullscreenEnterEvent)? get onFullscreenEnter;
   void Function(FullscreenExitEvent)? get onFullscreenExit;
+  void Function(PictureInPictureEnterEvent)? get onPictureInPictureEnter;
+  void Function(PictureInPictureEnteredEvent)? get onPictureInPictureEntered;
+  void Function(PictureInPictureExitEvent)? get onPictureInPictureExit;
+  void Function(PictureInPictureExitedEvent)? get onPictureInPictureExited;
 
   /// Takes an event as JSON that was received from the native platform,
   /// deserializes it to a typed event object and emits it to the corresponding
@@ -33,6 +37,21 @@ mixin PlayerViewEventHandler {
         break;
       case 'onFullscreenExit':
         onFullscreenExit?.call(FullscreenExitEvent.fromJson(data));
+        break;
+      case 'onPictureInPictureEnter':
+        onPictureInPictureEnter
+            ?.call(PictureInPictureEnterEvent.fromJson(data));
+        break;
+      case 'onPictureInPictureEntered':
+        onPictureInPictureEntered
+            ?.call(PictureInPictureEnteredEvent.fromJson(data));
+        break;
+      case 'onPictureInPictureExit':
+        onPictureInPictureExit?.call(PictureInPictureExitEvent.fromJson(data));
+        break;
+      case 'onPictureInPictureExited':
+        onPictureInPictureExited
+            ?.call(PictureInPictureExitedEvent.fromJson(data));
         break;
     }
   }

@@ -139,4 +139,20 @@ extension FlutterPlayerView: UserInterfaceListener {
     func onFullscreenExit(_ event: FullscreenExitEvent, view: PlayerView) {
         broadcast(name: event.name, data: event.toJsonFallback(), sink: eventSink)
     }
+
+    func onPictureInPictureEnter(_ event: PictureInPictureEnterEvent, view: PlayerView) {
+        broadcast(name: event.name, data: event.toJsonFallback(), sink: eventSink)
+    }
+
+    func onPictureInPictureEntered(_ event: PictureInPictureEnteredEvent, view: PlayerView) {
+        broadcast(name: event.name, data: event.toJsonFallback(), sink: eventSink)
+    }
+
+    func onPictureInPictureExit(_ event: PictureInPictureExitEvent, view: PlayerView) {
+        broadcast(name: event.name, data: event.toJsonFallback(), sink: eventSink)
+    }
+
+    func onPictureInPictureExited(_ event: PictureInPictureExitedEvent, view: PlayerView) {
+        broadcast(name: event.name, data: event.toJsonFallback(), sink: eventSink)
+    }
 }

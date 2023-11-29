@@ -148,18 +148,6 @@ mixin PlayerEventHandler implements PlayerListener {
       case 'onAirPlayChanged':
         emit(AirPlayChangedEvent.fromJson(data));
         break;
-      case 'onPictureInPictureEnter':
-        emit(PictureInPictureEnterEvent.fromJson(data));
-        break;
-      case 'onPictureInPictureEntered':
-        emit(PictureInPictureEnteredEvent.fromJson(data));
-        break;
-      case 'onPictureInPictureExit':
-        emit(PictureInPictureExitEvent.fromJson(data));
-        break;
-      case 'onPictureInPictureExited':
-        emit(PictureInPictureExitedEvent.fromJson(data));
-        break;
     }
   }
 
@@ -356,30 +344,6 @@ mixin PlayerEventHandler implements PlayerListener {
 
   @override
   set onAirPlayChanged(void Function(AirPlayChangedEvent) func) {
-    _addListener(func);
-  }
-
-  @override
-  set onPictureInPictureEnter(void Function(PictureInPictureEnterEvent) func) {
-    _addListener(func);
-  }
-
-  @override
-  set onPictureInPictureEntered(
-    void Function(PictureInPictureEnteredEvent) func,
-  ) {
-    _addListener(func);
-  }
-
-  @override
-  set onPictureInPictureExit(void Function(PictureInPictureExitEvent) func) {
-    _addListener(func);
-  }
-
-  @override
-  set onPictureInPictureExited(
-    void Function(PictureInPictureExitedEvent) func,
-  ) {
     _addListener(func);
   }
 }
