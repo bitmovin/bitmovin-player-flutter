@@ -33,6 +33,11 @@ class Methods {
   static const String destroyPlayerView = 'destroyPlayerView';
   static const String enterFullscreen = 'enterFullscreen';
   static const String exitFullscreen = 'exitFullscreen';
+  static const String isPictureInPicture = 'isPictureInPicture';
+  static const String isPictureInPictureAvailable =
+      'isPictureInPictureAvailable';
+  static const String enterPictureInPicture = 'enterPictureInPicture';
+  static const String exitPictureInPicture = 'exitPictureInPicture';
 
   /// Fairplay DRM related methods
   static const String fairplayPrepareMessage = 'fairplayPrepareMessage';
