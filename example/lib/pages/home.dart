@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:bitmovin_player_example/pages/analytics.dart';
 import 'package:bitmovin_player_example/pages/audio_only.dart';
 import 'package:bitmovin_player_example/pages/background_playback.dart';
+import 'package:bitmovin_player_example/pages/basic_picture_in_picture.dart';
 import 'package:bitmovin_player_example/pages/basic_playback.dart';
 import 'package:bitmovin_player_example/pages/casting.dart';
 import 'package:bitmovin_player_example/pages/custom_html_ui.dart';
@@ -26,7 +27,11 @@ void buildSamples() {
   ];
 
   if (Platform.isIOS) {
-    _samples.add(_Sample('Background Playback', BackgroundPlayback.routeName));
+    _samples
+      ..add(_Sample('Background Playback', BackgroundPlayback.routeName))
+      ..add(
+        _Sample('Basic Picture-in-Picture', BasicPictureInPicture.routeName),
+      );
   }
 }
 
