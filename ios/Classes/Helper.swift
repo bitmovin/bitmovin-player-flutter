@@ -74,6 +74,26 @@ internal enum Helper {
         return playerConfig
     }
 
+    static func pictureInPictureConfig(_ json: Any?) -> PictureInPictureConfig? {
+        guard let json = json as? [String: Any] else {
+            return nil
+        }
+
+        let pictureInPictureConfig = PictureInPictureConfig()
+
+        if let isEnabled = json["isEnabled"] as? Bool {
+            pictureInPictureConfig.isEnabled = isEnabled
+        }
+        
+        if #available(iOS 14.2, *) {
+            if let shouldEnterOnBackground = json["shouldEnterOnBackground"] as? Bool {
+                pictureInPictureConfig.shouldEnterOnBackground = shouldEnterOnBackground
+            }
+        }
+
+        return pictureInPictureConfig
+    }
+
     static func liveConfig(_ json: Any?) -> LiveConfig? {
         guard let json = json as? [String: Any] else {
             return nil
