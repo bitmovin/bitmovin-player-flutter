@@ -44,7 +44,7 @@ class _MyAppState extends State<MyApp> {
         FullscreenHandling.routeName: (_) => const FullscreenHandling(),
         Casting.routeName: (_) => const Casting(),
         BackgroundPlayback.routeName: (_) => const BackgroundPlayback(),
-        BasicPictureInPicture.routeName: (_) => const BasicPictureInPicture(),
+        PictureInPicture.routeName: (_) => const PictureInPicture(),
       },
       home: Scaffold(
         body: Home(),

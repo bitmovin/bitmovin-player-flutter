@@ -4,16 +4,15 @@ import 'package:bitmovin_player_example/env/env.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
-// TODO(Michele): Remove "Basic" wording for this example
-class BasicPictureInPicture extends StatefulWidget {
-  const BasicPictureInPicture({super.key});
-  static String routeName = 'BasicPictureInPicture';
+class PictureInPicture extends StatefulWidget {
+  const PictureInPicture({super.key});
+  static String routeName = 'PictureInPicture';
 
   @override
-  State<BasicPictureInPicture> createState() => _BasicPictureInPictureState();
+  State<PictureInPicture> createState() => _PictureInPictureState();
 }
 
-class _BasicPictureInPictureState extends State<BasicPictureInPicture> {
+class _PictureInPictureState extends State<PictureInPicture> {
   final _playerViewKey = GlobalKey<PlayerViewState>();
   final _sourceConfig = const SourceConfig(
     url:
@@ -41,6 +40,10 @@ class _BasicPictureInPictureState extends State<BasicPictureInPicture> {
     super.initState();
   }
 
+  // iOS audio session category must be set to `playback` first, otherwise
+  // playback will have no audio when the device is silenced.
+  //
+  // This is also required to make Picture-in-Picture work on iOS.
   Future<void> setupAudioSession() async {
     final session = await AudioSession.instance;
     await session.configure(const AudioSessionConfiguration.music());
@@ -56,7 +59,7 @@ class _BasicPictureInPictureState extends State<BasicPictureInPicture> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Basic Picture-in-Picture'),
+        title: const Text('Picture-in-Picture'),
       ),
       body: Column(
         children: [

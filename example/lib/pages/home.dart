@@ -3,13 +3,13 @@ import 'dart:io';
 import 'package:bitmovin_player_example/pages/analytics.dart';
 import 'package:bitmovin_player_example/pages/audio_only.dart';
 import 'package:bitmovin_player_example/pages/background_playback.dart';
-import 'package:bitmovin_player_example/pages/basic_picture_in_picture.dart';
 import 'package:bitmovin_player_example/pages/basic_playback.dart';
 import 'package:bitmovin_player_example/pages/casting.dart';
 import 'package:bitmovin_player_example/pages/custom_html_ui.dart';
 import 'package:bitmovin_player_example/pages/drm_playback.dart';
 import 'package:bitmovin_player_example/pages/event_subscription.dart';
 import 'package:bitmovin_player_example/pages/fullscreen_handling.dart';
+import 'package:bitmovin_player_example/pages/picture_in_picture.dart';
 import 'package:flutter/material.dart';
 
 List<_Sample> _samples = [];
@@ -30,7 +30,7 @@ void buildSamples() {
     _samples
       ..add(_Sample('Background Playback', BackgroundPlayback.routeName))
       ..add(
-        _Sample('Basic Picture-in-Picture', BasicPictureInPicture.routeName),
+        _Sample('Picture-in-Picture', PictureInPicture.routeName),
       );
   }
 }
