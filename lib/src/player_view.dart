@@ -138,38 +138,8 @@ class PlayerViewState extends State<PlayerView> {
     widget.fullscreenHandler?.exitFullscreen();
   }
 
-  /// Returns whether the [PlayerView] is currently in Picture-in-Picture (PiP)
-  /// mode.
-  Future<bool> get isPictureInPicture =>
-      _invokeMethod<bool>(Methods.isPictureInPicture);
-
-  /// Returns if Picture-In-Picture is available.
-  ///
-  /// Picture-In-Picture is available in the following use-cases:
-  /// - on iOS 14.2 and above. (We disabled PiP on iOS 14.0 and 14.1 due to an
-  /// underlying iOS bug)
-  /// - on tvOS 14 and above.
-  /// - if explicitly enabled through
-  /// `PlaybackConfiguration#isPictureInPictureEnabled` (default is disabled)
-  Future<bool> get isPictureInPictureAvailable async =>
-      _invokeMethod<bool>(Methods.isPictureInPictureAvailable);
-
-  /// The [PlayerView] enters Picture-In-Picture mode.
-  /// Has no effects if already in Picture-in-Picture.
-  /// - Starting Picture-In-Picture during casting is not supported and will
-  /// result in a no-op.
-  /// - This has no effect when using system UI.
-  void enterPictureInPicture() {
-    _invokeMethod<void>(Methods.enterPictureInPicture);
-  }
-
-  /// The [PlayerView] exits Picture-In-Picture mode.
-  /// Has no effect if not in Picture-In-Picture mode.
-  ///
-  /// This has no effect when using system UI.
-  void exitPictureInPicture() {
-    _invokeMethod<void>(Methods.exitPictureInPicture);
-  }
+  /// Access Picture-in-Picture APIs.
+  PictureInPictureAPI get pictureInPicture => _PictureInPictureAPI(this);
 
   @override
   void dispose() {
@@ -223,4 +193,43 @@ class PlayerViewState extends State<PlayerView> {
   }
 }
 
-// TODO(Michele): class _PictureInPictureAPI implements PictureInPictureAPI {}
+class _PictureInPictureAPI implements PictureInPictureAPI {
+  _PictureInPictureAPI(this._playerViewState);
+
+  final PlayerViewState _playerViewState;
+
+  /// Returns whether the [PlayerView] is currently in Picture-in-Picture (PiP)
+  /// mode.
+  @override
+  Future<bool> get isPictureInPicture =>
+      _playerViewState._invokeMethod<bool>(Methods.isPictureInPicture);
+
+  /// Returns if Picture-In-Picture is available.
+  ///
+  /// Picture-In-Picture is available in the following use-cases:
+  /// - on iOS 14.2 and above. (We disabled PiP on iOS 14.0 and 14.1 due to an
+  /// underlying iOS bug)
+  /// - on tvOS 14 and above.
+  /// - if explicitly enabled through
+  /// `PlaybackConfiguration#isPictureInPictureEnabled` (default is disabled)
+  @override
+  Future<bool> get isPictureInPictureAvailable async =>
+      _playerViewState._invokeMethod<bool>(Methods.isPictureInPictureAvailable);
+
+  /// The [PlayerView] enters Picture-In-Picture mode.
+  /// Has no effects if already in Picture-In-Picture.
+  /// - Starting Picture-In-Picture during casting is not supported and will
+  /// result in a no-op.
+  /// - This has no effect when using system UI.
+  @override
+  Future<void> enterPictureInPicture() async =>
+      _playerViewState._invokeMethod<void>(Methods.enterPictureInPicture);
+
+  /// The [PlayerView] exits Picture-In-Picture mode.
+  /// Has no effect if not in Picture-In-Picture mode.
+  ///
+  /// This has no effect when using system UI.
+  @override
+  Future<void> exitPictureInPicture() =>
+      _playerViewState._invokeMethod<void>(Methods.exitPictureInPicture);
+}

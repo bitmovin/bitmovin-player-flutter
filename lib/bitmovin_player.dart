@@ -64,6 +64,7 @@ export 'src/api/player/live_config.dart';
 export 'src/api/player/playback_config.dart';
 export 'src/api/player/player_config.dart';
 export 'src/api/player/seek_mode.dart';
+export 'src/api/player_view/picture_in_picture_api.dart';
 export 'src/api/player_view/picture_in_picture_config.dart';
 export 'src/api/player_view/player_view_config.dart';
 export 'src/api/source/source_config.dart';
