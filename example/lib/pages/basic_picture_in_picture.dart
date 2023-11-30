@@ -4,6 +4,7 @@ import 'package:bitmovin_player_example/env/env.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
+// TODO(Michele): Remove "Basic" wording for this example
 class BasicPictureInPicture extends StatefulWidget {
   const BasicPictureInPicture({super.key});
   static String routeName = 'BasicPictureInPicture';
