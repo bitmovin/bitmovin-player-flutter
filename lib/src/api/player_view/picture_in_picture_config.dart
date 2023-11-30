@@ -15,13 +15,13 @@ class PictureInPictureConfig extends Equatable {
     return _$PictureInPictureConfigFromJson(json);
   }
 
-  /// Whether Picture in Picture feature is enabled or not. Default is `false`.
+  /// Whether Picture-In-Picture feature is enabled or not. Default is `false`.
   final bool isEnabled;
 
-  /// Defines whether Picture in Picture should start automatically when the app
+  /// Defines whether Picture-In-Picture hould start automatically when the app
   /// transitions to background.
   ///
-  /// Does not have any affect when Picture in Picture is disabled.
+  /// Does not have any affect when Picture-In-Picture is disabled.
   ///
   /// Default is `false`.
   final bool shouldEnterOnBackground;
