@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name = 'bitmovin_player'
-  s.version = '0.2.0'
+  s.version = '0.3.0'
   s.summary = 'Bitmovin Player Flutter plugin'
   s.description = <<-DESC
 Flutter plugin for Bitmovin Player.
@@ -15,7 +15,7 @@ Flutter plugin for Bitmovin Player.
   s.source = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
-  s.dependency 'BitmovinPlayer'
+  s.dependency 'BitmovinPlayer', '3.49.0'
   s.platform = :ios, '14.0'
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES' }
   s.swift_version = '5.0'

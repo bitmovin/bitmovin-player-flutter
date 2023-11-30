@@ -33,7 +33,6 @@ target 'Runner' do
   use_frameworks!
   use_modular_headers!
 
-  pod 'BitmovinPlayer', '3.44.0'
   # Only needed if the casting feature is used
   pod 'google-cast-sdk', '4.8.0'
 
