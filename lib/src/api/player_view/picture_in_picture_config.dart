@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'picture_in_picture_config.g.dart';
 
-/// Provides options to configure Picture in Picture playback.
+/// Provides options to configure Picture-in-Picture playback.
 @JsonSerializable(explicitToJson: true)
 class PictureInPictureConfig extends Equatable {
   const PictureInPictureConfig({
