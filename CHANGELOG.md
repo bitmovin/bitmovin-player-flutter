@@ -6,6 +6,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+Support for Picture-in-Picture APIs and configs on iOS
+  - `PlayerView.pictureInPicture` namespace to access Picture-in-Picture methods
+  - `PlayerView.pictureInPicture.isPictureInPicture` to check whether the `PlayerView` is currently in Picture-in-Picture mode
+  - `PlayerView.pictureInPicture.isPictureInPictureAvailable` to check whether Picture-in-Picture mode is available
+  - `PlayerView.pictureInPicture.enterPictureInPicture` to make the `PlayerView` enter Picture-In-Picture mode
+  - `PlayerView.pictureInPicture.exitPictureInPicture` to make the `PlayerView` exit Picture-In-Picture mode
+  - `PlayerViewConfig` to configure a new `PlayerView` instance. Currently its only field is `pictureInPictureConfig`
+  - `PictureInPictureConfig` to configure Picture-in-Picture playback
+  - `PictureInPictureConfig.isEnabled` to set whether Picture-in-Picture feature is enabled or not
+  - `PictureInPictureConfig.shouldEnterOnBackground` to set whether Picture-in-Picture should start automatically when the app transitions to background
+
+### Changes
+- `PlayerView` has a new argument: `playerViewConfig` with a predefined default value
+- Method calling in `FlutterPlayerView.swift` use an internal handler like we do in `FlutterPlayer.swift`, but without the possibility to append additional arguments
+- Invocation of methods in `player_view.dart` use an internal handler like we do in `player.dart`, but without waiting for `_initializationResult` and the building of the payload
+
 ## [0.3.0] - 2023-11-27
 ### Added
 - Support for background playback on iOS
