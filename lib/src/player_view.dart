@@ -183,7 +183,7 @@ class PlayerViewState extends State<PlayerView> {
       'playerId': widget.player.id,
       'hasFullscreenHandler': widget.fullscreenHandler != null,
       'isFullscreen': isFullscreen,
-      'playerViewConfig': widget.playerViewConfig,
+      'playerViewConfig': widget.playerViewConfig.toJson(),
     };
 
     return Platform.isAndroid
