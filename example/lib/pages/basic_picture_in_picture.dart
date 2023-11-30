@@ -1,3 +1,4 @@
+import 'package:audio_session/audio_session.dart';
 import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:bitmovin_player_example/env/env.dart';
 import 'package:flutter/material.dart';
@@ -34,8 +35,14 @@ class _BasicPictureInPictureState extends State<BasicPictureInPicture> {
 
   @override
   void initState() {
+    setupAudioSession();
     _player.loadSourceConfig(_sourceConfig);
     super.initState();
+  }
+
+  Future<void> setupAudioSession() async {
+    final session = await AudioSession.instance;
+    await session.configure(const AudioSessionConfiguration.music());
   }
 
   @override
