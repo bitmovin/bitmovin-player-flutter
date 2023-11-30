@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Added
+- `PictureInPictureEnter` which is emitted when the player view is about to enter Picture-in-Picture mode
+- `PictureInPictureExit` which is emitted when the player view is about to exit Picture-in-Picture mode
+- `PictureInPictureEntered` which is emitted when the player view finishes entering Picture-in-Picture mode
+- `PictureInPictureExited` which is emitted when the player view finishes exiting Picture-in-Picture mode
+- Picture-in-Picture Sample page to test PiP events using native UI (iOS-only for now)
+
 ## [0.3.0] - 2023-11-27
 ### Added
 - Support for background playback on iOS
