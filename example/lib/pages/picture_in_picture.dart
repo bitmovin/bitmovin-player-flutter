@@ -1,6 +1,7 @@
 import 'package:audio_session/audio_session.dart';
 import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:bitmovin_player_example/env/env.dart';
+import 'package:bitmovin_player_example/events.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
@@ -33,11 +34,26 @@ class _PictureInPictureState extends State<PictureInPicture> {
     ),
   );
 
+  final _eventsKey = GlobalKey<EventsState>();
+  void _onEvent(Event event) {
+    final eventName = '${event.runtimeType}';
+    final eventData = '$eventName ${event.toJson()}';
+    _logger.d(eventData);
+    _eventsKey.currentState?.add(eventName);
+  }
+
   @override
   void initState() {
     setupAudioSession();
     _player.loadSourceConfig(_sourceConfig);
     super.initState();
+  }
+
+  @override
+  void setState(VoidCallback fn) {
+    if (mounted) {
+      super.setState(fn);
+    }
   }
 
   // iOS audio session category must be set to `playback` first, otherwise
@@ -69,14 +85,10 @@ class _PictureInPictureState extends State<PictureInPicture> {
               player: _player,
               key: _playerViewKey,
               playerViewConfig: _playerViewConfig,
-              onPictureInPictureEnter: (event) =>
-                  _logger.d('received ${event.runtimeType}: ${event.toJson()}'),
-              onPictureInPictureEntered: (event) =>
-                  _logger.d('received ${event.runtimeType}: ${event.toJson()}'),
-              onPictureInPictureExit: (event) =>
-                  _logger.d('received ${event.runtimeType}: ${event.toJson()}'),
-              onPictureInPictureExited: (event) =>
-                  _logger.d('received ${event.runtimeType}: ${event.toJson()}'),
+              onPictureInPictureEnter: _onEvent,
+              onPictureInPictureEntered: _onEvent,
+              onPictureInPictureExit: _onEvent,
+              onPictureInPictureExited: _onEvent,
             ),
           ),
           Row(
@@ -108,6 +120,12 @@ class _PictureInPictureState extends State<PictureInPicture> {
                 ),
               ),
             ],
+          ),
+          Expanded(
+            child: Container(
+              margin: const EdgeInsets.fromLTRB(10, 10, 10, 40),
+              child: Events(key: _eventsKey),
+            ),
           ),
         ],
       ),
