@@ -88,7 +88,8 @@ class _PictureInPictureState extends State<PictureInPicture> {
                     side: const BorderSide(color: Colors.blue),
                   ),
                   onPressed: () {
-                    _playerViewKey.currentState?.enterPictureInPicture();
+                    _playerViewKey.currentState?.pictureInPicture
+                        .enterPictureInPicture();
                   },
                   child: const Text('Enter PiP'),
                 ),
@@ -100,7 +101,8 @@ class _PictureInPictureState extends State<PictureInPicture> {
                     side: const BorderSide(color: Colors.blue),
                   ),
                   onPressed: () {
-                    _playerViewKey.currentState?.exitPictureInPicture();
+                    _playerViewKey.currentState?.pictureInPicture
+                        .exitPictureInPicture();
                   },
                   child: const Text('Exit PiP'),
                 ),
