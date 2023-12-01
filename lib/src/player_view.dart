@@ -32,7 +32,7 @@ class PlayerView extends StatefulWidget with PlayerViewEventHandler {
   final Player player;
 
   /// The player view config.
-  /// A default [PlayerViewConfig] is set initially
+  /// A default [PlayerViewConfig] is set initially.
   final PlayerViewConfig playerViewConfig;
 
   /// Callback that is invoked when the view has been created and is ready to be
