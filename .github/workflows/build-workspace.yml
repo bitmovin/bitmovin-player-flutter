@@ -26,6 +26,8 @@ jobs:
         run: ktlint
       - name: Analyze Swift
         run: swiftlint --strict
+      - name: Check Dart format
+        run: dart format --output=none --set-exit-if-changed .
   build_ios:
     name: Build for iOS
     runs-on: macos-latest
