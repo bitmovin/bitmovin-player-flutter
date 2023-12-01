@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
-Support Picture-in-Picture (PiP) events on iOS
+Support for Picture-in-Picture (PiP) playback on iOS
   - `PictureInPictureEnter` which is emitted when the player view is about to enter Picture-in-Picture mode
   - `PictureInPictureExit` which is emitted when the player view is about to exit Picture-in-Picture mode
   - `PictureInPictureEntered` which is emitted when the player view finishes entering Picture-in-Picture mode
