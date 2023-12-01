@@ -219,7 +219,7 @@ class _PictureInPictureAPI implements PictureInPictureAPI {
   /// The [PlayerView] enters Picture-In-Picture mode.
   /// Has no effects if already in Picture-In-Picture.
   /// - Starting Picture-In-Picture during casting is not supported and will
-  /// result in a no-op.
+  ///   result in a no-op.
   /// - This has no effect when using system UI.
   @override
   Future<void> enterPictureInPicture() async =>
