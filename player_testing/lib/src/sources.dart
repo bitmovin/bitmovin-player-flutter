@@ -2,7 +2,7 @@ import 'package:bitmovin_player/bitmovin_player.dart';
 
 class Sources {
   static const kronehit = SourceConfig(
-    url: 'https://bitcdn-kronehit.bitmovin.com/v2/hls/playlist.m3u8',
+    url: 'https://cph-msl.akamaized.net/hls/live/2000341/test/master.m3u8',
     type: SourceType.hls,
   );
   static const artOfMotion = SourceConfig(
