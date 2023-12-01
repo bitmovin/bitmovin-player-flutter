@@ -11,16 +11,16 @@ abstract class PictureInPictureApi {
   ///
   /// Picture-In-Picture is available in the following use-cases:
   /// - on iOS 14.2 and above. (We disabled PiP on iOS 14.0 and 14.1 due to an
-  /// underlying iOS bug)
+  ///   underlying iOS bug)
   /// - on tvOS 14 and above.
-  /// - if explicitly enabled through
-  /// `PlaybackConfiguration#isPictureInPictureEnabled` (default is disabled)
+  /// - if explicitly enabled through [PictureInPictureConfig.isEnabled].
+  ///   (default is disabled)
   Future<bool> get isPictureInPictureAvailable;
 
   /// The [PlayerView] enters Picture-In-Picture mode.
   /// Has no effects if already in Picture-In-Picture.
   /// - Starting Picture-In-Picture during casting is not supported and will
-  /// result in a no-op.
+  ///   result in a no-op.
   /// - This has no effect when using system UI.
   Future<void> enterPictureInPicture();
 
