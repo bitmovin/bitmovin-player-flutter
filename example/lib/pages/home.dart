@@ -30,7 +30,7 @@ void buildSamples() {
     _samples
       ..add(_Sample('Background Playback', BackgroundPlayback.routeName))
       ..add(
-        _Sample('Basic Picture-in-Picture', PictureInPicture.routeName),
+        _Sample('Picture-in-Picture', PictureInPicture.routeName),
       );
   }
 }
