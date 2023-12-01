@@ -27,6 +27,12 @@ class _PictureInPictureState extends State<PictureInPicture> {
   );
   final _logger = Logger();
 
+  void _onEvent(Event event) {
+    final eventName = '${event.runtimeType}';
+    final eventData = '$eventName ${event.toJson()}';
+    _logger.d(eventData);
+  }
+
   @override
   void initState() {
     setupAudioSession();
@@ -58,14 +64,10 @@ class _PictureInPictureState extends State<PictureInPicture> {
             child: PlayerView(
               player: _player,
               key: _playerViewKey,
-              onPictureInPictureEnter: (event) =>
-                  _logger.d('received ${event.runtimeType}: ${event.toJson()}'),
-              onPictureInPictureEntered: (event) =>
-                  _logger.d('received ${event.runtimeType}: ${event.toJson()}'),
-              onPictureInPictureExit: (event) =>
-                  _logger.d('received ${event.runtimeType}: ${event.toJson()}'),
-              onPictureInPictureExited: (event) =>
-                  _logger.d('received ${event.runtimeType}: ${event.toJson()}'),
+              onPictureInPictureEnter: _onEvent,
+              onPictureInPictureEntered: _onEvent,
+              onPictureInPictureExit: _onEvent,
+              onPictureInPictureExited: _onEvent,
             ),
           ),
           Row(
