@@ -7,7 +7,7 @@ part 'airplay_changed_event.g.dart';
 /// Emitted when AirPlay playback starts or stops.
 @JsonSerializable(explicitToJson: true)
 class AirPlayChangedEvent extends Event with EquatableMixin {
-  const AirPlayChangedEvent({
+  const AirPlayChangedEvent( {
     required super.timestamp,
     required this.isAirPlayActive,
     required this.time,
