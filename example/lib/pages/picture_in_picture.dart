@@ -27,6 +27,12 @@ class _PictureInPictureState extends State<PictureInPicture> {
     ),
   );
   final _logger = Logger();
+  final _playerViewConfig = const PlayerViewConfig(
+    pictureInPictureConfig: PictureInPictureConfig(
+      isEnabled: true,
+      shouldEnterOnBackground: true,
+    ),
+  );
   final _eventsKey = GlobalKey<EventsState>();
 
   void _onEvent(Event event) {
@@ -67,6 +73,7 @@ class _PictureInPictureState extends State<PictureInPicture> {
             child: PlayerView(
               player: _player,
               key: _playerViewKey,
+              playerViewConfig: _playerViewConfig,
               onPictureInPictureEnter: _onEvent,
               onPictureInPictureEntered: _onEvent,
               onPictureInPictureExit: _onEvent,
@@ -81,7 +88,10 @@ class _PictureInPictureState extends State<PictureInPicture> {
                   style: OutlinedButton.styleFrom(
                     side: const BorderSide(color: Colors.blue),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    _playerViewKey.currentState?.pictureInPicture
+                        .enterPictureInPicture();
+                  },
                   child: const Text('Enter PiP'),
                 ),
               ),
@@ -91,7 +101,10 @@ class _PictureInPictureState extends State<PictureInPicture> {
                   style: OutlinedButton.styleFrom(
                     side: const BorderSide(color: Colors.blue),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    _playerViewKey.currentState?.pictureInPicture
+                        .exitPictureInPicture();
+                  },
                   child: const Text('Exit PiP'),
                 ),
               ),

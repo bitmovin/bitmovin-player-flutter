@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'picture_in_picture_exited_event.g.dart';
 
-/// Is called when the [PlayerView] finished exiting Picture in Picture mode.
+/// Is called when the [PlayerView] finished exiting Picture-In-Picture mode.
 ///
 /// Only available on iOS.
 @JsonSerializable(explicitToJson: true)

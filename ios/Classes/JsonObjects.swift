@@ -344,3 +344,28 @@ internal struct FlutterSource {
 internal struct SourceRemoteControlConfig {
     let castSourceConfig: FlutterSourceConfig?
 }
+
+internal struct FlutterPlayerViewConfig: FlutterToNativeConvertible {
+    let pictureInPictureConfig: FlutterPictureInPictureConfig
+
+    func toNative() -> PlayerViewConfig {
+        let result = PlayerViewConfig()
+        result.pictureInPictureConfig = pictureInPictureConfig.toNative()
+        return result
+    }
+}
+
+internal struct FlutterPictureInPictureConfig: FlutterToNativeConvertible {
+    let isEnabled: Bool
+    let shouldEnterOnBackground: Bool
+
+    func toNative() -> PictureInPictureConfig {
+        let result = PictureInPictureConfig()
+        result.isEnabled = isEnabled
+        if #available(iOS 14.2, *) {
+            result.shouldEnterOnBackground = shouldEnterOnBackground
+        }
+
+        return result
+    }
+}

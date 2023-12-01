@@ -13,6 +13,18 @@ Support for Picture-in-Picture (PiP) playback on iOS
   - `PictureInPictureEntered` which is emitted when the player view finishes entering Picture-in-Picture mode
   - `PictureInPictureExited` which is emitted when the player view finishes exiting Picture-in-Picture mode
   - `PictureInPicture` example page to test PiP and show how it can be integrated and used
+  - `PlayerViewState.pictureInPicture` namespace to access Picture-in-Picture methods
+  - `PlayerViewState.pictureInPicture.isPictureInPicture` to check whether the `PlayerView` is currently in Picture-in-Picture mode
+  - `PlayerViewState.pictureInPicture.isPictureInPictureAvailable` to check whether Picture-in-Picture mode is available
+  - `PlayerViewState.pictureInPicture.enterPictureInPicture` to make the `PlayerView` enter Picture-In-Picture mode
+  - `PlayerViewState.pictureInPicture.exitPictureInPicture` to make the `PlayerView` exit Picture-In-Picture mode
+  - `PlayerViewConfig` to configure a new `PlayerView` instance. Currently its only field is `pictureInPictureConfig`
+  - `PictureInPictureConfig` to configure Picture-in-Picture playback
+  - `PictureInPictureConfig.isEnabled` to set whether Picture-in-Picture feature is enabled or not
+  - `PictureInPictureConfig.shouldEnterOnBackground` to set whether Picture-in-Picture should start automatically when the app transitions to background
+
+### Changed
+- `PlayerView` has a new argument `playerViewConfig` with a predefined default value
 
 ## [0.3.0] - 2023-11-27
 ### Added

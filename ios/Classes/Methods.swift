@@ -35,6 +35,10 @@ internal enum Methods {
     static let destroyPlayerView = "destroyPlayerView"
     static let enterFullscreen = "enterFullscreen"
     static let exitFullscreen = "exitFullscreen"
+    static let isPictureInPicture = "isPictureInPicture"
+    static let isPictureInPictureAvailable = "isPictureInPictureAvailable"
+    static let enterPictureInPicture = "enterPictureInPicture"
+    static let exitPictureInPicture = "exitPictureInPicture"
 
     // Fairplay related methods
     static let fairplayPrepareMessage = "fairplayPrepareMessage"

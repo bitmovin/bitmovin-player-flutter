@@ -9,6 +9,7 @@ internal class FlutterPlayerView: NSObject, FlutterPlatformView {
         let playerId: String
         let hasFullscreenHandler: Bool
         let isFullscreen: Bool
+        let playerViewConfig: FlutterPlayerViewConfig
     }
 
     private var rootView = UIView()
@@ -44,7 +45,8 @@ internal class FlutterPlayerView: NSObject, FlutterPlatformView {
             self?.createPlayerView(
                 player: player,
                 hasFullscreenHandler: arguments.hasFullscreenHandler,
-                isFullscreen: arguments.isFullscreen
+                isFullscreen: arguments.isFullscreen,
+                playerViewConfig: arguments.playerViewConfig.toNative()
             )
         }
     }
@@ -70,6 +72,21 @@ extension FlutterPlayerView: FlutterStreamHandler {
 
 private extension FlutterPlayerView {
     func handleMethodCall(call: FlutterMethodCall, result: @escaping FlutterResult) {
+        do {
+            let methodCallResult = try handleMethodCall(call: call)
+            result(methodCallResult)
+        } catch let bitmovinError as BitmovinError {
+            result(FlutterError.from(bitmovinError))
+        } catch {
+            result(
+                FlutterError.general(
+                    "Error while executing method call \"\(call.method)\": \(error.localizedDescription)"
+                )
+            )
+        }
+    }
+
+    func handleMethodCall(call: FlutterMethodCall) throws -> Any? {
         switch call.method {
         case Methods.destroyPlayerView:
             destroyPlayerView()
@@ -77,9 +94,21 @@ private extension FlutterPlayerView {
             playerView?.enterFullscreen()
         case Methods.exitFullscreen:
             playerView?.exitFullscreen()
+        case Methods.isPictureInPicture:
+            return playerView?.isPictureInPicture
+        case Methods.isPictureInPictureAvailable:
+            return playerView?.isPictureInPictureAvailable
+        case Methods.enterPictureInPicture:
+            playerView?.enterPictureInPicture()
+        case Methods.exitPictureInPicture:
+            playerView?.exitPictureInPicture()
         default:
-            break
+            throw BitmovinError.unknownMethod(call.method)
         }
+
+        // Returning `nil` here handles the case that a void method was called successfully.
+        // If an error happened or we need to return a specific value, it needs to be handled explicitly
+        return nil
     }
 
     func createPlayerView(

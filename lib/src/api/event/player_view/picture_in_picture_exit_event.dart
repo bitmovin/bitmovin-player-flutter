@@ -4,7 +4,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'picture_in_picture_exit_event.g.dart';
 
-/// Is called when the [PlayerView] is about to exit Picture in Picture mode.
+/// Is called when the [PlayerView] is about to exit Picture-In-Picture mode.
 @JsonSerializable(explicitToJson: true)
 class PictureInPictureExitEvent extends Event with EquatableMixin {
   const PictureInPictureExitEvent({required super.timestamp});

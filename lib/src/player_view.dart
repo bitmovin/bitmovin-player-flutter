@@ -16,6 +16,7 @@ import 'package:flutter/widgets.dart';
 class PlayerView extends StatefulWidget with PlayerViewEventHandler {
   PlayerView({
     required this.player,
+    this.playerViewConfig = const PlayerViewConfig(),
     super.key,
     this.onViewCreated,
     this.fullscreenHandler,
@@ -29,6 +30,10 @@ class PlayerView extends StatefulWidget with PlayerViewEventHandler {
 
   /// The [Player] instance that is attached to this view.
   final Player player;
+
+  /// The player view config.
+  /// A default [PlayerViewConfig] is set initially.
+  final PlayerViewConfig playerViewConfig;
 
   /// Callback that is invoked when the view has been created and is ready to be
   /// used. Can be for instance used to load a source into the [player].
@@ -98,12 +103,26 @@ class PlayerViewState extends State<PlayerView> {
     return Future.value(true);
   }
 
+  // Can be used to call methods on the platform side that return a single
+  // primitive value that is natively supported by the method channel.
+  Future<T> _invokeMethod<T>(
+    String methodName, [
+    dynamic data,
+  ]) async {
+    final result = await _methodChannel.invokeMethod<T>(methodName, data);
+    if (result is! T) {
+      // result is T?, if it `is` not T => T is not nullable and result is null.
+      throw Exception('Native $methodName returned null.');
+    }
+    return result;
+  }
+
   /// Returns whether the [PlayerView] is currently in fullscreen mode.
   bool get isFullscreen => widget.fullscreenHandler?.isFullscreen ?? false;
 
   /// Enters fullscreen mode for the [PlayerView].
   void enterFullscreen() {
-    _methodChannel.invokeMethod(Methods.enterFullscreen);
+    _invokeMethod<void>(Methods.enterFullscreen);
   }
 
   void _handleEnterFullscreen() {
@@ -112,16 +131,19 @@ class PlayerViewState extends State<PlayerView> {
 
   /// Exits fullscreen mode for the [PlayerView].
   void exitFullscreen() {
-    _methodChannel.invokeMethod(Methods.exitFullscreen);
+    _invokeMethod<void>(Methods.exitFullscreen);
   }
 
   void _handleExitFullscreen() {
     widget.fullscreenHandler?.exitFullscreen();
   }
 
+  /// Access Picture-in-Picture APIs.
+  PictureInPictureApi get pictureInPicture => _PictureInPictureApi(this);
+
   @override
   void dispose() {
-    _methodChannel.invokeMethod(Methods.destroyPlayerView);
+    _invokeMethod<void>(Methods.destroyPlayerView);
     super.dispose();
   }
 
@@ -131,6 +153,7 @@ class PlayerViewState extends State<PlayerView> {
       'playerId': widget.player.id,
       'hasFullscreenHandler': widget.fullscreenHandler != null,
       'isFullscreen': isFullscreen,
+      'playerViewConfig': widget.playerViewConfig.toJson(),
     };
 
     return Platform.isAndroid
@@ -168,4 +191,26 @@ class PlayerViewState extends State<PlayerView> {
             creationParamsCodec: const StandardMessageCodec(),
           );
   }
+}
+
+class _PictureInPictureApi implements PictureInPictureApi {
+  _PictureInPictureApi(this._playerViewState);
+
+  final PlayerViewState _playerViewState;
+
+  @override
+  Future<bool> get isPictureInPicture =>
+      _playerViewState._invokeMethod<bool>(Methods.isPictureInPicture);
+
+  @override
+  Future<bool> get isPictureInPictureAvailable async =>
+      _playerViewState._invokeMethod<bool>(Methods.isPictureInPictureAvailable);
+
+  @override
+  Future<void> enterPictureInPicture() async =>
+      _playerViewState._invokeMethod<void>(Methods.enterPictureInPicture);
+
+  @override
+  Future<void> exitPictureInPicture() =>
+      _playerViewState._invokeMethod<void>(Methods.exitPictureInPicture);
 }
