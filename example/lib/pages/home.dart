@@ -13,7 +13,7 @@ import 'package:bitmovin_player_example/pages/picture_in_picture.dart';
 import 'package:flutter/material.dart';
 
 List<_Sample> _samples = [];
-
+ 
 void buildSamples() {
   _samples = [
     _Sample('Collecting Analytics', PlayerAnalytics.routeName),
