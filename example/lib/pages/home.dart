@@ -9,6 +9,7 @@ import 'package:bitmovin_player_example/pages/custom_html_ui.dart';
 import 'package:bitmovin_player_example/pages/drm_playback.dart';
 import 'package:bitmovin_player_example/pages/event_subscription.dart';
 import 'package:bitmovin_player_example/pages/fullscreen_handling.dart';
+import 'package:bitmovin_player_example/pages/picture_in_picture.dart';
 import 'package:flutter/material.dart';
 
 List<_Sample> _samples = [];
@@ -26,7 +27,9 @@ void buildSamples() {
   ];
 
   if (Platform.isIOS) {
-    _samples.add(_Sample('Background Playback', BackgroundPlayback.routeName));
+    _samples
+      ..add(_Sample('Background Playback', BackgroundPlayback.routeName))
+      ..add(_Sample('Picture-in-Picture', PictureInPicture.routeName));
   }
 }
 
