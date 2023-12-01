@@ -29,9 +29,7 @@ void buildSamples() {
   if (Platform.isIOS) {
     _samples
       ..add(_Sample('Background Playback', BackgroundPlayback.routeName))
-      ..add(
-        _Sample('Picture-in-Picture', PictureInPicture.routeName),
-      );
+      ..add(_Sample('Picture-in-Picture', PictureInPicture.routeName));
   }
 }
 

@@ -7,7 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 
 ### Added
-Support for Picture-in-Picture APIs and configs on iOS
+Support for Picture-in-Picture (PiP) playback on iOS
+  - `PictureInPictureEnter` which is emitted when the player view is about to enter Picture-in-Picture mode
+  - `PictureInPictureExit` which is emitted when the player view is about to exit Picture-in-Picture mode
+  - `PictureInPictureEntered` which is emitted when the player view finishes entering Picture-in-Picture mode
+  - `PictureInPictureExited` which is emitted when the player view finishes exiting Picture-in-Picture mode
+  - `PictureInPicture` example page to test PiP and show how it can be integrated and used
   - `PlayerView.pictureInPicture` namespace to access Picture-in-Picture methods
   - `PlayerView.pictureInPicture.isPictureInPicture` to check whether the `PlayerView` is currently in Picture-in-Picture mode
   - `PlayerView.pictureInPicture.isPictureInPictureAvailable` to check whether Picture-in-Picture mode is available

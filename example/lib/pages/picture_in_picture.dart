@@ -33,8 +33,8 @@ class _PictureInPictureState extends State<PictureInPicture> {
       shouldEnterOnBackground: true,
     ),
   );
-
   final _eventsKey = GlobalKey<EventsState>();
+
   void _onEvent(Event event) {
     final eventName = '${event.runtimeType}';
     final eventData = '$eventName ${event.toJson()}';
@@ -49,17 +49,6 @@ class _PictureInPictureState extends State<PictureInPicture> {
     super.initState();
   }
 
-  @override
-  void setState(VoidCallback fn) {
-    if (mounted) {
-      super.setState(fn);
-    }
-  }
-
-  // iOS audio session category must be set to `playback` first, otherwise
-  // playback will have no audio when the device is silenced.
-  //
-  // This is also required to make Picture-in-Picture work on iOS.
   Future<void> setupAudioSession() async {
     final session = await AudioSession.instance;
     await session.configure(const AudioSessionConfiguration.music());
