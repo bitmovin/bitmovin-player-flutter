@@ -27,8 +27,8 @@ class _PictureInPictureState extends State<PictureInPicture> {
     ),
   );
   final _logger = Logger();
-
   final _eventsKey = GlobalKey<EventsState>();
+  
   void _onEvent(Event event) {
     final eventName = '${event.runtimeType}';
     final eventData = '$eventName ${event.toJson()}';
