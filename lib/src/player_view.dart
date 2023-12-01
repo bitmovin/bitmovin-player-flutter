@@ -208,10 +208,10 @@ class _PictureInPictureAPI implements PictureInPictureAPI {
   ///
   /// Picture-In-Picture is available in the following use-cases:
   /// - on iOS 14.2 and above. (We disabled PiP on iOS 14.0 and 14.1 due to an
-  /// underlying iOS bug)
+  ///   underlying iOS bug)
   /// - on tvOS 14 and above.
-  /// - if explicitly enabled through
-  /// `PlaybackConfiguration#isPictureInPictureEnabled` (default is disabled)
+  /// - if explicitly enabled through [PictureInPictureConfig.isEnabled].
+  ///   (default is disabled)
   @override
   Future<bool> get isPictureInPictureAvailable async =>
       _playerViewState._invokeMethod<bool>(Methods.isPictureInPictureAvailable);
