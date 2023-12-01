@@ -25,8 +25,6 @@ Support for Picture-in-Picture (PiP) playback on iOS
 
 ### Changed
 - `PlayerView` has a new argument `playerViewConfig` with a predefined default value
-- Method calling in `FlutterPlayerView.swift` use an internal handler like we do in `FlutterPlayer.swift`, but without the possibility to append additional arguments
-- Invocation of methods in `player_view.dart` use an internal handler like we do in `player.dart`, but without waiting for `_initializationResult` and the building of the payload
 
 ## [0.3.0] - 2023-11-27
 ### Added
