@@ -1,6 +1,7 @@
 import 'package:audio_session/audio_session.dart';
 import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:bitmovin_player_example/env/env.dart';
+import 'package:bitmovin_player_example/events.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
@@ -27,10 +28,12 @@ class _PictureInPictureState extends State<PictureInPicture> {
   );
   final _logger = Logger();
 
+  final _eventsKey = GlobalKey<EventsState>();
   void _onEvent(Event event) {
     final eventName = '${event.runtimeType}';
     final eventData = '$eventName ${event.toJson()}';
     _logger.d(eventData);
+    _eventsKey.currentState?.add(eventName);
   }
 
   @override
@@ -93,6 +96,12 @@ class _PictureInPictureState extends State<PictureInPicture> {
                 ),
               ),
             ],
+          ),
+          Expanded(
+            child: Container(
+              margin: const EdgeInsets.fromLTRB(10, 10, 10, 40),
+              child: Events(key: _eventsKey),
+            ),
           ),
         ],
       ),
