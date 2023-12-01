@@ -16,7 +16,7 @@ class PlayerViewConfig extends Equatable {
   }
 
   /// Configures Picture-in-Picture playback.
-  /// A default [PictureInPictureConfig] is set initially
+  /// A default [PictureInPictureConfig] is set initially.
   final PictureInPictureConfig pictureInPictureConfig;
 
   @override
