@@ -34,10 +34,6 @@ class _PictureInPictureState extends State<PictureInPicture> {
     super.initState();
   }
 
-  // iOS audio session category must be set to `playback` first, otherwise
-  // playback will have no audio when the device is silenced.
-  //
-  // This is also required to make Picture-in-Picture work on iOS.
   Future<void> setupAudioSession() async {
     final session = await AudioSession.instance;
     await session.configure(const AudioSessionConfiguration.music());
