@@ -16,8 +16,8 @@ import 'package:flutter/widgets.dart';
 class PlayerView extends StatefulWidget with PlayerViewEventHandler {
   PlayerView({
     required this.player,
-    super.key,
     this.playerViewConfig = const PlayerViewConfig(),
+    super.key,
     this.onViewCreated,
     this.fullscreenHandler,
     this.onFullscreenEnter,
