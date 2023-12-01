@@ -2,7 +2,7 @@ import 'package:bitmovin_player/bitmovin_player.dart';
 
 /// Provides an API to interact with the Picture-in-Picture mode of a
 /// [PlayerView].
-abstract class PictureInPictureAPI {
+abstract class PictureInPictureApi {
   /// Returns whether the [PlayerView] is currently in Picture-in-Picture (PiP)
   /// mode.
   Future<bool> get isPictureInPicture;

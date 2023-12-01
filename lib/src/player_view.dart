@@ -139,7 +139,7 @@ class PlayerViewState extends State<PlayerView> {
   }
 
   /// Access Picture-in-Picture APIs.
-  PictureInPictureAPI get pictureInPicture => _PictureInPictureAPI(this);
+  PictureInPictureApi get pictureInPicture => _PictureInPictureApi(this);
 
   @override
   void dispose() {
@@ -193,8 +193,8 @@ class PlayerViewState extends State<PlayerView> {
   }
 }
 
-class _PictureInPictureAPI implements PictureInPictureAPI {
-  _PictureInPictureAPI(this._playerViewState);
+class _PictureInPictureApi implements PictureInPictureApi {
+  _PictureInPictureApi(this._playerViewState);
 
   final PlayerViewState _playerViewState;
 
