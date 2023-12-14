@@ -2,7 +2,6 @@ package com.bitmovin.player.flutter.example
 
 import android.os.Bundle
 import android.util.Log
-import android.view.WindowManager
 import android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
 import com.google.android.gms.cast.framework.CastContext
 import io.flutter.embedding.android.FlutterFragmentActivity
