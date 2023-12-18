@@ -40,7 +40,7 @@ class FlutterPlayerView(
         )
 
     private val activity = context.requireActivity()
-    private val playerView: PlayerView = PlayerView(context, player = null)
+    private val playerView = PlayerView(context, player = null)
     private var isInPictureInPictureMode = activity.isInPictureInPictureMode
     private val configurationChangedCallback =
         object : ComponentCallbacks {
