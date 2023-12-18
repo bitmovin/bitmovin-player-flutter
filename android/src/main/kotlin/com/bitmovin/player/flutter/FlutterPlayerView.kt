@@ -27,6 +27,18 @@ class FlutterPlayerView(
     id: Int,
     args: Any?,
 ) : MethodChannel.MethodCallHandler, EventChannel.StreamHandler, PlatformView, EventListener() {
+    private val methodChannel: MethodChannel =
+        MethodChannel(
+            messenger,
+            "${Channels.PLAYER_VIEW}-$id",
+        ).apply { setMethodCallHandler(this@FlutterPlayerView) }
+    private val eventChannel =
+        ChannelManager.registerEventChannel(
+            "${Channels.PLAYER_VIEW_EVENT}-$id",
+            this@FlutterPlayerView,
+            messenger,
+        )
+
     private val activity = context.requireActivity()
     private val playerView: PlayerView = PlayerView(context, player = null)
     private var isInPictureInPictureMode = activity.isInPictureInPictureMode
@@ -42,17 +54,6 @@ class FlutterPlayerView(
 
             override fun onLowMemory() = Unit
         }
-    private val methodChannel: MethodChannel =
-        MethodChannel(
-            messenger,
-            "${Channels.PLAYER_VIEW}-$id",
-        ).apply { setMethodCallHandler(this@FlutterPlayerView) }
-    private val eventChannel =
-        ChannelManager.registerEventChannel(
-            "${Channels.PLAYER_VIEW_EVENT}-$id",
-            this@FlutterPlayerView,
-            messenger,
-        )
 
     private val activityLifecycle =
         activity.let { it as? FlutterActivity ?: it as? FlutterFragmentActivity }
