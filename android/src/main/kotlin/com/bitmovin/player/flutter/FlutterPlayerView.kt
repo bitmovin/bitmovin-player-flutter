@@ -25,8 +25,6 @@ class FlutterPlayerView(
     id: Int,
     args: Any?,
 ) : MethodChannel.MethodCallHandler, EventChannel.StreamHandler, PlatformView, EventListener() {
-    private val activity = context.requireActivity()
-    private val playerView: PlayerView = PlayerView(context, player = null)
     private val methodChannel: MethodChannel =
         MethodChannel(
             messenger,
@@ -38,6 +36,9 @@ class FlutterPlayerView(
             this@FlutterPlayerView,
             messenger,
         )
+
+    private val activity = context.requireActivity()
+    private val playerView: PlayerView = PlayerView(context, player = null)
 
     private val activityLifecycle =
         activity.let { it as? FlutterActivity ?: it as? FlutterFragmentActivity }
