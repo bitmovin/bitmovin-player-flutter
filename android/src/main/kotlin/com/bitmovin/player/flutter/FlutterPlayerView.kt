@@ -92,9 +92,7 @@ class FlutterPlayerView(
     ) = when (call.method) {
         Methods.ENTER_FULLSCREEN -> playerView.enterFullscreen()
         Methods.EXIT_FULLSCREEN -> playerView.exitFullscreen()
-        Methods.DESTROY_PLAYER_VIEW -> { // no-op
-        }
-
+        Methods.DESTROY_PLAYER_VIEW -> Unit // no-op
         else -> throw NotImplementedError()
     }
 
