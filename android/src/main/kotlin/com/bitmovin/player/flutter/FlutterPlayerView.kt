@@ -49,21 +49,13 @@ class FlutterPlayerView(
 
     private val activityLifecycleObserver =
         object : DefaultLifecycleObserver {
-            override fun onStart(owner: LifecycleOwner) {
-                playerView.onStart()
-            }
+            override fun onStart(owner: LifecycleOwner) = playerView.onStart()
 
-            override fun onResume(owner: LifecycleOwner) {
-                playerView.onResume()
-            }
+            override fun onResume(owner: LifecycleOwner) = playerView.onResume()
 
-            override fun onPause(owner: LifecycleOwner) {
-                playerView.onPause()
-            }
+            override fun onPause(owner: LifecycleOwner) = playerView.onPause()
 
-            override fun onStop(owner: LifecycleOwner) {
-                playerView.onStop()
-            }
+            override fun onStop(owner: LifecycleOwner) = playerView.onStop()
 
             override fun onDestroy(owner: LifecycleOwner) = dispose()
         }
