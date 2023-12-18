@@ -1,6 +1,8 @@
 package com.bitmovin.player.flutter
 
+import android.content.ComponentCallbacks
 import android.content.Context
+import android.content.res.Configuration
 import android.view.View
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -27,6 +29,19 @@ class FlutterPlayerView(
 ) : MethodChannel.MethodCallHandler, EventChannel.StreamHandler, PlatformView, EventListener() {
     private val activity = context.requireActivity()
     private val playerView: PlayerView = PlayerView(context, player = null)
+    private var isInPictureInPictureMode = activity.isInPictureInPictureMode
+    private val configurationChangedCallback =
+        object : ComponentCallbacks {
+            override fun onConfigurationChanged(newConfig: Configuration) {
+                val newInPictureInPictureMode = activity.isInPictureInPictureMode
+                if (isInPictureInPictureMode != newInPictureInPictureMode) {
+                    isInPictureInPictureMode = newInPictureInPictureMode
+                    onPictureInPictureModeChanged(newInPictureInPictureMode, newConfig)
+                }
+            }
+
+            override fun onLowMemory() = Unit
+        }
     private val methodChannel: MethodChannel =
         MethodChannel(
             messenger,
@@ -76,6 +91,14 @@ class FlutterPlayerView(
         }
 
         activityLifecycle.addObserver(activityLifecycleObserver)
+        activity.registerComponentCallbacks(configurationChangedCallback)
+    }
+
+    private fun onPictureInPictureModeChanged(
+        isInPictureInPictureMode: Boolean,
+        newConfig: Configuration,
+    ) {
+        // TODO: Handle picture in picture mode changed
     }
 
     override fun onMethodCall(
@@ -96,6 +119,7 @@ class FlutterPlayerView(
         methodChannel.setMethodCallHandler(null)
         eventChannel.setStreamHandler(null)
         activityLifecycle.removeObserver(activityLifecycleObserver)
+        activity.unregisterComponentCallbacks(configurationChangedCallback)
     }
 
     override fun onListen(
