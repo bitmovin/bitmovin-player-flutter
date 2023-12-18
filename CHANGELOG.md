@@ -5,6 +5,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
+### Fixed
+
+- Android: Playback doesn't pause when app goes to background
 
 ## [0.4.0] - 2023-12-12
 ### Added
