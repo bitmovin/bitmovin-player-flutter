@@ -1,8 +1,5 @@
 package com.bitmovin.player.flutter
 
-import android.app.Activity
-import android.content.Context
-import android.content.ContextWrapper
 import android.os.Handler
 import android.os.Looper
 
@@ -28,10 +25,3 @@ inline fun postToMainThread(crossinline block: () -> Unit?) {
         block()
     }
 }
-
-fun Context.requireActivity(): Activity =
-    when (this) {
-        is Activity -> this
-        is ContextWrapper -> baseContext.requireActivity()
-        else -> error("No activity found for context $this")
-    }

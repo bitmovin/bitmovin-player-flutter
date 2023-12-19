@@ -1,6 +1,8 @@
 package com.bitmovin.player.flutter
 
+import android.app.Activity
 import android.content.Context
+import android.content.ContextWrapper
 import android.view.View
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -35,8 +37,11 @@ class FlutterPlayerView(
             messenger,
         )
 
-    private val activity = context.requireActivity()
     private val playerView: PlayerView = PlayerView(context, player = null)
+
+    private val activity =
+        context.getActivity()
+            ?: error("Trying to create an instance of ${this::class.simpleName} while not attached to an Activity")
 
     private val activityLifecycle =
         (activity as? LifecycleOwner)
@@ -105,4 +110,11 @@ class FlutterPlayerView(
     override fun onCancel(arguments: Any?) {
         sink = null
     }
+
+    private fun Context.getActivity(): Activity? =
+        when (this) {
+            is Activity -> this
+            is ContextWrapper -> baseContext.getActivity()
+            else -> null
+        }
 }
