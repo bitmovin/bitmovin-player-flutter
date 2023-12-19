@@ -3,8 +3,8 @@ package com.bitmovin.player.flutter
 import android.app.Activity
 import android.content.ComponentCallbacks
 import android.content.Context
-import android.content.res.Configuration
 import android.content.ContextWrapper
+import android.content.res.Configuration
 import android.view.View
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
