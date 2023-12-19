@@ -9,7 +9,9 @@ import android.view.View
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.bitmovin.player.PlayerView
+import com.bitmovin.player.api.ui.PictureInPictureHandler
 import com.bitmovin.player.flutter.json.JPlayerViewCreateArgs
+import com.bitmovin.player.flutter.ui.FlutterPictureInPictureHandler
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodCall
@@ -58,6 +60,7 @@ class FlutterPlayerView(
 
             override fun onLowMemory() = Unit
         }
+    private var pictureInPicturehandler: PictureInPictureHandler? = null
 
     private val activityLifecycle =
         (activity as? LifecycleOwner)
@@ -90,6 +93,10 @@ class FlutterPlayerView(
                     ),
                 )
             }
+            if (playerViewCreateArgs.playerViewConfig?.pictureInPictureConfig?.isEnabled == true) {
+                pictureInPicturehandler = FlutterPictureInPictureHandler(activity, player)
+                playerView.setPictureInPictureHandler(pictureInPicturehandler)
+            }
         }
 
         activityLifecycle.addObserver(activityLifecycleObserver)
@@ -100,7 +107,12 @@ class FlutterPlayerView(
         isInPictureInPictureMode: Boolean,
         newConfig: Configuration,
     ) {
-        // TODO: Handle picture in picture mode changed
+        playerView.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
+        if (isInPictureInPictureMode) {
+            playerView.enterPictureInPicture()
+        } else {
+            playerView.exitPictureInPicture()
+        }
     }
 
     override fun onMethodCall(

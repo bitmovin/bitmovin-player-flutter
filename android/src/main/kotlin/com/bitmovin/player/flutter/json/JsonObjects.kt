@@ -241,6 +241,16 @@ internal class JPlayerViewCreateArgs(override var map: Map<*, *>) : JStruct {
     val playerId by GetString.require()
     val hasFullscreenHandler by GetBool.require()
     val isFullscreen by GetBool.require()
+    val playerViewConfig by structGetter(::JPlayerViewConfig)
+}
+
+internal class JPlayerViewConfig(override var map: Map<*, *>) : JStruct {
+    val pictureInPictureConfig by structGetter(::JPictureInPictureConfig)
+}
+
+internal class JPictureInPictureConfig(override var map: Map<*, *>) : JStruct {
+    val isEnabled by GetBool.require()
+    val shouldEnterOnBackground by GetBool.require()
 }
 
 // Private property delegator
