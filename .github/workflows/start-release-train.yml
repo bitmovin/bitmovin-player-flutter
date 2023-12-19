@@ -1,0 +1,9 @@
+name: Start Release Train
+on:
+  workflow_dispatch:
+jobs:
+  create_release_pr:
+    name: Create release branch and bump version
+    runs-on: macos-latest
+    steps:
+      - run: echo "Creating release branch and bumping version"
