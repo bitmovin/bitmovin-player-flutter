@@ -6,8 +6,6 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.bitmovin.player.PlayerView
 import com.bitmovin.player.flutter.json.JPlayerViewCreateArgs
-import io.flutter.embedding.android.FlutterActivity
-import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodCall
@@ -41,12 +39,9 @@ class FlutterPlayerView(
     private val playerView: PlayerView = PlayerView(context, player = null)
 
     private val activityLifecycle =
-        activity.let { it as? FlutterActivity ?: it as? FlutterFragmentActivity }
+        (activity as? LifecycleOwner)
             ?.lifecycle
-            ?: error(
-                "Trying to create an instance of ${this::class.simpleName}" +
-                    " while not attached to a FlutterActivity or FlutterFragmentActivity",
-            )
+            ?: error("Trying to create an instance of ${this::class.simpleName} while not attached to a LifecycleOwner")
 
     private val activityLifecycleObserver =
         object : DefaultLifecycleObserver {
