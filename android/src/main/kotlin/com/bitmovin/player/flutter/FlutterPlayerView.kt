@@ -1,15 +1,15 @@
 package com.bitmovin.player.flutter
 
+import android.app.Activity
 import android.content.ComponentCallbacks
 import android.content.Context
 import android.content.res.Configuration
+import android.content.ContextWrapper
 import android.view.View
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.bitmovin.player.PlayerView
 import com.bitmovin.player.flutter.json.JPlayerViewCreateArgs
-import io.flutter.embedding.android.FlutterActivity
-import io.flutter.embedding.android.FlutterFragmentActivity
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodCall
@@ -39,8 +39,12 @@ class FlutterPlayerView(
             messenger,
         )
 
-    private val activity = context.requireActivity()
     private val playerView = PlayerView(context, player = null)
+
+    private val activity =
+        context.getActivity()
+            ?: error("Trying to create an instance of ${this::class.simpleName} while not attached to an Activity")
+
     private var isInPictureInPictureMode = activity.isInPictureInPictureMode
     private val configurationChangedCallback =
         object : ComponentCallbacks {
@@ -56,12 +60,9 @@ class FlutterPlayerView(
         }
 
     private val activityLifecycle =
-        activity.let { it as? FlutterActivity ?: it as? FlutterFragmentActivity }
+        (activity as? LifecycleOwner)
             ?.lifecycle
-            ?: error(
-                "Trying to create an instance of ${this::class.simpleName}" +
-                    " while not attached to a FlutterActivity or FlutterFragmentActivity",
-            )
+            ?: error("Trying to create an instance of ${this::class.simpleName} while not attached to a LifecycleOwner")
 
     private val activityLifecycleObserver =
         object : DefaultLifecycleObserver {
@@ -134,4 +135,11 @@ class FlutterPlayerView(
     override fun onCancel(arguments: Any?) {
         sink = null
     }
+
+    private fun Context.getActivity(): Activity? =
+        when (this) {
+            is Activity -> this
+            is ContextWrapper -> baseContext.getActivity()
+            else -> null
+        }
 }
