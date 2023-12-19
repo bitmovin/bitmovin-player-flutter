@@ -24,12 +24,12 @@ void buildSamples() {
     _Sample('Custom HTML UI', CustomHtmlUi.routeName),
     _Sample('Fullscreen Handling', FullscreenHandling.routeName),
     _Sample('Casting', Casting.routeName),
+    _Sample('Picture-in-Picture', PictureInPicture.routeName),
   ];
 
   if (Platform.isIOS) {
     _samples
-      ..add(_Sample('Background Playback', BackgroundPlayback.routeName))
-      ..add(_Sample('Picture-in-Picture', PictureInPicture.routeName));
+      .add(_Sample('Background Playback', BackgroundPlayback.routeName));
   }
 }
 
