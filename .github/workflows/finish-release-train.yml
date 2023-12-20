@@ -46,6 +46,7 @@ jobs:
           git push origin ${{ github.ref }}
 
   trigger_publish:
+    name: Push tag to trigger publishing to pub dev
     needs: [prepare]
     runs-on: ubuntu-latest
     permissions:
@@ -69,7 +70,8 @@ jobs:
           git push origin ${{ needs.prepare.outputs.version_number }}
 
   create_pr:
-    needs: [trigger_publish]
+    name: Create PR
+    needs: [prepare, trigger_publish]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
