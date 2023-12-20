@@ -1,0 +1,10 @@
+name: Finish Release Train
+
+on: 
+  workflow_dispatch:
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "foo bar"
