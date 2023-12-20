@@ -6,11 +6,6 @@ on:
         description: 'Version number of the release'
         type: string
         required: true
-      dry_run:
-        description: 'If true, the workflow will not create a PR'
-        type: boolean
-        required: false
-        default: false
 env:
   LC_ALL: en_US.UTF-8
   LANG: en_US.UTF-8
@@ -30,7 +25,6 @@ jobs:
 
       - name: Setup Git user
         run: |
-          # setup git
           git config --global user.name "Bitmovin Release Automation"
           git config --global user.email "support@bitmovin.com"
 
@@ -42,7 +36,6 @@ jobs:
           echo "$branch_name"
 
       - name: Create Release Branch
-        if: ${{ !inputs.dry_run }}
         run: |
           # Delete the release branch if already exists, useful in case we need to re-run this workflow
           git push origin --delete ${{ steps.branching.outputs.branch_name }} || true
@@ -63,19 +56,7 @@ jobs:
         run: (cd example/ios && pod install --repo-update)
 
       - name: Commit version bump
-        if: ${{ !inputs.dry_run }}
         run: |
           git add CHANGELOG.md pubspec.yaml example/ios/Podfile.lock example/pubspec.lock
           git commit -m "chore: prepare release ${{ inputs.version_number }}"
           git push origin ${{ steps.branching.outputs.branch_name }}
-
-      - name: Create PR
-        if: ${{ !inputs.dry_run }}
-        run: |
-          gh pr create \
-          --base "main" \
-          --title "Release ${{ inputs.version_number }}" \
-          --body "Release ${{ inputs.version_number }}. Please review and merge this PR to continue the release process." \
-          --reviewer "${{ github.actor }}"
-        env:
-          GH_TOKEN: ${{ github.token }}

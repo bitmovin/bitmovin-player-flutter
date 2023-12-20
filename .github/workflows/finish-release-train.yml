@@ -1,103 +1,89 @@
 name: Finish Release Train
-on:
-  pull_request:
-    types:
-      - closed
-    branches:
-      - main
+on: workflow_dispatch
 
 env:
   LC_ALL: en_US.UTF-8
   LANG: en_US.UTF-8
 
 concurrency:
-  group: finish-release-train-${{ github.ref_name }}
+  group: finish-release-train-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  create_pr:
-    if: github.event.pull_request.merged == true && startsWith(github.head_ref, 'release/v')
+  prepare:
+    name: Extracts the version number from the release branch
     runs-on: ubuntu-latest
     outputs:
       version_number: ${{ steps.version_number.outputs.version_number }}
     steps:
+      - name: Verify release branch
+        if: "!contains(github.ref, 'release')"
+        run: exit 1
+
       - uses: actions/checkout@v4
+
+      - name: Setup Git User
+        run: |
+          git config --global user.name "Bitmovin Release Automation"
+          git config --global user.email "support@bitmovin.com"
 
       - name: Detect version number
         id: version_number
         run: |
-          version_number="$(jq --raw-output '.version' package.json)"
+          version_number=$(echo "${{ github.ref }}" | rev | cut -d '/' -f1 | rev)
           echo "Detected version number: $version_number"
           echo "version_number=$version_number" >> $GITHUB_OUTPUT
 
-      - name: Create PR
+      - name: Update Changelog
         run: |
-          gh pr create \
-          --base "development" \
-          --head "main" \
-          --title "Finish release ${{ steps.version_number.outputs.version_number }}" \
-          --body "Finish release ${{ steps.version_number.outputs.version_number }}"
-        env:
-          GH_TOKEN: ${{ github.token }}
+          sed -i "s/\[${{ steps.version_number.outputs.version_number }}\].*/\[${{ steps.version_number.outputs.version_number }}\] $(date +'%Y-%m-%d')/g" CHANGELOG.md
 
-  publish_release:
-    needs: [create_pr]
+      - name: Commit changelog version bump
+        run: |
+          git add CHANGELOG.md
+          git commit -m "chore: bump changelog date to today"
+          git push origin ${{ github.ref }}
+
+  trigger_publish:
+    needs: [prepare]
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          ssh-key: ${{ secrets.PLAYER_FLUTTER_DEPLOY_KEY }}
 
       - name: Setup Git User
         run: |
-          # setup git
           git config --global user.name "Bitmovin Release Automation"
           git config --global user.email "support@bitmovin.com"
 
       - name: Add tag
         run: |
-          git tag v${{ needs.create_pr.outputs.version_number }}
+          git tag ${{ needs.prepare.outputs.version_number }}
 
-      - name: Git push
+      - name: Push tag
         run: |
-          git push origin v${{ needs.create_pr.outputs.version_number }}
+          git push origin ${{ needs.prepare.outputs.version_number }}
 
-      - name: Setup node and npm registry
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16'
-          registry-url: 'https://registry.npmjs.org/'
-          cache: 'yarn'
+  create_pr:
+    needs: [trigger_publish]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
 
-      - name: Install dependencies
-        run: yarn install --frozen-lockfile
+      - name: Setup Git User
+        run: |
+          git config --global user.name "Bitmovin Release Automation"
+          git config --global user.email "support@bitmovin.com"
 
-      - name: Build TypeScript files
-        run: yarn build
-
-      - name: Publish npm package
-        run: npm publish
+      - name: Create PR
+        run: |
+          gh pr create \
+          --base "main" \
+          --title "Release ${{ needs.prepare.outputs.version_number }}" \
+          --body "Release ${{ needs.prepare.outputs.version_number }}. Please review and merge this PR." \
+          --reviewer "${{ github.actor }}"
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-      - name: Extract changelog
-        id: changelog
-        uses: ffurrer2/extract-release-notes@v1
-
-      - name: Create GitHub release
-        uses: ncipollo/release-action@v1
-        with:
-          tag: v${{ needs.create_pr.outputs.version_number }}
-          token: ${{ secrets.GITHUB_TOKEN }}
-          body: ${{ steps.changelog.outputs.release_notes }}
-
-  publish_documentation:
-    needs: [publish_release]
-    name: Generate API Documentation
-    uses: ./.github/workflows/generate-documentation.yml
-    secrets:
-      GH_TOKEN: ${{ secrets.GH_TOKEN }}
-      GCS_ACCOUNT: ${{ secrets.GCS_ACCOUNT }}
-      CF_TOKEN: ${{ secrets.CF_TOKEN }}
-      CF_ZONEID: ${{ secrets.CF_ZONEID }}
+          GH_TOKEN: ${{ github.token }}
