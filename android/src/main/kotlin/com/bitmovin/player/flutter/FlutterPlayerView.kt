@@ -1,11 +1,11 @@
 package com.bitmovin.player.flutter
 
 import android.app.Activity
-import android.content.ComponentCallbacks
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.res.Configuration
 import android.view.View
+import android.widget.FrameLayout
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.bitmovin.player.PlayerView
@@ -17,6 +17,39 @@ import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.platform.PlatformView
+
+private class PlayerViewContainer(
+    val playerView: PlayerView,
+) : FrameLayout(playerView.context) {
+    private val activity =
+        context.getActivity()
+            ?: error("Trying to create an instance of ${this::class.simpleName} while not attached to an Activity")
+    private var isInPictureInPictureMode = activity.isInPictureInPictureMode
+
+    init {
+        addView(playerView)
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        if (isInPictureInPictureMode != activity.isInPictureInPictureMode) {
+            isInPictureInPictureMode = activity.isInPictureInPictureMode
+            onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
+        }
+    }
+
+    private fun onPictureInPictureModeChanged(
+        isInPictureInPictureMode: Boolean,
+        newConfig: Configuration,
+    ) {
+        playerView.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
+        if (isInPictureInPictureMode) {
+            playerView.enterPictureInPicture()
+        } else {
+            playerView.exitPictureInPicture()
+        }
+    }
+}
 
 /**
  * Wraps a Bitmovin `PlayerView` and is connected to a player view instance that was created on the
@@ -41,25 +74,13 @@ class FlutterPlayerView(
             messenger,
         )
 
-    private val playerView = PlayerView(context, player = null)
+    private val playerViewContainer = PlayerViewContainer(PlayerView(context, player = null))
+    private val playerView = playerViewContainer.playerView
 
     private val activity =
         context.getActivity()
             ?: error("Trying to create an instance of ${this::class.simpleName} while not attached to an Activity")
 
-    private var isInPictureInPictureMode = activity.isInPictureInPictureMode
-    private val configurationChangedCallback =
-        object : ComponentCallbacks {
-            override fun onConfigurationChanged(newConfig: Configuration) {
-                val newInPictureInPictureMode = activity.isInPictureInPictureMode
-                if (isInPictureInPictureMode != newInPictureInPictureMode) {
-                    isInPictureInPictureMode = newInPictureInPictureMode
-                    onPictureInPictureModeChanged(newInPictureInPictureMode, newConfig)
-                }
-            }
-
-            override fun onLowMemory() = Unit
-        }
     private var pictureInPicturehandler: PictureInPictureHandler? = null
 
     private val activityLifecycle =
@@ -100,19 +121,6 @@ class FlutterPlayerView(
         }
 
         activityLifecycle.addObserver(activityLifecycleObserver)
-        activity.registerComponentCallbacks(configurationChangedCallback)
-    }
-
-    private fun onPictureInPictureModeChanged(
-        isInPictureInPictureMode: Boolean,
-        newConfig: Configuration,
-    ) {
-        playerView.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
-        if (isInPictureInPictureMode) {
-            playerView.enterPictureInPicture()
-        } else {
-            playerView.exitPictureInPicture()
-        }
     }
 
     override fun onMethodCall(
@@ -129,7 +137,7 @@ class FlutterPlayerView(
         else -> throw NotImplementedError("$method not implemented.")
     }
 
-    override fun getView(): View = playerView
+    override fun getView(): View = playerViewContainer
 
     override fun dispose() {
         playerView.player = null
@@ -137,7 +145,6 @@ class FlutterPlayerView(
         methodChannel.setMethodCallHandler(null)
         eventChannel.setStreamHandler(null)
         activityLifecycle.removeObserver(activityLifecycleObserver)
-        activity.unregisterComponentCallbacks(configurationChangedCallback)
     }
 
     override fun onListen(
@@ -151,11 +158,11 @@ class FlutterPlayerView(
     override fun onCancel(arguments: Any?) {
         sink = null
     }
-
-    private fun Context.getActivity(): Activity? =
-        when (this) {
-            is Activity -> this
-            is ContextWrapper -> baseContext.getActivity()
-            else -> null
-        }
 }
+
+private fun Context.getActivity(): Activity? =
+    when (this) {
+        is Activity -> this
+        is ContextWrapper -> baseContext.getActivity()
+        else -> null
+    }

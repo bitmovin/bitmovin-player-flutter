@@ -26,7 +26,7 @@ class FlutterPictureInPictureHandler(
     }
 
     override fun exitPictureInPicture() {
-        super.exitPictureInPicture()
+        // super.exitPictureInPicture()
         _isPictureInPicture = false
     }
 }
