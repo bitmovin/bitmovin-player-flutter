@@ -5,6 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [0.5.0]
+### Added
+Support for Picture-in-Picture (PiP) playback on iOS
+  - `PictureInPictureEnter` which is emitted when the player view is about to enter Picture-in-Picture mode
+  - `PictureInPictureExit` which is emitted when the player view is about to exit Picture-in-Picture mode
+
+### Changed
+- `PlayerView` has a new argument `playerViewConfig` with a predefined default value
 
 ## [0.4.0] - 2023-12-12
 ### Added
