@@ -36,6 +36,8 @@ jobs:
     needs: [publish]
     name: Generate API Documentation
     uses: ./.github/workflows/generate-documentation.yml
+    with:
+      version_number: ${{ github.ref_name }}
     secrets:
       PLAYER_CI_GH_TOKEN: ${{ secrets.PLAYER_CI_GH_TOKEN }}
       GCS_ACCOUNT: ${{ secrets.GCS_ACCOUNT }}
