@@ -5,8 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
-### Fixed
+### Added
+Support for Picture-in-Picture (PiP) playback on Android
+- `PictureInPictureEnter` which is emitted when the player enters Picture-In-Picture mode.
+- `PictureInPictureExit` which is emitted when the player exits Picture-In-Picture mode.
 
+### Fixed
 - Android: Playback doesn't pause when app goes to background
 
 ## [0.4.0] - 2023-12-12
