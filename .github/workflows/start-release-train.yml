@@ -72,7 +72,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          branch: ${{ needs.create_release_branch.outputs.branch_name }}
+          ref: ${{ needs.create_release_branch.outputs.branch_name }}
 
       - uses: ./.github/actions/prepare-dependencies
 
