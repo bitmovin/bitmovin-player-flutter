@@ -160,7 +160,7 @@ class Player with PlayerEventHandler implements PlayerApi {
 
   // Can be used to call methods on the platform side that return a list of
   // complex objects that are not natively supported by the method channel.
-  Future<List<T>> _invokeListObjectsMethod<T>(
+  Future<List<T>?> _invokeListObjectsMethod<T>(
     String methodName,
     T Function(Map<String, dynamic>) fromJson, [
     dynamic data,
@@ -176,7 +176,7 @@ class Player with PlayerEventHandler implements PlayerApi {
     );
 
     if (jsonStringList == null) {
-      return [];
+      return null;
     }
 
     return jsonStringList.map((String jsonString) {
@@ -250,7 +250,7 @@ class Player with PlayerEventHandler implements PlayerApi {
   Future<bool> get isPlaying async => _invokeMethod<bool>(Methods.isPlaying);
 
   @override
-  Future<List<SubtitleTrack>> get availableSubtitles async =>
+  Future<List<SubtitleTrack>?> get availableSubtitles async =>
       _invokeListObjectsMethod<SubtitleTrack>(
         Methods.availableSubtitles,
         SubtitleTrack.fromJson,
@@ -265,12 +265,11 @@ class Player with PlayerEventHandler implements PlayerApi {
       _invokeMethod<void>(Methods.setSubtitle, id);
 
   @override
-  Future<SubtitleTrack> get subtitle async =>
-      await _invokeObjectMethod<SubtitleTrack>(
+  Future<SubtitleTrack?> get subtitle async =>
+      _invokeObjectMethod<SubtitleTrack>(
         Methods.getSubtitle,
         SubtitleTrack.fromJson,
-      ) ??
-      SubtitleTrack.off();
+      );
 
   /// Disposes the player instance.
   Future<void> dispose() async => _invokeMethod<void>(Methods.destroy);
