@@ -95,56 +95,56 @@ class _PictureInPictureState extends State<PictureInPicture> {
     );
     if (renderOnlyPlayerView) {
       return playerView;
-    } else {
-      return Scaffold(
-        appBar: AppBar(
-          title: const Text('Picture-in-Picture'),
-        ),
-        body: Column(
-          children: [
-            AspectRatio(
-              aspectRatio: 16 / 9,
-              child: playerView,
-            ),
-            Row(
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(left: 10, right: 5),
-                  child: OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: Colors.blue),
-                    ),
-                    onPressed: () {
-                      _playerViewKey.currentState?.pictureInPicture
-                          .enterPictureInPicture();
-                    },
-                    child: const Text('Enter PiP'),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.all(5),
-                  child: OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: Colors.blue),
-                    ),
-                    onPressed: () {
-                      _playerViewKey.currentState?.pictureInPicture
-                          .exitPictureInPicture();
-                    },
-                    child: const Text('Exit PiP'),
-                  ),
-                ),
-              ],
-            ),
-            Expanded(
-              child: Container(
-                margin: const EdgeInsets.fromLTRB(10, 10, 10, 40),
-                child: Events(key: _eventsKey),
-              ),
-            ),
-          ],
-        ),
-      );
     }
+
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Picture-in-Picture'),
+      ),
+      body: Column(
+        children: [
+          AspectRatio(
+            aspectRatio: 16 / 9,
+            child: playerView,
+          ),
+          Row(
+            children: [
+              Container(
+                margin: const EdgeInsets.only(left: 10, right: 5),
+                child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    side: const BorderSide(color: Colors.blue),
+                  ),
+                  onPressed: () {
+                    _playerViewKey.currentState?.pictureInPicture
+                        .enterPictureInPicture();
+                  },
+                  child: const Text('Enter PiP'),
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.all(5),
+                child: OutlinedButton(
+                  style: OutlinedButton.styleFrom(
+                    side: const BorderSide(color: Colors.blue),
+                  ),
+                  onPressed: () {
+                    _playerViewKey.currentState?.pictureInPicture
+                        .exitPictureInPicture();
+                  },
+                  child: const Text('Exit PiP'),
+                ),
+              ),
+            ],
+          ),
+          Expanded(
+            child: Container(
+              margin: const EdgeInsets.fromLTRB(10, 10, 10, 40),
+              child: Events(key: _eventsKey),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
