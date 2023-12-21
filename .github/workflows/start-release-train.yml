@@ -57,7 +57,8 @@ jobs:
           flutter pub get
 
       - name: Install pods to update Podfile.lock
-        run: (cd example/ios && pod install --repo-update)
+        working-directory: example/ios
+        run: pod install --repo-update
 
       - name: Commit version bump
         run: |
