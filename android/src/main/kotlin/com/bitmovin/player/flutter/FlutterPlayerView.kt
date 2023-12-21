@@ -1,11 +1,11 @@
 package com.bitmovin.player.flutter
 
 import android.app.Activity
-import android.content.ComponentCallbacks
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.res.Configuration
 import android.view.View
+import android.widget.FrameLayout
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.bitmovin.player.PlayerView
@@ -45,20 +45,6 @@ class FlutterPlayerView(
         context.getActivity()
             ?: error("Trying to create an instance of ${this::class.simpleName} while not attached to an Activity")
 
-    private var isInPictureInPictureMode = activity.isInPictureInPictureMode
-    private val configurationChangedCallback =
-        object : ComponentCallbacks {
-            override fun onConfigurationChanged(newConfig: Configuration) {
-                val newInPictureInPictureMode = activity.isInPictureInPictureMode
-                if (isInPictureInPictureMode != newInPictureInPictureMode) {
-                    isInPictureInPictureMode = newInPictureInPictureMode
-                    onPictureInPictureModeChanged(newInPictureInPictureMode, newConfig)
-                }
-            }
-
-            override fun onLowMemory() = Unit
-        }
-
     private val activityLifecycle =
         (activity as? LifecycleOwner)
             ?.lifecycle
@@ -93,7 +79,6 @@ class FlutterPlayerView(
         }
 
         activityLifecycle.addObserver(activityLifecycleObserver)
-        activity.registerComponentCallbacks(configurationChangedCallback)
     }
 
     private fun onPictureInPictureModeChanged(
@@ -121,7 +106,6 @@ class FlutterPlayerView(
         methodChannel.setMethodCallHandler(null)
         eventChannel.setStreamHandler(null)
         activityLifecycle.removeObserver(activityLifecycleObserver)
-        activity.unregisterComponentCallbacks(configurationChangedCallback)
     }
 
     override fun onListen(
@@ -134,6 +118,28 @@ class FlutterPlayerView(
 
     override fun onCancel(arguments: Any?) {
         sink = null
+    }
+
+    private fun PlayerView.setOnPictureInPictureModeChanged(callback: (Boolean, Configuration) -> Unit) {
+        var isInPictureInPictureMode = activity.isInPictureInPictureMode
+        // Listening to PiP changes usually happens by overriding onPictureInPictureModeChanged in the Activity.
+        // This is not really doable in a SDK context since the library consumer actually controls the activity.
+        // To work around this limitation we listen to configuration changes and check if the PiP mode changed.
+        // Since Flutter's PlatformView isn't actually an Android View,
+        // we unfortunately cannot just override onConfigurationChanged function.
+        // Instead, we add an invisible FrameLayout to the PlayerView and override its onConfigurationChanged function.
+        // The alternative would be registering a ComponentCallbacks object to the activity, which unfortunatley doesn't
+        // work for some Android versions (tested on Android 10 with FlutterFragmentActivity).
+        addView(
+            object : FrameLayout(context) {
+                override fun onConfigurationChanged(newConfig: Configuration) {
+                    if (isInPictureInPictureMode != activity.isInPictureInPictureMode) {
+                        isInPictureInPictureMode = activity.isInPictureInPictureMode
+                        callback(isInPictureInPictureMode, newConfig)
+                    }
+                }
+            },
+        )
     }
 
     private fun Context.getActivity(): Activity? =
