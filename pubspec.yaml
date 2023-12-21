@@ -1,6 +1,6 @@
 name: bitmovin_player
 description: Official Flutter bindings for Bitmovin's mobile Player SDKs.
-version: 0.4.0
+version: 0.5.0
 homepage: https://bitmovin.com
 repository: https://github.com/bitmovin/bitmovin-player-flutter
 issue_tracker: https://github.com/bitmovin/bitmovin-player-flutter/issues
