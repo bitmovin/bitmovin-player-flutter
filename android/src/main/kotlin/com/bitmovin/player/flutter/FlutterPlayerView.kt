@@ -119,7 +119,7 @@ class FlutterPlayerView(
         sink = null
     }
 
-    private fun PlayerView.setOnPictureInPictureModeChanged(callback: (Boolean, Configuration) -> Unit) {
+    private fun PlayerView.setOnPictureInPictureModeChangedCallback(callback: (Boolean, Configuration) -> Unit) {
         var isInPictureInPictureMode = activity.isInPictureInPictureMode
         // Listening to PiP changes usually happens by overriding `onPictureInPictureModeChanged` in the activity.
         // This is not doable in an SDK context since the library consumer controls the activity.
