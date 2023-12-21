@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.content.res.Configuration
 import android.view.View
-import android.widget.FrameLayout
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.bitmovin.player.PlayerView
@@ -127,11 +126,11 @@ class FlutterPlayerView(
         // To work around this limitation we listen to configuration changes and check if the PiP mode changed.
         // Since Flutter's PlatformView isn't actually an Android View,
         // we unfortunately cannot just override onConfigurationChanged function.
-        // Instead, we add an invisible FrameLayout to the PlayerView and override its onConfigurationChanged function.
-        // The alternative would be registering a ComponentCallbacks object to the activity, which unfortunatley doesn't
+        // Instead, we add a blank View to the PlayerView and override its onConfigurationChanged function.
+        // The alternative would be registering a ComponentCallbacks object to the activity, which unfortunately doesn't
         // work for some Android versions (tested on Android 10 with FlutterFragmentActivity).
         addView(
-            object : FrameLayout(context) {
+            object : View(context) {
                 override fun onConfigurationChanged(newConfig: Configuration) {
                     if (isInPictureInPictureMode != activity.isInPictureInPictureMode) {
                         isInPictureInPictureMode = activity.isInPictureInPictureMode
