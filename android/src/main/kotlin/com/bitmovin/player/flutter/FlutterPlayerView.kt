@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.res.Configuration
+import android.os.Build
 import android.view.View
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -79,7 +80,10 @@ class FlutterPlayerView(
                     ),
                 )
             }
-            if (playerViewCreateArgs.playerViewConfig?.pictureInPictureConfig?.isEnabled == true) {
+            if (
+                playerViewCreateArgs.playerViewConfig?.pictureInPictureConfig?.isEnabled == true &&
+                isPictureInPictureSupported
+            ) {
                 pictureInPicturehandler = FlutterPictureInPictureHandler(activity, player)
                 playerView.setPictureInPictureHandler(pictureInPicturehandler)
                 playerView.setOnPictureInPictureModeChangedCallback(::onPictureInPictureModeChanged)
@@ -136,6 +140,9 @@ class FlutterPlayerView(
     override fun onCancel(arguments: Any?) {
         sink = null
     }
+
+    private val isPictureInPictureSupported: Boolean
+        get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
 
     private fun PlayerView.setOnPictureInPictureModeChangedCallback(callback: (Boolean, Configuration) -> Unit) {
         var isInPictureInPictureMode = activity.isInPictureInPictureMode

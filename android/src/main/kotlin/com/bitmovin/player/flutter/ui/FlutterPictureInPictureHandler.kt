@@ -8,13 +8,11 @@ class FlutterPictureInPictureHandler(
     activity: Activity,
     player: Player,
 ) : DefaultPictureInPictureHandler(activity, player) {
-    // Track this state manually, since the lifecycle in Flutter is a bit different than using a
-    // DefaultPictureInPictureHandler within the native app environment.
-    // The difference being that we always want to emit PictureInPictureEnter and PictureInPictureExit events
-    // so that they can bubble up to the flutter UI and customers can react to picture in picture state changes.
-    // The mentioned events are only emitted if not already in the same `isPictureInPicture` state and if called
-    // the PiP is exited via palyerView API.
-    // TODO: Improve this comment
+    // Current PiP implementation on the native side requires playerView.exitPictureInPicture() to be called
+    // in order for PictureInPictureExit event to be emitted.
+    // Additonally the event is only emitted if isPictureInPicture is false. At the point in time we call
+    // playerView.exitPictureInPicture() the activity will already be in PiP mode, and thus the event won't be emitted.
+    // To work arround this we keep track of the PiP state ourselves.
     private var _isPictureInPicture = false
 
     override val isPictureInPicture: Boolean
@@ -26,7 +24,7 @@ class FlutterPictureInPictureHandler(
     }
 
     override fun exitPictureInPicture() {
-        // super.exitPictureInPicture()
+        super.exitPictureInPicture()
         _isPictureInPicture = false
     }
 }
