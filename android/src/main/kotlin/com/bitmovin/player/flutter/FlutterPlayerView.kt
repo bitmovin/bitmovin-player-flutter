@@ -82,10 +82,10 @@ class FlutterPlayerView(
             if (playerViewCreateArgs.playerViewConfig?.pictureInPictureConfig?.isEnabled == true) {
                 pictureInPicturehandler = FlutterPictureInPictureHandler(activity, player)
                 playerView.setPictureInPictureHandler(pictureInPicturehandler)
+                playerView.setOnPictureInPictureModeChangedCallback(::onPictureInPictureModeChanged)
             }
         }
 
-        playerView.setOnPictureInPictureModeChanged(::onPictureInPictureModeChanged)
         activityLifecycle.addObserver(activityLifecycleObserver)
     }
 
