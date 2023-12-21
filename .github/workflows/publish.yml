@@ -1,0 +1,45 @@
+name: Publish to pub.dev
+
+on:
+  push:
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+*'
+
+jobs:
+  publish:
+    name: Publish to pub.dev
+    permissions:
+      id-token: write
+    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
+    with:
+      environment: pub.dev
+
+  create_gh_release:
+    name: Create GitHub release
+    needs: [publish]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract Changelog
+        id: changelog
+        uses: ffurrer2/extract-release-notes@v1
+
+      - name: Create GitHub release
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ github.ref_name }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          body: ${{ steps.changelog.outputs.release_notes }}
+
+  publish_documentation:
+    needs: [publish]
+    name: Generate API Documentation
+    uses: ./.github/workflows/generate-documentation.yml
+    with:
+      version_number: ${{ github.ref_name }}
+    secrets:
+      PLAYER_CI_GH_TOKEN: ${{ secrets.PLAYER_CI_GH_TOKEN }}
+      GCS_ACCOUNT: ${{ secrets.GCS_ACCOUNT }}
+      CF_TOKEN: ${{ secrets.CF_TOKEN }}
+      CF_ZONEID: ${{ secrets.CF_ZONEID }}

@@ -1,15 +1,12 @@
-#
-# To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html.
-# Run `pod lib lint player.podspec` to validate before publishing.
-#
+require 'yaml'
+
+package = YAML.load(File.read(File.join(__dir__, "../pubspec.yaml")))
+
 Pod::Spec.new do |s|
-  s.name = 'bitmovin_player'
-  s.version = '0.4.0'
-  s.summary = 'Bitmovin Player Flutter plugin'
-  s.description = <<-DESC
-Flutter plugin for Bitmovin Player.
-                  DESC
-  s.homepage = 'https://bitmovin.com'
+  s.name = package['name']
+  s.version = package['version']
+  s.summary = package['description']
+  s.homepage = package['homepage']
   s.license = { :file => '../LICENSE' }
   s.author = { 'Bitmovin' => 'support@bitmovin.com' }
   s.source = { :path => '.' }
