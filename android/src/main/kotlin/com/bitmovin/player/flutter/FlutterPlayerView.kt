@@ -121,13 +121,13 @@ class FlutterPlayerView(
 
     private fun PlayerView.setOnPictureInPictureModeChanged(callback: (Boolean, Configuration) -> Unit) {
         var isInPictureInPictureMode = activity.isInPictureInPictureMode
-        // Listening to PiP changes usually happens by overriding onPictureInPictureModeChanged in the Activity.
-        // This is not really doable in a SDK context since the library consumer actually controls the activity.
+        // Listening to PiP changes usually happens by overriding `onPictureInPictureModeChanged` in the activity.
+        // This is not doable in an SDK context since the library consumer controls the activity.
         // To work around this limitation we listen to configuration changes and check if the PiP mode changed.
-        // Since Flutter's PlatformView isn't actually an Android View,
-        // we unfortunately cannot just override onConfigurationChanged function.
-        // Instead, we add a blank View to the PlayerView and override its onConfigurationChanged function.
-        // The alternative would be registering a ComponentCallbacks object to the activity, which unfortunately doesn't
+        // Since Flutter's `PlatformView` isn't actually an Android `View`,
+        // we unfortunately cannot just override the `onConfigurationChanged` function.
+        // Instead, we add a blank `View` to the `PlayerView` and override its `onConfigurationChanged` function.
+        // The alternative would be registering a `ComponentCallbacks` object to the activity, which unfortunately doesn't
         // work for some Android versions (tested on Android 10 with FlutterFragmentActivity).
         addView(
             object : View(context) {
