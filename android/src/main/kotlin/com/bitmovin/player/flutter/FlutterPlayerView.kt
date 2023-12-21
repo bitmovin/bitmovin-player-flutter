@@ -18,39 +18,6 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.platform.PlatformView
 
-private class PlayerViewContainer(
-    val playerView: PlayerView,
-) : FrameLayout(playerView.context) {
-    private val activity =
-        context.getActivity()
-            ?: error("Trying to create an instance of ${this::class.simpleName} while not attached to an Activity")
-    private var isInPictureInPictureMode = activity.isInPictureInPictureMode
-
-    init {
-        addView(playerView)
-    }
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        if (isInPictureInPictureMode != activity.isInPictureInPictureMode) {
-            isInPictureInPictureMode = activity.isInPictureInPictureMode
-            onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
-        }
-    }
-
-    private fun onPictureInPictureModeChanged(
-        isInPictureInPictureMode: Boolean,
-        newConfig: Configuration,
-    ) {
-        playerView.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
-        if (isInPictureInPictureMode) {
-            playerView.enterPictureInPicture()
-        } else {
-            playerView.exitPictureInPicture()
-        }
-    }
-}
-
 /**
  * Wraps a Bitmovin `PlayerView` and is connected to a player view instance that was created on the
  * Flutter side in Dart. Communication with the player view instance on the Flutter side happens
@@ -74,8 +41,7 @@ class FlutterPlayerView(
             messenger,
         )
 
-    private val playerViewContainer = PlayerViewContainer(PlayerView(context, player = null))
-    private val playerView = playerViewContainer.playerView
+    private val playerView = PlayerView(context, player = null)
 
     private val activity =
         context.getActivity()
@@ -120,7 +86,20 @@ class FlutterPlayerView(
             }
         }
 
+        playerView.setOnPictureInPictureModeChanged(::onPictureInPictureModeChanged)
         activityLifecycle.addObserver(activityLifecycleObserver)
+    }
+
+    private fun onPictureInPictureModeChanged(
+        isInPictureInPictureMode: Boolean,
+        newConfig: Configuration,
+    ) {
+        playerView.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
+        if (isInPictureInPictureMode) {
+            playerView.enterPictureInPicture()
+        } else {
+            playerView.exitPictureInPicture()
+        }
     }
 
     override fun onMethodCall(
@@ -137,7 +116,7 @@ class FlutterPlayerView(
         else -> throw NotImplementedError("$method not implemented.")
     }
 
-    override fun getView(): View = playerViewContainer
+    override fun getView(): View = playerView
 
     override fun dispose() {
         playerView.player = null
@@ -157,6 +136,20 @@ class FlutterPlayerView(
 
     override fun onCancel(arguments: Any?) {
         sink = null
+    }
+
+    private fun PlayerView.setOnPictureInPictureModeChanged(callback: (Boolean, Configuration) -> Unit) {
+        var isInPictureInPictureMode = activity.isInPictureInPictureMode
+        addView(
+            object : FrameLayout(context) {
+                override fun onConfigurationChanged(newConfig: Configuration) {
+                    if (isInPictureInPictureMode != activity.isInPictureInPictureMode) {
+                        isInPictureInPictureMode = activity.isInPictureInPictureMode
+                        callback(isInPictureInPictureMode, newConfig)
+                    }
+                }
+            },
+        )
     }
 }
 
