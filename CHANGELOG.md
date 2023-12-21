@@ -6,9 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 ### Added
-Support for Picture-in-Picture (PiP) playback on Android
-- `PictureInPictureEnter` which is emitted when the player enters Picture-In-Picture mode.
-- `PictureInPictureExit` which is emitted when the player exits Picture-In-Picture mode.
+- Support for Picture-in-Picture (PiP) playback on Android
 
 ### Fixed
 - Android: Playback doesn't pause when app goes to background
