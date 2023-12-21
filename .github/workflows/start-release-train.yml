@@ -17,7 +17,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  create_release_pr:
+  create_release_branch:
     name: Create release branch and bump version
     runs-on: macos-latest
     outputs:
