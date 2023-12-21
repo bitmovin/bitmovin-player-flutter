@@ -28,8 +28,7 @@ void buildSamples() {
   ];
 
   if (Platform.isIOS) {
-    _samples
-      .add(_Sample('Background Playback', BackgroundPlayback.routeName));
+    _samples.add(_Sample('Background Playback', BackgroundPlayback.routeName));
   }
 }
 
