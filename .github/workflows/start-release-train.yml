@@ -64,3 +64,17 @@ jobs:
           git add CHANGELOG.md pubspec.yaml example/ios/Podfile.lock example/pubspec.lock
           git commit -m "chore: prepare release ${{ inputs.version_number }}"
           git push origin ${{ steps.branching.outputs.branch_name }}
+
+  publish_dry_run:
+    name: Dry run for publishing to pub.dev
+    needs: create_release_branch
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          branch: ${{ needs.create_release_branch.outputs.branch_name }}
+
+      - uses: ./.github/actions/prepare-dependencies
+
+      - name: Publish dry run
+        run: dart pub publish --dry-run
