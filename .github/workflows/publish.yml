@@ -8,15 +8,11 @@ on:
 jobs:
   publish:
     name: Publish to pub.dev
-    # TODO: commented out for testing
-    # permissions:
-    #   id-token: write
-    # uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
-    # with:
-    #   environment: pub.dev
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo "Publishing to pub.dev ${{ github.ref_name }}"
+    permissions:
+      id-token: write
+    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
+    with:
+      environment: pub.dev
 
   create_gh_release:
     name: Create GitHub release
