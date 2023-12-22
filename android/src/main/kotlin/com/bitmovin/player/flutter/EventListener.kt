@@ -193,6 +193,12 @@ open class EventListener {
             on(PlayerEvent.FullscreenExit::class) {
                 broadcast("onFullscreenExit", it)
             }
+            on(PlayerEvent.PictureInPictureEnter::class) {
+                broadcast("onPictureInPictureEnter", it)
+            }
+            on(PlayerEvent.PictureInPictureExit::class) {
+                broadcast("onPictureInPictureExit", it)
+            }
         }
     }
 }

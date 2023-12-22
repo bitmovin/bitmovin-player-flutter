@@ -4,16 +4,22 @@ import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.res.Configuration
+import android.os.Build
 import android.view.View
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.bitmovin.player.PlayerView
+import com.bitmovin.player.api.ui.PictureInPictureHandler
 import com.bitmovin.player.flutter.json.JPlayerViewCreateArgs
+import com.bitmovin.player.flutter.ui.FlutterPictureInPictureHandler
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.platform.PlatformView
+
+private val isPictureInPictureSupported: Boolean
+    get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
 
 /**
  * Wraps a Bitmovin `PlayerView` and is connected to a player view instance that was created on the
@@ -43,6 +49,8 @@ class FlutterPlayerView(
     private val activity =
         context.getActivity()
             ?: error("Trying to create an instance of ${this::class.simpleName} while not attached to an Activity")
+
+    private var pictureInPicturehandler: PictureInPictureHandler? = null
 
     private val activityLifecycle =
         (activity as? LifecycleOwner)
@@ -75,6 +83,14 @@ class FlutterPlayerView(
                     ),
                 )
             }
+            if (
+                playerViewCreateArgs.playerViewConfig?.pictureInPictureConfig?.isEnabled == true &&
+                isPictureInPictureSupported
+            ) {
+                pictureInPicturehandler = FlutterPictureInPictureHandler(activity, player)
+                playerView.setPictureInPictureHandler(pictureInPicturehandler)
+                playerView.setOnPictureInPictureModeChangedCallback(::onPictureInPictureModeChanged)
+            }
         }
 
         activityLifecycle.addObserver(activityLifecycleObserver)
@@ -84,17 +100,26 @@ class FlutterPlayerView(
         isInPictureInPictureMode: Boolean,
         newConfig: Configuration,
     ) {
-        // TODO: Handle picture in picture mode changed
+        playerView.onPictureInPictureModeChanged(isInPictureInPictureMode, newConfig)
+        if (isInPictureInPictureMode) {
+            playerView.enterPictureInPicture()
+        } else {
+            playerView.exitPictureInPicture()
+        }
     }
 
     override fun onMethodCall(
         call: MethodCall,
         result: MethodChannel.Result,
-    ) = when (call.method) {
+    ) = when (val method = call.method) {
         Methods.ENTER_FULLSCREEN -> playerView.enterFullscreen()
         Methods.EXIT_FULLSCREEN -> playerView.exitFullscreen()
+        Methods.IS_PICTURE_IN_PICTURE -> result.success(playerView.isPictureInPicture)
+        Methods.IS_PICTURE_IN_PICTURE_AVAILABLE -> result.success(playerView.isPictureInPictureAvailable)
+        Methods.ENTER_PICTURE_IN_PICTURE -> playerView.enterPictureInPicture()
+        Methods.EXIT_PICTURE_IN_PICTURE -> playerView.exitPictureInPicture()
         Methods.DESTROY_PLAYER_VIEW -> Unit // no-op
-        else -> throw NotImplementedError()
+        else -> throw NotImplementedError("$method not implemented.")
     }
 
     override fun getView(): View = playerView

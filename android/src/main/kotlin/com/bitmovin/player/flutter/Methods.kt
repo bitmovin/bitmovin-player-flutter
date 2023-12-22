@@ -36,6 +36,12 @@ class Methods {
         const val ENTER_FULLSCREEN = "enterFullscreen"
         const val EXIT_FULLSCREEN = "exitFullscreen"
 
+        // PiP related events
+        const val IS_PICTURE_IN_PICTURE = "isPictureInPicture"
+        const val IS_PICTURE_IN_PICTURE_AVAILABLE = "isPictureInPictureAvailable"
+        const val ENTER_PICTURE_IN_PICTURE = "enterPictureInPicture"
+        const val EXIT_PICTURE_IN_PICTURE = "exitPictureInPicture"
+
         // Widevine DRM related methods
         const val WIDEVINE_PREPARE_MESSAGE = "widevinePrepareMessage"
         const val WIDEVINE_PREPARE_LICENSE = "widevinePrepareLicense"
