@@ -78,7 +78,7 @@ class _PictureInPictureState extends State<PictureInPicture> {
     super.dispose();
   }
 
-  // Since PiP on Android is basically just the whole screen fitted in a small
+  // Since PiP on Android is basically just the whole activity fitted in a small
   // floating window, we don't want to display the whole scaffold
   bool get renderOnlyPlayerView => Platform.isAndroid && _isInPictureInPicture;
 
