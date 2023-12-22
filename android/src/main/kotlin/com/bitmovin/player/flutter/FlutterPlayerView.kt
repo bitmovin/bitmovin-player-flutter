@@ -1,9 +1,12 @@
 package com.bitmovin.player.flutter
 
+import android.app.Activity
 import android.content.Context
+import android.content.ContextWrapper
 import android.view.View
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import com.bitmovin.player.PlayerView
-import com.bitmovin.player.api.Player
 import com.bitmovin.player.flutter.json.JPlayerViewCreateArgs
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.EventChannel
@@ -22,7 +25,6 @@ class FlutterPlayerView(
     id: Int,
     args: Any?,
 ) : MethodChannel.MethodCallHandler, EventChannel.StreamHandler, PlatformView, EventListener() {
-    private val playerView: PlayerView
     private val methodChannel: MethodChannel =
         MethodChannel(
             messenger,
@@ -35,10 +37,33 @@ class FlutterPlayerView(
             messenger,
         )
 
+    private val playerView: PlayerView = PlayerView(context, player = null)
+
+    private val activity =
+        context.getActivity()
+            ?: error("Trying to create an instance of ${this::class.simpleName} while not attached to an Activity")
+
+    private val activityLifecycle =
+        (activity as? LifecycleOwner)
+            ?.lifecycle
+            ?: error("Trying to create an instance of ${this::class.simpleName} while not attached to a LifecycleOwner")
+
+    private val activityLifecycleObserver =
+        object : DefaultLifecycleObserver {
+            override fun onStart(owner: LifecycleOwner) = playerView.onStart()
+
+            override fun onResume(owner: LifecycleOwner) = playerView.onResume()
+
+            override fun onPause(owner: LifecycleOwner) = playerView.onPause()
+
+            override fun onStop(owner: LifecycleOwner) = playerView.onStop()
+
+            override fun onDestroy(owner: LifecycleOwner) = dispose()
+        }
+
     init {
         val playerViewCreateArgs = JPlayerViewCreateArgs(args as Map<*, *>)
 
-        playerView = PlayerView(context, null as Player?)
         PlayerManager.onPlayerCreated(playerViewCreateArgs.playerId) { player ->
             playerView.player = player
             if (playerViewCreateArgs.hasFullscreenHandler) {
@@ -50,6 +75,8 @@ class FlutterPlayerView(
                 )
             }
         }
+
+        activityLifecycle.addObserver(activityLifecycleObserver)
     }
 
     override fun onMethodCall(
@@ -58,7 +85,7 @@ class FlutterPlayerView(
     ) = when (call.method) {
         Methods.ENTER_FULLSCREEN -> playerView.enterFullscreen()
         Methods.EXIT_FULLSCREEN -> playerView.exitFullscreen()
-        Methods.DESTROY_PLAYER_VIEW -> { /* no-op */ }
+        Methods.DESTROY_PLAYER_VIEW -> Unit // no-op
         else -> throw NotImplementedError()
     }
 
@@ -69,6 +96,7 @@ class FlutterPlayerView(
         playerView.onDestroy()
         methodChannel.setMethodCallHandler(null)
         eventChannel.setStreamHandler(null)
+        activityLifecycle.removeObserver(activityLifecycleObserver)
     }
 
     override fun onListen(
@@ -82,4 +110,11 @@ class FlutterPlayerView(
     override fun onCancel(arguments: Any?) {
         sink = null
     }
+
+    private fun Context.getActivity(): Activity? =
+        when (this) {
+            is Activity -> this
+            is ContextWrapper -> baseContext.getActivity()
+            else -> null
+        }
 }
