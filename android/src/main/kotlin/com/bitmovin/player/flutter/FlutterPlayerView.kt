@@ -18,6 +18,9 @@ import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.platform.PlatformView
 
+private val isPictureInPictureSupported: Boolean
+    get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+
 /**
  * Wraps a Bitmovin `PlayerView` and is connected to a player view instance that was created on the
  * Flutter side in Dart. Communication with the player view instance on the Flutter side happens
@@ -140,9 +143,6 @@ class FlutterPlayerView(
     override fun onCancel(arguments: Any?) {
         sink = null
     }
-
-    private val isPictureInPictureSupported: Boolean
-        get() = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
 
     private fun PlayerView.setOnPictureInPictureModeChangedCallback(callback: (Boolean, Configuration) -> Unit) {
         var isInPictureInPictureMode = activity.isInPictureInPictureMode
