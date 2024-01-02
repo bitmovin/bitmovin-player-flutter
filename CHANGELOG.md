@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
+### Changed
+- Update Bitmovin's native Android Player SDK version to `3.55.0`
+- Update Bitmovin's native iOS Player SDK version to `3.52.0`
+
 ### Added
 - Support for Picture-in-Picture (PiP) playback on Android
 
