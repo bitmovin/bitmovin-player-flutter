@@ -23,6 +23,9 @@ Please refer to the [Features](https://developer.bitmovin.com/playback/docs/over
 ### Getting Started Guide
 Our [Getting Started Guide](https://developer.bitmovin.com/playback/docs/getting-started-flutter) walks you through setting up and configuring the Bitmovin Player in Flutter projects.
 
+### Low-Code Wizard
+Use the [Low-Code Wizard](https://dashboard.bitmovin.com/player/getting-started) in your Dashboard to quickly get started with the Player, with just a few lines of code.
+
 ### Sample Application
 In the [example](example) folder you can find a sample application showcasing many of the features of the Player Flutter SDK.
 
