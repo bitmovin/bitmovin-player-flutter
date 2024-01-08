@@ -23,7 +23,7 @@ jobs:
       # manually log-in in to pub.dev with an admin account.
       - uses: dart-lang/setup-dart@v1.6.0
 
-      - name: Publish - dry run
+      - name: Publish dry run
         run: dart pub publish --dry-run
 
       - name: Publish to pub.dev
