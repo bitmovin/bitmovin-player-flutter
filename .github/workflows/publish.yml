@@ -46,6 +46,7 @@ jobs:
           tag: ${{ github.ref_name }}
           token: ${{ secrets.GITHUB_TOKEN }}
           body: ${{ steps.changelog.outputs.release_notes }}
+          prerelease: true
 
   publish_documentation:
     needs: [publish]
