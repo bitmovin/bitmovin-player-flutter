@@ -6,13 +6,28 @@ on:
       - '[0-9]+.[0-9]+.[0-9]+*'
 
 jobs:
+  # This job is based on dart-lang/setup-dart/.github/workflows/publish.yml@v1, which cannot be used here as it only
+  # supports publishing pure Dart packages and not Flutter packages.
   publish:
     name: Publish to pub.dev
+    environment: pub.dev
     permissions:
-      id-token: write
-    uses: dart-lang/setup-dart/.github/workflows/publish.yml@v1
-    with:
-      environment: pub.dev
+      id-token: write # This is required for requesting the JWT
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/prepare-dependencies
+
+      # Setup Dart SDK with JWT token. This is needed to allow publishing to pub.dev from the CI without having to 
+      # manually log-in in to pub.dev with an admin account.
+      - uses: dart-lang/setup-dart@v1.6.0
+
+      - name: Publish dry run
+        run: dart pub publish --dry-run
+
+      - name: Publish to pub.dev
+        run: dart pub publish -f
 
   create_gh_release:
     name: Create GitHub release
