@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 
 class BackgroundPlayback extends StatefulWidget {
   const BackgroundPlayback({super.key});
+
   static String routeName = 'BackgroundPlayback';
 
   @override
@@ -41,7 +42,12 @@ class _BackgroundPlaybackState extends State<BackgroundPlayback> {
   void initState() {
     setupAudioSession();
 
-    _player.loadSourceConfig(_sourceConfig);
+    _player.isPlaying.then(
+      (isPlaying) => {
+        // Continue existing playback source?
+        if (!isPlaying) {_player.loadSourceConfig(_sourceConfig)}
+      },
+    );
     super.initState();
   }
 

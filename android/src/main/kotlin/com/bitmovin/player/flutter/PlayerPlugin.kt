@@ -37,6 +37,7 @@ class PlayerPlugin : FlutterPlugin, ActivityAware {
     private fun createPlayer(args: JCreatePlayerArgs) =
         flutterPluginBindingReference.get()?.let {
             val flutterPlayerConfig = args.playerConfig
+            val isBackgroundPlaybackEnabled = flutterPlayerConfig.playbackConfig?.isBackgroundPlaybackEnabled ?: false
             val config = flutterPlayerConfig.toNative()
             val analyticsConfig = flutterPlayerConfig.analyticsConfig?.toNative()
             val defaultMetadata = flutterPlayerConfig.analyticsConfig?.defaultMetadata?.toNative()
@@ -47,6 +48,7 @@ class PlayerPlugin : FlutterPlugin, ActivityAware {
                 config = config,
                 analyticsConfig = analyticsConfig,
                 defaultMetadata = defaultMetadata,
+                isBackgroundPlaybackEnabled = isBackgroundPlaybackEnabled,
             )
         }
 

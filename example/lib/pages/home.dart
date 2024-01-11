@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:bitmovin_player_example/pages/analytics.dart';
 import 'package:bitmovin_player_example/pages/audio_only.dart';
@@ -25,11 +24,8 @@ void buildSamples() {
     _Sample('Fullscreen Handling', FullscreenHandling.routeName),
     _Sample('Casting', Casting.routeName),
     _Sample('Picture-in-Picture', PictureInPicture.routeName),
+    _Sample('Background Playback', BackgroundPlayback.routeName),
   ];
-
-  if (Platform.isIOS) {
-    _samples.add(_Sample('Background Playback', BackgroundPlayback.routeName));
-  }
 }
 
 class Home extends StatelessWidget {

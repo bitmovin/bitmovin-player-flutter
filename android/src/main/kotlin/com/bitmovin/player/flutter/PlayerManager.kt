@@ -10,7 +10,11 @@ import com.bitmovin.player.api.analytics.create
 
 object PlayerManager {
     private val players = ArrayMap<String, Player>()
+
+    // private val backgroundPlayers = ArrayMap<String, Player>()
     private val playerCallbacks = ArrayMap<String, Array<(Player) -> Unit>>()
+    var backgroundPlayer: Player? = null
+        private set
 
     fun create(
         id: String,
@@ -18,7 +22,16 @@ object PlayerManager {
         playerConfig: PlayerConfig?,
         analyticsConfig: AnalyticsConfig?,
         defaultMetadata: DefaultMetadata?,
+        isBackgroundPlaybackEnabled: Boolean,
     ): Player {
+        // TODO: Figure out how how we can decide if player should be reused or not
+        val existingBackgroundPlayer = backgroundPlayer
+        if (existingBackgroundPlayer != null) {
+            // Resue already created background player
+            postToMainThread { handleCallbacks(id, existingBackgroundPlayer) }
+            return existingBackgroundPlayer
+        }
+
         if (hasPlayer(id)) {
             destroy(id)
         }
@@ -30,7 +43,12 @@ object PlayerManager {
                 defaultMetadata == null -> Player.create(context, playerConfig, analyticsConfig)
                 else -> Player.create(context, playerConfig, analyticsConfig, defaultMetadata)
             }
-        players[id] = player
+
+        if (isBackgroundPlaybackEnabled) {
+            backgroundPlayer = player
+        } else {
+            players[id] = player
+        }
 
         postToMainThread { handleCallbacks(id, player) }
 
@@ -41,10 +59,11 @@ object PlayerManager {
         id: String,
         onCreated: (Player) -> Unit,
     ) {
-        players[id]?.let {
-            onCreated(it)
-        } ?: run {
-            playerCallbacks[id] = playerCallbacks[id]?.plus(onCreated) ?: arrayOf(onCreated)
+        val player = players[id] ?: backgroundPlayer
+        if (player != null) {
+            onCreated(player)
+        } else {
+            playerCallbacks[id] = playerCallbacks.getOrDefault(id, emptyArray()) + onCreated
         }
     }
 

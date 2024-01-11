@@ -34,6 +34,7 @@ class FlutterPlayer(
     config: PlayerConfig?,
     analyticsConfig: AnalyticsConfig?,
     defaultMetadata: DefaultMetadata?,
+    isBackgroundPlaybackEnabled: Boolean,
 ) : StreamHandler, EventListener() {
     private var widevineCallbacksHandler: WidevineCallbacksHandler? = null
     private val methodChannel =
@@ -48,11 +49,7 @@ class FlutterPlayer(
             this@FlutterPlayer,
             messenger,
         )
-    private val player: Player
-
-    init {
-        player = PlayerManager.create(id, context, config, analyticsConfig, defaultMetadata)
-    }
+    private val player = PlayerManager.create(id, context, config, analyticsConfig, defaultMetadata, isBackgroundPlaybackEnabled)
 
     private fun Player.load(jSourceConfig: JSourceConfig) {
         val sourceConfig = jSourceConfig.toNative()

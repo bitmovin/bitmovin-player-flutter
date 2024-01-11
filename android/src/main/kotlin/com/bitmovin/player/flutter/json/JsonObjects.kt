@@ -89,6 +89,7 @@ internal class JPlaybackConfig(override var map: Map<*, *>) : JStruct {
     val audioFilter by enumGetter<MediaFilter>()
     val videoFilter by enumGetter<MediaFilter>()
     val seekMode by enumGetter<SeekMode>()
+    val isBackgroundPlaybackEnabled by GetBool
 }
 
 internal class JLicensingConfig(override var map: Map<*, *>) : JStruct {

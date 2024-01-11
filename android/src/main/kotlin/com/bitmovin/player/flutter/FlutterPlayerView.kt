@@ -10,6 +10,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.bitmovin.player.PlayerView
 import com.bitmovin.player.api.ui.PictureInPictureHandler
+import com.bitmovin.player.flutter.background.BackgroundPlaybackService
 import com.bitmovin.player.flutter.json.JPlayerViewCreateArgs
 import com.bitmovin.player.flutter.ui.FlutterPictureInPictureHandler
 import io.flutter.plugin.common.BinaryMessenger
@@ -74,6 +75,14 @@ class FlutterPlayerView(
         val playerViewCreateArgs = JPlayerViewCreateArgs(args as Map<*, *>)
 
         PlayerManager.onPlayerCreated(playerViewCreateArgs.playerId) { player ->
+            val backgroundPlayer = PlayerManager.backgroundPlayer
+            if (backgroundPlayer != null) {
+                BackgroundPlaybackService.runBackgroundService(
+                    context,
+                    playerViewCreateArgs.playerId,
+                )
+            }
+
             playerView.player = player
             if (playerViewCreateArgs.hasFullscreenHandler) {
                 playerView.setFullscreenHandler(
@@ -93,7 +102,9 @@ class FlutterPlayerView(
             }
         }
 
-        activityLifecycle.addObserver(activityLifecycleObserver)
+        if (PlayerManager.backgroundPlayer == null) {
+            activityLifecycle.addObserver(activityLifecycleObserver)
+        }
     }
 
     private fun onPictureInPictureModeChanged(
