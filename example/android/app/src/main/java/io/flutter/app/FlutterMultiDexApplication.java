@@ -11,6 +11,9 @@ import android.app.Application;
 import android.content.Context;
 import androidx.annotation.CallSuper;
 import androidx.multidex.MultiDex;
+import com.bitmovin.player.flutter.background.BackgroundPlaybackService;
+import com.bitmovin.player.flutter.background.BackgroundPlaybackServiceManager;
+import com.bitmovin.player.flutter.example.CustomBackgroundPlaybackService;
 
 /**
  * Extension of {@link android.app.Application}, adding multidex support.
@@ -21,5 +24,7 @@ public class FlutterMultiDexApplication extends Application {
   protected void attachBaseContext(Context base) {
     super.attachBaseContext(base);
     MultiDex.install(this);
+
+    BackgroundPlaybackServiceManager.setServiceClass(CustomBackgroundPlaybackService.class);
   }
 }

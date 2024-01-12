@@ -10,7 +10,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.bitmovin.player.PlayerView
 import com.bitmovin.player.api.ui.PictureInPictureHandler
-import com.bitmovin.player.flutter.background.BackgroundPlaybackService
+import com.bitmovin.player.flutter.background.BackgroundPlaybackServiceManager
 import com.bitmovin.player.flutter.json.JPlayerViewCreateArgs
 import com.bitmovin.player.flutter.ui.FlutterPictureInPictureHandler
 import io.flutter.plugin.common.BinaryMessenger
@@ -77,10 +77,7 @@ class FlutterPlayerView(
         PlayerManager.onPlayerCreated(playerViewCreateArgs.playerId) { player ->
             val backgroundPlayer = PlayerManager.backgroundPlayer
             if (backgroundPlayer != null) {
-                BackgroundPlaybackService.runBackgroundService(
-                    context,
-                    playerViewCreateArgs.playerId,
-                )
+                    BackgroundPlaybackServiceManager.startBindingService(context)
             }
 
             playerView.player = player

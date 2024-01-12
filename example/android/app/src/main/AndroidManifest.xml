@@ -65,7 +65,7 @@
                 android:value="com.bitmovin.player.casting.BitmovinCastOptionsProvider"/>
 
         <service
-                android:name="com.bitmovin.player.flutter.background.BackgroundPlaybackService"
+                android:name=".CustomBackgroundPlaybackService"
                 android:foregroundServiceType="mediaPlayback"/>
 
     </application>
