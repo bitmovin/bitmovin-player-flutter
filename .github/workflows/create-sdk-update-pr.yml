@@ -41,6 +41,8 @@ jobs:
           git push origin --delete ${{ steps.branching.outputs.branch_name }} || true
           git checkout -b ${{ steps.branching.outputs.branch_name }}
 
+      - uses: ./.github/actions/prepare-dependencies
+
       - name: Bump iOS player SDK version
         if: ${{ inputs.sdk_name == 'ios' }}
         run: |
