@@ -54,7 +54,7 @@ SPEC CHECKSUMS:
   BitmovinAnalyticsCollector: d9a7ececfdd6936f6e94d30b037cf9ee3b171c70
   BitmovinPlayer: 71c83000afc931197d0bc5c8eb882ec7e072601f
   BitmovinPlayerCore: 2f9b4ccb421a6e7ddd92a67109397b3414fc6ae0
-  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   google-cast-sdk: afeb1aac0744b1bc4f70bc3db8468e33fabbff38
   integration_test: 13825b8a9334a850581300559b8839134b124670
   Protobuf: 970f7ee93a3a08e3cf64859b8efd95ee32b4f87f
