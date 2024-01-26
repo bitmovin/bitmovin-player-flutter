@@ -2,16 +2,16 @@ PODS:
   - audio_session (0.0.1):
     - Flutter
   - bitmovin_player (0.5.0):
-    - BitmovinPlayer (= 3.52.0)
+    - BitmovinPlayer (= 3.54.0)
     - Flutter
-  - BitmovinAnalyticsCollector/BitmovinPlayer (3.3.1):
+  - BitmovinAnalyticsCollector/BitmovinPlayer (3.5.0):
     - BitmovinAnalyticsCollector/Core
     - BitmovinPlayerCore (~> 3.48)
-  - BitmovinAnalyticsCollector/Core (3.3.1)
-  - BitmovinPlayer (3.52.0):
+  - BitmovinAnalyticsCollector/Core (3.5.0)
+  - BitmovinPlayer (3.54.0):
     - BitmovinAnalyticsCollector/BitmovinPlayer (~> 3.0)
-    - BitmovinPlayerCore (= 3.52.0)
-  - BitmovinPlayerCore (3.52.0)
+    - BitmovinPlayerCore (= 3.54.0)
+  - BitmovinPlayerCore (3.54.0)
   - Flutter (1.0.0)
   - google-cast-sdk (4.8.0):
     - google-cast-sdk/Core (= 4.8.0)
@@ -20,7 +20,7 @@ PODS:
     - Protobuf (~> 3.13)
   - integration_test (0.0.1):
     - Flutter
-  - Protobuf (3.24.3)
+  - Protobuf (3.25.2)
 
 DEPENDENCIES:
   - audio_session (from `.symlinks/plugins/audio_session/ios`)
@@ -50,14 +50,14 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   audio_session: 4f3e461722055d21515cf3261b64c973c062f345
-  bitmovin_player: 9bed3bdb8a8c93879a69f6eb188d37e7dab90e59
-  BitmovinAnalyticsCollector: d9a7ececfdd6936f6e94d30b037cf9ee3b171c70
-  BitmovinPlayer: 71c83000afc931197d0bc5c8eb882ec7e072601f
-  BitmovinPlayerCore: 2f9b4ccb421a6e7ddd92a67109397b3414fc6ae0
-  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  bitmovin_player: e228a844e0437d97a7bb71a81aad09c1963419be
+  BitmovinAnalyticsCollector: 8b9a4b07f1fa2a43996ba29598eab6f50a25edfe
+  BitmovinPlayer: 9d558199a0a8b7e93c978cad22c0a6b23f28720a
+  BitmovinPlayerCore: 601f922a42485833d2991f4d6ebfd494ea2a26af
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   google-cast-sdk: afeb1aac0744b1bc4f70bc3db8468e33fabbff38
   integration_test: 13825b8a9334a850581300559b8839134b124670
-  Protobuf: 970f7ee93a3a08e3cf64859b8efd95ee32b4f87f
+  Protobuf: 34db13339da0d02d64fa8a2ac6a124cfcc603703
 
 PODFILE CHECKSUM: e48a3a0a5b85430696a33218ef01a28b12ca570f
 
