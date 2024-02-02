@@ -19,12 +19,12 @@ concurrency:
 jobs:
   create_release_branch:
     name: Create release branch and bump version
-    runs-on: macos-latest
+    runs-on: macos-14
     outputs:
       branch_name: ${{ steps.branching.outputs.branch_name }}
     steps:
       - uses: actions/checkout@v4
-      
+
       - uses: ./.github/actions/prepare-dependencies
 
       - name: Setup Git user
@@ -51,7 +51,7 @@ jobs:
           awk 'BEGIN {count=0} /## \[/ {count++; if (count == 2) exit} {print}' CHANGELOG.md
 
       - name: Bump package version
-        run: | 
+        run: |
           dart pub global activate cider
           dart pub global run cider version ${{ inputs.version_number }}
           flutter pub get
@@ -69,7 +69,7 @@ jobs:
   publish_dry_run:
     name: Dry run for publishing to pub.dev
     needs: create_release_branch
-    runs-on: macos-latest
+    runs-on: macos-14
     steps:
       - uses: actions/checkout@v4
         with:

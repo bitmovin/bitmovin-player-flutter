@@ -13,7 +13,7 @@ env:
 jobs:
   analyze_source_code:
     name: Analyze Source Code
-    runs-on: macos-latest
+    runs-on: macos-14
     concurrency:
       group: build-workspace-analyze-${{ inputs.ref || github.event.pull_request.number || github.ref }}
       cancel-in-progress: true
@@ -30,7 +30,7 @@ jobs:
         run: dart format --output=none --set-exit-if-changed .
   build_ios:
     name: Build for iOS
-    runs-on: macos-latest
+    runs-on: macos-14
     concurrency:
       group: build-workspace-ios-${{ inputs.ref || github.event.pull_request.number || github.ref }}
       cancel-in-progress: true
