@@ -45,7 +45,7 @@ allprojects {
 }
 
 dependencies {
-    api 'com.bitmovin.player:player:3.55.0+jason'
+    api 'com.bitmovin.player:player:3.60.0+jason'
     implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.14.1'
     implementation 'androidx.concurrent:concurrent-futures-ktx:1.1.0'
 }
