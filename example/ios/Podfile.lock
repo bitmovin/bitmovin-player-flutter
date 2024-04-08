@@ -49,7 +49,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/integration_test/ios"
 
 SPEC CHECKSUMS:
-  audio_session: 4f3e461722055d21515cf3261b64c973c062f345
+  audio_session: 088d2483ebd1dc43f51d253d4a1c517d9a2e7207
   bitmovin_player: 42a533dc18fe766eb3637d71eba5af3786eeb7e0
   BitmovinAnalyticsCollector: cc31a7ffd96850f5bd4f41b39ea22b467734e9c9
   BitmovinPlayer: a4deb2e3d96c1f49e924991d625a09434361eb18
