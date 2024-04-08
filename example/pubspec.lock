@@ -13,10 +13,10 @@ packages:
     dependency: "direct main"
     description:
       name: audio_session
-      sha256: "6fdf255ed3af86535c96452c33ecff1245990bb25a605bfb1958661ccc3d467f"
+      sha256: a49af9981eec5d7cd73b37bacb6ee73f8143a6a9f9bd5b6021e6c346b9b6cf4e
       url: "https://pub.dev"
     source: hosted
-    version: "0.1.18"
+    version: "0.1.19"
   bitmovin_player:
     dependency: "direct main"
     description:
@@ -194,10 +194,10 @@ packages:
     dependency: "direct main"
     description:
       name: logger
-      sha256: b3ff55aeb08d9d8901b767650285872cb1bb8f508373b3e348d60268b0c7f770
+      sha256: "8c94b8c219e7e50194efc8771cd0e9f10807d8d3e219af473d89b06cc2ee4e04"
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.0"
+    version: "2.2.0"
   matcher:
     dependency: transitive
     description:
