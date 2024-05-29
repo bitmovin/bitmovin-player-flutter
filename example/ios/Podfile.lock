@@ -2,16 +2,16 @@ PODS:
   - audio_session (0.0.1):
     - Flutter
   - bitmovin_player (0.8.0):
-    - BitmovinPlayer (= 3.62.0)
+    - BitmovinPlayer (= 3.64.0)
     - Flutter
-  - BitmovinAnalyticsCollector/BitmovinPlayer (3.6.2):
+  - BitmovinAnalyticsCollector/BitmovinPlayer (3.7.0):
     - BitmovinAnalyticsCollector/Core
     - BitmovinPlayerCore (~> 3.48)
-  - BitmovinAnalyticsCollector/Core (3.6.2)
-  - BitmovinPlayer (3.62.0):
+  - BitmovinAnalyticsCollector/Core (3.7.0)
+  - BitmovinPlayer (3.64.0):
     - BitmovinAnalyticsCollector/BitmovinPlayer (~> 3.0)
-    - BitmovinPlayerCore (= 3.62.0)
-  - BitmovinPlayerCore (3.62.0)
+    - BitmovinPlayerCore (= 3.64.0)
+  - BitmovinPlayerCore (3.64.0)
   - Flutter (1.0.0)
   - google-cast-sdk (4.8.0):
     - google-cast-sdk/Core (= 4.8.0)
@@ -20,7 +20,7 @@ PODS:
     - Protobuf (~> 3.13)
   - integration_test (0.0.1):
     - Flutter
-  - Protobuf (3.26.1)
+  - Protobuf (3.27.0)
 
 DEPENDENCIES:
   - audio_session (from `.symlinks/plugins/audio_session/ios`)
@@ -50,14 +50,14 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   audio_session: 088d2483ebd1dc43f51d253d4a1c517d9a2e7207
-  bitmovin_player: ec89207deed95c0f38e37dc42b6d079a81c4f0bf
-  BitmovinAnalyticsCollector: 78308c1c02ee0390554c377204fcbab923369296
-  BitmovinPlayer: 3b392570a8021ea40bdbd6bb1cd4f92f53baa34c
-  BitmovinPlayerCore: 24499606c16170cf5e19e45175a0220ba9a8da5b
+  bitmovin_player: b5c268033548e70801d6515fc901146ff954ce53
+  BitmovinAnalyticsCollector: bbd82c0b8e11aefacd8e53b6e40c62f2cba6f3f5
+  BitmovinPlayer: f69350e5db2f57ad950108ec829b7c7a4b360d00
+  BitmovinPlayerCore: 1553570729eed0a64cdfbd06d16c39d69d7e701f
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   google-cast-sdk: afeb1aac0744b1bc4f70bc3db8468e33fabbff38
-  integration_test: 13825b8a9334a850581300559b8839134b124670
-  Protobuf: a53f5173a603075b3522a5c50be63a67a5f3353a
+  integration_test: ce0a3ffa1de96d1a89ca0ac26fca7ea18a749ef4
+  Protobuf: 2c02b2e18bb9040d3bf3fd2cecaefb2a8b55265b
 
 PODFILE CHECKSUM: e48a3a0a5b85430696a33218ef01a28b12ca570f
 
