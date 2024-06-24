@@ -41,7 +41,8 @@ class FlutterPictureInPictureHandler(
                 ?: Rational(16, 9)
 
         val params =
-            PictureInPictureParams.Builder()
+            PictureInPictureParams
+                .Builder()
                 .setAspectRatio(aspectRatio)
                 .build()
 

@@ -13,7 +13,9 @@ import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
 import java.lang.ref.WeakReference
 
-class PlayerPlugin : FlutterPlugin, ActivityAware {
+class PlayerPlugin :
+    FlutterPlugin,
+    ActivityAware {
     private var flutterPluginBindingReference = WeakReference<FlutterPlugin.FlutterPluginBinding>(null)
     private var activity = WeakReference<Activity?>(null)
 

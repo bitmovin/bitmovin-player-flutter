@@ -24,11 +24,15 @@ private interface JStruct {
     fun toJsonString() = jacksonObjectMapper().writeValueAsString(map)
 }
 
-internal class JSource(override var map: Map<*, *>) : JStruct {
+internal class JSource(
+    override var map: Map<*, *>,
+) : JStruct {
     val sourceConfig by structGetter(::JSourceConfig).require()
 }
 
-internal class JSourceConfig(override var map: Map<*, *>) : JStruct {
+internal class JSourceConfig(
+    override var map: Map<*, *>,
+) : JStruct {
     val url by GetString.require()
     val type by enumGetter<SourceType>()
     val title by GetString
@@ -43,7 +47,9 @@ internal class JSourceConfig(override var map: Map<*, *>) : JStruct {
     val subtitleTracks by structListGetter(::JSubtitleTrack).require()
 }
 
-internal class JSourceMetadata(override var map: Map<*, *>) : JStruct {
+internal class JSourceMetadata(
+    override var map: Map<*, *>,
+) : JStruct {
     val title by GetString
     val videoId by GetString
     val cdnProvider by GetString
@@ -52,16 +58,22 @@ internal class JSourceMetadata(override var map: Map<*, *>) : JStruct {
     val customData by structGetter(::JCustomData)
 }
 
-internal class JSourceOptions(override var map: Map<*, *>) : JStruct {
+internal class JSourceOptions(
+    override var map: Map<*, *>,
+) : JStruct {
     val startOffset by GetDouble
     val startOffsetTimelineReference by enumGetter<TimelineReferencePoint>()
 }
 
-internal class JDrmConfig(override var map: Map<*, *>) : JStruct {
+internal class JDrmConfig(
+    override var map: Map<*, *>,
+) : JStruct {
     val widevine by structGetter(::JWidevineConfig)
 }
 
-internal class JWidevineConfig(override var map: Map<*, *>) : JStruct {
+internal class JWidevineConfig(
+    override var map: Map<*, *>,
+) : JStruct {
     val prepareMessage by GetBool
     val prepareLicense by GetBool
     val licenseUrl by GetString
@@ -70,7 +82,9 @@ internal class JWidevineConfig(override var map: Map<*, *>) : JStruct {
     val httpHeaders by GetStringMap
 }
 
-internal class JStyleConfig(override var map: Map<*, *>) : JStruct {
+internal class JStyleConfig(
+    override var map: Map<*, *>,
+) : JStruct {
     val isUiEnabled by GetBool
     val isHideFirstFrame by GetBool
     val supplementalPlayerUiCss by GetString
@@ -79,7 +93,9 @@ internal class JStyleConfig(override var map: Map<*, *>) : JStruct {
     val playerUiJs by GetString
 }
 
-internal class JPlaybackConfig(override var map: Map<*, *>) : JStruct {
+internal class JPlaybackConfig(
+    override var map: Map<*, *>,
+) : JStruct {
     val isAutoplayEnabled by GetBool
     val isMuted by GetBool
     val isTimeShiftEnabled by GetBool
@@ -91,16 +107,22 @@ internal class JPlaybackConfig(override var map: Map<*, *>) : JStruct {
     val seekMode by enumGetter<SeekMode>()
 }
 
-internal class JLicensingConfig(override var map: Map<*, *>) : JStruct {
+internal class JLicensingConfig(
+    override var map: Map<*, *>,
+) : JStruct {
     val delay by GetInt
 }
 
-internal class JLiveConfig(override var map: Map<*, *>) : JStruct {
+internal class JLiveConfig(
+    override var map: Map<*, *>,
+) : JStruct {
     val minTimeShiftBufferDepth by GetDouble
     val liveEdgeOffset by GetDouble
 }
 
-internal class JAnalyticsConfig(override var map: Map<*, *>) : JStruct {
+internal class JAnalyticsConfig(
+    override var map: Map<*, *>,
+) : JStruct {
     val licenseKey by GetString.require()
     val adTrackingDisabled by GetBool
     val randomizeUserId by GetBool
@@ -116,13 +138,17 @@ internal class JAnalyticsConfig(override var map: Map<*, *>) : JStruct {
     val defaultMetadata by structGetter(::JDefaultMetadata)
 }
 
-internal class JDefaultMetadata(override var map: Map<*, *>) : JStruct {
+internal class JDefaultMetadata(
+    override var map: Map<*, *>,
+) : JStruct {
     val cdnProvider by GetString
     val customUserId by GetString
     val customData by structGetter(::JCustomData)
 }
 
-internal class JCustomData(override var map: Map<*, *>) : JStruct {
+internal class JCustomData(
+    override var map: Map<*, *>,
+) : JStruct {
     val customData1 by GetString
     val customData2 by GetString
     val customData3 by GetString
@@ -156,7 +182,9 @@ internal class JCustomData(override var map: Map<*, *>) : JStruct {
     val experimentName by GetString
 }
 
-internal class JPlayerConfig(override var map: Map<*, *>) : JStruct {
+internal class JPlayerConfig(
+    override var map: Map<*, *>,
+) : JStruct {
     val key by GetString
     val styleConfig by structGetter(::JStyleConfig)
     val playbackConfig by structGetter(::JPlaybackConfig)
@@ -166,7 +194,9 @@ internal class JPlayerConfig(override var map: Map<*, *>) : JStruct {
     val remoteControlConfig by structGetter(::JRemoteControlConfig)
 }
 
-internal class JRemoteControlConfig(override var map: Map<*, *>) : JStruct {
+internal class JRemoteControlConfig(
+    override var map: Map<*, *>,
+) : JStruct {
     val receiverStylesheetUrl by GetString
     val customReceiverConfig by GetStringMap
     val isCastEnabled by GetBool
@@ -175,7 +205,9 @@ internal class JRemoteControlConfig(override var map: Map<*, *>) : JStruct {
     val sendDrmLicenseRequestsWithCredentials by GetBool
 }
 
-internal class JSubtitleTrack(override var map: Map<*, *>) : JStruct {
+internal class JSubtitleTrack(
+    override var map: Map<*, *>,
+) : JStruct {
     constructor(subtitleTrack: SubtitleTrack) : this(emptyMap<String, Any>()) {
         url = subtitleTrack.url
         id = subtitleTrack.id
@@ -199,7 +231,9 @@ internal class JSubtitleTrack(override var map: Map<*, *>) : JStruct {
 
 /** Arguments for all [Player] methods. */
 @JvmInline
-internal value class JMethodArgs(private val call: MethodCall) {
+internal value class JMethodArgs(
+    private val call: MethodCall,
+) {
     val asCreatePlayerArgs get() = JCreatePlayerArgs(asMap)
     val asPlayerMethodArgs get() = JPlayerMethodArg(asMap)
     val asCastManagerOptions get() = JBitmovinCastManagerOptions(asMap)
@@ -208,25 +242,33 @@ internal value class JMethodArgs(private val call: MethodCall) {
 }
 
 /** Arguments for [BitmovinCastManager.initialize] */
-internal class JBitmovinCastManagerOptions(override var map: Map<*, *>) : JStruct {
+internal class JBitmovinCastManagerOptions(
+    override var map: Map<*, *>,
+) : JStruct {
     val applicationId by GetString
     val messageNamespace by GetString
 }
 
 /** Arguments for [BitmovinCastManager.sendMessage] */
-internal class JBitmovinCastManagerSendMessageArgs(override var map: Map<*, *>) : JStruct {
+internal class JBitmovinCastManagerSendMessageArgs(
+    override var map: Map<*, *>,
+) : JStruct {
     val message by GetString
     val messageNamespace by GetString
 }
 
 /** Arguments for [Player.create]. */
-internal class JCreatePlayerArgs(override var map: Map<*, *>) : JStruct {
+internal class JCreatePlayerArgs(
+    override var map: Map<*, *>,
+) : JStruct {
     val id by GetString.require()
     val playerConfig by structGetter(::JPlayerConfig).require()
 }
 
 /** Argument for all [Player] instance methods. */
-internal class JPlayerMethodArg(override var map: Map<*, *>) : JStruct {
+internal class JPlayerMethodArg(
+    override var map: Map<*, *>,
+) : JStruct {
     val asDouble get() = data as Double
     val asString get() = data as String
     val asOptionalString get() = data as String?
@@ -237,18 +279,24 @@ internal class JPlayerMethodArg(override var map: Map<*, *>) : JStruct {
     private val dataAsMap get() = data as Map<*, *>
 }
 
-internal class JPlayerViewCreateArgs(override var map: Map<*, *>) : JStruct {
+internal class JPlayerViewCreateArgs(
+    override var map: Map<*, *>,
+) : JStruct {
     val playerId by GetString.require()
     val hasFullscreenHandler by GetBool.require()
     val isFullscreen by GetBool.require()
     val playerViewConfig by structGetter(::JPlayerViewConfig)
 }
 
-internal class JPlayerViewConfig(override var map: Map<*, *>) : JStruct {
+internal class JPlayerViewConfig(
+    override var map: Map<*, *>,
+) : JStruct {
     val pictureInPictureConfig by structGetter(::JPictureInPictureConfig)
 }
 
-internal class JPictureInPictureConfig(override var map: Map<*, *>) : JStruct {
+internal class JPictureInPictureConfig(
+    override var map: Map<*, *>,
+) : JStruct {
     val isEnabled by GetBool.require()
     val shouldEnterOnBackground by GetBool.require()
 }
@@ -276,7 +324,9 @@ private inline fun <reified I, O> getter(crossinline build: (I) -> O) =
         (thisRef.map[kProp.name] as I?)?.let(build)
     }
 
-private open class JsonPropertyDelegate<I, O>(val build: (I) -> O) : GetterSetter<O?> {
+private open class JsonPropertyDelegate<I, O>(
+    val build: (I) -> O,
+) : GetterSetter<O?> {
     override fun getValue(
         thisRef: JStruct,
         property: KProperty<*>,
