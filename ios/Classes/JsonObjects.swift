@@ -28,7 +28,7 @@ extension NativeToFlutterConvertible {
             return nil
         }
 
-        return String(data: jsonData, encoding: .utf8)
+        return String(decoding: jsonData, as: UTF8.self)
     }
 }
 

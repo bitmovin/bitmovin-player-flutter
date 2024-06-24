@@ -26,11 +26,10 @@ internal enum Helper {
             return nil
         }
 
-        guard let jsonData = try? JSONSerialization.data(withJSONObject: dictionary, options: [.prettyPrinted]),
-              let jsonString = String(data: jsonData, encoding: .utf8) else {
+        guard let jsonData = try? JSONSerialization.data(withJSONObject: dictionary, options: [.prettyPrinted]) else {
             return nil
         }
-
+        let jsonString = String(decoding: jsonData, as: UTF8.self)
         return jsonString
     }
 
