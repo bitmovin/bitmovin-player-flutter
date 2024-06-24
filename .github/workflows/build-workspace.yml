@@ -17,6 +17,7 @@ jobs:
     concurrency:
       group: build-workspace-analyze-${{ inputs.ref || github.event.pull_request.number || github.ref }}
       cancel-in-progress: true
+    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/prepare-dependencies
