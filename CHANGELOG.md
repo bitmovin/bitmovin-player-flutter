@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+### Changed
+- Update example app dependency: Google Cast iOS sender SDK to `4.8.1`
+
 ## [0.8.0] - 2024-05-13
 ### Changed
 - Update Bitmovin's native Android Player SDK version to `3.68.0`

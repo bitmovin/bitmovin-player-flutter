@@ -34,7 +34,7 @@ target 'Runner' do
   use_modular_headers!
 
   # Only needed if the casting feature is used
-  pod 'google-cast-sdk', '4.8.0'
+  pod 'google-cast-sdk', '4.8.1'
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 end
