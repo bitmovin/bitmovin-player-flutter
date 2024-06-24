@@ -2,6 +2,7 @@ disabled_rules:
   - todo
   - trailing_comma
   - inclusive_language
+  - non_optional_string_data_conversion
 
 opt_in_rules:
   # performance
