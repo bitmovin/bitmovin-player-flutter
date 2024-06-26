@@ -17,17 +17,19 @@ jobs:
     concurrency:
       group: build-workspace-analyze-${{ inputs.ref || github.event.pull_request.number || github.ref }}
       cancel-in-progress: true
-    continue-on-error: true
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/prepare-dependencies
       - name: Analyze Dart
         run: flutter analyze
       - name: Analyze Kotlin
+        if: always()
         run: ktlint
       - name: Analyze Swift
+        if: always()
         run: swiftlint --strict
       - name: Check Dart format
+        if: always()
         run: dart format --output=none --set-exit-if-changed .
   build_ios:
     name: Build for iOS
