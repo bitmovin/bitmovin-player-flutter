@@ -32,20 +32,18 @@ class ChannelManager {
             name: String,
             handler: MethodCallHandler,
             binaryMessenger: BinaryMessenger,
-        ): MethodChannel {
-            return MethodChannel(binaryMessenger, name).apply {
+        ): MethodChannel =
+            MethodChannel(binaryMessenger, name).apply {
                 this.setMethodCallHandler(handler)
             }
-        }
 
         fun registerEventChannel(
             name: String,
             handler: StreamHandler,
             binaryMessenger: BinaryMessenger,
-        ): EventChannel {
-            return EventChannel(binaryMessenger, name).apply {
+        ): EventChannel =
+            EventChannel(binaryMessenger, name).apply {
                 this.setStreamHandler(handler)
             }
-        }
     }
 }

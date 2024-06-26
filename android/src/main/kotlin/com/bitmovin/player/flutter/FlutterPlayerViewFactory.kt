@@ -13,7 +13,5 @@ class FlutterPlayerViewFactory(
         context: Context,
         viewId: Int,
         args: Any?,
-    ): PlatformView {
-        return FlutterPlayerView(context, messenger, viewId, args)
-    }
+    ): PlatformView = FlutterPlayerView(context, messenger, viewId, args)
 }

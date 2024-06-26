@@ -48,41 +48,42 @@ class WidevineCallbacksHandler(
         methodName: String,
         arguments: Map<String, Any>,
     ): ByteArray {
-        return CallbackToFutureAdapter.getFuture { completer ->
-            runOnMainThread {
-                methodChannel.invokeMethod(
-                    methodName,
-                    arguments,
-                    object : MethodChannel.Result {
-                        override fun success(result: Any?) {
-                            if (result !is String) {
-                                completer.setException(
-                                    Exception("Invalid result type found for: $methodName"),
-                                )
-                                return
+        return CallbackToFutureAdapter
+            .getFuture { completer ->
+                runOnMainThread {
+                    methodChannel.invokeMethod(
+                        methodName,
+                        arguments,
+                        object : MethodChannel.Result {
+                            override fun success(result: Any?) {
+                                if (result !is String) {
+                                    completer.setException(
+                                        Exception("Invalid result type found for: $methodName"),
+                                    )
+                                    return
+                                }
+
+                                completer.set(Base64.decode(result, Base64.NO_WRAP))
                             }
 
-                            completer.set(Base64.decode(result, Base64.NO_WRAP))
-                        }
+                            override fun error(
+                                errorCode: String,
+                                errorMessage: String?,
+                                errorDetails: Any?,
+                            ) {
+                                completer.setException(
+                                    Exception("Error when calling $methodName. Error code: $errorCode, message: $errorMessage"),
+                                )
+                            }
 
-                        override fun error(
-                            errorCode: String,
-                            errorMessage: String?,
-                            errorDetails: Any?,
-                        ) {
-                            completer.setException(
-                                Exception("Error when calling $methodName. Error code: $errorCode, message: $errorMessage"),
-                            )
-                        }
-
-                        override fun notImplemented() {
-                            completer.setException(
-                                Exception("Method not implemented: $methodName"),
-                            )
-                        }
-                    },
-                )
-            }
-        }.get()
+                            override fun notImplemented() {
+                                completer.setException(
+                                    Exception("Method not implemented: $methodName"),
+                                )
+                            }
+                        },
+                    )
+                }
+            }.get()
     }
 }

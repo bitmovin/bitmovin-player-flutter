@@ -31,7 +31,10 @@ class FlutterPlayerView(
     messenger: BinaryMessenger,
     id: Int,
     args: Any?,
-) : MethodChannel.MethodCallHandler, EventChannel.StreamHandler, PlatformView, EventListener() {
+) : EventListener(),
+    MethodChannel.MethodCallHandler,
+    EventChannel.StreamHandler,
+    PlatformView {
     private val methodChannel: MethodChannel =
         MethodChannel(
             messenger,
