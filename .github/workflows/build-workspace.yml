@@ -23,13 +23,10 @@ jobs:
       - name: Analyze Dart
         run: flutter analyze
       - name: Analyze Kotlin
-        if: ${{ !cancelled() }}
         run: ktlint
       - name: Analyze Swift
-        if: ${{ !cancelled() }}
         run: swiftlint --strict
       - name: Check Dart format
-        if: ${{ !cancelled() }}
         run: dart format --output=none --set-exit-if-changed .
   build_ios:
     name: Build for iOS
