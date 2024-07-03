@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ## [Unreleased]
 ### Changed
 - Update example app dependency: Google Cast iOS sender SDK to `4.8.1`
+- Update Bitmovin's native Android Player SDK version to `3.75.0`
+- Update Bitmovin's native iOS Player SDK version to `3.66.1`
 
 ## [0.8.0] - 2024-05-13
 ### Changed
