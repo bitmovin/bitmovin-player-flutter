@@ -27,18 +27,16 @@ class Helper {
             return (x - inMin) * outRange / inRange + outMin
         }
 
-        fun getSystemBrightness(context: Context): Float {
-            return Settings.System.getInt(
-                context.contentResolver,
-                Settings.System.SCREEN_BRIGHTNESS,
-                0,
-            ).toFloat()
-        }
+        fun getSystemBrightness(context: Context): Float =
+            Settings.System
+                .getInt(
+                    context.contentResolver,
+                    Settings.System.SCREEN_BRIGHTNESS,
+                    0,
+                ).toFloat()
 
         @RequiresApi(Build.VERSION_CODES.M)
-        fun canWriteSystemSettings(context: Context): Boolean {
-            return Settings.System.canWrite(context)
-        }
+        fun canWriteSystemSettings(context: Context): Boolean = Settings.System.canWrite(context)
 
         fun requestSystemWritePermission(context: Context) {
             val intent =
@@ -48,8 +46,6 @@ class Helper {
             ContextCompat.startActivity(context, intent, null)
         }
 
-        fun getAudio(context: Context): AudioManager {
-            return context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        }
+        fun getAudio(context: Context): AudioManager = context.getSystemService(Context.AUDIO_SERVICE) as AudioManager
     }
 }

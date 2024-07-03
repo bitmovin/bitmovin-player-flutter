@@ -34,7 +34,8 @@ class FlutterPlayer(
     config: PlayerConfig?,
     analyticsConfig: AnalyticsConfig?,
     defaultMetadata: DefaultMetadata?,
-) : StreamHandler, EventListener() {
+) : EventListener(),
+    StreamHandler {
     private var widevineCallbacksHandler: WidevineCallbacksHandler? = null
     private val methodChannel =
         ChannelManager.registerMethodChannel(
@@ -115,9 +116,7 @@ class FlutterPlayer(
     private fun onMethodCall(
         method: String,
         arguments: JMethodArgs,
-    ): Any {
-        return player.onMethodCall(method, arguments.asPlayerMethodArgs)
-    }
+    ): Any = player.onMethodCall(method, arguments.asPlayerMethodArgs)
 
     override fun onListen(
         arguments: Any?,
