@@ -1,7 +1,7 @@
 PODS:
   - audio_session (0.0.1):
     - Flutter
-  - bitmovin_player (0.9.0):
+  - bitmovin_player (0.10.0):
     - BitmovinPlayer (= 3.68.0)
     - Flutter
   - BitmovinAnalyticsCollector/BitmovinPlayer (3.7.0):
@@ -47,7 +47,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   audio_session: 088d2483ebd1dc43f51d253d4a1c517d9a2e7207
-  bitmovin_player: c3e0462eb07c0ba47c70049ac58117e652c50cf9
+  bitmovin_player: a2f17b4f275d42587ca5a3fcb4cab18c0615fb00
   BitmovinAnalyticsCollector: bbd82c0b8e11aefacd8e53b6e40c62f2cba6f3f5
   BitmovinPlayer: 90898cd5b69c7856332fb5b269cba9db15ab93dc
   BitmovinPlayerCore: 0cfe0325256548b8bff97827239d94faec034669
