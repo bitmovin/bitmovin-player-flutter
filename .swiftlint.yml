@@ -84,6 +84,8 @@ opt_in_rules:
   - comma_inheritance
   - self_binding
 
+excluded:
+  - example/ios/Pods
 deployment_target:
   iOS_deployment_target: 13.99
   tvOS_deployment_target: 13.99
