@@ -2,22 +2,22 @@ PODS:
   - audio_session (0.0.1):
     - Flutter
   - bitmovin_player (0.11.0):
-    - BitmovinPlayer (= 3.71.0)
+    - BitmovinPlayer (= 3.74.0)
     - Flutter
-  - BitmovinAnalyticsCollector/BitmovinPlayer (3.8.0):
+  - BitmovinAnalyticsCollector/BitmovinPlayer (3.8.1):
     - BitmovinAnalyticsCollector/Core
     - BitmovinPlayerCore (~> 3.48)
-  - BitmovinAnalyticsCollector/Core (3.8.0)
-  - BitmovinPlayer (3.71.0):
+  - BitmovinAnalyticsCollector/Core (3.8.1)
+  - BitmovinPlayer (3.74.0):
     - BitmovinAnalyticsCollector/BitmovinPlayer (~> 3.0)
-    - BitmovinPlayerCore (= 3.71.0)
-  - BitmovinPlayerCore (3.71.0)
+    - BitmovinPlayerCore (= 3.74.0)
+  - BitmovinPlayerCore (3.74.0)
   - Flutter (1.0.0)
   - google-cast-sdk (4.8.1):
     - Protobuf (~> 3.13)
   - integration_test (0.0.1):
     - Flutter
-  - Protobuf (3.28.0)
+  - Protobuf (3.28.2)
 
 DEPENDENCIES:
   - audio_session (from `.symlinks/plugins/audio_session/ios`)
@@ -28,10 +28,10 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/bitmovin/cocoapod-specs.git:
-    - BitmovinAnalyticsCollector
     - BitmovinPlayer
     - BitmovinPlayerCore
   trunk:
+    - BitmovinAnalyticsCollector
     - google-cast-sdk
     - Protobuf
 
@@ -47,14 +47,14 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   audio_session: 088d2483ebd1dc43f51d253d4a1c517d9a2e7207
-  bitmovin_player: b02f4fc8da35d54c81996bfed8e2e48dc0ae6b8c
-  BitmovinAnalyticsCollector: 1390e34dd1af4a0b9fe09e290510de648eec4c09
-  BitmovinPlayer: fa8d008541dfc63e974187a4f88dafcc8c62e927
-  BitmovinPlayerCore: 40e6e74a437e12adbaae10cbd59dc47454edf507
+  bitmovin_player: c54f9f571baf77b841b09991872224fbf1c28508
+  BitmovinAnalyticsCollector: 972e52381ef61210fbf9397e5fbf22db462ac94a
+  BitmovinPlayer: 4a7f76d0d904f61ed66adde34741e051a5b955ef
+  BitmovinPlayerCore: d171e1f6b9d64a2eb2cc9c168d6bdcf00af313e4
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   google-cast-sdk: beb7a3ec3def0e3beb618a849b0f1ab2b15b5ebb
   integration_test: 252f60fa39af5e17c3aa9899d35d908a0721b573
-  Protobuf: 9f10df3b9b31e47a98789ea4d2f12bb9f84de2ad
+  Protobuf: 28c89b24435762f60244e691544ed80f50d82701
 
 PODFILE CHECKSUM: 17ceda3bac5addfb282dd88f95d49784fbbd22fe
 
