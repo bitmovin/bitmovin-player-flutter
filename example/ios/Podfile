@@ -1,7 +1,6 @@
 use_frameworks!
 platform :ios, '14.0'
 source 'https://cdn.cocoapods.org'
-source 'https://github.com/bitmovin/cocoapod-specs.git'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
