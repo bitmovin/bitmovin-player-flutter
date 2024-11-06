@@ -9,6 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Update Bitmovin's native Android Player SDK version to `3.91.0`
 - Update Bitmovin's native iOS Player SDK version to `3.77.0`
 
+### Removed
+- Custom spec source `https://github.com/bitmovin/cocoapod-specs.git` from `example/ios/Podfile` as `BitmovinPlayer` is now published to the public CocoaPods registry.
+
 ## [0.11.0] - 2024-09-11
 ### Changed
 - Update Bitmovin's native Android Player SDK version to `3.82.0`
