@@ -47,7 +47,6 @@ jobs:
         if: ${{ inputs.sdk_name == 'ios' }}
         run: |
           sed -i '' "s/s.dependency 'BitmovinPlayer', '.*/s.dependency 'BitmovinPlayer', '${{ inputs.version_number }}'/g" ios/bitmovin_player.podspec
-          pod repo add bitmovin https://github.com/bitmovin/cocoapod-specs.git
           cd example/ios
           pod install --repo-update || pod update --silent
 
