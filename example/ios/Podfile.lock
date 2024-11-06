@@ -52,7 +52,7 @@ SPEC CHECKSUMS:
   BitmovinPlayerCore: 158b4a5b81b12b819f0f51b7b89711ca47e11583
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   google-cast-sdk: beb7a3ec3def0e3beb618a849b0f1ab2b15b5ebb
-  integration_test: ce0a3ffa1de96d1a89ca0ac26fca7ea18a749ef4
+  integration_test: 252f60fa39af5e17c3aa9899d35d908a0721b573
   Protobuf: 5a8a7781d8e1004302f108977ac2d5b99323146f
 
 PODFILE CHECKSUM: 1f5919f056bc6c0d404a505d0120fe1b08241c3b
