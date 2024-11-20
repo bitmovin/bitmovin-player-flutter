@@ -218,6 +218,9 @@ class PlayerViewState extends State<PlayerView> {
       viewType: Channels.playerView,
       key: UniqueKey(),
       creationParams: creationParams,
+      onPlatformViewCreated: (id) {
+        // TODO(mario): Implement onPlatformViewCreated for web.
+      },
     );
   }
 }
