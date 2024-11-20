@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:player_testing/player_testing.dart';
 
@@ -8,7 +9,7 @@ void main() {
     group('when loading a source with subtitles in the manifest', () {
       testWidgets('emits subtitle added events for each subtitle', (_) async {
         // No subtitle added event for the off-item on iOS
-        final expectedCount = Platform.isAndroid ? 5 : 4;
+        final expectedCount = !kIsWeb && Platform.isAndroid ? 5 : 4;
         await startPlayerTest(() async {
           await callPlayerAndExpectEvents(
             (player) => player.loadSourceConfig(Sources.sintel),

@@ -1,9 +1,8 @@
-import 'dart:io' show Platform;
-
 import 'package:audio_session/audio_session.dart';
 import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:bitmovin_player_example/env/env.dart';
 import 'package:bitmovin_player_example/events.dart';
+import 'package:bitmovin_player_example/platform.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 
@@ -80,7 +79,7 @@ class _PictureInPictureState extends State<PictureInPicture> {
 
   // Since PiP on Android is basically just the whole activity fitted in a small
   // floating window, we don't want to display the whole scaffold
-  bool get renderOnlyPlayerView => Platform.isAndroid && _isInPictureInPicture;
+  bool get renderOnlyPlayerView => isAndroid && _isInPictureInPicture;
 
   @override
   Widget build(BuildContext context) {

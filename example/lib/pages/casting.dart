@@ -1,9 +1,9 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:bitmovin_player_example/controls.dart';
 import 'package:bitmovin_player_example/env/env.dart';
+import 'package:bitmovin_player_example/platform.dart';
 import 'package:bitmovin_player_example/player_view_container.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
@@ -29,9 +29,9 @@ const artOfMotionDash =
 const artOfMotionHls =
     'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8';
 
-final SourceConfig _sourceConfig = Platform.isAndroid
-    ? const SourceConfig(url: artOfMotionDash, type: SourceType.dash)
-    : const SourceConfig(url: artOfMotionHls, type: SourceType.hls);
+final SourceConfig _sourceConfig = isIOS
+    ? const SourceConfig(url: artOfMotionHls, type: SourceType.hls)
+    : const SourceConfig(url: artOfMotionDash, type: SourceType.dash);
 
 class _CastingState extends State<Casting> {
   factory _CastingState() {

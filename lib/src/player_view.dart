@@ -1,9 +1,8 @@
-import 'dart:io';
-
 import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:bitmovin_player/src/channel_manager.dart';
 import 'package:bitmovin_player/src/channels.dart';
 import 'package:bitmovin_player/src/methods.dart';
+import 'package:bitmovin_player/src/platform.dart';
 import 'package:bitmovin_player/src/player_view_event_handler.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -156,40 +155,70 @@ class PlayerViewState extends State<PlayerView> {
       'playerViewConfig': widget.playerViewConfig.toJson(),
     };
 
-    return Platform.isAndroid
-        ? PlatformViewLink(
-            viewType: Channels.playerView,
-            surfaceFactory: (context, controller) {
-              return AndroidViewSurface(
-                controller: controller as ExpensiveAndroidViewController,
-                gestureRecognizers: const <Factory<
-                    OneSequenceGestureRecognizer>>{},
-                hitTestBehavior: PlatformViewHitTestBehavior.opaque,
-              );
-            },
-            onCreatePlatformView: (PlatformViewCreationParams params) {
-              return PlatformViewsService.initExpensiveAndroidView(
-                id: params.id,
-                viewType: Channels.playerView,
-                layoutDirection: TextDirection.ltr,
-                creationParams: creationParams,
-                creationParamsCodec: const StandardMessageCodec(),
-                onFocus: () {
-                  params.onFocusChanged(true);
-                },
-              )
-                ..addOnPlatformViewCreatedListener(params.onPlatformViewCreated)
-                ..addOnPlatformViewCreatedListener(_onPlatformViewCreated)
-                ..create();
-            },
-          )
-        : UiKitView(
-            viewType: Channels.playerView,
-            layoutDirection: TextDirection.ltr,
-            creationParams: creationParams,
-            onPlatformViewCreated: _onPlatformViewCreated,
-            creationParamsCodec: const StandardMessageCodec(),
-          );
+    if (isAndroid) {
+      return buildForAndroid(context, creationParams);
+    } else if (isIOS) {
+      return buildForIos(context, creationParams);
+    } else if (isWeb) {
+      return buildForWeb(context, creationParams);
+    } else {
+      throw UnsupportedError('Unsupported platform');
+    }
+  }
+
+  Widget buildForAndroid(
+    BuildContext context,
+    Map<String, dynamic> creationParams,
+  ) {
+    return PlatformViewLink(
+      viewType: Channels.playerView,
+      surfaceFactory: (context, controller) {
+        return AndroidViewSurface(
+          controller: controller as ExpensiveAndroidViewController,
+          gestureRecognizers: const <Factory<OneSequenceGestureRecognizer>>{},
+          hitTestBehavior: PlatformViewHitTestBehavior.opaque,
+        );
+      },
+      onCreatePlatformView: (PlatformViewCreationParams params) {
+        return PlatformViewsService.initExpensiveAndroidView(
+          id: params.id,
+          viewType: Channels.playerView,
+          layoutDirection: TextDirection.ltr,
+          creationParams: creationParams,
+          creationParamsCodec: const StandardMessageCodec(),
+          onFocus: () {
+            params.onFocusChanged(true);
+          },
+        )
+          ..addOnPlatformViewCreatedListener(params.onPlatformViewCreated)
+          ..addOnPlatformViewCreatedListener(_onPlatformViewCreated)
+          ..create();
+      },
+    );
+  }
+
+  Widget buildForIos(
+    BuildContext context,
+    Map<String, dynamic> creationParams,
+  ) {
+    return UiKitView(
+      viewType: Channels.playerView,
+      layoutDirection: TextDirection.ltr,
+      creationParams: creationParams,
+      onPlatformViewCreated: _onPlatformViewCreated,
+      creationParamsCodec: const StandardMessageCodec(),
+    );
+  }
+
+  Widget buildForWeb(
+    BuildContext context,
+    Map<String, dynamic> creationParams,
+  ) {
+    return HtmlElementView(
+      viewType: Channels.playerView,
+      key: UniqueKey(),
+      creationParams: creationParams,
+    );
   }
 }
 
