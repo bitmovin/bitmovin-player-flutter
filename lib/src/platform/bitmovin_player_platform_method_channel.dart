@@ -3,6 +3,8 @@ import 'package:bitmovin_player/src/channel_manager.dart';
 import 'package:bitmovin_player/src/channels.dart';
 import 'package:bitmovin_player/src/methods.dart';
 import 'package:bitmovin_player/src/platform/bitmovin_player_platform_interface.dart';
+import 'package:bitmovin_player/src/platform/player_platform_interface.dart';
+import 'package:bitmovin_player/src/platform/player_platform_method_channel.dart';
 
 /// An implementation of [BitmovinPlayerPlatform] that uses method channels.
 /// This is not specific to a player or player view instance and is currently
@@ -14,15 +16,26 @@ class BitmovinPlayerPlatformMethodChannel extends BitmovinPlayerPlatform {
   );
 
   @override
-  Future<bool?> createPlayer(String id, PlayerConfig config) async {
-    return mainChannel.invokeMethod<bool>(
-      Methods.createPlayer,
-      Map<String, dynamic>.from(
-        {
-          'id': id,
-          'playerConfig': config.toJson(),
-        },
-      ),
-    );
+  PlayerPlatformInterface createPlayer(
+    String id,
+    PlayerConfig config,
+    void Function(dynamic event) onPlatformEvent,
+  ) {
+    final playerPlatformInterface =
+        PlayerPlatformMethodChannel(id, config, onPlatformEvent);
+
+    mainChannel
+        .invokeMethod<bool>(
+          Methods.createPlayer,
+          Map<String, dynamic>.from(
+            {
+              'id': id,
+              'playerConfig': config.toJson(),
+            },
+          ),
+        )
+        .then(playerPlatformInterface.nativePlayerInitialized);
+
+    return playerPlatformInterface;
   }
 }

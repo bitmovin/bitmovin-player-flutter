@@ -2,14 +2,17 @@
 // of your plugin as a separate package, instead of inlining it in the same
 // package as the core of your plugin.
 // ignore: avoid_web_libraries_in_flutter
-import 'dart:async';
 import 'dart:html';
 import 'dart:ui_web' as ui;
 
 import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:bitmovin_player/src/channels.dart';
 import 'package:bitmovin_player/src/platform/bitmovin_player_platform_interface.dart';
+import 'package:bitmovin_player/src/platform/player_platform_interface.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
+
+// TODO(mario): move to platform/web. Also create ios and android folders.
+// TODO(mario): Align file and symbol name. Also adapt in pubspec.yaml.
 
 /// A web implementation of the BitmovinPlayerPlatform of the BitmovinPlayer
 /// plugin.
@@ -34,8 +37,12 @@ class BitmovinPlayerWeb extends BitmovinPlayerPlatform {
   }
 
   @override
-  Future<bool> createPlayer(String id, PlayerConfig config) async {
-    // TODO(mario): Implement createPlayer for web.
-    return true;
+  PlayerPlatformInterface createPlayer(
+    String id,
+    PlayerConfig config,
+    void Function(dynamic event) onPlatformEvent,
+  ) {
+    // TODO(mario): Return PlayerPlatformWeb instance.
+    throw UnimplementedError('createPlayer() has not been implemented.');
   }
 }
