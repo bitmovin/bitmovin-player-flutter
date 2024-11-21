@@ -1,0 +1,39 @@
+@JS()
+library bitmovinplayer.js;
+
+import 'package:js/js.dart';
+import 'package:web/web.dart';
+
+@JS('bitmovin.player.Player')
+class BitmovinPlayerJs {
+  external factory BitmovinPlayerJs(Element container, PlayerConfigJs config);
+  external void play();
+  external void pause();
+  external void mute();
+  external void unmute();
+  external void load(SourceJs source);
+}
+
+@JS()
+@anonymous
+class PlayerConfigJs {
+  external factory PlayerConfigJs({String key});
+  external String get key;
+}
+
+@JS()
+@anonymous
+class SourceJs {
+  external factory SourceJs({
+    String? title,
+    String? description,
+    String? dash,
+    String? hls,
+    String? poster,
+  });
+  external String? get title;
+  external String? get description;
+  external String? get dash;
+  external String? get hls;
+  external String? get poster;
+}
