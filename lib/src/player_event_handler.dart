@@ -24,8 +24,19 @@ mixin PlayerEventHandler implements PlayerListener {
   /// deserializes it to a typed event object and emits it to the corresponding
   /// event listener.
   void onPlatformEvent(dynamic event) {
-    if (event == null || event is! String) {
+    if (event == null) {
       _logger.e('Received event is null');
+      return;
+    }
+
+    // TODO(mario): This is a temporary workaround. Find a better way.
+    if (event is Event) {
+      emit(event);
+      return;
+    }
+
+    if (event is! String) {
+      _logger.e('Received event is not a JSON String');
       return;
     }
 

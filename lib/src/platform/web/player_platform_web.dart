@@ -4,6 +4,7 @@ import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:bitmovin_player/src/platform/player_platform_interface.dart';
 import 'package:bitmovin_player/src/platform/web/bitmovin_player_web_api.dart';
 import 'package:bitmovin_player/src/platform/web/conversion.dart';
+import 'package:js/js.dart';
 import 'package:web/web.dart';
 
 /// An implementation of [PlayerPlatformInterface] that uses method channels.
@@ -20,6 +21,11 @@ class PlayerPlatformWeb extends PlayerPlatformInterface {
         key: config.key ?? '',
       ),
     );
+
+    // ignore: inference_failure_on_untyped_parameter
+    _player
+      ..on('play', allowInterop(_onPlaybackEvent))
+      ..on('seek', allowInterop(_onSeekEvent));
   }
 
   /// Unique identifier for this player instance.
@@ -29,11 +35,23 @@ class PlayerPlatformWeb extends PlayerPlatformInterface {
   @override
   final PlayerConfig config;
 
-  // ignore: unused_field
   final void Function(dynamic event) _onPlatformEvent;
 
-  // ignore: unused_field
   late BitmovinPlayerJs _player;
+  Source? _currentSource;
+
+  void _onPlaybackEvent(PlaybackEventJs event) {
+    _onPlatformEvent(event.toPlayEvent());
+  }
+
+  void _onSeekEvent(SeekEventJs event) {
+    final currentSource = _currentSource;
+    if (currentSource == null) {
+      return;
+    }
+
+    _onPlatformEvent(event.toSeekEvent(currentSource));
+  }
 
   Element _createContainer() {
     final div = document.createElement('div') as HTMLDivElement
@@ -81,6 +99,7 @@ class PlayerPlatformWeb extends PlayerPlatformInterface {
 
   @override
   Future<void> loadSource(Source source) async {
+    _currentSource = source;
     await super.loadSource(source);
     _player.load(source.toSourceJs());
   }

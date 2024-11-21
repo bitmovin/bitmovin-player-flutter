@@ -27,6 +27,7 @@ class BitmovinPlayerJs {
   external double getCurrentTime();
   external double getDuration();
   external double getMaxTimeShift();
+  external void on(String event, Function handler);
 }
 
 @JS()
@@ -51,4 +52,21 @@ class SourceJs {
   external String? get dash;
   external String? get hls;
   external String? get poster;
+}
+
+@JS('bitmovin.player.PlaybackEvent')
+class PlaybackEventJs {
+  external String get issuer;
+  external double get time;
+  external int get timestamp;
+  external String get type;
+}
+
+@JS('bitmovin.player.SeekEvent')
+class SeekEventJs {
+  external String get issuer;
+  external double get position;
+  external double get seekTarget;
+  external int get timestamp;
+  external String get type;
 }

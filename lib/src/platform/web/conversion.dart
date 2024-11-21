@@ -20,3 +20,19 @@ extension SourceToJs on Source {
     return sourceConfig.type == SourceType.hls ? sourceConfig.url : null;
   }
 }
+
+extension SeekEventFromJs on SeekEventJs {
+  SeekEvent toSeekEvent(Source source) {
+    return SeekEvent(
+      from: SeekPosition(source: source, time: position),
+      to: SeekPosition(source: source, time: seekTarget),
+      timestamp: timestamp,
+    );
+  }
+}
+
+extension PlayEventFromJs on PlaybackEventJs {
+  PlayEvent toPlayEvent() {
+    return PlayEvent(time: time, timestamp: timestamp);
+  }
+}
