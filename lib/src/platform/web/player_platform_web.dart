@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:bitmovin_player/src/platform/player_platform_interface.dart';
 import 'package:bitmovin_player/src/platform/web/bitmovin_player_web_api.dart';
+import 'package:bitmovin_player/src/platform/web/conversion.dart';
 import 'package:web/web.dart';
 
 /// An implementation of [PlayerPlatformInterface] that uses method channels.
@@ -81,26 +82,7 @@ class PlayerPlatformWeb extends PlayerPlatformInterface {
   @override
   Future<void> loadSource(Source source) async {
     await super.loadSource(source);
-
-    String? dash;
-    if (source.sourceConfig.type == SourceType.dash) {
-      dash = source.sourceConfig.url;
-    }
-
-    String? hls;
-    if (source.sourceConfig.type == SourceType.hls) {
-      hls = source.sourceConfig.url;
-    }
-
-    _player.load(
-      SourceJs(
-        title: source.sourceConfig.title,
-        description: source.sourceConfig.description,
-        dash: dash,
-        hls: hls,
-        poster: source.sourceConfig.posterSource,
-      ),
-    );
+    _player.load(source.toSourceJs());
   }
 
   @override
