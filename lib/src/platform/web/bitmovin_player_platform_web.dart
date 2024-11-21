@@ -9,13 +9,14 @@ import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:bitmovin_player/src/channels.dart';
 import 'package:bitmovin_player/src/platform/bitmovin_player_platform_interface.dart';
 import 'package:bitmovin_player/src/platform/player_platform_interface.dart';
+import 'package:bitmovin_player/src/platform/web/player_platform_web.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
 /// A web implementation of the BitmovinPlayerPlatform of the BitmovinPlayer
 /// plugin.
-class BitmovinPlayerWeb extends BitmovinPlayerPlatformInterface {
+class BitmovinPlayerPlatformWeb extends BitmovinPlayerPlatformInterface {
   /// Constructs a BitmovinPlayerWeb
-  BitmovinPlayerWeb() {
+  BitmovinPlayerPlatformWeb() {
     ui.platformViewRegistry.registerViewFactory(Channels.playerView,
         (int viewId, {Object? params}) {
       final div = document.createElement('div') as DivElement
@@ -30,7 +31,7 @@ class BitmovinPlayerWeb extends BitmovinPlayerPlatformInterface {
   }
 
   static void registerWith(Registrar registrar) {
-    BitmovinPlayerPlatformInterface.instance = BitmovinPlayerWeb();
+    BitmovinPlayerPlatformInterface.instance = BitmovinPlayerPlatformWeb();
   }
 
   @override
@@ -39,7 +40,6 @@ class BitmovinPlayerWeb extends BitmovinPlayerPlatformInterface {
     PlayerConfig config,
     void Function(dynamic event) onPlatformEvent,
   ) {
-    // TODO(mario): Return PlayerPlatformWeb instance.
-    throw UnimplementedError('createPlayer() has not been implemented.');
+    return PlayerPlatformWeb(id, config, onPlatformEvent);
   }
 }

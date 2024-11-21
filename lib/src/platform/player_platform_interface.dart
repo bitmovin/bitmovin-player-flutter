@@ -17,9 +17,6 @@ abstract class PlayerPlatformInterface extends PlatformInterface
   /// Handles Widevine DRM related method calls.
   WidevineHandler? widevineHandler;
 
-  // ignore: avoid_positional_boolean_parameters
-  void nativePlayerInitialized(bool? success);
-
   @override
   AnalyticsApi get analytics => _AnalyticsApi(this);
 

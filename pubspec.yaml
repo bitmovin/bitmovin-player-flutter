@@ -44,5 +44,5 @@ flutter:
       ios:
         pluginClass: PlayerPlugin
       web:
-        pluginClass: BitmovinPlayerWeb
-        fileName: src/platform/web/bitmovin_player_web.dart
+        pluginClass: BitmovinPlayerPlatformWeb
+        fileName: src/platform/web/bitmovin_player_platform_web.dart

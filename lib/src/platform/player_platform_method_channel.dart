@@ -33,7 +33,7 @@ class PlayerPlatformMethodChannel extends PlayerPlatformInterface {
 
   final void Function(dynamic event) _onPlatformEvent;
 
-  @override
+  // ignore: avoid_positional_boolean_parameters
   void nativePlayerInitialized(bool? success) {
     _eventChannel.receiveBroadcastStream().listen(_onPlatformEvent);
     _completer.complete(success);
@@ -239,7 +239,6 @@ class PlayerPlatformMethodChannel extends PlayerPlatformInterface {
       ) ??
       SubtitleTrack.off();
 
-  @override
   @override
   Future<double> get timeShift async =>
       _invokeMethod<double>(Methods.getTimeShift);
