@@ -11,12 +11,9 @@ import 'package:bitmovin_player/src/platform/bitmovin_player_platform_interface.
 import 'package:bitmovin_player/src/platform/player_platform_interface.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
-// TODO(mario): move to platform/web. Also create ios and android folders.
-// TODO(mario): Align file and symbol name. Also adapt in pubspec.yaml.
-
 /// A web implementation of the BitmovinPlayerPlatform of the BitmovinPlayer
 /// plugin.
-class BitmovinPlayerWeb extends BitmovinPlayerPlatform {
+class BitmovinPlayerWeb extends BitmovinPlayerPlatformInterface {
   /// Constructs a BitmovinPlayerWeb
   BitmovinPlayerWeb() {
     ui.platformViewRegistry.registerViewFactory(Channels.playerView,
@@ -33,7 +30,7 @@ class BitmovinPlayerWeb extends BitmovinPlayerPlatform {
   }
 
   static void registerWith(Registrar registrar) {
-    BitmovinPlayerPlatform.instance = BitmovinPlayerWeb();
+    BitmovinPlayerPlatformInterface.instance = BitmovinPlayerWeb();
   }
 
   @override

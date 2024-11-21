@@ -5,25 +5,24 @@ import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 /// The main platform interface that is used to interact with the platform
 /// plugins. This is not specific to a player or player view instance.
-// TODO(mario): rename to match file name.
-abstract class BitmovinPlayerPlatform extends PlatformInterface {
-  /// Constructs a [BitmovinPlayerPlatform].
-  BitmovinPlayerPlatform() : super(token: _token);
+abstract class BitmovinPlayerPlatformInterface extends PlatformInterface {
+  /// Constructs a [BitmovinPlayerPlatformInterface].
+  BitmovinPlayerPlatformInterface() : super(token: _token);
 
   static final Object _token = Object();
 
-  static BitmovinPlayerPlatform _instance =
+  static BitmovinPlayerPlatformInterface _instance =
       BitmovinPlayerPlatformMethodChannel();
 
-  /// The instance of [BitmovinPlayerPlatform] to use.
+  /// The instance of [BitmovinPlayerPlatformInterface] to use.
   ///
   /// Defaults to [BitmovinPlayerPlatformMethodChannel].
-  static BitmovinPlayerPlatform get instance => _instance;
+  static BitmovinPlayerPlatformInterface get instance => _instance;
 
   /// Platform-specific implementations should set this with their own
-  /// platform-specific class that extends [BitmovinPlayerPlatform] when
-  /// they register themselves.
-  static set instance(BitmovinPlayerPlatform instance) {
+  /// platform-specific class that extends [BitmovinPlayerPlatformInterface]
+  /// when they register themselves.
+  static set instance(BitmovinPlayerPlatformInterface instance) {
     PlatformInterface.verifyToken(instance, _token);
     _instance = instance;
   }

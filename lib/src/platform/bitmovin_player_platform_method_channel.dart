@@ -6,10 +6,11 @@ import 'package:bitmovin_player/src/platform/bitmovin_player_platform_interface.
 import 'package:bitmovin_player/src/platform/player_platform_interface.dart';
 import 'package:bitmovin_player/src/platform/player_platform_method_channel.dart';
 
-/// An implementation of [BitmovinPlayerPlatform] that uses method channels.
-/// This is not specific to a player or player view instance and is currently
-/// used for iOS and Android.
-class BitmovinPlayerPlatformMethodChannel extends BitmovinPlayerPlatform {
+/// An implementation of [BitmovinPlayerPlatformInterface] that uses method
+/// channels. This is not specific to a player or player view instance and is
+/// currently used for iOS and Android.
+class BitmovinPlayerPlatformMethodChannel
+    extends BitmovinPlayerPlatformInterface {
   /// The method channel used to interact with the native platform.
   final mainChannel = ChannelManager.registerMethodChannel(
     name: Channels.main,

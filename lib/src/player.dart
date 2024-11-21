@@ -21,7 +21,7 @@ class Player with PlayerEventHandler implements PlayerApi {
     PlayerConfig config = const PlayerConfig(),
   }) {
     _uuid = hashCode.toString();
-    _playerPlatformInterface = BitmovinPlayerPlatform.instance
+    _playerPlatformInterface = BitmovinPlayerPlatformInterface.instance
         .createPlayer(id, config, onPlatformEvent);
   }
 

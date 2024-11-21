@@ -45,4 +45,4 @@ flutter:
         pluginClass: PlayerPlugin
       web:
         pluginClass: BitmovinPlayerWeb
-        fileName: src/web/bitmovin_player.dart
+        fileName: src/platform/web/bitmovin_player_web.dart
