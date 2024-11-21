@@ -8,6 +8,7 @@ import 'package:bitmovin_player/src/channels.dart';
 import 'package:bitmovin_player/src/drm/fairplay_handler.dart';
 import 'package:bitmovin_player/src/drm/widevine_handler.dart';
 import 'package:bitmovin_player/src/methods.dart';
+import 'package:bitmovin_player/src/platform/bitmovin_player_platform_interface.dart';
 import 'package:bitmovin_player/src/player_event_handler.dart';
 import 'package:flutter/services.dart';
 
@@ -28,21 +29,7 @@ class Player with PlayerEventHandler implements PlayerApi {
     _initializationResult = _completer.future;
     _uuid = hashCode.toString();
 
-    final mainChannel = ChannelManager.registerMethodChannel(
-      name: Channels.main,
-    );
-
-    mainChannel
-        .invokeMethod<bool>(
-      Methods.createPlayer,
-      Map<String, dynamic>.from(
-        {
-          'id': id,
-          'playerConfig': config.toJson(),
-        },
-      ),
-    )
-        .then((value) {
+    BitmovinPlayerPlatform.instance.createPlayer(id, config).then((value) {
       if (value == null || value == false) {
         _completer.complete(false);
         return;
