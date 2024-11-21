@@ -50,34 +50,34 @@ class PlayerPlatformWeb extends PlayerPlatformInterface {
       throw UnimplementedError();
 
   @override
-  Future<void> castStop() async => throw UnimplementedError();
+  Future<void> castStop() async => _player.castStop();
 
   @override
-  Future<void> castVideo() async => throw UnimplementedError();
+  Future<void> castVideo() async => _player.castVideo();
 
   @override
-  Future<double> get currentTime async => throw UnimplementedError();
+  Future<double> get currentTime async => _player.getCurrentTime();
 
   @override
-  Future<double> get duration async => throw UnimplementedError();
+  Future<double> get duration async => _player.getDuration();
 
   @override
-  Future<bool> get isAirPlayActive async => throw UnimplementedError();
+  Future<bool> get isAirPlayActive async => _player.isAirplayActive();
 
   @override
-  Future<bool> get isAirPlayAvailable async => throw UnimplementedError();
+  Future<bool> get isAirPlayAvailable async => _player.isAirplayAvailable();
 
   @override
-  Future<bool> get isCastAvailable async => throw UnimplementedError();
+  Future<bool> get isCastAvailable async => _player.isCastAvailable();
 
   @override
-  Future<bool> get isCasting async => throw UnimplementedError();
+  Future<bool> get isCasting async => _player.isCasting();
 
   @override
-  Future<bool> get isLive async => throw UnimplementedError();
+  Future<bool> get isLive async => _player.isLive();
 
   @override
-  Future<bool> get isPlaying async => throw UnimplementedError();
+  Future<bool> get isPlaying async => _player.isPlaying();
 
   @override
   Future<void> loadSource(Source source) async {
@@ -86,7 +86,7 @@ class PlayerPlatformWeb extends PlayerPlatformInterface {
   }
 
   @override
-  Future<double> get maxTimeShift async => throw UnimplementedError();
+  Future<double> get maxTimeShift async => _player.getMaxTimeShift();
 
   @override
   Future<void> mute() async => _player.mute();
@@ -101,14 +101,14 @@ class PlayerPlatformWeb extends PlayerPlatformInterface {
   Future<void> removeSubtitle(String id) async => throw UnimplementedError();
 
   @override
-  Future<void> seek(double time) async => throw UnimplementedError();
+  Future<void> seek(double time) async => _player.seek(time);
 
   @override
   Future<void> setSubtitle(String? id) async => throw UnimplementedError();
 
   @override
   Future<void> setTimeShift(double timeShift) async =>
-      throw UnimplementedError();
+      _player.timeShift(timeShift);
 
   @override
   Future<void> showAirPlayTargetPicker() async => throw UnimplementedError();
@@ -117,13 +117,13 @@ class PlayerPlatformWeb extends PlayerPlatformInterface {
   Future<SubtitleTrack> get subtitle async => throw UnimplementedError();
 
   @override
-  Future<double> get timeShift async => throw UnimplementedError();
+  Future<double> get timeShift async => _player.getTimeShift();
 
   @override
   Future<void> unmute() async => _player.unmute();
 
   @override
-  Future<void> dispose() async => throw UnimplementedError();
+  Future<void> dispose() async => _player.destroy();
 
   @override
   Future<void> sendCustomDataEvent(CustomData customData) async =>

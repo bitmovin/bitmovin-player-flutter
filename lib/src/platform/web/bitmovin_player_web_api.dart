@@ -12,6 +12,21 @@ class BitmovinPlayerJs {
   external void mute();
   external void unmute();
   external void load(SourceJs source);
+  external void seek(double time);
+  external void timeShift(double offset);
+  external double getTimeShift();
+  external void destroy();
+  external void castVideo();
+  external void castStop();
+  external bool isPlaying();
+  external bool isLive();
+  external bool isCasting();
+  external bool isCastAvailable();
+  external bool isAirplayActive();
+  external bool isAirplayAvailable();
+  external double getCurrentTime();
+  external double getDuration();
+  external double getMaxTimeShift();
 }
 
 @JS()
