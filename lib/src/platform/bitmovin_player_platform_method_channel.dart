@@ -5,6 +5,8 @@ import 'package:bitmovin_player/src/methods.dart';
 import 'package:bitmovin_player/src/platform/bitmovin_player_platform_interface.dart';
 import 'package:bitmovin_player/src/platform/player_platform_interface.dart';
 import 'package:bitmovin_player/src/platform/player_platform_method_channel.dart';
+import 'package:bitmovin_player/src/platform/player_view_platform_interface.dart';
+import 'package:bitmovin_player/src/platform/player_view_platform_method_channel.dart';
 
 /// An implementation of [BitmovinPlayerPlatformInterface] that uses method
 /// channels. This is not specific to a player or player view instance and is
@@ -38,5 +40,20 @@ class BitmovinPlayerPlatformMethodChannel
         .then(playerPlatformInterface.nativePlayerInitialized);
 
     return playerPlatformInterface;
+  }
+
+  @override
+  PlayerViewPlatformInterface createPlayerView({
+    required void Function(Event event) onPlatformEvent,
+    required void Function() handleEnterFullscreen,
+    required void Function() handleExitFullscreen,
+    void Function()? onViewCreated,
+  }) {
+    return PlayerViewPlatformMethodChannel(
+      onPlatformEvent,
+      handleEnterFullscreen,
+      handleExitFullscreen,
+      onViewCreated,
+    );
   }
 }

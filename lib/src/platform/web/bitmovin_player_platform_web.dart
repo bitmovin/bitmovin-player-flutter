@@ -6,7 +6,9 @@ import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:bitmovin_player/src/channels.dart';
 import 'package:bitmovin_player/src/platform/bitmovin_player_platform_interface.dart';
 import 'package:bitmovin_player/src/platform/player_platform_interface.dart';
+import 'package:bitmovin_player/src/platform/player_view_platform_interface.dart';
 import 'package:bitmovin_player/src/platform/web/player_platform_web.dart';
+import 'package:bitmovin_player/src/platform/web/player_view_platform_web.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
 /// A web implementation of the BitmovinPlayerPlatform of the BitmovinPlayer
@@ -31,6 +33,20 @@ class BitmovinPlayerPlatformWeb extends BitmovinPlayerPlatformInterface {
     void Function(Event event) onPlatformEvent,
   ) {
     return PlayerPlatformWeb(id, config, onPlatformEvent);
+  }
+
+  @override
+  PlayerViewPlatformInterface createPlayerView({
+    required void Function(Event event) onPlatformEvent,
+    required void Function() handleEnterFullscreen,
+    required void Function() handleExitFullscreen,
+    void Function()? onViewCreated,
+  }) {
+    return PlayerViewPlatformWeb(
+      handleEnterFullscreen,
+      handleExitFullscreen,
+      onViewCreated,
+    );
   }
 
   Element _viewFactory(int viewId, {Object? params}) {

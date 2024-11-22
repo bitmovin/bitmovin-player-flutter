@@ -100,6 +100,18 @@ class EventDeserializer {
         return AirPlayAvailableEvent.fromJson(data);
       case 'onAirPlayChanged':
         return AirPlayChangedEvent.fromJson(data);
+      case 'onFullscreenEnter':
+        return FullscreenEnterEvent.fromJson(data);
+      case 'onFullscreenExit':
+        return FullscreenExitEvent.fromJson(data);
+      case 'onPictureInPictureEnter':
+        return PictureInPictureEnterEvent.fromJson(data);
+      case 'onPictureInPictureEntered':
+        return PictureInPictureEnteredEvent.fromJson(data);
+      case 'onPictureInPictureExit':
+        return PictureInPictureExitEvent.fromJson(data);
+      case 'onPictureInPictureExited':
+        return PictureInPictureExitedEvent.fromJson(data);
     }
 
     _logger.e('Received unknown event type: $eventName');

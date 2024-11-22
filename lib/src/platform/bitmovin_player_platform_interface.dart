@@ -1,6 +1,7 @@
 import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:bitmovin_player/src/platform/bitmovin_player_platform_method_channel.dart';
 import 'package:bitmovin_player/src/platform/player_platform_interface.dart';
+import 'package:bitmovin_player/src/platform/player_view_platform_interface.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 /// The main platform interface that is used to interact with the platform
@@ -34,5 +35,14 @@ abstract class BitmovinPlayerPlatformInterface extends PlatformInterface {
     void Function(Event event) onPlatformEvent,
   ) {
     throw UnimplementedError('createPlayer() has not been implemented.');
+  }
+
+  PlayerViewPlatformInterface createPlayerView({
+    required void Function(Event event) onPlatformEvent,
+    required void Function() handleEnterFullscreen,
+    required void Function() handleExitFullscreen,
+    void Function()? onViewCreated,
+  }) {
+    throw UnimplementedError('createPlayerView() has not been implemented.');
   }
 }
