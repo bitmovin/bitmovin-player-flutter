@@ -26,8 +26,10 @@ class EventDeserializer {
 
     switch (eventName) {
       case 'onSourceAdded':
+      case 'onSourceAddedEvent':
         return SourceAddedEvent.fromJson(data);
       case 'onSourceRemoved':
+      case 'onSourceRemovedEvent':
         return SourceRemovedEvent.fromJson(data);
       case 'onSourceLoad':
         return SourceLoadEvent.fromJson(data);
