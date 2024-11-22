@@ -22,14 +22,12 @@ class PlayerPlatformWeb extends PlayerPlatformInterface {
       ),
     );
 
-    // ignore: inference_failure_on_untyped_parameter
     _player
       ..on('play', allowInterop(_onPlaybackEvent))
       ..on('seek', allowInterop(_onSeekEvent));
   }
 
   /// Unique identifier for this player instance.
-  // ignore: unused_field
   final String _playerId;
 
   @override
@@ -40,10 +38,12 @@ class PlayerPlatformWeb extends PlayerPlatformInterface {
   late BitmovinPlayerJs _player;
   Source? _currentSource;
 
+  // TODO(mario): event handlers should be moved to a separate component
   void _onPlaybackEvent(PlaybackEventJs event) {
     _onPlatformEvent(event.toPlayEvent());
   }
 
+  // TODO(mario): event handlers should be moved to a separate component
   void _onSeekEvent(SeekEventJs event) {
     final currentSource = _currentSource;
     if (currentSource == null) {

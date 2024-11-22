@@ -88,7 +88,6 @@ class PlayerViewState extends State<PlayerView> {
   void exitFullscreen() => _playerViewPlatformInterface.exitFullscreen();
 
   /// Access Picture-in-Picture APIs.
-  /// Not available on web.
   PictureInPictureApi get pictureInPicture =>
       _playerViewPlatformInterface.pictureInPicture;
 

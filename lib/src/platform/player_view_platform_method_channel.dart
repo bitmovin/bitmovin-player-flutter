@@ -24,6 +24,8 @@ class PlayerViewPlatformMethodChannel extends PlayerViewPlatformInterface {
   final void Function() _handleExitFullscreen;
   final void Function()? _onViewCreated;
   final EventDeserializer _eventDeserializer = EventDeserializer();
+  late final MethodChannel _methodChannel;
+  late final EventChannel _eventChannel;
 
   @override
   Widget build(BuildContext context, Map<String, dynamic> creationParams) {
@@ -51,20 +53,6 @@ class PlayerViewPlatformMethodChannel extends PlayerViewPlatformInterface {
     _invokeMethod<void>(Methods.exitFullscreen);
   }
 
-  // Can be used to call methods on the platform side that return a single
-  // primitive value that is natively supported by the method channel.
-  Future<T> _invokeMethod<T>(
-    String methodName, [
-    dynamic data,
-  ]) async {
-    final result = await _methodChannel.invokeMethod<T>(methodName, data);
-    if (result is! T) {
-      // result is T?, if it `is` not T => T is not nullable and result is null.
-      throw Exception('Native $methodName returned null.');
-    }
-    return result;
-  }
-
   @override
   Future<void> enterPictureInPicture() async =>
       _invokeMethod<void>(Methods.enterPictureInPicture);
@@ -81,8 +69,19 @@ class PlayerViewPlatformMethodChannel extends PlayerViewPlatformInterface {
   Future<bool> get isPictureInPictureAvailable async =>
       _invokeMethod<bool>(Methods.isPictureInPictureAvailable);
 
-  late final MethodChannel _methodChannel;
-  late final EventChannel _eventChannel;
+  // Can be used to call methods on the platform side that return a single
+  // primitive value that is natively supported by the method channel.
+  Future<T> _invokeMethod<T>(
+    String methodName, [
+    dynamic data,
+  ]) async {
+    final result = await _methodChannel.invokeMethod<T>(methodName, data);
+    if (result is! T) {
+      // result is T?, if it `is` not T => T is not nullable and result is null.
+      throw Exception('Native $methodName returned null.');
+    }
+    return result;
+  }
 
   void _onPlatformViewCreated(int id) {
     _methodChannel = ChannelManager.registerMethodChannel(

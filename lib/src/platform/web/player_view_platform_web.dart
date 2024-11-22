@@ -25,20 +25,6 @@ class PlayerViewPlatformWeb extends PlayerViewPlatformInterface {
     }
   }
 
-  Widget _buildForWeb(
-    BuildContext context,
-    Map<String, dynamic> creationParams,
-  ) {
-    return HtmlElementView(
-      viewType: Channels.playerView,
-      key: UniqueKey(),
-      creationParams: creationParams,
-      onPlatformViewCreated: (id) {
-        _onViewCreated?.call();
-      },
-    );
-  }
-
   @override
   void dispose() {/* no-op for web */}
 
@@ -73,4 +59,18 @@ class PlayerViewPlatformWeb extends PlayerViewPlatformInterface {
   @override
   // TODO(mario): implement view mode support
   Future<bool> get isPictureInPictureAvailable async => false;
+
+  Widget _buildForWeb(
+    BuildContext context,
+    Map<String, dynamic> creationParams,
+  ) {
+    return HtmlElementView(
+      viewType: Channels.playerView,
+      key: UniqueKey(),
+      creationParams: creationParams,
+      onPlatformViewCreated: (id) {
+        _onViewCreated?.call();
+      },
+    );
+  }
 }
