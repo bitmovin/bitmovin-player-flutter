@@ -5,7 +5,7 @@ import 'package:bitmovin_player/src/platform/player_platform_interface.dart';
 import 'package:bitmovin_player/src/platform/web/bitmovin_player_web_api.dart';
 import 'package:bitmovin_player/src/platform/web/conversion.dart';
 import 'package:js/js.dart';
-import 'package:web/web.dart';
+import 'package:web/web.dart' as web;
 
 /// An implementation of [PlayerPlatformInterface] that uses method channels.
 /// Is specific to a single player instance.
@@ -35,7 +35,7 @@ class PlayerPlatformWeb extends PlayerPlatformInterface {
   @override
   final PlayerConfig config;
 
-  final void Function(dynamic event) _onPlatformEvent;
+  final void Function(Event event) _onPlatformEvent;
 
   late BitmovinPlayerJs _player;
   Source? _currentSource;
@@ -53,12 +53,12 @@ class PlayerPlatformWeb extends PlayerPlatformInterface {
     _onPlatformEvent(event.toSeekEvent(currentSource));
   }
 
-  Element _createContainer() {
-    final div = document.createElement('div') as HTMLDivElement
+  web.Element _createContainer() {
+    final div = web.document.createElement('div') as web.HTMLDivElement
       ..id = 'player-$_playerId'
       ..style.visibility = 'hidden';
 
-    document.body?.append(div);
+    web.document.body?.append(div);
 
     return div;
   }

@@ -22,7 +22,7 @@ class Player with PlayerEventHandler implements PlayerApi {
   }) {
     _uuid = hashCode.toString();
     _playerPlatformInterface = BitmovinPlayerPlatformInterface.instance
-        .createPlayer(id, config, onPlatformEvent);
+        .createPlayer(id, config, emitEvent);
   }
 
   /// Interface to the platform-specific player implementation.

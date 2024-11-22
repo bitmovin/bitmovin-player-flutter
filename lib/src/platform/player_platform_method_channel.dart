@@ -5,6 +5,7 @@ import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:bitmovin_player/src/channel_manager.dart';
 import 'package:bitmovin_player/src/channels.dart';
 import 'package:bitmovin_player/src/methods.dart';
+import 'package:bitmovin_player/src/platform/event_deserializer.dart';
 import 'package:bitmovin_player/src/platform/player_platform_interface.dart';
 import 'package:flutter/services.dart';
 
@@ -27,15 +28,19 @@ class PlayerPlatformMethodChannel extends PlayerPlatformInterface {
 
   /// Unique identifier for this player instance.
   final String _playerId;
-
   @override
   final PlayerConfig config;
-
-  final void Function(dynamic event) _onPlatformEvent;
+  final void Function(Event event) _onPlatformEvent;
+  final EventDeserializer _eventDeserializer = EventDeserializer();
 
   // ignore: avoid_positional_boolean_parameters
   void nativePlayerInitialized(bool? success) {
-    _eventChannel.receiveBroadcastStream().listen(_onPlatformEvent);
+    _eventChannel.receiveBroadcastStream().listen((dynamic eventPayload) {
+      final event = _eventDeserializer.deserialize(eventPayload);
+      if (event != null) {
+        _onPlatformEvent(event);
+      }
+    });
     _completer.complete(success);
   }
 

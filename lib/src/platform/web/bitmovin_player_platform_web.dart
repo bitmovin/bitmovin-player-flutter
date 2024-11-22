@@ -47,7 +47,7 @@ class BitmovinPlayerPlatformWeb extends BitmovinPlayerPlatformInterface {
   PlayerPlatformInterface createPlayer(
     String id,
     PlayerConfig config,
-    void Function(dynamic event) onPlatformEvent,
+    void Function(Event event) onPlatformEvent,
   ) {
     return PlayerPlatformWeb(id, config, onPlatformEvent);
   }

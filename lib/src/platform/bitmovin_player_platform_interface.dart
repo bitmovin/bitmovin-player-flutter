@@ -31,7 +31,7 @@ abstract class BitmovinPlayerPlatformInterface extends PlatformInterface {
   PlayerPlatformInterface createPlayer(
     String id,
     PlayerConfig config,
-    void Function(dynamic event) onPlatformEvent,
+    void Function(Event event) onPlatformEvent,
   ) {
     throw UnimplementedError('createPlayer() has not been implemented.');
   }

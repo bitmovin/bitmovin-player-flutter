@@ -20,7 +20,7 @@ class BitmovinPlayerPlatformMethodChannel
   PlayerPlatformInterface createPlayer(
     String id,
     PlayerConfig config,
-    void Function(dynamic event) onPlatformEvent,
+    void Function(Event event) onPlatformEvent,
   ) {
     final playerPlatformInterface =
         PlayerPlatformMethodChannel(id, config, onPlatformEvent);
