@@ -19,7 +19,7 @@ class BitmovinPlayerPlatformWeb extends BitmovinPlayerPlatformInterface {
   BitmovinPlayerPlatformWeb() {
     ui.platformViewRegistry.registerViewFactory(
       Channels.playerView,
-      viewFactory,
+      _viewFactory,
     );
   }
 
@@ -27,7 +27,16 @@ class BitmovinPlayerPlatformWeb extends BitmovinPlayerPlatformInterface {
     BitmovinPlayerPlatformInterface.instance = BitmovinPlayerPlatformWeb();
   }
 
-  Element viewFactory(int viewId, {Object? params}) {
+  @override
+  PlayerPlatformInterface createPlayer(
+    String id,
+    PlayerConfig config,
+    void Function(Event event) onPlatformEvent,
+  ) {
+    return PlayerPlatformWeb(id, config, onPlatformEvent);
+  }
+
+  Element _viewFactory(int viewId, {Object? params}) {
     final playerId = (params as dynamic)['playerId'] as String;
     final containerId = 'player-wrapper-$playerId';
     final div = document.createElement('div')..id = containerId;
@@ -41,14 +50,5 @@ class BitmovinPlayerPlatformWeb extends BitmovinPlayerPlatformInterface {
     div.append(playerDiv);
 
     return div;
-  }
-
-  @override
-  PlayerPlatformInterface createPlayer(
-    String id,
-    PlayerConfig config,
-    void Function(Event event) onPlatformEvent,
-  ) {
-    return PlayerPlatformWeb(id, config, onPlatformEvent);
   }
 }
