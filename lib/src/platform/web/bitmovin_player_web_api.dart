@@ -54,7 +54,8 @@ class SourceJs {
   external String? get poster;
 }
 
-@JS('bitmovin.player.PlaybackEvent')
+@JS()
+@anonymous
 class PlaybackEventJs {
   external String get issuer;
   external double get time;
@@ -62,7 +63,8 @@ class PlaybackEventJs {
   external String get type;
 }
 
-@JS('bitmovin.player.SeekEvent')
+@JS()
+@anonymous
 class SeekEventJs {
   external String get issuer;
   external double get position;
