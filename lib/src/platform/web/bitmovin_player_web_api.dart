@@ -63,9 +63,14 @@ class SourceJs {
 
 @JS()
 @anonymous
-class PlaybackEventJs {
+class PlaybackEventJs extends PlayerEventBaseJs {
   external String get issuer;
   external double get time;
+}
+
+@JS()
+@anonymous
+class PlayerEventBaseJs {
   external int get timestamp;
   external String get type;
 }

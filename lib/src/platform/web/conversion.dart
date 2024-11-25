@@ -59,7 +59,7 @@ extension SourceFromJs on SourceJs {
   }
 }
 
-extension SeekEventFromJs on SeekEventJs {
+extension SeekEventConversion on SeekEventJs {
   SeekEvent toSeekEvent(Source source) {
     return SeekEvent(
       from: SeekPosition(source: source, time: position),
@@ -69,8 +69,26 @@ extension SeekEventFromJs on SeekEventJs {
   }
 }
 
-extension PlayEventFromJs on PlaybackEventJs {
+extension PlaybackEventConversion on PlaybackEventJs {
   PlayEvent toPlayEvent() {
     return PlayEvent(time: time, timestamp: timestamp);
+  }
+
+  PlayingEvent toPlayingEvent() {
+    return PlayingEvent(time: time, timestamp: timestamp);
+  }
+
+  PausedEvent toPausedEvent() {
+    return PausedEvent(time: time, timestamp: timestamp);
+  }
+
+  TimeChangedEvent toTimeChangedEvent() {
+    return TimeChangedEvent(time: time, timestamp: timestamp);
+  }
+}
+
+extension PlayerEventBaseConversion on PlayerEventBaseJs {
+  SeekedEvent toSeekedEvent() {
+    return SeekedEvent(timestamp: timestamp);
   }
 }
