@@ -4,7 +4,7 @@ import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:bitmovin_player/src/platform/player_platform_interface.dart';
 import 'package:bitmovin_player/src/platform/web/bitmovin_player_web_api.dart';
 import 'package:bitmovin_player/src/platform/web/conversion.dart';
-import 'package:js/js.dart';
+import 'package:bitmovin_player/src/platform/web/player_web_event_handler.dart';
 import 'package:web/web.dart' as web;
 
 /// An implementation of [PlayerPlatformInterface] that uses method channels.
@@ -13,7 +13,7 @@ class PlayerPlatformWeb extends PlayerPlatformInterface {
   PlayerPlatformWeb(
     this._playerId,
     this.config,
-    this._onPlatformEvent,
+    void Function(Event event) _onPlatformEvent,
   ) {
     _player = BitmovinPlayerJs(
       _createContainer(),
@@ -22,36 +22,16 @@ class PlayerPlatformWeb extends PlayerPlatformInterface {
       ),
     );
 
-    _player
-      ..on('play', allowInterop(_onPlaybackEvent))
-      ..on('seek', allowInterop(_onSeekEvent));
+    _playerEventHandler = PlayerWebEventHandler(_player, _onPlatformEvent);
   }
 
   /// Unique identifier for this player instance.
   final String _playerId;
-
   @override
   final PlayerConfig config;
-
-  final void Function(Event event) _onPlatformEvent;
-
   late BitmovinPlayerJs _player;
-  Source? _currentSource;
-
-  // TODO(mario): event handlers should be moved to a separate component
-  void _onPlaybackEvent(PlaybackEventJs event) {
-    _onPlatformEvent(event.toPlayEvent());
-  }
-
-  // TODO(mario): event handlers should be moved to a separate component
-  void _onSeekEvent(SeekEventJs event) {
-    final currentSource = _currentSource;
-    if (currentSource == null) {
-      return;
-    }
-
-    _onPlatformEvent(event.toSeekEvent(currentSource));
-  }
+  // ignore: unused_field
+  late PlayerWebEventHandler _playerEventHandler;
 
   web.Element _createContainer() {
     final div = web.document.createElement('div') as web.HTMLDivElement
@@ -99,7 +79,6 @@ class PlayerPlatformWeb extends PlayerPlatformInterface {
 
   @override
   Future<void> loadSource(Source source) async {
-    _currentSource = source;
     await super.loadSource(source);
     _player.load(source.toSourceJs());
   }

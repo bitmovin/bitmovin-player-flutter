@@ -27,6 +27,8 @@ class BitmovinPlayerJs {
   external double getCurrentTime();
   external double getDuration();
   external double getMaxTimeShift();
+  external SourceJs? getSource();
+  external String getStreamType();
   external void on(String event, Function handler);
 }
 
@@ -35,6 +37,11 @@ class BitmovinPlayerJs {
 class PlayerConfigJs {
   external factory PlayerConfigJs({String key});
   external String get key;
+}
+
+class StreamTypeJS {
+  static const dash = 'dash';
+  static const hls = 'hls';
 }
 
 @JS()

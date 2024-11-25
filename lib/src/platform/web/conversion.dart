@@ -21,6 +21,44 @@ extension SourceToJs on Source {
   }
 }
 
+extension SourceFromJs on SourceJs {
+  Source toSource(String streamType) {
+    return Source(
+      sourceConfig: SourceConfig(
+        title: title,
+        description: description,
+        url: _getUrl(streamType),
+        type: _getType(streamType),
+        posterSource: poster,
+      ),
+    );
+  }
+
+  String _getUrl(String streamType) {
+    switch (streamType) {
+      case StreamTypeJS.dash:
+        return dash!;
+      case StreamTypeJS.hls:
+        return hls!;
+      default:
+        throw ArgumentError('Unsupported stream type: Cannot determine URL');
+    }
+  }
+
+  SourceType _getType(String streamType) {
+    switch (streamType) {
+      case StreamTypeJS.dash:
+        return SourceType.dash;
+      case StreamTypeJS.hls:
+        return SourceType.hls;
+      default:
+        throw ArgumentError(
+          'Unsupported stream type: Cannot determine source type',
+        );
+    }
+  }
+}
+
 extension SeekEventFromJs on SeekEventJs {
   SeekEvent toSeekEvent(Source source) {
     return SeekEvent(
