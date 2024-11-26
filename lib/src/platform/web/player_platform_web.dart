@@ -109,7 +109,8 @@ class PlayerPlatformWeb extends PlayerPlatformInterface {
       _player.timeShift(timeShift);
 
   @override
-  Future<void> showAirPlayTargetPicker() async => throw UnimplementedError();
+  Future<void> showAirPlayTargetPicker() async =>
+      _player.showAirplayTargetPicker();
 
   @override
   Future<SubtitleTrack> get subtitle async => throw UnimplementedError();
