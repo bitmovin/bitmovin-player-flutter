@@ -11,6 +11,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 
+/// An implementation of [PlayerViewPlatformInterface] that uses method
+/// channels. This is specific to a single player view instance.
 class PlayerViewPlatformMethodChannel extends PlayerViewPlatformInterface {
   PlayerViewPlatformMethodChannel(
     this._onPlatformEvent,

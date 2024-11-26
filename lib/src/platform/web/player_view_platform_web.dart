@@ -3,6 +3,8 @@ import 'package:bitmovin_player/src/platform.dart';
 import 'package:bitmovin_player/src/platform/player_view_platform_interface.dart';
 import 'package:flutter/widgets.dart';
 
+/// An implementation of [PlayerViewPlatformInterface] for the web platform.
+/// This is specific to a single player view instance.
 class PlayerViewPlatformWeb extends PlayerViewPlatformInterface {
   PlayerViewPlatformWeb(
     this._handleEnterFullscreen,

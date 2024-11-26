@@ -75,7 +75,7 @@ class PlayerViewState extends State<PlayerView> {
     );
   }
 
-  /// Interface to the platform-specific player implementation.
+  /// Interface to the platform-specific player view implementation.
   late final PlayerViewPlatformInterface _playerViewPlatformInterface;
 
   /// Returns whether the [PlayerView] is currently in fullscreen mode.

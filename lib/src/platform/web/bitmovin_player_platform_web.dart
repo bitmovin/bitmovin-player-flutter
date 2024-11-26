@@ -11,10 +11,10 @@ import 'package:bitmovin_player/src/platform/web/player_platform_web.dart';
 import 'package:bitmovin_player/src/platform/web/player_view_platform_web.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
-/// A web implementation of the BitmovinPlayerPlatform of the BitmovinPlayer
-/// plugin.
+/// Implementation of the [BitmovinPlayerPlatformInterface] for the web
+/// platform.
 class BitmovinPlayerPlatformWeb extends BitmovinPlayerPlatformInterface {
-  /// Constructs a BitmovinPlayerWeb
+  /// Constructs a [BitmovinPlayerPlatformWeb].
   BitmovinPlayerPlatformWeb() {
     ui.platformViewRegistry.registerViewFactory(
       Channels.playerView,
@@ -49,19 +49,23 @@ class BitmovinPlayerPlatformWeb extends BitmovinPlayerPlatformInterface {
     );
   }
 
+  /// Creates a player view. By the time of calling, a player instance already
+  /// exists and is ready to be used. It can be accessed through DOM by its ID.
   Element _viewFactory(int viewId, {Object? params}) {
     final playerId = (params as dynamic)['playerId'] as String;
-    final containerId = 'player-wrapper-$playerId';
-    final div = document.createElement('div')..id = containerId;
+    final wrapperId = 'player-wrapper-$playerId';
+    final playerWrapper = document.createElement('div')..id = wrapperId;
 
-    final playerDiv = document.getElementById('player-$playerId');
-    if (playerDiv == null) {
-      throw Exception('Player div with id player-$playerId not found');
+    final player = document.getElementById('player-$playerId');
+    if (player == null) {
+      throw Exception(
+        "Player DOM element with id 'player-$playerId' not found",
+      );
     }
 
-    playerDiv.style.visibility = 'visible';
-    div.append(playerDiv);
+    player.style.visibility = 'visible';
+    playerWrapper.append(player);
 
-    return div;
+    return playerWrapper;
   }
 }

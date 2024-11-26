@@ -28,7 +28,9 @@ abstract class BitmovinPlayerPlatformInterface extends PlatformInterface {
     _instance = instance;
   }
 
-  /// Creates a new player instance with the given [id] and [config].
+  /// Creates a new platform specific player instance with the given [id] and
+  /// [config]. The [onPlatformEvent] callback is called by the platform
+  /// implementation when a player event occurs.
   PlayerPlatformInterface createPlayer(
     String id,
     PlayerConfig config,
@@ -37,6 +39,15 @@ abstract class BitmovinPlayerPlatformInterface extends PlatformInterface {
     throw UnimplementedError('createPlayer() has not been implemented.');
   }
 
+  /// Creates a new platform specific player view instance.
+  /// The [onPlatformEvent] callback is called by the platform implementation
+  /// when a player view event occurs.
+  /// The [handleEnterFullscreen] and [handleExitFullscreen] callbacks are
+  /// called by the platform implementation whenever fullscreen is about to be
+  /// entered or exited. Those calls are forwarded to the [FullscreenHandler]
+  /// that might be present on the [PlayerView] widget.
+  /// The [onViewCreated] callback is called by the platform implementation
+  /// once the platform view was created successfully.
   PlayerViewPlatformInterface createPlayerView({
     required void Function(Event event) onPlatformEvent,
     required void Function() handleEnterFullscreen,

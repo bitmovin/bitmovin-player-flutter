@@ -7,8 +7,8 @@ import 'package:bitmovin_player/src/platform/web/conversion.dart';
 import 'package:bitmovin_player/src/platform/web/player_web_event_handler.dart';
 import 'package:web/web.dart' as web;
 
-/// An implementation of [PlayerPlatformInterface] that uses method channels.
-/// Is specific to a single player instance.
+/// An implementation of [PlayerPlatformInterface] for the web platform.
+/// This is specific to a single player instance.
 class PlayerPlatformWeb extends PlayerPlatformInterface {
   PlayerPlatformWeb(
     this._playerId,

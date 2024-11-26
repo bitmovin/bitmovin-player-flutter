@@ -4,8 +4,8 @@ import 'package:bitmovin_player/src/drm/fairplay_handler.dart';
 import 'package:bitmovin_player/src/drm/widevine_handler.dart';
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
-/// The player platform interface that is used to interact with the platform
-/// plugins. Manages a single player instance.
+/// The platform interface that is used to interact with a single platform
+/// specific player instance.
 abstract class PlayerPlatformInterface extends PlatformInterface
     implements PlayerApi, AnalyticsApi {
   /// Constructs a [PlayerPlatformInterface].

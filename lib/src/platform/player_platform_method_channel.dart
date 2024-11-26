@@ -10,7 +10,7 @@ import 'package:bitmovin_player/src/platform/player_platform_interface.dart';
 import 'package:flutter/services.dart';
 
 /// An implementation of [PlayerPlatformInterface] that uses method channels.
-/// Is specific to a single player instance.
+/// This is specific to a single player instance.
 class PlayerPlatformMethodChannel extends PlayerPlatformInterface {
   PlayerPlatformMethodChannel(
     this._playerId,

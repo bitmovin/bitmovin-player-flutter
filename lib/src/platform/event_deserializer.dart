@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:logger/logger.dart';
 
-/// Deserializes events that have been sent through a event channel.
+/// Deserializes events that have been sent through an event channel.
 class EventDeserializer {
   final Logger _logger = Logger();
 
@@ -114,7 +114,7 @@ class EventDeserializer {
         return PictureInPictureExitedEvent.fromJson(data);
     }
 
-    _logger.e('Received unknown event type: $eventName');
+    _logger.w('Received unsupported event type: $eventName');
     return null;
   }
 }
