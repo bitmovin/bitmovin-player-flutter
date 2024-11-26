@@ -1,15 +1,10 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:bitmovin_player/src/api/player/player_api.dart';
-import 'package:bitmovin_player/src/channel_manager.dart';
-import 'package:bitmovin_player/src/channels.dart';
-import 'package:bitmovin_player/src/drm/fairplay_handler.dart';
-import 'package:bitmovin_player/src/drm/widevine_handler.dart';
-import 'package:bitmovin_player/src/methods.dart';
+import 'package:bitmovin_player/src/platform/bitmovin_player_platform_interface.dart';
+import 'package:bitmovin_player/src/platform/player_platform_interface.dart';
 import 'package:bitmovin_player/src/player_event_handler.dart';
-import 'package:flutter/services.dart';
 
 /// Loads, controls and renders audio and video content represented through
 /// [Source]s.
@@ -23,291 +18,112 @@ import 'package:flutter/services.dart';
 /// [PlayerView].
 class Player with PlayerEventHandler implements PlayerApi {
   Player({
-    this.config = const PlayerConfig(),
+    PlayerConfig config = const PlayerConfig(),
   }) {
-    _initializationResult = _completer.future;
     _uuid = hashCode.toString();
-
-    final mainChannel = ChannelManager.registerMethodChannel(
-      name: Channels.main,
-    );
-
-    mainChannel
-        .invokeMethod<bool>(
-      Methods.createPlayer,
-      Map<String, dynamic>.from(
-        {
-          'id': id,
-          'playerConfig': config.toJson(),
-        },
-      ),
-    )
-        .then((value) {
-      if (value == null || value == false) {
-        _completer.complete(false);
-        return;
-      }
-
-      _methodChannel = ChannelManager.registerMethodChannel(
-        name: '${Channels.player}-$id',
-        handler: _playerMethodCallHandler,
-      );
-
-      _eventChannel = ChannelManager.registerEventChannel(
-        name: '${Channels.playerEvent}-$id',
-      );
-      _eventChannel.receiveBroadcastStream().listen(onPlatformEvent);
-
-      _completer.complete(true);
-    });
+    _playerPlatformInterface = BitmovinPlayerPlatformInterface.instance
+        .createPlayer(id, config, emitEvent);
   }
 
-  @override
-  final PlayerConfig config;
+  /// Interface to the platform-specific player implementation.
+  late final PlayerPlatformInterface _playerPlatformInterface;
 
   /// Unique identifier for this player instance.
   String get id => _uuid;
   late String _uuid;
 
-  /// Whether the player has been created successfully on the native platform
-  /// side. If `true`, the player is ready to be used. If `false`, there was an
-  /// error during player creation on the native platform side.
-  late Future<bool> _initializationResult;
-
-  /// Used to generate the [_initializationResult] future.
-  final _completer = Completer<bool>();
-
-  /// Private method channel for this player instance
-  late MethodChannel _methodChannel;
-
-  /// Private method channel for this player instance to receive events
-  late EventChannel _eventChannel;
-
-  /// Handles Fairplay DRM related method calls.
-  FairplayHandler? _fairplayHandler;
-
-  /// Handles Widevine DRM related method calls.
-  WidevineHandler? _widevineHandler;
-
-  Future<String?> _playerMethodCallHandler(MethodCall methodCall) async {
-    switch (methodCall.method) {
-      case Methods.fairplayPrepareMessage:
-      case Methods.fairplayPrepareContentId:
-      case Methods.fairplayPrepareCertificate:
-      case Methods.fairplayPrepareLicense:
-      case Methods.fairplayPrepareLicenseServerUrl:
-      case Methods.fairplayPrepareSyncMessage:
-        return _fairplayHandler?.handleMethodCall(methodCall);
-      case Methods.widevinePrepareMessage:
-      case Methods.widevinePrepareLicense:
-        return _widevineHandler?.handleMethodCall(methodCall);
-      default:
-        throw UnsupportedError('Unsupported method ${methodCall.method}');
-    }
-  }
-
-  Map<String, dynamic> _buildPayload([dynamic data]) {
-    return Map<String, dynamic>.from({
-      'id': id,
-      'data': data,
-    });
-  }
-
-  // Can be used to call methods on the platform side that return a single
-  // primitive value that is natively supported by the method channel.
-  Future<T> _invokeMethod<T>(
-    String methodName, [
-    dynamic data,
-  ]) async {
-    final initSuccess = await _initializationResult;
-    if (!initSuccess) {
-      throw Exception('Error initializing player on native platform side.');
-    }
-    final payload = _buildPayload(data);
-    final result = await _methodChannel.invokeMethod<T>(methodName, payload);
-    if (result is! T) {
-      // result is T?, if it `is` not T => T is not nullable and result is null.
-      throw Exception('Native $methodName returned null.');
-    }
-    return result;
-  }
-
-  // Can be used to call methods on the platform side that return a complex
-  // object that is not natively supported by the method channel.
-  Future<T?> _invokeObjectMethod<T>(
-    String methodName,
-    T Function(Map<String, dynamic>) fromJson, [
-    dynamic data,
-  ]) async {
-    final result = await _initializationResult;
-    if (!result) {
-      throw Exception('Error initializing player on native platform side.');
-    }
-
-    final jsonString = await _methodChannel.invokeMethod<String>(
-      methodName,
-      _buildPayload(data),
-    );
-
-    if (jsonString == null) {
-      return null;
-    }
-
-    return fromJson(
-      jsonDecode(jsonString) as Map<String, dynamic>,
-    );
-  }
-
-  // Can be used to call methods on the platform side that return a list of
-  // complex objects that are not natively supported by the method channel.
-  Future<List<T>> _invokeListObjectsMethod<T>(
-    String methodName,
-    T Function(Map<String, dynamic>) fromJson, [
-    dynamic data,
-  ]) async {
-    final result = await _initializationResult;
-    if (!result) {
-      return Future.error('Error initializing player on native platform side.');
-    }
-
-    final jsonStringList = await _methodChannel.invokeListMethod<String>(
-      methodName,
-      _buildPayload(data),
-    );
-
-    if (jsonStringList == null) {
-      return [];
-    }
-
-    return jsonStringList.map((String jsonString) {
-      return fromJson(
-        jsonDecode(jsonString) as Map<String, dynamic>,
-      );
-    }).toList();
-  }
+  @override
+  PlayerConfig get config => _playerPlatformInterface.config;
 
   @override
-  Future<void> loadSourceConfig(
-    SourceConfig sourceConfig,
-  ) async {
-    return loadSource(Source(sourceConfig: sourceConfig));
-  }
+  Future<void> loadSourceConfig(SourceConfig sourceConfig) async =>
+      _playerPlatformInterface.loadSourceConfig(sourceConfig);
 
   @override
-  Future<void> loadSource(Source source) async {
-    final fairplayConfig = source.sourceConfig.drmConfig?.fairplay;
-    if (fairplayConfig != null) {
-      _fairplayHandler = FairplayHandler(fairplayConfig);
-    }
-
-    final widevineConfig = source.sourceConfig.drmConfig?.widevine;
-    if (widevineConfig != null) {
-      _widevineHandler = WidevineHandler(widevineConfig);
-    }
-
-    return _invokeMethod<void>(Methods.loadWithSource, source.toJson());
-  }
+  Future<void> loadSource(Source source) async =>
+      _playerPlatformInterface.loadSource(source);
 
   @override
-  Future<void> play() async => _invokeMethod<void>(Methods.play);
+  Future<void> play() async => _playerPlatformInterface.play();
 
   @override
-  Future<void> mute() async => _invokeMethod<void>(Methods.mute);
+  Future<void> mute() async => _playerPlatformInterface.mute();
 
   @override
-  Future<void> unmute() async => _invokeMethod<void>(Methods.unmute);
+  Future<void> unmute() async => _playerPlatformInterface.unmute();
 
   @override
-  Future<void> pause() async => _invokeMethod<void>(Methods.pause);
+  Future<void> pause() async => _playerPlatformInterface.pause();
 
   @override
-  Future<void> seek(double time) async =>
-      _invokeMethod<void>(Methods.seek, time);
+  Future<void> seek(double time) async => _playerPlatformInterface.seek(time);
 
   @override
-  Future<double> get currentTime async =>
-      _invokeMethod<double>(Methods.currentTime);
+  Future<double> get currentTime async => _playerPlatformInterface.currentTime;
 
   @override
-  Future<double> get duration async => _invokeMethod<double>(Methods.duration);
+  Future<double> get duration async => _playerPlatformInterface.duration;
 
   @override
-  Future<double> get timeShift async =>
-      _invokeMethod<double>(Methods.getTimeShift);
+  Future<double> get timeShift async => _playerPlatformInterface.timeShift;
 
   @override
   Future<void> setTimeShift(double timeShift) async =>
-      _invokeMethod<void>(Methods.setTimeShift, timeShift);
+      _playerPlatformInterface.setTimeShift(timeShift);
 
   @override
   Future<double> get maxTimeShift async =>
-      _invokeMethod<double>(Methods.maxTimeShift);
+      _playerPlatformInterface.maxTimeShift;
 
   @override
-  Future<bool> get isLive async => _invokeMethod<bool>(Methods.isLive);
+  Future<bool> get isLive async => _playerPlatformInterface.isLive;
 
   @override
-  Future<bool> get isPlaying async => _invokeMethod<bool>(Methods.isPlaying);
+  Future<bool> get isPlaying async => _playerPlatformInterface.isPlaying;
 
   @override
   Future<List<SubtitleTrack>> get availableSubtitles async =>
-      _invokeListObjectsMethod<SubtitleTrack>(
-        Methods.availableSubtitles,
-        SubtitleTrack.fromJson,
-      );
+      _playerPlatformInterface.availableSubtitles;
 
   @override
   Future<void> removeSubtitle(String id) async =>
-      _invokeMethod<void>(Methods.removeSubtitle, id);
+      _playerPlatformInterface.removeSubtitle(id);
 
   @override
   Future<void> setSubtitle(String? id) async =>
-      _invokeMethod<void>(Methods.setSubtitle, id);
+      _playerPlatformInterface.setSubtitle(id);
 
   @override
-  Future<SubtitleTrack> get subtitle async =>
-      await _invokeObjectMethod<SubtitleTrack>(
-        Methods.getSubtitle,
-        SubtitleTrack.fromJson,
-      ) ??
-      SubtitleTrack.off();
-
-  /// Disposes the player instance.
-  Future<void> dispose() async => _invokeMethod<void>(Methods.destroy);
+  Future<SubtitleTrack> get subtitle async => _playerPlatformInterface.subtitle;
 
   @override
-  AnalyticsApi get analytics => _AnalyticsApi(this);
+  Future<void> dispose() async => _playerPlatformInterface.dispose();
 
   @override
-  Future<bool> get isCastAvailable => _invokeMethod(Methods.isCastAvailable);
+  AnalyticsApi get analytics => _playerPlatformInterface.analytics;
 
   @override
-  Future<bool> get isCasting => _invokeMethod(Methods.isCasting);
+  Future<bool> get isCastAvailable async =>
+      _playerPlatformInterface.isCastAvailable;
 
   @override
-  Future<void> castVideo() => _invokeMethod<void>(Methods.castVideo);
+  Future<bool> get isCasting async => _playerPlatformInterface.isCasting;
 
   @override
-  Future<void> castStop() => _invokeMethod<void>(Methods.castStop);
+  Future<void> castVideo() async => _playerPlatformInterface.castVideo();
 
   @override
-  Future<bool> get isAirPlayActive => _invokeMethod(Methods.isAirPlayActive);
+  Future<void> castStop() async => _playerPlatformInterface.castStop;
 
   @override
-  Future<bool> get isAirPlayAvailable =>
-      _invokeMethod(Methods.isAirPlayAvailable);
+  Future<bool> get isAirPlayActive async =>
+      _playerPlatformInterface.isAirPlayActive;
 
   @override
-  Future<void> showAirPlayTargetPicker() =>
-      _invokeMethod<void>(Methods.showAirPlayTargetPicker);
-}
-
-class _AnalyticsApi implements AnalyticsApi {
-  _AnalyticsApi(this._player);
-
-  final Player _player;
+  Future<bool> get isAirPlayAvailable async =>
+      _playerPlatformInterface.isAirPlayAvailable;
 
   @override
-  Future<void> sendCustomDataEvent(CustomData customData) async => _player
-      ._invokeMethod<void>(Methods.sendCustomDataEvent, customData.toJson());
+  Future<void> showAirPlayTargetPicker() async =>
+      _playerPlatformInterface.showAirPlayTargetPicker();
 }

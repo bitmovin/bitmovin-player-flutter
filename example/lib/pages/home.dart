@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:bitmovin_player_example/pages/analytics.dart';
 import 'package:bitmovin_player_example/pages/audio_only.dart';
 import 'package:bitmovin_player_example/pages/background_playback.dart';
@@ -10,6 +8,7 @@ import 'package:bitmovin_player_example/pages/drm_playback.dart';
 import 'package:bitmovin_player_example/pages/event_subscription.dart';
 import 'package:bitmovin_player_example/pages/fullscreen_handling.dart';
 import 'package:bitmovin_player_example/pages/picture_in_picture.dart';
+import 'package:bitmovin_player_example/platform.dart';
 import 'package:flutter/material.dart';
 
 List<_Sample> _samples = [];
@@ -27,7 +26,7 @@ void buildSamples() {
     _Sample('Picture-in-Picture', PictureInPicture.routeName),
   ];
 
-  if (Platform.isIOS) {
+  if (isIOS) {
     _samples.add(_Sample('Background Playback', BackgroundPlayback.routeName));
   }
 }

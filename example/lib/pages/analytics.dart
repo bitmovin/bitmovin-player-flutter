@@ -1,8 +1,7 @@
-import 'dart:io';
-
 import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:bitmovin_player_example/controls.dart';
 import 'package:bitmovin_player_example/env/env.dart';
+import 'package:bitmovin_player_example/platform.dart';
 import 'package:bitmovin_player_example/player_view_container.dart';
 import 'package:flutter/material.dart';
 
@@ -16,10 +15,10 @@ class PlayerAnalytics extends StatefulWidget {
 
 class _PlayerAnalyticsState extends State<PlayerAnalytics> {
   final _sourceConfig = SourceConfig(
-    url: Platform.isAndroid
-        ? 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd'
-        : 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8',
-    type: Platform.isAndroid ? SourceType.dash : SourceType.hls,
+    url: isIOS
+        ? 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8'
+        : 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd',
+    type: isIOS ? SourceType.hls : SourceType.dash,
     analyticsSourceMetadata: const SourceMetadata(
       title: 'Collecting SourceMetadata Title',
       customData:

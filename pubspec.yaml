@@ -19,10 +19,15 @@ dependencies:
   equatable: ^2.0.5
   flutter:
     sdk: flutter
+  flutter_web_plugins:
+    sdk: flutter
+  js: ^0.6.7
   json_annotation: ^4.8.0
   logger: ^2.0.2
   plugin_platform_interface: ^2.0.2
   uuid: ^4.0.0
+  # If web 1.0.0+ is used, it requires Dart ^3.4.0
+  web: '>=0.5.0 <2.0.0'
 
 dev_dependencies:
   build_runner: ^2.3.3
@@ -41,3 +46,6 @@ flutter:
         pluginClass: PlayerPlugin
       ios:
         pluginClass: PlayerPlugin
+      web:
+        pluginClass: BitmovinPlayerPlatformWeb
+        fileName: src/platform/web/bitmovin_player_platform_web.dart

@@ -283,8 +283,28 @@ extension SourceEventType {
     }
 }
 
-extension SourceAddedEvent: SourceEventType {}
-extension SourceRemovedEvent: SourceEventType {}
+extension SourceAddedEvent {
+    func toJSON() -> [String: Any] {
+        [
+            "name": name,
+            "timestamp": Int(timestamp),
+            "source": source.toJSON(),
+            "index": index
+        ]
+    }
+}
+
+extension SourceRemovedEvent {
+    func toJSON() -> [String: Any] {
+        [
+            "name": name,
+            "timestamp": Int(timestamp),
+            "source": source.toJSON(),
+            "index": index
+        ]
+    }
+}
+
 extension SourceLoadEvent: SourceEventType {}
 extension SourceLoadedEvent: SourceEventType {}
 extension SourceUnloadedEvent: SourceEventType {}

@@ -1,9 +1,8 @@
-import 'dart:io';
-
 import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:bitmovin_player_example/controls.dart';
 import 'package:bitmovin_player_example/env/env.dart';
 import 'package:bitmovin_player_example/events.dart';
+import 'package:bitmovin_player_example/platform.dart';
 import 'package:bitmovin_player_example/player_view_container.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
@@ -19,10 +18,10 @@ class DrmPlayback extends StatefulWidget {
 class _DrmPlaybackState extends State<DrmPlayback> {
   final GlobalKey<EventsState> _eventsKey = GlobalKey<EventsState>();
   final _sourceConfig = SourceConfig(
-    url: Platform.isAndroid
-        ? 'https://bitmovin-a.akamaihd.net/content/art-of-motion_drm/mpds/11331.mpd'
-        : 'https://fps.ezdrm.com/demo/video/ezdrm.m3u8',
-    type: Platform.isAndroid ? SourceType.dash : SourceType.hls,
+    url: isIOS
+        ? 'https://fps.ezdrm.com/demo/video/ezdrm.m3u8'
+        : 'https://bitmovin-a.akamaihd.net/content/art-of-motion_drm/mpds/11331.mpd',
+    type: isIOS ? SourceType.hls : SourceType.dash,
     drmConfig: DrmConfig(
       fairplay: FairplayConfig(
         licenseUrl:

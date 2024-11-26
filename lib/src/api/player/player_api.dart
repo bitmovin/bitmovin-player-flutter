@@ -116,4 +116,7 @@ abstract class PlayerApi {
   ///
   /// Only available on iOS.
   Future<void> showAirPlayTargetPicker();
+
+  /// Dispose the player instance when no longer needed.
+  Future<void> dispose();
 }
