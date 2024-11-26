@@ -59,6 +59,31 @@ extension SourceFromJs on SourceJs {
   }
 }
 
+extension PlayerConfigToJs on PlayerConfig {
+  PlayerConfigJs toPlayerConfigJs() {
+    return PlayerConfigJs(
+      key: key,
+      playback: playbackConfig?.toPlaybackConfigJs(),
+      licensing: licensingConfig?.toLicensingConfigJs(),
+    );
+  }
+}
+
+extension PlaybackConfigToJs on PlaybackConfig {
+  PlaybackConfigJs toPlaybackConfigJs() {
+    return PlaybackConfigJs(
+      autoplay: isAutoplayEnabled,
+      muted: isMuted,
+    );
+  }
+}
+
+extension LicensingConfigToJs on LicensingConfig {
+  LicensingConfigJs toLicensingConfigJs() {
+    return LicensingConfigJs(delay: delay);
+  }
+}
+
 extension PlayerEventBaseConversion on PlayerEventBaseJs {
   SeekedEvent toSeekedEvent() {
     return SeekedEvent(timestamp: timestamp);

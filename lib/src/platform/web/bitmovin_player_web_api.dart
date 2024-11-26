@@ -36,8 +36,34 @@ class BitmovinPlayerJs {
 @JS()
 @anonymous
 class PlayerConfigJs {
-  external factory PlayerConfigJs({String key});
-  external String get key;
+  external factory PlayerConfigJs({
+    String? key,
+    PlaybackConfigJs? playback,
+    LicensingConfigJs? licensing,
+  });
+  external String? get key;
+  external PlaybackConfigJs? get playback;
+  external LicensingConfigJs? get licensing;
+}
+
+@JS()
+@anonymous
+class PlaybackConfigJs {
+  external factory PlaybackConfigJs({
+    bool autoplay,
+    bool muted,
+  });
+  external bool get autoplay;
+  external bool get muted;
+}
+
+@JS()
+@anonymous
+class LicensingConfigJs {
+  external factory LicensingConfigJs({
+    int? delay,
+  });
+  external int? get delay;
 }
 
 class StreamTypeJS {

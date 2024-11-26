@@ -17,9 +17,7 @@ class PlayerPlatformWeb extends PlayerPlatformInterface {
   ) {
     _player = BitmovinPlayerJs(
       _createContainer(),
-      PlayerConfigJs(
-        key: config.key ?? '',
-      ),
+      config.toPlayerConfigJs(),
     );
 
     _playerEventHandler = PlayerWebEventHandler(_player, _onPlatformEvent);
