@@ -42,12 +42,14 @@ internal class FlutterPlayerView: NSObject, FlutterPlatformView {
         methodChannel.setMethodCallHandler(handleMethodCall)
         eventChannel.setStreamHandler(self)
         PlayerManager.shared.onPlayerCreated(id: arguments.playerId) { [weak self] player in
-            self?.createPlayerView(
-                player: player,
-                hasFullscreenHandler: arguments.hasFullscreenHandler,
-                isFullscreen: arguments.isFullscreen,
-                playerViewConfig: arguments.playerViewConfig.toNative()
-            )
+            Task { @MainActor in
+                self?.createPlayerView(
+                    player: player,
+                    hasFullscreenHandler: arguments.hasFullscreenHandler,
+                    isFullscreen: arguments.isFullscreen,
+                    playerViewConfig: arguments.playerViewConfig.toNative()
+                )
+            }
         }
     }
 
@@ -59,17 +61,22 @@ internal class FlutterPlayerView: NSObject, FlutterPlatformView {
 extension FlutterPlayerView: FlutterStreamHandler {
     func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
         self.eventSink = events
-        playerView?.add(listener: self)
+        Task { @MainActor in
+            playerView?.add(listener: self)
+        }
         return nil
     }
 
     func onCancel(withArguments arguments: Any?) -> FlutterError? {
-        playerView?.remove(listener: self)
         self.eventSink = nil
+        Task { @MainActor in
+            playerView?.remove(listener: self)
+        }
         return nil
     }
 }
 
+@MainActor
 private extension FlutterPlayerView {
     func handleMethodCall(call: FlutterMethodCall, result: @escaping FlutterResult) {
         do {
