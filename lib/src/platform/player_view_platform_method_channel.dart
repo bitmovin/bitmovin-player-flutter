@@ -94,7 +94,7 @@ class PlayerViewPlatformMethodChannel extends PlayerViewPlatformInterface {
   // TODO(mario): Method channels are created only once `_onPlatformViewCreated`
   // is called. Calls to `_invokeMethod` that happen before that lead to an
   // error. This race condition can be fixed the same way as for
-  // PlayerPlatformMethodChannel` by using an `_initializationResult`.
+  // `PlayerPlatformMethodChannel` by using an `_initializationResult`.
   void _onPlatformViewCreated(int id) {
     _methodChannel = ChannelManager.registerMethodChannel(
       name: '${Channels.playerView}-$id',
