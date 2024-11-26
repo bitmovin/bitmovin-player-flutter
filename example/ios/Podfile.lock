@@ -2,16 +2,16 @@ PODS:
   - audio_session (0.0.1):
     - Flutter
   - bitmovin_player (0.12.0):
-    - BitmovinPlayer (= 3.77.0)
+    - BitmovinPlayer (= 3.78.0)
     - Flutter
   - BitmovinAnalyticsCollector/BitmovinPlayer (3.9.0):
     - BitmovinAnalyticsCollector/Core
     - BitmovinPlayerCore (~> 3.48)
   - BitmovinAnalyticsCollector/Core (3.9.0)
-  - BitmovinPlayer (3.77.0):
+  - BitmovinPlayer (3.78.0):
     - BitmovinAnalyticsCollector/BitmovinPlayer (~> 3.0)
-    - BitmovinPlayerCore (= 3.77.0)
-  - BitmovinPlayerCore (3.77.0)
+    - BitmovinPlayerCore (= 3.78.0)
+  - BitmovinPlayerCore (3.78.0)
   - Flutter (1.0.0)
   - google-cast-sdk (4.8.1):
     - Protobuf (~> 3.13)
@@ -46,10 +46,10 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   audio_session: 088d2483ebd1dc43f51d253d4a1c517d9a2e7207
-  bitmovin_player: 9602a8fedc712a4291514ec634abba785737e045
+  bitmovin_player: 28e05fd457af06b0abb3fc6e338cbcd96695d214
   BitmovinAnalyticsCollector: d08e0b13bcc32973370e0d71f2faa739561bac0a
-  BitmovinPlayer: 65866e13f7a8246ccbc7378607d6ca789f0f459e
-  BitmovinPlayerCore: 158b4a5b81b12b819f0f51b7b89711ca47e11583
+  BitmovinPlayer: 7fc1bf0b32c540537c05664c7b60a559f1e47206
+  BitmovinPlayerCore: 37cc7a3299af139f19a0e2e88c1f476821242cb0
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   google-cast-sdk: beb7a3ec3def0e3beb618a849b0f1ab2b15b5ebb
   integration_test: 252f60fa39af5e17c3aa9899d35d908a0721b573
@@ -57,4 +57,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 1f5919f056bc6c0d404a505d0120fe1b08241c3b
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.16.2
