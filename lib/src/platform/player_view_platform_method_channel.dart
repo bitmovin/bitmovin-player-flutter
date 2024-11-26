@@ -26,7 +26,7 @@ class PlayerViewPlatformMethodChannel extends PlayerViewPlatformInterface {
   final void Function() _handleExitFullscreen;
   final void Function()? _onViewCreated;
   final EventDeserializer _eventDeserializer = EventDeserializer();
-  late final MethodChannel _methodChannel;
+  MethodChannel? _methodChannel;
   late final EventChannel _eventChannel;
 
   @override
@@ -77,7 +77,13 @@ class PlayerViewPlatformMethodChannel extends PlayerViewPlatformInterface {
     String methodName, [
     dynamic data,
   ]) async {
-    final result = await _methodChannel.invokeMethod<T>(methodName, data);
+    if (_methodChannel == null) {
+      return Future.error(
+        'Method channel for player view not initialized yet.',
+      );
+    }
+
+    final result = await _methodChannel?.invokeMethod<T>(methodName, data);
     if (result is! T) {
       // result is T?, if it `is` not T => T is not nullable and result is null.
       throw Exception('Native $methodName returned null.');
@@ -85,6 +91,10 @@ class PlayerViewPlatformMethodChannel extends PlayerViewPlatformInterface {
     return result;
   }
 
+  // TODO(mario): Method channels are created only once `_onPlatformViewCreated`
+  // is called. Calls to `_invokeMethod` that happen before that lead to an
+  // error. This race condition can be fixed the same way as for
+  // PlayerPlatformMethodChannel` by using an `_initializationResult`.
   void _onPlatformViewCreated(int id) {
     _methodChannel = ChannelManager.registerMethodChannel(
       name: '${Channels.playerView}-$id',
