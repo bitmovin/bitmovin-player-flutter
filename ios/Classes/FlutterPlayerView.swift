@@ -42,7 +42,7 @@ internal class FlutterPlayerView: NSObject, FlutterPlatformView {
         methodChannel.setMethodCallHandler(handleMethodCall)
         eventChannel.setStreamHandler(self)
         PlayerManager.shared.onPlayerCreated(id: arguments.playerId) { [weak self] player in
-            Task { @MainActor in
+            Task { @MainActor [weak self] in
                 self?.createPlayerView(
                     player: player,
                     hasFullscreenHandler: arguments.hasFullscreenHandler,
