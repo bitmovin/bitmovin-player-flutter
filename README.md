@@ -3,7 +3,7 @@
 This is an open-source project created to enable customers to integrate the Bitmovin mobile Player SDKs into Flutter projects. It has been created to provide customers with a starting point, which can be built upon through active collaboration and contributions. We look forward to seeing this library expand and grow.
 
 [![Build](https://github.com/bitmovin/bitmovin-player-flutter/actions/workflows/build-workspace.yml/badge.svg)](https://github.com/bitmovin/bitmovin-player-flutter/actions/workflows/build-workspace.yml)
-![Platforms](https://img.shields.io/badge/platforms-iOS%20%7C%20Android-lightgrey.svg)
+![Platforms](https://img.shields.io/badge/platforms-iOS%20%7C%20Android%20%7C%20Web-brightgreen.svg)
 [![MIT License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](LICENSE)
 [![Bitmovin Community](https://img.shields.io/discourse/users?label=community&server=https%3A%2F%2Fcommunity.bitmovin.com)](https://community.bitmovin.com/?utm_source=github&utm_medium=bitmovin-player-flutter&utm_campaign=dev-community)
 
@@ -12,8 +12,9 @@ The **officially supported** platforms are:
 
 - **iOS / iPadOS:** 14.0+
 - **Android:** 5.0+ ([compatible](https://developer.bitmovin.com/playback/docs/supported-platforms-devices-player#support-levels) with Android 4.x)
+- **Web**
 
-Please note that TVs, browsers and other browser-like environments such as webOS and Tizen are not currently supported. For more details regarding Bitmovin Player SDK platform and device support, please refer to the [Supported Platforms & Devices](https://developer.bitmovin.com/playback/docs/supported-platforms-devices-player) page of our documentation.
+For more details regarding Bitmovin Player SDK platform and device support, please refer to the [Supported Platforms & Devices](https://developer.bitmovin.com/playback/docs/supported-platforms-devices-player) page of our documentation.
 
 ## Feature Support
 Please refer to the [Features](https://developer.bitmovin.com/playback/docs/overview-flutter#features) section of our documentation for an up-to-date list of supported Player features.
