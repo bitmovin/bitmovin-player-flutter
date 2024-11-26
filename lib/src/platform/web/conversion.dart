@@ -59,13 +59,39 @@ extension SourceFromJs on SourceJs {
   }
 }
 
-extension SeekEventConversion on SeekEventJs {
-  SeekEvent toSeekEvent(Source source) {
-    return SeekEvent(
-      from: SeekPosition(source: source, time: position),
-      to: SeekPosition(source: source, time: seekTarget),
-      timestamp: timestamp,
-    );
+extension PlayerEventBaseConversion on PlayerEventBaseJs {
+  SeekedEvent toSeekedEvent() {
+    return SeekedEvent(timestamp: timestamp);
+  }
+
+  TimeShiftedEvent toTimeShiftedEvent() {
+    return TimeShiftedEvent(timestamp: timestamp);
+  }
+
+  PlaybackFinishedEvent toPlaybackFinishedEvent() {
+    return PlaybackFinishedEvent(timestamp: timestamp);
+  }
+
+  ReadyEvent toReadyEvent() {
+    return ReadyEvent(timestamp: timestamp);
+  }
+
+  SourceLoadedEvent toSourceLoadedEvent(Source source) {
+    return SourceLoadedEvent(source: source, timestamp: timestamp);
+  }
+
+  SourceUnloadedEvent toSourceUnloadedEvent() {
+    return SourceUnloadedEvent(timestamp: timestamp);
+  }
+}
+
+extension UserInteractionEventConversion on UserInteractionEventJs {
+  MutedEvent toMutedEvent() {
+    return MutedEvent(timestamp: timestamp);
+  }
+
+  UnmutedEvent toUnmutedEvent() {
+    return UnmutedEvent(timestamp: timestamp);
   }
 }
 
@@ -87,8 +113,42 @@ extension PlaybackEventConversion on PlaybackEventJs {
   }
 }
 
-extension PlayerEventBaseConversion on PlayerEventBaseJs {
-  SeekedEvent toSeekedEvent() {
-    return SeekedEvent(timestamp: timestamp);
+extension SeekEventConversion on SeekEventJs {
+  SeekEvent toSeekEvent(Source source) {
+    return SeekEvent(
+      from: SeekPosition(source: source, time: position),
+      to: SeekPosition(source: source, time: seekTarget),
+      timestamp: timestamp,
+    );
+  }
+}
+
+extension TimeShiftEventConversion on TimeShiftEventJs {
+  TimeShiftEvent toTimeShiftEvent() {
+    return TimeShiftEvent(
+      position: position,
+      target: target,
+      timestamp: timestamp,
+    );
+  }
+}
+
+extension ErrorEventConversion on ErrorEventJs {
+  ErrorEvent toErrorEvent() {
+    return ErrorEvent(
+      code: code,
+      message: message,
+      timestamp: timestamp,
+    );
+  }
+}
+
+extension WarningEventConversion on WarningEventJs {
+  WarningEvent toWarningEvent() {
+    return WarningEvent(
+      code: code,
+      message: message,
+      timestamp: timestamp,
+    );
   }
 }

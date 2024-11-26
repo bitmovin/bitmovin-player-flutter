@@ -29,6 +29,7 @@ class BitmovinPlayerJs {
   external double getMaxTimeShift();
   external SourceJs? getSource();
   external String getStreamType();
+  external void showAirplayTargetPicker();
   external void on(String event, Function handler);
 }
 
@@ -63,16 +64,21 @@ class SourceJs {
 
 @JS()
 @anonymous
-class PlaybackEventJs extends PlayerEventBaseJs {
-  external String get issuer;
-  external double get time;
+class PlayerEventBaseJs {
+  external int get timestamp;
+  external String get type;
 }
 
 @JS()
 @anonymous
-class PlayerEventBaseJs {
-  external int get timestamp;
-  external String get type;
+class UserInteractionEventJs extends PlayerEventBaseJs {
+  external String? get issuer;
+}
+
+@JS()
+@anonymous
+class PlaybackEventJs extends UserInteractionEventJs {
+  external double get time;
 }
 
 @JS()
@@ -83,4 +89,25 @@ class SeekEventJs {
   external double get seekTarget;
   external int get timestamp;
   external String get type;
+}
+
+@JS()
+@anonymous
+class TimeShiftEventJs extends UserInteractionEventJs {
+  external double get position;
+  external double get target;
+}
+
+@JS()
+@anonymous
+class ErrorEventJs extends PlayerEventBaseJs {
+  external int get code;
+  external String? get message;
+}
+
+@JS()
+@anonymous
+class WarningEventJs extends PlayerEventBaseJs {
+  external int get code;
+  external String? get message;
 }
