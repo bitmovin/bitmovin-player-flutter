@@ -31,6 +31,7 @@ class BitmovinPlayerJs {
   external String getStreamType();
   external void showAirplayTargetPicker();
   external void on(String event, Function handler);
+  external void addMetadata(String metadataType, Object metadata);
 }
 
 @JS()
@@ -40,10 +41,12 @@ class PlayerConfigJs {
     String? key,
     PlaybackConfigJs? playback,
     LicensingConfigJs? licensing,
+    GoogleCastRemoteControlConfigJs? remotecontrol,
   });
   external String? get key;
   external PlaybackConfigJs? get playback;
   external LicensingConfigJs? get licensing;
+  external GoogleCastRemoteControlConfigJs? get remotecontrol;
 }
 
 @JS()
@@ -64,6 +67,34 @@ class LicensingConfigJs {
     int? delay,
   });
   external int? get delay;
+}
+
+@JS()
+@anonymous
+class GoogleCastRemoteControlConfigJs {
+  external factory GoogleCastRemoteControlConfigJs({
+    required String type,
+    String? receiverApplicationId,
+    String? messageNamespace,
+  });
+
+  // Factory method to allow having a default value for `type` when creating
+  // instances directly from Dart code.
+  // ignore: prefer_constructors_over_static_methods
+  static GoogleCastRemoteControlConfigJs create(
+    String? receiverApplicationId,
+    String? messageNamespace,
+  ) {
+    return GoogleCastRemoteControlConfigJs(
+      type: 'googlecast',
+      receiverApplicationId: receiverApplicationId,
+      messageNamespace: messageNamespace,
+    );
+  }
+
+  external String get type;
+  external String? get receiverApplicationId;
+  external String? get messageNamespace;
 }
 
 class StreamTypeJS {
@@ -136,4 +167,30 @@ class ErrorEventJs extends PlayerEventBaseJs {
 class WarningEventJs extends PlayerEventBaseJs {
   external int get code;
   external String? get message;
+}
+
+@JS()
+@anonymous
+class CastAvailableEventJs extends PlayerEventBaseJs {
+  external bool get receiverAvailable;
+}
+
+@JS()
+@anonymous
+class CastStartedEventJs extends PlayerEventBaseJs {
+  external String get deviceName;
+  external bool get resuming;
+}
+
+@JS()
+@anonymous
+class CastWaitingForDeviceEventJs extends PlayerEventBaseJs {
+  external CastPayloadJs get castPayload;
+}
+
+@JS()
+@anonymous
+class CastPayloadJs {
+  external double get currentTime;
+  external String? get deviceName;
 }

@@ -1,13 +1,15 @@
 import 'dart:async';
 
 import 'package:bitmovin_player/bitmovin_player.dart';
+import 'package:bitmovin_player/src/platform/cast_manager_platform_interface.dart';
 import 'package:bitmovin_player/src/platform/player_platform_interface.dart';
 import 'package:bitmovin_player/src/platform/web/bitmovin_player_web_api.dart';
+import 'package:bitmovin_player/src/platform/web/cast_manager_platform_web.dart';
 import 'package:bitmovin_player/src/platform/web/conversion.dart';
 import 'package:bitmovin_player/src/platform/web/player_web_event_handler.dart';
 import 'package:web/web.dart' as web;
 
-/// An implementation of [PlayerPlatformInterface] for the web platform.
+/// An implementation of [PlayerPlatformInterface] for the Web platform.
 /// This is specific to a single player instance.
 class PlayerPlatformWeb extends PlayerPlatformInterface {
   PlayerPlatformWeb(
@@ -17,10 +19,13 @@ class PlayerPlatformWeb extends PlayerPlatformInterface {
   ) {
     _player = BitmovinPlayerJs(
       _createContainer(),
-      config.toPlayerConfigJs(),
+      config.toPlayerConfigJs(castManager.options),
     );
 
     _playerEventHandler = PlayerWebEventHandler(_player, _onPlatformEvent);
+    castManager.castMessageHandler = (String message) {
+      _player.addMetadata('CAST', message);
+    };
   }
 
   /// Unique identifier for this player instance.
@@ -30,6 +35,8 @@ class PlayerPlatformWeb extends PlayerPlatformInterface {
   late BitmovinPlayerJs _player;
   // ignore: unused_field
   late PlayerWebEventHandler _playerEventHandler;
+  CastManagerPlatformWeb get castManager =>
+      CastManagerPlatformInterface.instance as CastManagerPlatformWeb;
 
   web.Element _createContainer() {
     final div = web.document.createElement('div') as web.HTMLDivElement

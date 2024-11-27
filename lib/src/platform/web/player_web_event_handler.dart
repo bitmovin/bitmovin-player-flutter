@@ -22,7 +22,12 @@ class PlayerWebEventHandler {
       ..on('warning', allowInterop(_onWarning))
       ..on('ready', allowInterop(_onReady))
       ..on('sourceloaded', allowInterop(_onSourceLoaded))
-      ..on('sourceunloaded', allowInterop(_onSourceUnloaded));
+      ..on('sourceunloaded', allowInterop(_onSourceUnloaded))
+      ..on('castavailable', allowInterop(_onCastAvailable))
+      ..on('caststart', allowInterop(_onCastStart))
+      ..on('caststarted', allowInterop(_onCastStarted))
+      ..on('caststopped', allowInterop(_onCastStopped))
+      ..on('castwaitingfordevice', allowInterop(_onCastWaitingForDevice));
   }
 
   final BitmovinPlayerJs _player;
@@ -114,5 +119,25 @@ class PlayerWebEventHandler {
 
   void _onSourceUnloaded(PlayerEventBaseJs event) {
     _onPlatformEvent(event.toSourceUnloadedEvent());
+  }
+
+  void _onCastAvailable(CastAvailableEventJs event) {
+    _onPlatformEvent(event.toCastAvailableEvent());
+  }
+
+  void _onCastStart(PlayerEventBaseJs event) {
+    _onPlatformEvent(event.toCastStartEvent());
+  }
+
+  void _onCastStarted(CastStartedEventJs event) {
+    _onPlatformEvent(event.toCastStartedEvent());
+  }
+
+  void _onCastStopped(PlayerEventBaseJs event) {
+    _onPlatformEvent(event.toCastStoppedEvent());
+  }
+
+  void _onCastWaitingForDevice(CastWaitingForDeviceEventJs event) {
+    _onPlatformEvent(event.toCastWaitingForDeviceEvent());
   }
 }
