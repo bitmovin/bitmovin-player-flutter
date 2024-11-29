@@ -3,6 +3,7 @@ import 'package:bitmovin_player_example/controls.dart';
 import 'package:bitmovin_player_example/env/env.dart';
 import 'package:bitmovin_player_example/events.dart';
 import 'package:bitmovin_player_example/platform.dart';
+import 'package:bitmovin_player_example/player_info.dart';
 import 'package:bitmovin_player_example/player_view_container.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
@@ -17,6 +18,7 @@ class EventSubscription extends StatefulWidget {
 
 class _EventSubscriptionState extends State<EventSubscription> {
   final _eventsKey = GlobalKey<EventsState>();
+  final _playerInfoKey = GlobalKey<PlayerInfoState>();
   final _sourceConfig = SourceConfig(
     url: isIOS
         ? 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8'
@@ -32,6 +34,8 @@ class _EventSubscriptionState extends State<EventSubscription> {
   final _logger = Logger();
 
   void _onEvent(Event event) {
+    _playerInfoKey.currentState?.updatePlayerInfo(_player, event);
+
     final eventName = '${event.runtimeType}';
     final eventData = '$eventName ${event.toJson()}';
     _logger.d(eventData);
@@ -115,8 +119,14 @@ class _EventSubscriptionState extends State<EventSubscription> {
           ),
           Expanded(
             child: Container(
-              margin: const EdgeInsets.fromLTRB(10, 10, 10, 40),
+              margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
               child: Events(key: _eventsKey),
+            ),
+          ),
+          Expanded(
+            child: Container(
+              margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+              child: PlayerInfo(key: _playerInfoKey),
             ),
           ),
         ],
