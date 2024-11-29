@@ -48,9 +48,9 @@ class PlayerPlatformWeb extends PlayerPlatformInterface {
     return div;
   }
 
+  // TODO(mario): implement subtitle tracks API for Web
   @override
-  Future<List<SubtitleTrack>> get availableSubtitles async =>
-      throw UnimplementedError();
+  Future<List<SubtitleTrack>> get availableSubtitles async => [];
 
   @override
   Future<void> castStop() async => _player.castStop();

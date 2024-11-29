@@ -4,6 +4,7 @@ import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:bitmovin_player_example/controls.dart';
 import 'package:bitmovin_player_example/env/env.dart';
 import 'package:bitmovin_player_example/platform.dart';
+import 'package:bitmovin_player_example/player_info.dart';
 import 'package:bitmovin_player_example/player_view_container.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
@@ -34,18 +35,20 @@ final SourceConfig _sourceConfig = isIOS
     : const SourceConfig(url: artOfMotionDash, type: SourceType.dash);
 
 class _CastingState extends State<Casting> {
-  factory _CastingState() {
-    final logger = Logger();
-    void eventListener(Event event) => _onEvent(logger, event);
-
-    return _CastingState._(createPlayerState(_sourceConfig, eventListener));
+  _CastingState() {
+    _playerState = createPlayerState(
+      _sourceConfig,
+      (Event event) {
+        _onEvent(logger, event);
+      },
+    );
   }
 
-  _CastingState._(this._playerState);
+  final logger = Logger();
+  late final Future<_PlayerState> _playerState;
+  final _playerInfoKey = GlobalKey<PlayerInfoState>();
 
-  final Future<_PlayerState> _playerState;
-
-  static Future<_PlayerState> createPlayerState(
+  Future<_PlayerState> createPlayerState(
     SourceConfig sourceConfig,
     void Function(Event event) eventListener,
   ) async {
@@ -82,10 +85,17 @@ class _CastingState extends State<Casting> {
     return _PlayerState(player, castManager);
   }
 
-  static void _onEvent(
+  void _onEvent(
     Logger logger,
     Event event,
   ) {
+    _playerState.then(
+      (state) => _playerInfoKey.currentState?.updatePlayerInfo(
+        state.player,
+        event,
+      ),
+    );
+
     final eventName = '${event.runtimeType}';
     final eventData = '$eventName ${event.toJson()}';
     logger.d(eventData);
@@ -165,6 +175,12 @@ class _CastingState extends State<Casting> {
               ),
             ),
           ],
+        ),
+        Expanded(
+          child: Container(
+            margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+            child: PlayerInfo(key: _playerInfoKey),
+          ),
         ),
       ],
     );
