@@ -41,6 +41,10 @@ class PlayerInfoState extends State<PlayerInfo> {
     }
     if (event is PlayingEvent || event is PausedEvent) {
       _updatePlayerInfoForField('isPlaying', player.isPlaying);
+      _updatePlayerInfoForField('isPaused', player.isPaused);
+    }
+    if (event is MutedEvent || event is UnmutedEvent) {
+      _updatePlayerInfoForField('isMuted', player.isMuted);
     }
     if (event is TimeChangedEvent) {
       _updatePlayerInfoForField('currentTime', player.currentTime);

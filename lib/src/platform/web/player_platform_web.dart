@@ -76,6 +76,12 @@ class PlayerPlatformWeb extends PlayerPlatformInterface {
   Future<bool> get isPlaying async => _player.isPlaying();
 
   @override
+  Future<bool> get isPaused async => _player.isPaused();
+
+  @override
+  Future<bool> get isMuted async => _player.isMuted();
+
+  @override
   Future<void> loadSource(Source source) async {
     await super.loadSource(source);
     _player.load(source.toSourceJs());

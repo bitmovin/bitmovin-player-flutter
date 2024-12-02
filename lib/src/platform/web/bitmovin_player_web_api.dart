@@ -19,6 +19,8 @@ class BitmovinPlayerJs {
   external void castVideo();
   external void castStop();
   external bool isPlaying();
+  external bool isPaused();
+  external bool isMuted();
   external bool isLive();
   external bool isCasting();
   external bool isCastAvailable();

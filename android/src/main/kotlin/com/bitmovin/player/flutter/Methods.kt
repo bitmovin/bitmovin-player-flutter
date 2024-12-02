@@ -21,6 +21,8 @@ class Methods {
         const val MAX_TIME_SHIFT = "maxTimeShift"
         const val IS_LIVE = "isLive"
         const val IS_PLAYING = "isPlaying"
+        const val IS_PAUSED = "isPaused"
+        const val IS_MUTED = "isMuted"
         const val SEND_CUSTOM_DATA_EVENT = "sendCustomDataEvent"
         const val AVAILABLE_SUBTITLES = "availableSubtitles"
         const val SET_SUBTITLE = "setSubtitle"

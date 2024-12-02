@@ -16,6 +16,8 @@ class Methods {
   static const String maxTimeShift = 'maxTimeShift';
   static const String isLive = 'isLive';
   static const String isPlaying = 'isPlaying';
+  static const String isPaused = 'isPaused';
+  static const String isMuted = 'isMuted';
   static const String sendCustomDataEvent = 'sendCustomDataEvent';
   static const String availableSubtitles = 'availableSubtitles';
   static const String setSubtitle = 'setSubtitle';

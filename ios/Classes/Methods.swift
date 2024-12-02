@@ -18,6 +18,8 @@ internal enum Methods {
     static let maxTimeShift = "maxTimeShift"
     static let isLive = "isLive"
     static let isPlaying = "isPlaying"
+    static let isPaused = "isPaused"
+    static let isMuted = "isMuted"
     static let sendCustomDataEvent = "sendCustomDataEvent"
     static let availableSubtitles = "availableSubtitles"
     static let getSubtitle = "getSubtitle"
