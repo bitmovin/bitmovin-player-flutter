@@ -5,10 +5,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
-- Google Cast support for Web platform.
+- Google Cast support for Web platform
+- Support for `Player.isPaused` and `Player.isMuted`
 
 ## [0.13.0] - 2024-11-26
-- Introduce platform support for web.
+- Introduce platform support for web
   - Supported API calls: `loadSource(source)`, `play`, `pause`, `mute`, `unmute`, `seek(time)`, `timeShift(timeShift)`, `getCurrentTime`, `getTimeShift`, `getDuration`, `getMaxTimeShift`, `isLive`, `isPlaying`, `isAirplayActive`, `isAirplayAvailable`, `castVideo`, `castStop`, `isCastAvailable`, `isCasting`, `showAirPlayTargetPicker`, `destroy`
   - Supported events: `play`,`playing`,`paused`,`timeChanged`,`seek`,`seeked`,`timeShift`,`timeShifted`,`playbackFinished`,`error`,`muted`,`unmuted`,`warning`,`ready`,`sourceLoaded`,`sourceUnloaded`
 - Update Bitmovin's native Android Player SDK version to `3.94.0`
@@ -20,7 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Update Bitmovin's native iOS Player SDK version to `3.77.0`
 
 ### Removed
-- Custom spec source `https://github.com/bitmovin/cocoapod-specs.git` from `example/ios/Podfile` as `BitmovinPlayer` is now published to the public CocoaPods registry.
+- Custom spec source `https://github.com/bitmovin/cocoapod-specs.git` from `example/ios/Podfile` as `BitmovinPlayer` is now published to the public CocoaPods registry
 
 ## [0.11.0] - 2024-09-11
 ### Changed

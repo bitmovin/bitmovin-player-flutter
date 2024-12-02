@@ -92,6 +92,8 @@ class FlutterPlayer(
             Methods.MAX_TIME_SHIFT -> maxTimeShift
             Methods.IS_LIVE -> isLive
             Methods.IS_PLAYING -> isPlaying
+            Methods.IS_PAUSED -> isPaused
+            Methods.IS_MUTED -> isMuted
             Methods.SEND_CUSTOM_DATA_EVENT ->
                 this.analytics?.sendCustomDataEvent(arg.asCustomData.toNative())
                     ?: Unit

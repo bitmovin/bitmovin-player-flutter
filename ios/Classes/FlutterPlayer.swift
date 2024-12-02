@@ -117,6 +117,10 @@ private extension FlutterPlayer {
             return player.isLive
         case (Methods.isPlaying, .empty):
             return player.isPlaying
+        case (Methods.isPaused, .empty):
+            return player.isPaused
+        case (Methods.isMuted, .empty):
+            return player.isMuted
         case (Methods.destroy, .empty):
             destroyPlayer()
         case (Methods.sendCustomDataEvent, .json(let customDataJson)):
