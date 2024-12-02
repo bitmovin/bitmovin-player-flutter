@@ -60,11 +60,21 @@ extension SourceFromJs on SourceJs {
 }
 
 extension PlayerConfigToJs on PlayerConfig {
-  PlayerConfigJs toPlayerConfigJs() {
+  PlayerConfigJs toPlayerConfigJs(BitmovinCastManagerOptions? castOptions) {
+    GoogleCastRemoteControlConfigJs? remoteControlConfigJs;
+
+    if (castOptions != null) {
+      remoteControlConfigJs = GoogleCastRemoteControlConfigJs.create(
+        castOptions.applicationId,
+        castOptions.messageNamespace,
+      );
+    }
+
     return PlayerConfigJs(
       key: key,
       playback: playbackConfig?.toPlaybackConfigJs(),
       licensing: licensingConfig?.toLicensingConfigJs(),
+      remotecontrol: remoteControlConfigJs,
     );
   }
 }
@@ -107,6 +117,14 @@ extension PlayerEventBaseConversion on PlayerEventBaseJs {
 
   SourceUnloadedEvent toSourceUnloadedEvent() {
     return SourceUnloadedEvent(timestamp: timestamp);
+  }
+
+  CastStartEvent toCastStartEvent() {
+    return CastStartEvent(timestamp: timestamp);
+  }
+
+  CastStoppedEvent toCastStoppedEvent() {
+    return CastStoppedEvent(timestamp: timestamp);
   }
 }
 
@@ -173,6 +191,33 @@ extension WarningEventConversion on WarningEventJs {
     return WarningEvent(
       code: code,
       message: message,
+      timestamp: timestamp,
+    );
+  }
+}
+
+extension CastAvailableEventConversion on CastAvailableEventJs {
+  CastAvailableEvent toCastAvailableEvent() {
+    return CastAvailableEvent(timestamp: timestamp);
+  }
+}
+
+extension CastStartedEventConversion on CastStartedEventJs {
+  CastStartedEvent toCastStartedEvent() {
+    return CastStartedEvent(
+      timestamp: timestamp,
+      deviceName: deviceName,
+    );
+  }
+}
+
+extension CastWaitingForDeviceEventConversion on CastWaitingForDeviceEventJs {
+  CastWaitingForDeviceEvent toCastWaitingForDeviceEvent() {
+    return CastWaitingForDeviceEvent(
+      castPayload: CastPayload(
+        currentTime: castPayload.currentTime,
+        deviceName: castPayload.deviceName,
+      ),
       timestamp: timestamp,
     );
   }

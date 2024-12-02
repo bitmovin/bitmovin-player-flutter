@@ -1,8 +1,5 @@
 import 'package:bitmovin_player/bitmovin_player.dart';
-import 'package:bitmovin_player/src/casting/custom_cast_message.dart';
-import 'package:bitmovin_player/src/channel_manager.dart';
-import 'package:bitmovin_player/src/channels.dart';
-import 'package:bitmovin_player/src/methods.dart';
+import 'package:bitmovin_player/src/platform/cast_manager_platform_interface.dart';
 
 /// Singleton, providing access to GoogleCast related features.
 /// Retrieve the singleton instance using [initialize].
@@ -16,8 +13,9 @@ class BitmovinCastManager implements BitmovinCastManagerApi {
   /// features.
   /// If no options are provided, the default options will be used.
   ///
-  /// IMPORTANT: This should only be called when the Google Cast SDK is
-  /// available in the application.
+  /// IMPORTANT: On iOS and Android, this should only be called when the
+  /// Google Cast SDK is available and linked in the application.
+  /// For Web, loading the CAST SDK is handled automatically.
   static Future<BitmovinCastManager> initialize({
     BitmovinCastManagerOptions options = const BitmovinCastManagerOptions(),
   }) async {
@@ -30,26 +28,16 @@ class BitmovinCastManager implements BitmovinCastManagerApi {
     return _singleton = instance;
   }
 
-  final _mainChannel = ChannelManager.registerMethodChannel(
-    name: Channels.main,
-  );
-
   Future<void> _initialize(BitmovinCastManagerOptions options) =>
-      _mainChannel.invokeMethod<void>(
-        Methods.castManagerInitialize,
-        options.toJson(),
-      );
+      CastManagerPlatformInterface.instance.initializeCastManager(options);
 
   @override
   Future<void> sendMessage({
     required String message,
     String? messageNamespace,
   }) =>
-      _mainChannel.invokeMethod<void>(
-        Methods.castManagerSendMessage,
-        CustomCastMessage(
-          message: message,
-          messageNamespace: messageNamespace,
-        ).toJson(),
+      CastManagerPlatformInterface.instance.sendMessage(
+        message: message,
+        messageNamespace: messageNamespace,
       );
 }
