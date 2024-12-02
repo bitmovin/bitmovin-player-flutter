@@ -12,7 +12,7 @@ class PlayerInfo extends StatefulWidget {
 }
 
 class PlayerInfoState extends State<PlayerInfo> {
-  final Map<String, dynamic> _data = {};
+  final Map<String, String> _data = {};
 
   Future<void> updatePlayerInfo(Player player, Event event) async {
     if (event is ReadyEvent) {
@@ -67,8 +67,13 @@ class PlayerInfoState extends State<PlayerInfo> {
 
   void _updatePlayerInfoForField(String field, Future<dynamic> value) {
     value.then((dynamic value) {
+      var valueString = value.toString();
+      if (value is double) {
+        valueString = value.toStringAsFixed(2);
+      }
+
       setState(() {
-        _data[field] = value.toString();
+        _data[field] = valueString;
       });
     });
   }
@@ -79,7 +84,7 @@ class PlayerInfoState extends State<PlayerInfo> {
       itemCount: _data.length,
       itemBuilder: (context, index) {
         final key = _data.keys.elementAt(index);
-        final value = _data[key];
+        final value = _data[key]!;
 
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 1),
@@ -91,7 +96,7 @@ class PlayerInfoState extends State<PlayerInfo> {
               ),
               Expanded(
                 flex: 3,
-                child: Text(value.toString()),
+                child: Text(value),
               ),
             ],
           ),
