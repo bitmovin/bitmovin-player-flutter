@@ -82,6 +82,12 @@ class Player with PlayerEventHandler implements PlayerApi {
   Future<bool> get isPlaying async => _playerPlatformInterface.isPlaying;
 
   @override
+  Future<bool> get isPaused async => _playerPlatformInterface.isPaused;
+
+  @override
+  Future<bool> get isMuted async => _playerPlatformInterface.isMuted;
+
+  @override
   Future<List<SubtitleTrack>> get availableSubtitles async =>
       _playerPlatformInterface.availableSubtitles;
 

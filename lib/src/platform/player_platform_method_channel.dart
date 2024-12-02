@@ -198,6 +198,12 @@ class PlayerPlatformMethodChannel extends PlayerPlatformInterface {
   Future<bool> get isPlaying async => _invokeMethod<bool>(Methods.isPlaying);
 
   @override
+  Future<bool> get isPaused async => _invokeMethod<bool>(Methods.isPaused);
+
+  @override
+  Future<bool> get isMuted async => _invokeMethod<bool>(Methods.isMuted);
+
+  @override
   Future<void> loadSource(Source source) async {
     await super.loadSource(source);
     return _invokeMethod<void>(Methods.loadWithSource, source.toJson());

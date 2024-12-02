@@ -65,6 +65,13 @@ abstract class PlayerApi {
   /// not paused.
   Future<bool> get isPlaying;
 
+  /// Whether the player is currently paused, i.e. has started playback but is
+  /// currently paused.
+  Future<bool> get isPaused;
+
+  /// Whether the player is muted.
+  Future<bool> get isMuted;
+
   /// A list of all available [SubtitleTrack]s of the active [Source],
   /// including "off" subtitle track.
   Future<List<SubtitleTrack>> get availableSubtitles;
