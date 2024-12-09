@@ -1,17 +1,18 @@
-// ignore: avoid_web_libraries_in_flutter
 import 'dart:html';
 import 'dart:ui_web' as ui;
 
 import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:bitmovin_player/src/channels.dart';
 import 'package:bitmovin_player/src/platform/bitmovin_player_platform_interface.dart';
+import 'package:bitmovin_player/src/platform/cast_manager_platform_interface.dart';
 import 'package:bitmovin_player/src/platform/player_platform_interface.dart';
 import 'package:bitmovin_player/src/platform/player_view_platform_interface.dart';
+import 'package:bitmovin_player/src/platform/web/cast_manager_platform_web.dart';
 import 'package:bitmovin_player/src/platform/web/player_platform_web.dart';
 import 'package:bitmovin_player/src/platform/web/player_view_platform_web.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
-/// Implementation of the [BitmovinPlayerPlatformInterface] for the web
+/// Implementation of the [BitmovinPlayerPlatformInterface] for the Web
 /// platform.
 class BitmovinPlayerPlatformWeb extends BitmovinPlayerPlatformInterface {
   /// Constructs a [BitmovinPlayerPlatformWeb].
@@ -24,6 +25,7 @@ class BitmovinPlayerPlatformWeb extends BitmovinPlayerPlatformInterface {
 
   static void registerWith(Registrar registrar) {
     BitmovinPlayerPlatformInterface.instance = BitmovinPlayerPlatformWeb();
+    CastManagerPlatformInterface.instance = CastManagerPlatformWeb();
   }
 
   @override
