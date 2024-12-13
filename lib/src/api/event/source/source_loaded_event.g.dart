@@ -9,7 +9,7 @@ part of 'source_loaded_event.dart';
 SourceLoadedEvent _$SourceLoadedEventFromJson(Map<String, dynamic> json) =>
     SourceLoadedEvent(
       source: Source.fromJson(json['source'] as Map<String, dynamic>),
-      timestamp: json['timestamp'] as int?,
+      timestamp: (json['timestamp'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$SourceLoadedEventToJson(SourceLoadedEvent instance) =>

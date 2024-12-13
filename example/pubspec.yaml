@@ -11,7 +11,7 @@ dependencies:
   bitmovin_player:
     path: ../
   cupertino_icons: ^1.0.2
-  envied: ^0.3.0+3
+  envied: ^1.0.0
   flutter:
     sdk: flutter
   logger: ^2.0.2

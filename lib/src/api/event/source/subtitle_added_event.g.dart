@@ -10,7 +10,7 @@ SubtitleAddedEvent _$SubtitleAddedEventFromJson(Map<String, dynamic> json) =>
     SubtitleAddedEvent(
       subtitleTrack:
           SubtitleTrack.fromJson(json['subtitleTrack'] as Map<String, dynamic>),
-      timestamp: json['timestamp'] as int?,
+      timestamp: (json['timestamp'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$SubtitleAddedEventToJson(SubtitleAddedEvent instance) =>

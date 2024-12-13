@@ -9,7 +9,7 @@ part of 'cast_time_updated_event.dart';
 CastTimeUpdatedEvent _$CastTimeUpdatedEventFromJson(
         Map<String, dynamic> json) =>
     CastTimeUpdatedEvent(
-      timestamp: json['timestamp'] as int?,
+      timestamp: (json['timestamp'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$CastTimeUpdatedEventToJson(

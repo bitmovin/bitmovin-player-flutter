@@ -10,7 +10,7 @@ TimeShiftEvent _$TimeShiftEventFromJson(Map<String, dynamic> json) =>
     TimeShiftEvent(
       position: (json['position'] as num).toDouble(),
       target: (json['target'] as num).toDouble(),
-      timestamp: json['timestamp'] as int?,
+      timestamp: (json['timestamp'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$TimeShiftEventToJson(TimeShiftEvent instance) =>

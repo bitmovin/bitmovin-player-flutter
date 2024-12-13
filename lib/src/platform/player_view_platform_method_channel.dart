@@ -116,10 +116,8 @@ class PlayerViewPlatformMethodChannel extends PlayerViewPlatformInterface {
     switch (methodCall.method) {
       case Methods.enterFullscreen:
         _handleEnterFullscreen();
-        break;
       case Methods.exitFullscreen:
         _handleExitFullscreen();
-        break;
       default:
         return Future.error(
           // ignore: lines_longer_than_80_chars

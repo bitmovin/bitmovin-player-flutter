@@ -11,7 +11,7 @@ SubtitleRemovedEvent _$SubtitleRemovedEventFromJson(
     SubtitleRemovedEvent(
       subtitleTrack:
           SubtitleTrack.fromJson(json['subtitleTrack'] as Map<String, dynamic>),
-      timestamp: json['timestamp'] as int?,
+      timestamp: (json['timestamp'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$SubtitleRemovedEventToJson(

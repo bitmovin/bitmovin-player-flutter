@@ -8,7 +8,7 @@ part of 'source_info_event.dart';
 
 SourceInfoEvent _$SourceInfoEventFromJson(Map<String, dynamic> json) =>
     SourceInfoEvent(
-      timestamp: json['timestamp'] as int?,
+      timestamp: (json['timestamp'] as num?)?.toInt(),
       message: json['message'] as String?,
     );
 

@@ -9,8 +9,8 @@ part of 'source_added_event.dart';
 SourceAddedEvent _$SourceAddedEventFromJson(Map<String, dynamic> json) =>
     SourceAddedEvent(
       source: Source.fromJson(json['source'] as Map<String, dynamic>),
-      timestamp: json['timestamp'] as int?,
-      index: json['index'] as int,
+      timestamp: (json['timestamp'] as num?)?.toInt(),
+      index: (json['index'] as num).toInt(),
     );
 
 Map<String, dynamic> _$SourceAddedEventToJson(SourceAddedEvent instance) =>

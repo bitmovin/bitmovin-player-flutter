@@ -8,7 +8,7 @@ part of 'playing_event.dart';
 
 PlayingEvent _$PlayingEventFromJson(Map<String, dynamic> json) => PlayingEvent(
       time: (json['time'] as num).toDouble(),
-      timestamp: json['timestamp'] as int?,
+      timestamp: (json['timestamp'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$PlayingEventToJson(PlayingEvent instance) =>

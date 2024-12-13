@@ -8,8 +8,8 @@ part of 'source_warning_event.dart';
 
 SourceWarningEvent _$SourceWarningEventFromJson(Map<String, dynamic> json) =>
     SourceWarningEvent(
-      timestamp: json['timestamp'] as int?,
-      code: json['code'] as int? ?? 0,
+      timestamp: (json['timestamp'] as num?)?.toInt(),
+      code: (json['code'] as num?)?.toInt() ?? 0,
       message: json['message'] as String?,
     );
 

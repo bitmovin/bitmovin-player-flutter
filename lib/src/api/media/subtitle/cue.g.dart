@@ -18,7 +18,7 @@ Cue _$CueFromJson(Map<String, dynamic> json) {
     fractionalPosition: (json['fractionalPosition'] as num?)?.toDouble(),
     bitmapHeight: (json['bitmapHeight'] as num?)?.toDouble(),
     isWindowColorSet: json['isWindowColorSet'] as bool? ?? false,
-    windowColor: json['windowColor'] as int?,
+    windowColor: (json['windowColor'] as num?)?.toInt(),
     text: json['text'] as String?,
     html: json['html'] as String?,
     textAlignment:

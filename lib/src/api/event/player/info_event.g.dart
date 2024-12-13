@@ -7,7 +7,7 @@ part of 'info_event.dart';
 // **************************************************************************
 
 InfoEvent _$InfoEventFromJson(Map<String, dynamic> json) => InfoEvent(
-      timestamp: json['timestamp'] as int?,
+      timestamp: (json['timestamp'] as num?)?.toInt(),
       message: json['message'] as String?,
     );
 

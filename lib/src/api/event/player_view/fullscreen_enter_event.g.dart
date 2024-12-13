@@ -9,7 +9,7 @@ part of 'fullscreen_enter_event.dart';
 FullscreenEnterEvent _$FullscreenEnterEventFromJson(
         Map<String, dynamic> json) =>
     FullscreenEnterEvent(
-      timestamp: json['timestamp'] as int?,
+      timestamp: (json['timestamp'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$FullscreenEnterEventToJson(

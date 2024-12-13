@@ -9,7 +9,7 @@ part of 'airplay_available_event.dart';
 AirPlayAvailableEvent _$AirPlayAvailableEventFromJson(
         Map<String, dynamic> json) =>
     AirPlayAvailableEvent(
-      timestamp: json['timestamp'] as int?,
+      timestamp: (json['timestamp'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$AirPlayAvailableEventToJson(
