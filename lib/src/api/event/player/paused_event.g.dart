@@ -8,7 +8,7 @@ part of 'paused_event.dart';
 
 PausedEvent _$PausedEventFromJson(Map<String, dynamic> json) => PausedEvent(
       time: (json['time'] as num).toDouble(),
-      timestamp: json['timestamp'] as int?,
+      timestamp: (json['timestamp'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$PausedEventToJson(PausedEvent instance) =>

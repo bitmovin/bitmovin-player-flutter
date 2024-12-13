@@ -8,7 +8,7 @@ part of 'cast_available_event.dart';
 
 CastAvailableEvent _$CastAvailableEventFromJson(Map<String, dynamic> json) =>
     CastAvailableEvent(
-      timestamp: json['timestamp'] as int?,
+      timestamp: (json['timestamp'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$CastAvailableEventToJson(CastAvailableEvent instance) =>

@@ -11,7 +11,7 @@ CastWaitingForDeviceEvent _$CastWaitingForDeviceEventFromJson(
     CastWaitingForDeviceEvent(
       castPayload:
           CastPayload.fromJson(json['castPayload'] as Map<String, dynamic>),
-      timestamp: json['timestamp'] as int?,
+      timestamp: (json['timestamp'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$CastWaitingForDeviceEventToJson(

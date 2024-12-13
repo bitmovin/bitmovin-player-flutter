@@ -8,7 +8,7 @@ part of 'licensing_config.dart';
 
 LicensingConfig _$LicensingConfigFromJson(Map<String, dynamic> json) =>
     LicensingConfig(
-      delay: json['delay'] as int? ?? 0,
+      delay: (json['delay'] as num?)?.toInt() ?? 0,
     );
 
 Map<String, dynamic> _$LicensingConfigToJson(LicensingConfig instance) =>

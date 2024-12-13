@@ -9,7 +9,7 @@ part of 'playback_finished_event.dart';
 PlaybackFinishedEvent _$PlaybackFinishedEventFromJson(
         Map<String, dynamic> json) =>
     PlaybackFinishedEvent(
-      timestamp: json['timestamp'] as int?,
+      timestamp: (json['timestamp'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$PlaybackFinishedEventToJson(

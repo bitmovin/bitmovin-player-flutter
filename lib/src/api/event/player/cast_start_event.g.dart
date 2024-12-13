@@ -8,7 +8,7 @@ part of 'cast_start_event.dart';
 
 CastStartEvent _$CastStartEventFromJson(Map<String, dynamic> json) =>
     CastStartEvent(
-      timestamp: json['timestamp'] as int?,
+      timestamp: (json['timestamp'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$CastStartEventToJson(CastStartEvent instance) =>

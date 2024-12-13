@@ -8,7 +8,7 @@ part of 'source_unloaded_event.dart';
 
 SourceUnloadedEvent _$SourceUnloadedEventFromJson(Map<String, dynamic> json) =>
     SourceUnloadedEvent(
-      timestamp: json['timestamp'] as int?,
+      timestamp: (json['timestamp'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$SourceUnloadedEventToJson(

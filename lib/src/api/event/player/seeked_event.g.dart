@@ -7,7 +7,7 @@ part of 'seeked_event.dart';
 // **************************************************************************
 
 SeekedEvent _$SeekedEventFromJson(Map<String, dynamic> json) => SeekedEvent(
-      timestamp: json['timestamp'] as int?,
+      timestamp: (json['timestamp'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$SeekedEventToJson(SeekedEvent instance) =>

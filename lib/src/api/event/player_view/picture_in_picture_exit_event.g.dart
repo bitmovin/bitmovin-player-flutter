@@ -9,7 +9,7 @@ part of 'picture_in_picture_exit_event.dart';
 PictureInPictureExitEvent _$PictureInPictureExitEventFromJson(
         Map<String, dynamic> json) =>
     PictureInPictureExitEvent(
-      timestamp: json['timestamp'] as int?,
+      timestamp: (json['timestamp'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$PictureInPictureExitEventToJson(

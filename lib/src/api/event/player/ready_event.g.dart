@@ -7,7 +7,7 @@ part of 'ready_event.dart';
 // **************************************************************************
 
 ReadyEvent _$ReadyEventFromJson(Map<String, dynamic> json) => ReadyEvent(
-      timestamp: json['timestamp'] as int?,
+      timestamp: (json['timestamp'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$ReadyEventToJson(ReadyEvent instance) =>

@@ -9,7 +9,7 @@ part of 'time_changed_event.dart';
 TimeChangedEvent _$TimeChangedEventFromJson(Map<String, dynamic> json) =>
     TimeChangedEvent(
       time: (json['time'] as num?)?.toDouble() ?? 0.0,
-      timestamp: json['timestamp'] as int?,
+      timestamp: (json['timestamp'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$TimeChangedEventToJson(TimeChangedEvent instance) =>

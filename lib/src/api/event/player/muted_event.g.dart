@@ -7,7 +7,7 @@ part of 'muted_event.dart';
 // **************************************************************************
 
 MutedEvent _$MutedEventFromJson(Map<String, dynamic> json) => MutedEvent(
-      timestamp: json['timestamp'] as int?,
+      timestamp: (json['timestamp'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$MutedEventToJson(MutedEvent instance) =>

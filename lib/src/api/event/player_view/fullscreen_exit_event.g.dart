@@ -8,7 +8,7 @@ part of 'fullscreen_exit_event.dart';
 
 FullscreenExitEvent _$FullscreenExitEventFromJson(Map<String, dynamic> json) =>
     FullscreenExitEvent(
-      timestamp: json['timestamp'] as int?,
+      timestamp: (json['timestamp'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$FullscreenExitEventToJson(

@@ -8,7 +8,7 @@ part of 'airplay_changed_event.dart';
 
 AirPlayChangedEvent _$AirPlayChangedEventFromJson(Map<String, dynamic> json) =>
     AirPlayChangedEvent(
-      timestamp: json['timestamp'] as int?,
+      timestamp: (json['timestamp'] as num?)?.toInt(),
       isAirPlayActive: json['isAirPlayActive'] as bool,
       time: (json['time'] as num).toDouble(),
     );

@@ -7,7 +7,7 @@ part of 'cue_exit_event.dart';
 // **************************************************************************
 
 CueExitEvent _$CueExitEventFromJson(Map<String, dynamic> json) => CueExitEvent(
-      timestamp: json['timestamp'] as int?,
+      timestamp: (json['timestamp'] as num?)?.toInt(),
       start: (json['start'] as num).toDouble(),
       end: (json['end'] as num).toDouble(),
       text: json['text'] as String?,

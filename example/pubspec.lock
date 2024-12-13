@@ -76,10 +76,10 @@ packages:
     dependency: "direct main"
     description:
       name: envied
-      sha256: "60d3f5606c7b35bc6ef493e650d916b34351d8af2e58b7ac45881ba59dfcf039"
+      sha256: "129a0dbf32b90344fa2e9d6943569fdec8f17904e66161e0a1f09ee3416508ae"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.0+3"
+    version: "1.0.0"
   equatable:
     dependency: transitive
     description:

@@ -8,7 +8,7 @@ part of 'time_shifted_event.dart';
 
 TimeShiftedEvent _$TimeShiftedEventFromJson(Map<String, dynamic> json) =>
     TimeShiftedEvent(
-      timestamp: json['timestamp'] as int?,
+      timestamp: (json['timestamp'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$TimeShiftedEventToJson(TimeShiftedEvent instance) =>

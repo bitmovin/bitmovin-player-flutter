@@ -9,7 +9,7 @@ part of 'subtitle_changed_event.dart';
 SubtitleChangedEvent _$SubtitleChangedEventFromJson(
         Map<String, dynamic> json) =>
     SubtitleChangedEvent(
-      timestamp: json['timestamp'] as int?,
+      timestamp: (json['timestamp'] as num?)?.toInt(),
       oldSubtitleTrack: json['oldSubtitleTrack'] == null
           ? null
           : SubtitleTrack.fromJson(
