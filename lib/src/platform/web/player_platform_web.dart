@@ -7,6 +7,7 @@ import 'package:bitmovin_player/src/platform/web/bitmovin_player_web_api.dart';
 import 'package:bitmovin_player/src/platform/web/cast_manager_platform_web.dart';
 import 'package:bitmovin_player/src/platform/web/conversion.dart';
 import 'package:bitmovin_player/src/platform/web/player_web_event_handler.dart';
+import 'package:logger/logger.dart';
 import 'package:web/web.dart' as web;
 
 /// An implementation of [PlayerPlatformInterface] for the Web platform.
@@ -24,12 +25,16 @@ class PlayerPlatformWeb extends PlayerPlatformInterface {
 
     _playerEventHandler = PlayerWebEventHandler(_player, _onPlatformEvent);
     castManager.castMessageHandler = (String message) {
-      _player.addMetadata('CAST', message);
+      final result = _player.addMetadata('CAST', message);
+      if (!result) {
+        _logger.d('Failed to send CAST metadata to receiver');
+      }
     };
   }
 
   /// Unique identifier for this player instance.
   final String _playerId;
+  final Logger _logger = Logger();
   @override
   final PlayerConfig config;
   late BitmovinPlayerJs _player;

@@ -33,7 +33,7 @@ class BitmovinPlayerJs {
   external String getStreamType();
   external void showAirplayTargetPicker();
   external void on(String event, Function handler);
-  external void addMetadata(String metadataType, Object metadata);
+  external bool addMetadata(String metadataType, Object metadata);
 }
 
 @JS()
