@@ -119,7 +119,7 @@ class Player with PlayerEventHandler implements PlayerApi {
   Future<void> castVideo() async => _playerPlatformInterface.castVideo();
 
   @override
-  Future<void> castStop() async => _playerPlatformInterface.castStop;
+  Future<void> castStop() async => _playerPlatformInterface.castStop();
 
   @override
   Future<bool> get isAirPlayActive async =>
