@@ -5,13 +5,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
+### Added
 - Google Cast support for Web platform
 - Support for `Player.isPaused` and `Player.isMuted`
 
+### Changed
+- Update Bitmovin's native Android Player SDK version to `3.99.0`
+- Update Bitmovin's native iOS Player SDK version to `3.80.0`
+
 ## [0.13.0] - 2024-11-26
+### Added
 - Introduce platform support for Web
   - Supported API calls: `loadSource(source)`, `play`, `pause`, `mute`, `unmute`, `seek(time)`, `timeShift(timeShift)`, `getCurrentTime`, `getTimeShift`, `getDuration`, `getMaxTimeShift`, `isLive`, `isPlaying`, `isAirplayActive`, `isAirplayAvailable`, `castVideo`, `castStop`, `isCastAvailable`, `isCasting`, `showAirPlayTargetPicker`, `destroy`
   - Supported events: `play`,`playing`,`paused`,`timeChanged`,`seek`,`seeked`,`timeShift`,`timeShifted`,`playbackFinished`,`error`,`muted`,`unmuted`,`warning`,`ready`,`sourceLoaded`,`sourceUnloaded`
+
+### Changed
 - Update Bitmovin's native Android Player SDK version to `3.94.0`
 - Update Bitmovin's native iOS Player SDK version to `3.78.0`
 
