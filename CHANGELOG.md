@@ -9,7 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Support for `Player.isPaused` and `Player.isMuted`
 
 ## [0.13.0] - 2024-11-26
-- Introduce platform support for web
+- Introduce platform support for Web
   - Supported API calls: `loadSource(source)`, `play`, `pause`, `mute`, `unmute`, `seek(time)`, `timeShift(timeShift)`, `getCurrentTime`, `getTimeShift`, `getDuration`, `getMaxTimeShift`, `isLive`, `isPlaying`, `isAirplayActive`, `isAirplayAvailable`, `castVideo`, `castStop`, `isCastAvailable`, `isCasting`, `showAirPlayTargetPicker`, `destroy`
   - Supported events: `play`,`playing`,`paused`,`timeChanged`,`seek`,`seeked`,`timeShift`,`timeShifted`,`playbackFinished`,`error`,`muted`,`unmuted`,`warning`,`ready`,`sourceLoaded`,`sourceUnloaded`
 - Update Bitmovin's native Android Player SDK version to `3.94.0`
