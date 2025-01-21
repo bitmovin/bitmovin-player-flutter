@@ -36,8 +36,6 @@ class Source extends Equatable {
   @override
   List<Object?> get props => [id, sourceConfig, remoteControl];
 
-  /// Converts this [Source] into a JSON friendly type of Map<String, dynamic>
-  ///
-  /// returns a Map<String, dynamic> representation.
+  /// Converts this [Source] into a JSON friendly [Map].
   Map<String, dynamic> toJson() => _$SourceToJson(this);
 }

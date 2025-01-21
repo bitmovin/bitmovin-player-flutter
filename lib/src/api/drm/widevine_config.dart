@@ -57,7 +57,7 @@ class WidevineConfig extends Equatable {
   @JsonKey(name: 'shouldKeepDrmSessionsAlive')
   final bool shouldKeepDrmSessionsAlive;
 
-  /// Converts this [WidevineConfig] into JSON friendly Map<String, dynamic>
+  /// Converts this [WidevineConfig] into a JSON friendly [Map].
   Map<String, dynamic> toJson() {
     final jsonData = _$WidevineConfigToJson(this);
 

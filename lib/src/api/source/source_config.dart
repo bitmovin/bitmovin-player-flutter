@@ -99,7 +99,7 @@ class SourceConfig extends Equatable {
   @JsonKey(name: 'analyticsSourceMetadata')
   final SourceMetadata? analyticsSourceMetadata;
 
-  /// Converts this [SourceConfig] into JSON friendly Map<String, dynamic>
+  /// Converts this [SourceConfig] into a JSON friendly [Map].
   Map<String, dynamic> toJson() => _$SourceConfigToJson(this);
 
   @override

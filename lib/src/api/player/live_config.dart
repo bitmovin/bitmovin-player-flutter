@@ -26,7 +26,8 @@ class LiveConfig extends Equatable {
   /// The duration in seconds by which the default start position should precede
   /// the end of the live window. A suggested presentation delay in a manifest
   /// will be overridden. In case of a DASH low latency stream, the
-  /// [liveEdgeOffset] will be ignored. A value < 0 disables this feature.
+  /// [liveEdgeOffset] will be ignored. A value lower than 0 disables this
+  /// feature.
   /// Has no effect with HLS and Progressive sources.
   /// Default value is -1.0.
   @JsonKey(name: 'liveEdgeOffset')

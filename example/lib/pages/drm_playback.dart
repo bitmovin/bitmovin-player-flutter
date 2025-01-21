@@ -20,7 +20,7 @@ class _DrmPlaybackState extends State<DrmPlayback> {
   final _sourceConfig = SourceConfig(
     url: isIOS
         ? 'https://fps.ezdrm.com/demo/video/ezdrm.m3u8'
-        : 'https://bitmovin-a.akamaihd.net/content/art-of-motion_drm/mpds/11331.mpd',
+        : 'https://cdn.bitmovin.com/content/assets/art-of-motion_drm/mpds/11331.mpd',
     type: isIOS ? SourceType.hls : SourceType.dash,
     drmConfig: DrmConfig(
       fairplay: FairplayConfig(

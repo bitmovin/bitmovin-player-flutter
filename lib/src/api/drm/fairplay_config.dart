@@ -90,7 +90,7 @@ class FairplayConfig extends Equatable {
   @JsonKey(includeFromJson: false, includeToJson: false)
   final String Function(String contentId)? prepareContentId;
 
-  /// Converts this [FairplayConfig] into JSON friendly Map<String, dynamic>
+  /// Converts this [FairplayConfig] into a JSON friendly [Map].
   Map<String, dynamic> toJson() {
     final jsonData = _$FairplayConfigToJson(this);
 
