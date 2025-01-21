@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
-## [0.15.0]
+## [0.15.0] - 2025-01-21
 ### Changed
 - Update Bitmovin's native Android Player SDK version to `3.100.2`
 - Update Bitmovin's native iOS Player SDK version to `3.82.0`
