@@ -1,6 +1,3 @@
-@JS()
-library bitmovinplayer.js;
-
 import 'package:js/js.dart';
 import 'package:web/web.dart';
 
