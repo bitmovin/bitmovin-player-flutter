@@ -205,11 +205,11 @@ extension NSError {
 
 extension DeficiencyData {
     func toJSON() -> [String: Any] {
-        var json: [String: Any] = ["code": code, "message": message]
-        if let underlyingError {
-            json["underlyingError"] = underlyingError.toJSON()
-        }
-        return json
+        [
+            "code": code,
+            "message": message,
+            "underlyingError": underlyingError.toJSON()
+        ]
     }
 }
 
