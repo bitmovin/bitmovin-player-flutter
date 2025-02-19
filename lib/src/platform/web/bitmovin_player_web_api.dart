@@ -34,7 +34,6 @@ extension type BitmovinPlayerJs._(JSObject _) implements JSObject {
   external bool addMetadata(String metadataType, JSAny metadata);
 }
 
-@JS()
 @anonymous
 extension type PlayerConfigJs._(JSObject _) implements JSObject {
   external factory PlayerConfigJs({
@@ -49,7 +48,6 @@ extension type PlayerConfigJs._(JSObject _) implements JSObject {
   external GoogleCastRemoteControlConfigJs? get remotecontrol;
 }
 
-@JS()
 @anonymous
 extension type PlaybackConfigJs._(JSObject _) implements JSObject {
   external factory PlaybackConfigJs({
@@ -60,7 +58,6 @@ extension type PlaybackConfigJs._(JSObject _) implements JSObject {
   external bool get muted;
 }
 
-@JS()
 @anonymous
 extension type LicensingConfigJs._(JSObject _) implements JSObject {
   external factory LicensingConfigJs({
@@ -69,7 +66,6 @@ extension type LicensingConfigJs._(JSObject _) implements JSObject {
   external int? get delay;
 }
 
-@JS()
 @anonymous
 extension type GoogleCastRemoteControlConfigJs._(JSObject _)
     implements JSObject {
@@ -103,7 +99,6 @@ class StreamTypeJS {
   static const hls = 'hls';
 }
 
-@JS()
 @anonymous
 extension type SourceJs._(JSObject _) implements JSObject {
   external factory SourceJs({
@@ -120,27 +115,23 @@ extension type SourceJs._(JSObject _) implements JSObject {
   external String? get poster;
 }
 
-@JS()
 @anonymous
 extension type PlayerEventBaseJs._(JSObject _) implements JSObject {
   external int get timestamp;
   external String get type;
 }
 
-@JS()
 @anonymous
 extension type UserInteractionEventJs._(JSObject _)
     implements PlayerEventBaseJs {
   external String? get issuer;
 }
 
-@JS()
 @anonymous
 extension type PlaybackEventJs._(JSObject _) implements UserInteractionEventJs {
   external double get time;
 }
 
-@JS()
 @anonymous
 extension type SeekEventJs._(JSObject _) implements JSObject {
   external String get issuer;
@@ -150,7 +141,6 @@ extension type SeekEventJs._(JSObject _) implements JSObject {
   external String get type;
 }
 
-@JS()
 @anonymous
 extension type TimeShiftEventJs._(JSObject _)
     implements UserInteractionEventJs {
@@ -158,41 +148,35 @@ extension type TimeShiftEventJs._(JSObject _)
   external double get target;
 }
 
-@JS()
 @anonymous
 extension type ErrorEventJs._(JSObject _) implements PlayerEventBaseJs {
   external int get code;
   external String? get message;
 }
 
-@JS()
 @anonymous
 extension type WarningEventJs._(JSObject _) implements PlayerEventBaseJs {
   external int get code;
   external String? get message;
 }
 
-@JS()
 @anonymous
 extension type CastAvailableEventJs._(JSObject _) implements PlayerEventBaseJs {
   external bool get receiverAvailable;
 }
 
-@JS()
 @anonymous
 extension type CastStartedEventJs._(JSObject _) implements PlayerEventBaseJs {
   external String get deviceName;
   external bool get resuming;
 }
 
-@JS()
 @anonymous
 extension type CastWaitingForDeviceEventJs._(JSObject _)
     implements PlayerEventBaseJs {
   external CastPayloadJs get castPayload;
 }
 
-@JS()
 @anonymous
 extension type CastPayloadJs._(JSObject _) implements JSObject {
   external double get currentTime;
