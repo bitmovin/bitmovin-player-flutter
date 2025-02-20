@@ -21,7 +21,6 @@ dependencies:
     sdk: flutter
   flutter_web_plugins:
     sdk: flutter
-  js: ^0.7.1
   json_annotation: ^4.9.0
   logger: ^2.0.2
   plugin_platform_interface: ^2.0.2

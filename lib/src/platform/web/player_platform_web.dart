@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:js_interop';
 
 import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:bitmovin_player/src/platform/cast_manager_platform_interface.dart';
@@ -25,7 +26,7 @@ class PlayerPlatformWeb extends PlayerPlatformInterface {
 
     _playerEventHandler = PlayerWebEventHandler(_player, _onPlatformEvent);
     castManager.castMessageHandler = (String message) {
-      final result = _player.addMetadata('CAST', message);
+      final result = _player.addMetadata('CAST', message.toJS);
       if (!result) {
         _logger.d('Failed to send CAST metadata to receiver');
       }
