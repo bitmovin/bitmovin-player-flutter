@@ -1,8 +1,9 @@
-import 'package:js/js.dart';
+import 'dart:js_interop';
+
 import 'package:web/web.dart';
 
 @JS('bitmovin.player.Player')
-class BitmovinPlayerJs {
+extension type BitmovinPlayerJs._(JSObject _) implements JSObject {
   external factory BitmovinPlayerJs(Element container, PlayerConfigJs config);
   external void play();
   external void pause();
@@ -29,13 +30,12 @@ class BitmovinPlayerJs {
   external SourceJs? getSource();
   external String getStreamType();
   external void showAirplayTargetPicker();
-  external void on(String event, Function handler);
-  external bool addMetadata(String metadataType, Object metadata);
+  external void on(String event, JSFunction handler);
+  external bool addMetadata(String metadataType, JSAny metadata);
 }
 
-@JS()
 @anonymous
-class PlayerConfigJs {
+extension type PlayerConfigJs._(JSObject _) implements JSObject {
   external factory PlayerConfigJs({
     String? key,
     PlaybackConfigJs? playback,
@@ -48,9 +48,8 @@ class PlayerConfigJs {
   external GoogleCastRemoteControlConfigJs? get remotecontrol;
 }
 
-@JS()
 @anonymous
-class PlaybackConfigJs {
+extension type PlaybackConfigJs._(JSObject _) implements JSObject {
   external factory PlaybackConfigJs({
     bool autoplay,
     bool muted,
@@ -59,18 +58,17 @@ class PlaybackConfigJs {
   external bool get muted;
 }
 
-@JS()
 @anonymous
-class LicensingConfigJs {
+extension type LicensingConfigJs._(JSObject _) implements JSObject {
   external factory LicensingConfigJs({
     int? delay,
   });
   external int? get delay;
 }
 
-@JS()
 @anonymous
-class GoogleCastRemoteControlConfigJs {
+extension type GoogleCastRemoteControlConfigJs._(JSObject _)
+    implements JSObject {
   external factory GoogleCastRemoteControlConfigJs({
     required String type,
     String? receiverApplicationId,
@@ -101,9 +99,8 @@ class StreamTypeJS {
   static const hls = 'hls';
 }
 
-@JS()
 @anonymous
-class SourceJs {
+extension type SourceJs._(JSObject _) implements JSObject {
   external factory SourceJs({
     String? title,
     String? description,
@@ -118,28 +115,25 @@ class SourceJs {
   external String? get poster;
 }
 
-@JS()
 @anonymous
-class PlayerEventBaseJs {
+extension type PlayerEventBaseJs._(JSObject _) implements JSObject {
   external int get timestamp;
   external String get type;
 }
 
-@JS()
 @anonymous
-class UserInteractionEventJs extends PlayerEventBaseJs {
+extension type UserInteractionEventJs._(JSObject _)
+    implements PlayerEventBaseJs {
   external String? get issuer;
 }
 
-@JS()
 @anonymous
-class PlaybackEventJs extends UserInteractionEventJs {
+extension type PlaybackEventJs._(JSObject _) implements UserInteractionEventJs {
   external double get time;
 }
 
-@JS()
 @anonymous
-class SeekEventJs {
+extension type SeekEventJs._(JSObject _) implements JSObject {
   external String get issuer;
   external double get position;
   external double get seekTarget;
@@ -147,49 +141,44 @@ class SeekEventJs {
   external String get type;
 }
 
-@JS()
 @anonymous
-class TimeShiftEventJs extends UserInteractionEventJs {
+extension type TimeShiftEventJs._(JSObject _)
+    implements UserInteractionEventJs {
   external double get position;
   external double get target;
 }
 
-@JS()
 @anonymous
-class ErrorEventJs extends PlayerEventBaseJs {
+extension type ErrorEventJs._(JSObject _) implements PlayerEventBaseJs {
   external int get code;
   external String? get message;
 }
 
-@JS()
 @anonymous
-class WarningEventJs extends PlayerEventBaseJs {
+extension type WarningEventJs._(JSObject _) implements PlayerEventBaseJs {
   external int get code;
   external String? get message;
 }
 
-@JS()
 @anonymous
-class CastAvailableEventJs extends PlayerEventBaseJs {
+extension type CastAvailableEventJs._(JSObject _) implements PlayerEventBaseJs {
   external bool get receiverAvailable;
 }
 
-@JS()
 @anonymous
-class CastStartedEventJs extends PlayerEventBaseJs {
+extension type CastStartedEventJs._(JSObject _) implements PlayerEventBaseJs {
   external String get deviceName;
   external bool get resuming;
 }
 
-@JS()
 @anonymous
-class CastWaitingForDeviceEventJs extends PlayerEventBaseJs {
+extension type CastWaitingForDeviceEventJs._(JSObject _)
+    implements PlayerEventBaseJs {
   external CastPayloadJs get castPayload;
 }
 
-@JS()
 @anonymous
-class CastPayloadJs {
+extension type CastPayloadJs._(JSObject _) implements JSObject {
   external double get currentTime;
   external String? get deviceName;
 }

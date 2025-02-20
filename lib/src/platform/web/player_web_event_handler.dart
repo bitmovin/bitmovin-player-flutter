@@ -1,33 +1,34 @@
+import 'dart:js_interop';
+
 import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:bitmovin_player/src/platform/web/bitmovin_player_web_api.dart';
 import 'package:bitmovin_player/src/platform/web/conversion.dart';
-import 'package:js/js.dart';
 import 'package:logger/logger.dart';
 
 class PlayerWebEventHandler {
   PlayerWebEventHandler(this._player, this._onPlatformEvent) {
     _player
-      ..on('play', allowInterop(_onPlay))
-      ..on('playing', allowInterop(_onPlaying))
-      ..on('paused', allowInterop(_onPaused))
-      ..on('timechanged', allowInterop(_onTimeChanged))
-      ..on('seek', allowInterop(_onSeek))
-      ..on('seeked', allowInterop(_onSeeked))
-      ..on('timeshift', allowInterop(_onTimeShift))
-      ..on('timeshifted', allowInterop(_onTimeShifted))
-      ..on('playbackfinished', allowInterop(_onPlaybackFinished))
-      ..on('error', allowInterop(_onError))
-      ..on('muted', allowInterop(_onMuted))
-      ..on('unmuted', allowInterop(_onUnmuted))
-      ..on('warning', allowInterop(_onWarning))
-      ..on('ready', allowInterop(_onReady))
-      ..on('sourceloaded', allowInterop(_onSourceLoaded))
-      ..on('sourceunloaded', allowInterop(_onSourceUnloaded))
-      ..on('castavailable', allowInterop(_onCastAvailable))
-      ..on('caststart', allowInterop(_onCastStart))
-      ..on('caststarted', allowInterop(_onCastStarted))
-      ..on('caststopped', allowInterop(_onCastStopped))
-      ..on('castwaitingfordevice', allowInterop(_onCastWaitingForDevice));
+      ..on('play', _onPlay.toJS)
+      ..on('playing', _onPlaying.toJS)
+      ..on('paused', _onPaused.toJS)
+      ..on('timechanged', _onTimeChanged.toJS)
+      ..on('seek', _onSeek.toJS)
+      ..on('seeked', _onSeeked.toJS)
+      ..on('timeshift', _onTimeShift.toJS)
+      ..on('timeshifted', _onTimeShifted.toJS)
+      ..on('playbackfinished', _onPlaybackFinished.toJS)
+      ..on('error', _onError.toJS)
+      ..on('muted', _onMuted.toJS)
+      ..on('unmuted', _onUnmuted.toJS)
+      ..on('warning', _onWarning.toJS)
+      ..on('ready', _onReady.toJS)
+      ..on('sourceloaded', _onSourceLoaded.toJS)
+      ..on('sourceunloaded', _onSourceUnloaded.toJS)
+      ..on('castavailable', _onCastAvailable.toJS)
+      ..on('caststart', _onCastStart.toJS)
+      ..on('caststarted', _onCastStarted.toJS)
+      ..on('caststopped', _onCastStopped.toJS)
+      ..on('castwaitingfordevice', _onCastWaitingForDevice.toJS);
   }
 
   final BitmovinPlayerJs _player;
