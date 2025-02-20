@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Changed
 - Replace usage of deprecated `dart:html` with new `package:web`
 - Replace usage of deprecated `package:js` with new `dart:js_interop`
+- Update Bitmovin's native Android Player SDK version to `3.103.0`
 - Update Bitmovin's native iOS Player SDK version to `3.84.0`
 
 ## [0.15.0] - 2025-01-21
