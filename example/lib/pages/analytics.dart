@@ -16,8 +16,8 @@ class PlayerAnalytics extends StatefulWidget {
 class _PlayerAnalyticsState extends State<PlayerAnalytics> {
   final _sourceConfig = SourceConfig(
     url: isIOS
-        ? 'https://cdn.bitmovin.com/content/assets/MI201109210084/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8'
-        : 'https://cdn.bitmovin.com/content/assets/MI201109210084/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd',
+        ? 'https://cdn.bitmovin.com/content/internal/assets/MI201109210084/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8'
+        : 'https://cdn.bitmovin.com/content/internal/assets/MI201109210084/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd',
     type: isIOS ? SourceType.hls : SourceType.dash,
     analyticsSourceMetadata: const SourceMetadata(
       title: 'Collecting SourceMetadata Title',
