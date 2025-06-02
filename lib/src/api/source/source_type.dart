@@ -18,7 +18,7 @@ enum SourceType {
 
 /// @nodoc
 extension SourceTypeExtension on SourceType {
-  static const names = {
+  static const Map<SourceType, String> names = {
     SourceType.dash: 'dash',
     SourceType.hls: 'hls',
     SourceType.progressive: 'progressive',

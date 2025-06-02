@@ -4,11 +4,12 @@ import 'package:bitmovin_player/src/channel_manager.dart';
 import 'package:bitmovin_player/src/channels.dart';
 import 'package:bitmovin_player/src/methods.dart';
 import 'package:bitmovin_player/src/platform/cast_manager_platform_interface.dart';
+import 'package:flutter/services.dart';
 
 /// An implementation of [CastManagerPlatformInterface] that uses method
 /// channels. This is currently used for iOS and Android.
 class CastManagerPlatformMessageChannel extends CastManagerPlatformInterface {
-  final _mainChannel = ChannelManager.registerMethodChannel(
+  final MethodChannel _mainChannel = ChannelManager.registerMethodChannel(
     name: Channels.main,
   );
 

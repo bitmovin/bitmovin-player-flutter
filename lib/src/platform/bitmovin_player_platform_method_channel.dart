@@ -7,6 +7,7 @@ import 'package:bitmovin_player/src/platform/player_platform_interface.dart';
 import 'package:bitmovin_player/src/platform/player_platform_method_channel.dart';
 import 'package:bitmovin_player/src/platform/player_view_platform_interface.dart';
 import 'package:bitmovin_player/src/platform/player_view_platform_method_channel.dart';
+import 'package:flutter/services.dart';
 
 /// An implementation of [BitmovinPlayerPlatformInterface] that uses method
 /// channels. This is not specific to a player or player view instance. This is
@@ -14,7 +15,7 @@ import 'package:bitmovin_player/src/platform/player_view_platform_method_channel
 class BitmovinPlayerPlatformMethodChannel
     extends BitmovinPlayerPlatformInterface {
   /// The main method channel used to interact with the native platform.
-  final mainChannel = ChannelManager.registerMethodChannel(
+  final MethodChannel mainChannel = ChannelManager.registerMethodChannel(
     name: Channels.main,
   );
 
