@@ -131,7 +131,7 @@ enum VerticalType {
 
 /// @nodoc
 extension VerticalTypeExtension on VerticalType {
-  static const names = {
+  static const Map<VerticalType, String> names = {
     VerticalType.typeUnset: 'TypeUnset',
     VerticalType.verticalTypeLeftToRight: 'VerticalTypeLeftToRight',
     VerticalType.verticalTypeRightToLeft: 'VerticalTypeRightToLeft',
@@ -157,7 +157,7 @@ enum LineType {
 
 /// @nodoc
 extension LineTypeExtension on LineType {
-  static const names = {
+  static const Map<LineType, String> names = {
     LineType.typeUnset: 'TypeUnset',
     LineType.lineTypeFraction: 'LineTypeFraction',
     LineType.lineTypeNumber: 'LineTypeNumber',
@@ -189,7 +189,7 @@ enum AnchorType {
 
 /// @nodoc
 extension AnchorTypeExtension on AnchorType {
-  static const names = {
+  static const Map<AnchorType, String> names = {
     AnchorType.typeUnset: 'TypeUnset',
     AnchorType.anchorTypeStart: 'AnchorTypeStart',
     AnchorType.anchorTypeMiddle: 'AnchorTypeMiddle',
