@@ -14,11 +14,11 @@ abstract class SingleEventExpectation<T extends Event> {
 class PlainEventExpectation<T extends Event>
     implements SingleEventExpectation<T> {
   PlainEventExpectation(T event) {
-    this.eventType = event.runtimeType;
+    eventType = event.runtimeType;
   }
 
   PlainEventExpectation.from(PlainEventExpectation other) {
-    this.eventType = other.eventType;
+    eventType = other.eventType;
   }
 
   @override
@@ -44,7 +44,7 @@ class FilteredEventExpectation<T extends Event>
   FilteredEventExpectation(super.event, this.filter);
   FilteredEventExpectation.from(FilteredEventExpectation other)
       : super.from(other) {
-    this.filter = other.filter;
+    filter = other.filter;
   }
 
   late final bool Function(T) filter;

@@ -52,7 +52,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         useMaterial3: true,
         appBarTheme: const AppBarTheme(
-          color: Color(0xFF006AED),
+          backgroundColor: Color(0xFF006AED),
           foregroundColor: Colors.white,
         ),
       ),
