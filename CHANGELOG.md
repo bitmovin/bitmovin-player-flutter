@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 ### Changed
 - Update Bitmovin's native Android Player SDK version to `3.125.0`
 - Update Bitmovin's native iOS Player SDK version to `3.94.1`
+- Update Kotlin version to `2.1.21`
 
 ## [0.19.0] - 2025-07-09
 ### Changed
