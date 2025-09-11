@@ -307,6 +307,7 @@ extension SourceRemovedEvent {
 
 extension SourceLoadEvent: SourceEventType {}
 extension SourceLoadedEvent: SourceEventType {}
+extension SourceUnloadEvent: SourceEventType {}
 extension SourceUnloadedEvent: SourceEventType {}
 
 internal protocol TimedEventType: Event {

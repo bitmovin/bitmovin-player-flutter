@@ -137,6 +137,7 @@ class _CastingState extends State<Casting> {
           margin: const EdgeInsets.only(top: 5),
           child: Controls(
             onLoadPressed: () => player.loadSourceConfig(_sourceConfig),
+            onUnloadPressed: player.unload,
             onPlayPressed: player.play,
             onPausePressed: player.pause,
             onMutePressed: player.mute,
