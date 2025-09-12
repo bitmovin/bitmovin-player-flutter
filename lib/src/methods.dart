@@ -3,6 +3,7 @@ class Methods {
   static const String createPlayer = 'createPlayer';
   static const String loadWithSourceConfig = 'loadWithSourceConfig';
   static const String loadWithSource = 'loadWithSource';
+  static const String unload = 'unload';
   static const String play = 'play';
   static const String pause = 'pause';
   static const String mute = 'mute';

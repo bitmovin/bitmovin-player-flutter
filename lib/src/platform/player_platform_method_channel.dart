@@ -210,6 +210,12 @@ class PlayerPlatformMethodChannel extends PlayerPlatformInterface {
   }
 
   @override
+  Future<void> unload() async {
+    await super.unload();
+    return _invokeMethod<void>(Methods.unload);
+  }
+
+  @override
   Future<double> get maxTimeShift async =>
       _invokeMethod<double>(Methods.maxTimeShift);
 

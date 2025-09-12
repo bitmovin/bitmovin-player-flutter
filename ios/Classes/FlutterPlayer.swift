@@ -93,6 +93,8 @@ private extension FlutterPlayer {
             } else {
                 throw BitmovinError.parsingError("Could not parse arguments for \(call.method)")
             }
+        case (Methods.unload, .empty):
+            player.unload()
         case (Methods.play, .empty):
             player.play()
         case (Methods.pause, .empty):
@@ -244,7 +246,7 @@ extension FlutterPlayer: PlayerListener {
     }
 
     func onSourceUnload(_ event: SourceUnloadEvent, player: Player) {
-        broadcast(name: event.name, data: event.toJsonFallback(), sink: eventSink)
+        broadcast(name: event.name, data: event.toJSON(), sink: eventSink)
     }
 
     func onSourceWarning(_ event: SourceWarningEvent, player: Player) {

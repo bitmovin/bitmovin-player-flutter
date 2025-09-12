@@ -68,6 +68,7 @@ class _BackgroundPlaybackState extends State<BackgroundPlayback> {
             margin: const EdgeInsets.only(top: 5),
             child: Controls(
               onLoadPressed: () => _player.loadSourceConfig(_sourceConfig),
+              onUnloadPressed: _player.unload,
               onPlayPressed: _player.play,
               onPausePressed: _player.pause,
               onMutePressed: _player.mute,
