@@ -32,11 +32,11 @@ class FairplayConfig extends Equatable {
   final String? certificateUrl;
 
   /// A dictionary to specify custom HTTP headers for the license request.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(name: 'licenseRequestHeaders')
   final Map<String, String>? licenseRequestHeaders;
 
   /// A dictionary to specify custom HTTP headers for the certificate request.
-  @JsonKey(includeFromJson: false, includeToJson: false)
+  @JsonKey(name: 'certificateRequestHeaders')
   final Map<String, String>? certificateRequestHeaders;
 
   /// A function to prepare the loaded certificate before building SPC data
