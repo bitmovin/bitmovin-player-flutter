@@ -264,10 +264,18 @@ internal enum Helper {
 
         var fairplayConfigMetadata: FairplayConfig.Metadata?
 
-        if let drmConfig = json["drmConfig"] as? [String: Any],
-           let fairplayConfigJson = drmConfig["fairplay"] as? [String: Any] {
-            sourceConfig.drmConfig = fairplayConfig(fairplayConfigJson)
-            fairplayConfigMetadata = Self.fairplayConfigMetadata(fairplayConfigJson)
+        if let drmConfig = json["drmConfig"] as? [String: Any] {
+            if sourceConfig.type == SourceType.hls {
+                if let fairplayConfigJson = drmConfig["fairplay"] as? [String: Any] {
+                    sourceConfig.drmConfig = fairplayConfig(fairplayConfigJson)
+                    fairplayConfigMetadata = Self.fairplayConfigMetadata(fairplayConfigJson)
+                }
+            }
+            if sourceConfig.type == SourceType.dash { // for casting
+                if let widevineConfigJson = drmConfig["widevine"] as? [String: Any] {
+                    sourceConfig.drmConfig = widevineConfig(widevineConfigJson)
+                }
+            }
         }
 
         if let title = json["title"] as? String {
@@ -426,6 +434,26 @@ internal enum Helper {
             hasPrepareLicenseServerUrl: fairplayConfig["prepareLicenseServerUrl"] as? Bool ?? false,
             hasPrepareSyncMessage: fairplayConfig["prepareSyncMessage"] as? Bool ?? false
         )
+    }
+
+    /**
+     Utility method to get a `WidevineConfig` from a JS object.
+     - Parameter json: JS object
+     - Returns: The generated `WidevineConfig` object
+     */
+    static func widevineConfig(_ json: [String: Any]) -> WidevineConfig? {
+        var licenseUrl: URL?
+        if let licenseUrlString = json["licenseUrl"] as? String {
+            licenseUrl = URL(string: licenseUrlString)
+        }
+
+        let widevineConfig = WidevineConfig(license: licenseUrl)
+
+        if let httpHeaders = json["httpHeaders"] as? [String: String] {
+            widevineConfig.licenseRequestHeaders = httpHeaders
+        }
+
+        return widevineConfig
     }
 
     /**
