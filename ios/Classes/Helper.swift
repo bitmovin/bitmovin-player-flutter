@@ -1,3 +1,5 @@
+// swiftlint:disable file_length
+
 import BitmovinPlayer
 import Foundation
 
@@ -262,19 +264,7 @@ internal enum Helper {
             type: sourceType(json["type"])
         )
 
-        var fairplayConfigMetadata: FairplayConfig.Metadata?
-
-        if let drmConfig = json["drmConfig"] as? [String: Any] {
-            if let fairplayConfigJson = drmConfig["fairplay"] as? [String: Any], !isCastSource {
-                sourceConfig.drmConfig = fairplayConfig(fairplayConfigJson)
-                fairplayConfigMetadata = Self.fairplayConfigMetadata(fairplayConfigJson)
-            }
-
-            // Support Widevine to allow casting Widevine-protected streams from an iOS sender
-            if let widevineConfigJson = drmConfig["widevine"] as? [String: Any], isCastSource {
-                sourceConfig.drmConfig = widevineConfig(widevineConfigJson)
-            }
-        }
+        let fairplayConfigMetadata = applyDRM(from: json, to: sourceConfig, isCastSource: isCastSource)
 
         if let title = json["title"] as? String {
             sourceConfig.title = title
@@ -293,11 +283,9 @@ internal enum Helper {
         }
 
         if let subtitleTracks = json["subtitleTracks"] as? [[String: Any]] {
-            subtitleTracks.forEach {
-                if let subtitleTrack = MessageDecoder.toNative(type: FlutterSubtitleTrack.self, from: $0) {
-                    sourceConfig.add(subtitleTrack: subtitleTrack)
-                }
-            }
+            subtitleTracks
+                .compactMap { MessageDecoder.toNative(type: FlutterSubtitleTrack.self, from: $0) }
+                .forEach { sourceConfig.add(subtitleTrack: $0) }
         }
 
         if let options = json["options"] as? [String: Any] {
@@ -505,5 +493,29 @@ internal enum Helper {
         }
 
         return result
+    }
+}
+
+private extension Helper {
+    /// Applies DRM to `sourceConfig` and returns FairPlay metadata if present.
+    static func applyDRM(
+        from json: [String: Any],
+        to sourceConfig: SourceConfig,
+        isCastSource: Bool
+    ) -> FairplayConfig.Metadata? {
+        guard let drm = json["drmConfig"] as? [String: Any] else { return nil }
+
+        if !isCastSource, let fairplayJson = drm["fairplay"] as? [String: Any] {
+            sourceConfig.drmConfig = fairplayConfig(fairplayJson)
+            return fairplayConfigMetadata(fairplayJson)
+        }
+
+        // Support Widevine to allow casting Widevine-protected streams from an iOS sender
+        if isCastSource, let widevineJson = drm["widevine"] as? [String: Any] {
+            sourceConfig.drmConfig = widevineConfig(widevineJson)
+            return nil
+        }
+
+        return nil
     }
 }
