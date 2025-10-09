@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:bitmovin_player/src/channel_manager.dart';
 import 'package:bitmovin_player/src/channels.dart';
@@ -140,7 +142,7 @@ class PlayerViewPlatformMethodChannel extends PlayerViewPlatformInterface {
         );
       },
       onCreatePlatformView: (PlatformViewCreationParams params) {
-        return PlatformViewsService.initExpensiveAndroidView(
+        final controller = PlatformViewsService.initExpensiveAndroidView(
           id: params.id,
           viewType: Channels.playerView,
           layoutDirection: TextDirection.ltr,
@@ -151,8 +153,11 @@ class PlayerViewPlatformMethodChannel extends PlayerViewPlatformInterface {
           },
         )
           ..addOnPlatformViewCreatedListener(params.onPlatformViewCreated)
-          ..addOnPlatformViewCreatedListener(_onPlatformViewCreated)
-          ..create();
+          ..addOnPlatformViewCreatedListener(_onPlatformViewCreated);
+
+        unawaited(controller.create());
+
+        return controller;
       },
     );
   }
