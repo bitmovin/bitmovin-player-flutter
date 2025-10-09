@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:bitmovin_player/src/channel_manager.dart';
 import 'package:bitmovin_player/src/channels.dart';
@@ -28,17 +30,19 @@ class BitmovinPlayerPlatformMethodChannel
     final playerPlatformInterface =
         PlayerPlatformMethodChannel(id, config, onPlatformEvent);
 
-    mainChannel
-        .invokeMethod<bool>(
-          Methods.createPlayer,
-          Map<String, dynamic>.from(
-            {
-              'id': id,
-              'playerConfig': config.toJson(),
-            },
-          ),
-        )
-        .then(playerPlatformInterface.nativePlayerInitialized);
+    unawaited(
+      mainChannel
+          .invokeMethod<bool>(
+            Methods.createPlayer,
+            Map<String, dynamic>.from(
+              {
+                'id': id,
+                'playerConfig': config.toJson(),
+              },
+            ),
+          )
+          .then(playerPlatformInterface.nativePlayerInitialized),
+    );
 
     return playerPlatformInterface;
   }

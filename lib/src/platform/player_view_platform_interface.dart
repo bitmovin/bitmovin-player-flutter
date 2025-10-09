@@ -17,10 +17,10 @@ abstract class PlayerViewPlatformInterface extends PlatformInterface
   Widget build(BuildContext context, Map<String, dynamic> creationParams);
 
   /// Let's the platform specific player view enter fullscreen.
-  void enterFullscreen();
+  Future<void> enterFullscreen();
 
   /// Let's the platform specific player view exit fullscreen.
-  void exitFullscreen();
+  Future<void> exitFullscreen();
 
   /// Disposes the platform specific player view.
   void dispose();
