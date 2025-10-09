@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:bitmovin_player/src/channel_manager.dart';
 import 'package:bitmovin_player/src/channels.dart';
@@ -46,14 +48,12 @@ class PlayerViewPlatformMethodChannel extends PlayerViewPlatformInterface {
   void dispose() => _invokeMethod<void>(Methods.destroyPlayerView);
 
   @override
-  void enterFullscreen() {
-    _invokeMethod<void>(Methods.enterFullscreen);
-  }
+  Future<void> enterFullscreen() async =>
+      _invokeMethod<void>(Methods.enterFullscreen);
 
   @override
-  void exitFullscreen() {
-    _invokeMethod<void>(Methods.exitFullscreen);
-  }
+  Future<void> exitFullscreen() async =>
+      _invokeMethod<void>(Methods.exitFullscreen);
 
   @override
   Future<void> enterPictureInPicture() async =>
@@ -142,7 +142,7 @@ class PlayerViewPlatformMethodChannel extends PlayerViewPlatformInterface {
         );
       },
       onCreatePlatformView: (PlatformViewCreationParams params) {
-        return PlatformViewsService.initExpensiveAndroidView(
+        final controller = PlatformViewsService.initExpensiveAndroidView(
           id: params.id,
           viewType: Channels.playerView,
           layoutDirection: TextDirection.ltr,
@@ -153,8 +153,11 @@ class PlayerViewPlatformMethodChannel extends PlayerViewPlatformInterface {
           },
         )
           ..addOnPlatformViewCreatedListener(params.onPlatformViewCreated)
-          ..addOnPlatformViewCreatedListener(_onPlatformViewCreated)
-          ..create();
+          ..addOnPlatformViewCreatedListener(_onPlatformViewCreated);
+
+        unawaited(controller.create());
+
+        return controller;
       },
     );
   }

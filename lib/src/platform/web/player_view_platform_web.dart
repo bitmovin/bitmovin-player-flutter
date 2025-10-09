@@ -30,17 +30,13 @@ class PlayerViewPlatformWeb extends PlayerViewPlatformInterface {
   @override
   void dispose() {/* no-op for web */}
 
+  // TODO(mario): implement view mode support
   @override
-  void enterFullscreen() {
-    _handleEnterFullscreen();
-    // TODO(mario): implement view mode support
-  }
+  Future<void> enterFullscreen() async => _handleEnterFullscreen();
 
+  // TODO(mario): implement view mode support
   @override
-  void exitFullscreen() {
-    _handleExitFullscreen();
-    // TODO(mario): implement view mode support
-  }
+  Future<void> exitFullscreen() async => _handleExitFullscreen();
 
   @override
   Future<void> enterPictureInPicture() {
