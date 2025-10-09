@@ -240,7 +240,7 @@ internal enum Helper {
     static func sourceRemoteControlConfig(_ json: [String: Any]) -> SourceRemoteControlConfig {
         var castSourceConfig: FlutterSourceConfig?
         if let castSourceConfigJson = json["castSourceConfig"] as? [String: Any] {
-            castSourceConfig = sourceConfig(castSourceConfigJson)
+            castSourceConfig = sourceConfig(castSourceConfigJson, isCastSource: true)
         }
 
         return SourceRemoteControlConfig(castSourceConfig: castSourceConfig)
@@ -251,7 +251,7 @@ internal enum Helper {
      - Parameter json: JS object
      - Returns: The produced `SourceConfig` object
      */
-    static func sourceConfig(_ json: [String: Any]) -> FlutterSourceConfig? {
+    static func sourceConfig(_ json: [String: Any], isCastSource: Bool = false) -> FlutterSourceConfig? {
         guard let sourceUrlString = json["url"] as? String,
               let sourceUrl = URL(string: sourceUrlString) else {
             return nil
@@ -265,16 +265,14 @@ internal enum Helper {
         var fairplayConfigMetadata: FairplayConfig.Metadata?
 
         if let drmConfig = json["drmConfig"] as? [String: Any] {
-            if sourceConfig.type == SourceType.hls {
-                if let fairplayConfigJson = drmConfig["fairplay"] as? [String: Any] {
-                    sourceConfig.drmConfig = fairplayConfig(fairplayConfigJson)
-                    fairplayConfigMetadata = Self.fairplayConfigMetadata(fairplayConfigJson)
-                }
+            if let fairplayConfigJson = drmConfig["fairplay"] as? [String: Any], !isCastSource {
+                sourceConfig.drmConfig = fairplayConfig(fairplayConfigJson)
+                fairplayConfigMetadata = Self.fairplayConfigMetadata(fairplayConfigJson)
             }
-            if sourceConfig.type == SourceType.dash { // for casting
-                if let widevineConfigJson = drmConfig["widevine"] as? [String: Any] {
-                    sourceConfig.drmConfig = widevineConfig(widevineConfigJson)
-                }
+
+            // Support Widevine to allow casting Widevine-protected streams from an iOS sender
+            if let widevineConfigJson = drmConfig["widevine"] as? [String: Any], isCastSource {
+                sourceConfig.drmConfig = widevineConfig(widevineConfigJson)
             }
         }
 
