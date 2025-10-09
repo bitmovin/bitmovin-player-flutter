@@ -82,10 +82,12 @@ class PlayerViewState extends State<PlayerView> {
   bool get isFullscreen => widget.fullscreenHandler?.isFullscreen ?? false;
 
   /// Enters fullscreen mode for the [PlayerView].
-  void enterFullscreen() => _playerViewPlatformInterface.enterFullscreen();
+  Future<void> enterFullscreen() =>
+      _playerViewPlatformInterface.enterFullscreen();
 
   /// Exits fullscreen mode for the [PlayerView].
-  void exitFullscreen() => _playerViewPlatformInterface.exitFullscreen();
+  Future<void> exitFullscreen() =>
+      _playerViewPlatformInterface.exitFullscreen();
 
   /// Access Picture-in-Picture APIs.
   PictureInPictureApi get pictureInPicture =>
