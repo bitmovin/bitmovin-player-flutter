@@ -1,10 +1,16 @@
+import 'package:bitmovin_player/bitmovin_player.dart';
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'widevine_config.g.dart';
 
 /// Provides configuration options for Widevine DRM.
-/// Only supported on Android.
+/// Fully supported on Android.
+/// On iOS, Widevine is only supported for Casting when it is configured as
+/// part of a [SourceRemoteControlConfig.castSourceConfig].
+///
+/// Limitations:
+/// On iOS, only [licenseUrl] and [httpHeaders] are supported.
 @JsonSerializable(explicitToJson: true)
 class WidevineConfig extends Equatable {
   const WidevineConfig({
