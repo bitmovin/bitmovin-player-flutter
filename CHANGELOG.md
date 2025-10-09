@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+### Changed
+- Update Bitmovin's native Android Player SDK version to `3.127.0`
+- Update Bitmovin's native iOS Player SDK version to `3.97.1`
+
+### Fixed
+- Missing support for `FairplayConfig.licenseRequestHeaders` and `FairplayConfig.certificateRequestHeaders`. Those fields were not serialized to JSON and not sent through the method channel to the iOS platform side
+
 ## [0.20.0] - 2025-09-05
 ### Changed
 - Update Bitmovin's native Android Player SDK version to `3.125.0`
