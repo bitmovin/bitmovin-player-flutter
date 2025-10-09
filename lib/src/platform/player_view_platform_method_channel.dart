@@ -46,14 +46,12 @@ class PlayerViewPlatformMethodChannel extends PlayerViewPlatformInterface {
   void dispose() => _invokeMethod<void>(Methods.destroyPlayerView);
 
   @override
-  void enterFullscreen() {
-    _invokeMethod<void>(Methods.enterFullscreen);
-  }
+  Future<void> enterFullscreen() async =>
+      _invokeMethod<void>(Methods.enterFullscreen);
 
   @override
-  void exitFullscreen() {
-    _invokeMethod<void>(Methods.exitFullscreen);
-  }
+  Future<void> exitFullscreen() async =>
+      _invokeMethod<void>(Methods.exitFullscreen);
 
   @override
   Future<void> enterPictureInPicture() async =>
