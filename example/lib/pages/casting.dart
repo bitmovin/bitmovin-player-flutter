@@ -30,9 +30,20 @@ const artOfMotionDash =
 const artOfMotionHls =
     'https://cdn.bitmovin.com/content/internal/assets/MI201109210084/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8';
 
-final SourceConfig _sourceConfig = isIOS
-    ? const SourceConfig(url: artOfMotionHls, type: SourceType.hls)
-    : const SourceConfig(url: artOfMotionDash, type: SourceType.dash);
+const _sourceConfigDash = SourceConfig(
+  url: artOfMotionDash,
+  type: SourceType.dash,
+  drmConfig: DrmConfig(
+    widevine: WidevineConfig(
+      licenseUrl: 'https://cwip-shaka-proxy.appspot.com/no_auth',
+    ),
+  ),
+);
+
+const _sourceConfigHls =
+    SourceConfig(url: artOfMotionHls, type: SourceType.hls);
+
+final SourceConfig _sourceConfig = isIOS ? _sourceConfigHls : _sourceConfigDash;
 
 class _CastingState extends State<Casting> {
   _CastingState() {
@@ -74,15 +85,7 @@ class _CastingState extends State<Casting> {
     final source = Source(
       sourceConfig: sourceConfig,
       remoteControl: const SourceRemoteControlConfig(
-        castSourceConfig: SourceConfig(
-          url: artOfMotionDash,
-          type: SourceType.dash,
-          drmConfig: DrmConfig(
-            widevine: WidevineConfig(
-              licenseUrl: 'https://cwip-shaka-proxy.appspot.com/no_auth',
-            ),
-          ),
-        ),
+        castSourceConfig: _sourceConfigDash,
       ),
     );
 
