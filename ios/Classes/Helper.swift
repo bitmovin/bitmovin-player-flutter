@@ -250,8 +250,14 @@ internal enum Helper {
 
     /**
      Utility method to instantiate a `SourceConfig` from a JS object.
-     - Parameter json: JS object
-     - Returns: The produced `SourceConfig` object
+
+     - Parameters:
+       - json: JS object
+       - isCastSource: Indicates if this config is for casting (via `SourceRemoteControlConfig.castSourceConfig`).
+         - `false` (default): Use DRM for local playback. Applies FairPlay if provided.
+         - `true`: Use DRM for casting. Applies Widevine if provided (FairPlay is ignored).
+
+     - Returns: The produced `FlutterSourceConfig`, or `nil` if the source is invalid.
      */
     static func sourceConfig(_ json: [String: Any], isCastSource: Bool = false) -> FlutterSourceConfig? {
         guard let sourceUrlString = json["url"] as? String,
