@@ -1,3 +1,5 @@
+// swiftlint:disable file_length
+
 import BitmovinPlayer
 import Foundation
 
@@ -240,7 +242,7 @@ internal enum Helper {
     static func sourceRemoteControlConfig(_ json: [String: Any]) -> SourceRemoteControlConfig {
         var castSourceConfig: FlutterSourceConfig?
         if let castSourceConfigJson = json["castSourceConfig"] as? [String: Any] {
-            castSourceConfig = sourceConfig(castSourceConfigJson)
+            castSourceConfig = sourceConfig(castSourceConfigJson, isCastSource: true)
         }
 
         return SourceRemoteControlConfig(castSourceConfig: castSourceConfig)
@@ -248,10 +250,16 @@ internal enum Helper {
 
     /**
      Utility method to instantiate a `SourceConfig` from a JS object.
-     - Parameter json: JS object
-     - Returns: The produced `SourceConfig` object
+
+     - Parameters:
+       - json: JS object
+       - isCastSource: Indicates if this config is for casting (via `SourceRemoteControlConfig.castSourceConfig`).
+         - `false` (default): Use DRM for local playback. Applies FairPlay if provided.
+         - `true`: Use DRM for casting. Applies Widevine if provided (FairPlay is ignored).
+
+     - Returns: The produced `FlutterSourceConfig`, or `nil` if the source is invalid.
      */
-    static func sourceConfig(_ json: [String: Any]) -> FlutterSourceConfig? {
+    static func sourceConfig(_ json: [String: Any], isCastSource: Bool = false) -> FlutterSourceConfig? {
         guard let sourceUrlString = json["url"] as? String,
               let sourceUrl = URL(string: sourceUrlString) else {
             return nil
@@ -262,13 +270,7 @@ internal enum Helper {
             type: sourceType(json["type"])
         )
 
-        var fairplayConfigMetadata: FairplayConfig.Metadata?
-
-        if let drmConfig = json["drmConfig"] as? [String: Any],
-           let fairplayConfigJson = drmConfig["fairplay"] as? [String: Any] {
-            sourceConfig.drmConfig = fairplayConfig(fairplayConfigJson)
-            fairplayConfigMetadata = Self.fairplayConfigMetadata(fairplayConfigJson)
-        }
+        let fairplayConfigMetadata = applyDRM(from: json, to: sourceConfig, isCastSource: isCastSource)
 
         if let title = json["title"] as? String {
             sourceConfig.title = title
@@ -287,11 +289,9 @@ internal enum Helper {
         }
 
         if let subtitleTracks = json["subtitleTracks"] as? [[String: Any]] {
-            subtitleTracks.forEach {
-                if let subtitleTrack = MessageDecoder.toNative(type: FlutterSubtitleTrack.self, from: $0) {
-                    sourceConfig.add(subtitleTrack: subtitleTrack)
-                }
-            }
+            subtitleTracks
+                .compactMap { MessageDecoder.toNative(type: FlutterSubtitleTrack.self, from: $0) }
+                .forEach { sourceConfig.add(subtitleTrack: $0) }
         }
 
         if let options = json["options"] as? [String: Any] {
@@ -429,6 +429,26 @@ internal enum Helper {
     }
 
     /**
+     Utility method to get a `WidevineConfig` from a JS object.
+     - Parameter json: JS object
+     - Returns: The generated `WidevineConfig` object
+     */
+    static func widevineConfig(_ json: [String: Any]) -> WidevineConfig? {
+        var licenseUrl: URL?
+        if let licenseUrlString = json["licenseUrl"] as? String {
+            licenseUrl = URL(string: licenseUrlString)
+        }
+
+        let widevineConfig = WidevineConfig(license: licenseUrl)
+
+        if let httpHeaders = json["httpHeaders"] as? [String: String] {
+            widevineConfig.licenseRequestHeaders = httpHeaders
+        }
+
+        return widevineConfig
+    }
+
+    /**
      Utility method to get a `ThumbnailTrack` instance from a JS object.
      - Parameter url: String.
      - Returns: The generated `ThumbnailTrack`.
@@ -479,5 +499,29 @@ internal enum Helper {
         }
 
         return result
+    }
+}
+
+private extension Helper {
+    /// Applies DRM to `sourceConfig` and returns FairPlay metadata if present.
+    static func applyDRM(
+        from json: [String: Any],
+        to sourceConfig: SourceConfig,
+        isCastSource: Bool
+    ) -> FairplayConfig.Metadata? {
+        guard let drm = json["drmConfig"] as? [String: Any] else { return nil }
+
+        if !isCastSource, let fairplayJson = drm["fairplay"] as? [String: Any] {
+            sourceConfig.drmConfig = fairplayConfig(fairplayJson)
+            return fairplayConfigMetadata(fairplayJson)
+        }
+
+        // Support Widevine to allow casting Widevine-protected streams from an iOS sender
+        if isCastSource, let widevineJson = drm["widevine"] as? [String: Any] {
+            sourceConfig.drmConfig = widevineConfig(widevineJson)
+            return nil
+        }
+
+        return nil
     }
 }
