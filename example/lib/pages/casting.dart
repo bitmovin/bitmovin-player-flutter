@@ -26,7 +26,7 @@ class _PlayerState {
 }
 
 const artOfMotionDash =
-    'https://cdn.bitmovin.com/content/internal/assets/MI201109210084/mpds/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.mpd';
+    'https://cdn.bitmovin.com/content/internal/assets/art-of-motion_drm/mpds/11331.mpd';
 const artOfMotionHls =
     'https://cdn.bitmovin.com/content/internal/assets/MI201109210084/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8';
 
@@ -77,6 +77,11 @@ class _CastingState extends State<Casting> {
         castSourceConfig: SourceConfig(
           url: artOfMotionDash,
           type: SourceType.dash,
+          drmConfig: DrmConfig(
+            widevine: WidevineConfig(
+              licenseUrl: 'https://cwip-shaka-proxy.appspot.com/no_auth',
+            ),
+          ),
         ),
       ),
     );
