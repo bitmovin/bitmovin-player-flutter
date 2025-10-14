@@ -36,11 +36,9 @@ internal enum Helper {
         return jsonString
     }
 
-    /**
-     Utility method to instantiate a `PlayerConfig` from a JS object.
-     - Parameter json: JS object
-     - Returns: The produced `PlayerConfig` object
-     */
+    /// Utility method to instantiate a `PlayerConfig` from a JS object.
+    /// - Parameter json: JS object
+    /// - Returns: The produced `PlayerConfig` object
     static func playerConfig(_ json: [AnyHashable: Any]) -> PlayerConfig {
         let playerConfig = PlayerConfig()
 
@@ -90,11 +88,9 @@ internal enum Helper {
         return liveConfig
     }
 
-    /**
-     Utility method to instantiate a `PlaybackConfig` from a JS object.
-     - Parameter json: JS object.
-     - Returns: The produced `PlaybackConfig` object.
-     */
+    /// Utility method to instantiate a `PlaybackConfig` from a JS object.
+    /// - Parameter json: JS object.
+    /// - Returns: The produced `PlaybackConfig` object.
     static func playbackConfig(_ json: Any?) -> PlaybackConfig? {
         guard let json = json as? [String: Any?] else {
             return nil
@@ -118,11 +114,9 @@ internal enum Helper {
         return playbackConfig
     }
 
-    /**
-     Utility method to instantiate a `StyleConfig` from a JS object.
-     - Parameter json: JS object.
-     - Returns: The produced `StyleConfig` object.
-     */
+    /// Utility method to instantiate a `StyleConfig` from a JS object.
+    /// - Parameter json: JS object.
+    /// - Returns: The produced `StyleConfig` object.
     static func styleConfig(_ json: Any?) -> StyleConfig? { // swiftlint:disable:this cyclomatic_complexity
         guard let json = json as? [String: Any?] else {
             return nil
@@ -169,11 +163,9 @@ internal enum Helper {
         return styleConfig
     }
 
-    /**
-     Utility method to instantiate a `TweaksConfig` from a JS object.
-     - Parameter json: JS object.
-     - Returns: The produced `TweaksConfig` object.
-     */
+    /// Utility method to instantiate a `TweaksConfig` from a JS object.
+    /// - Parameter json: JS object.
+    /// - Returns: The produced `TweaksConfig` object.
     static func tweaksConfig(_ json: Any?) -> TweaksConfig? { // swiftlint:disable:this cyclomatic_complexity
         guard let json = json as? [String: Any?] else {
             return nil
@@ -248,17 +240,15 @@ internal enum Helper {
         return SourceRemoteControlConfig(castSourceConfig: castSourceConfig)
     }
 
-    /**
-     Utility method to instantiate a `SourceConfig` from a JS object.
-
-     - Parameters:
-       - json: JS object
-       - isCastSource: Indicates if this config is for casting (via `SourceRemoteControlConfig.castSourceConfig`).
-         - `false` (default): Use DRM for local playback. Applies FairPlay if provided.
-         - `true`: Use DRM for casting. Applies Widevine if provided (FairPlay is ignored).
-
-     - Returns: The produced `FlutterSourceConfig`, or `nil` if the source is invalid.
-     */
+    /// Utility method to instantiate a `SourceConfig` from a JS object.
+    ///
+    /// - Parameters:
+    ///   - json: JS object
+    ///   - isCastSource: Indicates if this config is for casting (via `SourceRemoteControlConfig.castSourceConfig`).
+    ///     - `false` (default): Use DRM for local playback. Applies FairPlay if provided.
+    ///     - `true`: Use DRM for casting. Applies Widevine if provided (FairPlay is ignored).
+    ///
+    /// - Returns: The produced `FlutterSourceConfig`, or `nil` if the source is invalid.
     static func sourceConfig(_ json: [String: Any], isCastSource: Bool = false) -> FlutterSourceConfig? {
         guard let sourceUrlString = json["url"] as? String,
               let sourceUrl = URL(string: sourceUrlString) else {
@@ -341,11 +331,9 @@ internal enum Helper {
         }
     }
 
-    /**
-     Utility method to get a `SourceType` from a JS object.
-     - Parameter json: JS object
-     - Returns: The associated `SourceType` value
-     */
+    /// Utility method to get a `SourceType` from a JS object.
+    /// - Parameter json: JS object
+    /// - Returns: The associated `SourceType` value
     static func sourceType(_ json: Any?) -> SourceType {
         guard let json = json as? String else {
             return .none
@@ -364,11 +352,9 @@ internal enum Helper {
         }
     }
 
-    /**
-     Utility method to get a `TimeMode` from a JS object.
-     - Parameter json: JS object
-     - Returns: The associated `TimeMode` value
-     */
+    /// Utility method to get a `TimeMode` from a JS object.
+    /// - Parameter json: JS object
+    /// - Returns: The associated `TimeMode` value
     static func timeMode(_ json: Any?) -> TimeMode {
         guard let json = json as? String else {
             return .absoluteTime
@@ -383,11 +369,9 @@ internal enum Helper {
         }
     }
 
-    /**
-     Utility method to get a `FairplayConfig` from a JS object.
-     - Parameter json: JS object
-     - Returns: The generated `FairplayConfig` object
-     */
+    /// Utility method to get a `FairplayConfig` from a JS object.
+    /// - Parameter json: JS object
+    /// - Returns: The generated `FairplayConfig` object
     static func fairplayConfig(_ json: [String: Any]) -> FairplayConfig? {
         guard let certificateUrlString = json["certificateUrl"] as? String,
               let certificateUrl = URL(string: certificateUrlString) else {
@@ -428,11 +412,9 @@ internal enum Helper {
         )
     }
 
-    /**
-     Utility method to get a `WidevineConfig` from a JS object.
-     - Parameter json: JS object
-     - Returns: The generated `WidevineConfig` object
-     */
+    /// Utility method to get a `WidevineConfig` from a JS object.
+    /// - Parameter json: JS object
+    /// - Returns: The generated `WidevineConfig` object
     static func widevineConfig(_ json: [String: Any]) -> WidevineConfig? {
         var licenseUrl: URL?
         if let licenseUrlString = json["licenseUrl"] as? String {
@@ -448,11 +430,9 @@ internal enum Helper {
         return widevineConfig
     }
 
-    /**
-     Utility method to get a `ThumbnailTrack` instance from a JS object.
-     - Parameter url: String.
-     - Returns: The generated `ThumbnailTrack`.
-     */
+    /// Utility method to get a `ThumbnailTrack` instance from a JS object.
+    /// - Parameter url: String.
+    /// - Returns: The generated `ThumbnailTrack`.
     static func thumbnailTrack(_ url: String?) -> ThumbnailTrack? {
         guard let urlString = url, let url = URL(string: urlString) else {
             return nil
@@ -465,11 +445,9 @@ internal enum Helper {
         )
     }
 
-    /**
-     Utility method to get a json dictionary value from a `AudioTrack` object.
-     - Parameter audioTrack: The track to convert to json format.
-     - Returns: The generated json dictionary.
-     */
+    /// Utility method to get a json dictionary value from a `AudioTrack` object.
+    /// - Parameter audioTrack: The track to convert to json format.
+    /// - Returns: The generated json dictionary.
     static func audioTrackJson(_ audioTrack: AudioTrack) -> [AnyHashable: Any] {
         [
             "url": audioTrack.url?.absoluteString ?? "",
@@ -480,11 +458,9 @@ internal enum Helper {
         ]
     }
 
-    /**
-     Utility method to compute a JS value from a `VideoQuality` object.
-     - Parameter videoQuality `VideoQuality` object to be converted.
-     - Returns: The produced JS object.
-     */
+    /// Utility method to compute a JS value from a `VideoQuality` object.
+    /// - Parameter videoQuality `VideoQuality` object to be converted.
+    /// - Returns: The produced JS object.
     static func toJson(videoQuality: VideoQuality) -> [String: Any] {
         var result: [String: Any] = [
             "id": videoQuality.identifier,
