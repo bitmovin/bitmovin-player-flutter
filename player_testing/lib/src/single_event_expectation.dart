@@ -32,7 +32,6 @@ class PlainEventExpectation<T extends Event>
   }
 
   @override
-  // ignore: use_to_and_as_if_applicable
   SingleEventExpectation<T> copy() {
     return PlainEventExpectation<T>.from(this);
   }
@@ -58,7 +57,6 @@ class FilteredEventExpectation<T extends Event>
   }
 
   @override
-  // ignore: use_to_and_as_if_applicable
   SingleEventExpectation<T> copy() {
     return FilteredEventExpectation<T>.from(this);
   }
