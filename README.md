@@ -1,4 +1,4 @@
-# Bitmovin Player Flutter SDK (Beta) 
+# Bitmovin Player Flutter SDK
 
 This is an open-source project created to enable customers to integrate the Bitmovin mobile Player SDKs into Flutter projects. It has been created to provide customers with a starting point, which can be built upon through active collaboration and contributions. We look forward to seeing this library expand and grow.
 
