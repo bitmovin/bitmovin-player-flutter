@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+### Changed
+- Remove Beta label
+- Update Bitmovin's native Android Player SDK version to `3.133.0`
+- Update Bitmovin's native iOS Player SDK version to `3.100.0`
+
 ## [0.21.0] - 2025-10-14
 ### Added
 - Support for casting Widevine-protected streams from an iOS sender
