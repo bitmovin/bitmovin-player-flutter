@@ -34,9 +34,7 @@ open class EventListener {
 
     open fun listenToEvent(player: Player) {
         with(player) {
-            /**
-             * Source Events
-             */
+            // Source Events
             on(SourceEvent.Warning::class) {
                 val target =
                     mapOf<String, Any?>(
@@ -67,9 +65,7 @@ open class EventListener {
             on(SourceEvent.Unloaded::class) {
                 broadcast("onSourceUnloaded", it)
             }
-            /**
-             * Player Events
-             */
+            // Player Events
             on(PlayerEvent.Ready::class) {
                 broadcast("onReady", it)
             }
