@@ -78,35 +78,114 @@ class FlutterPlayer(
         arg: JPlayerMethodArg,
     ): Any =
         when (method) {
-            Methods.LOAD_WITH_SOURCE_CONFIG -> load(arg.asSourceConfig)
-            Methods.LOAD_WITH_SOURCE -> load(arg.asSource.sourceConfig)
-            Methods.PLAY -> play()
-            Methods.PAUSE -> pause()
-            Methods.MUTE -> mute()
-            Methods.UNMUTE -> unmute()
-            Methods.SEEK -> seek(arg.asDouble)
-            Methods.CURRENT_TIME -> currentTime
-            Methods.DURATION -> duration
-            Methods.GET_TIME_SHIFT -> timeShift
-            Methods.SET_TIME_SHIFT -> timeShift(arg.asDouble)
-            Methods.MAX_TIME_SHIFT -> maxTimeShift
-            Methods.IS_LIVE -> isLive
-            Methods.IS_PLAYING -> isPlaying
-            Methods.IS_PAUSED -> isPaused
-            Methods.IS_MUTED -> isMuted
-            Methods.SEND_CUSTOM_DATA_EVENT ->
+            Methods.LOAD_WITH_SOURCE_CONFIG -> {
+                load(arg.asSourceConfig)
+            }
+
+            Methods.LOAD_WITH_SOURCE -> {
+                load(arg.asSource.sourceConfig)
+            }
+
+            Methods.PLAY -> {
+                play()
+            }
+
+            Methods.PAUSE -> {
+                pause()
+            }
+
+            Methods.MUTE -> {
+                mute()
+            }
+
+            Methods.UNMUTE -> {
+                unmute()
+            }
+
+            Methods.SEEK -> {
+                seek(arg.asDouble)
+            }
+
+            Methods.CURRENT_TIME -> {
+                currentTime
+            }
+
+            Methods.DURATION -> {
+                duration
+            }
+
+            Methods.GET_TIME_SHIFT -> {
+                timeShift
+            }
+
+            Methods.SET_TIME_SHIFT -> {
+                timeShift(arg.asDouble)
+            }
+
+            Methods.MAX_TIME_SHIFT -> {
+                maxTimeShift
+            }
+
+            Methods.IS_LIVE -> {
+                isLive
+            }
+
+            Methods.IS_PLAYING -> {
+                isPlaying
+            }
+
+            Methods.IS_PAUSED -> {
+                isPaused
+            }
+
+            Methods.IS_MUTED -> {
+                isMuted
+            }
+
+            Methods.SEND_CUSTOM_DATA_EVENT -> {
                 this.analytics?.sendCustomDataEvent(arg.asCustomData.toNative())
                     ?: Unit
-            Methods.DESTROY -> destroyPlayer()
-            Methods.AVAILABLE_SUBTITLES -> availableSubtitles.map { JSubtitleTrack(it).toJsonString() }
-            Methods.GET_SUBTITLE -> subtitle?.let { JSubtitleTrack(it).toJsonString() } ?: Unit
-            Methods.SET_SUBTITLE -> setSubtitle(arg.asOptionalString)
-            Methods.REMOVE_SUBTITLE -> removeSubtitle(arg.asString)
-            Methods.IS_CAST_AVAILABLE -> isCastAvailable
-            Methods.IS_CASTING -> isCasting
-            Methods.CAST_VIDEO -> castVideo()
-            Methods.CAST_STOP -> castStop()
-            else -> throw NotImplementedError()
+            }
+
+            Methods.DESTROY -> {
+                destroyPlayer()
+            }
+
+            Methods.AVAILABLE_SUBTITLES -> {
+                availableSubtitles.map { JSubtitleTrack(it).toJsonString() }
+            }
+
+            Methods.GET_SUBTITLE -> {
+                subtitle?.let { JSubtitleTrack(it).toJsonString() } ?: Unit
+            }
+
+            Methods.SET_SUBTITLE -> {
+                setSubtitle(arg.asOptionalString)
+            }
+
+            Methods.REMOVE_SUBTITLE -> {
+                removeSubtitle(arg.asString)
+            }
+
+            Methods.IS_CAST_AVAILABLE -> {
+                isCastAvailable
+            }
+
+            Methods.IS_CASTING -> {
+                isCasting
+            }
+
+            Methods.CAST_VIDEO -> {
+                castVideo()
+            }
+
+            Methods.CAST_STOP -> {
+                castStop()
+            }
+
+            else -> {
+                throw NotImplementedError()
+            }
         }
 
     private fun destroyPlayer() {

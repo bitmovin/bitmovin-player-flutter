@@ -116,12 +116,20 @@ class FlutterPlayerView(
         result: MethodChannel.Result,
     ) = when (val method = call.method) {
         Methods.ENTER_FULLSCREEN -> playerView.enterFullscreen()
+
         Methods.EXIT_FULLSCREEN -> playerView.exitFullscreen()
+
         Methods.IS_PICTURE_IN_PICTURE -> result.success(playerView.isPictureInPicture)
+
         Methods.IS_PICTURE_IN_PICTURE_AVAILABLE -> result.success(playerView.isPictureInPictureAvailable)
+
         Methods.ENTER_PICTURE_IN_PICTURE -> playerView.enterPictureInPicture()
+
         Methods.EXIT_PICTURE_IN_PICTURE -> playerView.exitPictureInPicture()
-        Methods.DESTROY_PLAYER_VIEW -> Unit // no-op
+
+        Methods.DESTROY_PLAYER_VIEW -> Unit
+
+        // no-op
         else -> throw NotImplementedError("$method not implemented.")
     }
 
