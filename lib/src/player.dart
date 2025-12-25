@@ -44,6 +44,9 @@ class Player with PlayerEventHandler implements PlayerApi {
       _playerPlatformInterface.loadSource(source);
 
   @override
+  Future<void> unload() async => _playerPlatformInterface.unload();
+
+  @override
   Future<void> play() async => _playerPlatformInterface.play();
 
   @override
