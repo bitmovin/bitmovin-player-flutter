@@ -10,7 +10,7 @@ This is an open-source project created to enable customers to integrate the Bitm
 ## Platform Support
 The **officially supported** platforms are:
 
-- **iOS / iPadOS:** 14.0+
+- **iOS / iPadOS:** 15.0+
 - **Android:** 5.0+ ([compatible](https://developer.bitmovin.com/playback/docs/supported-platforms-devices-player#support-levels) with Android 4.x)
 - **Web**
 
