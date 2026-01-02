@@ -6,8 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 ### Changed
-- Increase the minimum supported iOS version to iOS 15
-- Update the Google Cast iOS Sender SDK used by the example app to `4.8.4`
+- Add compatibility with the latest Google Cast iOS sender SDK (4.8.4)
 
 ## [0.23.0] - 2025-12-18
 ### Changed
