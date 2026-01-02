@@ -10,7 +10,8 @@ This is an open-source project created to enable customers to integrate the Bitm
 ## Platform Support
 The **officially supported** platforms are:
 
-- **iOS / iPadOS:** 15.0+
+- **iOS / iPadOS:** 14.0+
+> Note: if using Google Cast SDK 4.8.4+ like our [example](example/ios/Podfile), a minimum deployment target of iOS 15 is required.
 - **Android:** 5.0+ ([compatible](https://developer.bitmovin.com/playback/docs/supported-platforms-devices-player#support-levels) with Android 4.x)
 - **Web**
 
