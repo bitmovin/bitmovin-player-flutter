@@ -43,7 +43,7 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   audio_session: 9bb7f6c970f21241b19f5a3658097ae459681ba0
-  bitmovin_player: 198f0b269bf842db81a54a4a4c93626eeca45f5f
+  bitmovin_player: 5f5af8762e45acddbc30c70df96dd6828e2d6fae
   BitmovinAnalyticsCollector: 85672abf6a4b3d24b7c959b48203da5774439d7c
   BitmovinPlayer: b75b133e70d8ef9469a5691c1153aba622f4e5f3
   BitmovinPlayerCore: b4710cbe3c7b8b4373368689cc2ba22e7067df52
@@ -51,6 +51,6 @@ SPEC CHECKSUMS:
   google-cast-sdk: 32f65af50d164e3c475e79ad123db3cc26fbcd37
   integration_test: 4a889634ef21a45d28d50d622cf412dc6d9f586e
 
-PODFILE CHECKSUM: 4b1156c35148545df3556ea888cb78790d7872ae
+PODFILE CHECKSUM: 66830397a34713def0a26177a8ef3e5804ad37cc
 
 COCOAPODS: 1.16.2
