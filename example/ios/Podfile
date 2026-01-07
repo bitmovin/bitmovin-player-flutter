@@ -1,5 +1,5 @@
 use_frameworks!
-platform :ios, '14.0'
+platform :ios, '15.0'
 source 'https://cdn.cocoapods.org'
 
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
@@ -33,7 +33,10 @@ target 'Runner' do
   use_modular_headers!
 
   # Only needed if the casting feature is used
-  pod 'google-cast-sdk', '4.8.1'
+  #
+  # Note: version 4.8.4+ requires a minimum deployment target of iOS 15.
+  #       To support iOS 14, use a Google Cast SDK version earlier than 4.8.4.
+  pod 'google-cast-sdk', '4.8.4'
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
 end
