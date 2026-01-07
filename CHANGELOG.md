@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 ### Changed
-- Add compatibility with the latest Google Cast iOS sender SDK (4.8.4)
+- Use latest Google Cast iOS sender SDK (4.8.4) in example app
 
 ## [0.23.0] - 2025-12-18
 ### Changed
