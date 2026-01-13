@@ -1,5 +1,7 @@
 name: Create SDK update PR
 
+run-name: Create SDK update PR for ${{ inputs.sdk_name == 'ios' && 'iOS' || inputs.sdk_name }} player to ${{ inputs.version_number }}
+
 on:
   workflow_dispatch:
     inputs:
@@ -18,12 +20,12 @@ on:
 jobs:
   update:
     name: Update SDK version
-    runs-on: macos-14
+    runs-on: macos-15
     env:
       GH_TOKEN: ${{ secrets.PLAYER_CI_GH_TOKEN }}
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Setup git user
         run: |
@@ -46,7 +48,7 @@ jobs:
       - name: Bump iOS player SDK version
         if: ${{ inputs.sdk_name == 'ios' }}
         run: |
-          sed -i '' "s/s.dependency 'BitmovinPlayer', '.*/s.dependency 'BitmovinPlayer', '${{ inputs.version_number }}'/g" ios/bitmovin_player.podspec
+          sed -i '' "s/s\.dependency 'BitmovinPlayer', '.*/s.dependency 'BitmovinPlayer', '${{ inputs.version_number }}'/g" ios/bitmovin_player.podspec
           cd example/ios
           pod install --repo-update || pod update --silent
 
@@ -55,10 +57,13 @@ jobs:
         run: |
           sed -i '' "s/com.bitmovin.player:player:.*/com.bitmovin.player:player:${{ inputs.version_number }}'/g" android/build.gradle
 
+      - name: Update Changelog entry
+        run: python3 .github/scripts/update_player_sdk_update_changelog.py ${{ inputs.version_number }} ${{ inputs.sdk_name }}
+
       - name: Commit version bump
         run: |
-          git add ios/bitmovin_player.podspec android/build.gradle example/ios/Podfile.lock
-          git commit -m "chore(${{ inputs.sdk_name }}): update ${{ inputs.sdk_name }} player version to ${{ inputs.version_number }}"
+          git add ios/bitmovin_player.podspec android/build.gradle example/ios/Podfile.lock CHANGELOG.md
+          git commit --no-verify -m "chore(${{ inputs.sdk_name }}): update ${{ inputs.sdk_name }} player version to ${{ inputs.version_number }}"
           git push origin ${{ steps.branching.outputs.branch_name }}
 
       - name: Create PR
