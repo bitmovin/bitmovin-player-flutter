@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Update Bitmovin's native Android Player SDK version to `3.138.0`
 - Increased the Android `minSdkVersion` to 23
 
+### Changed
+
+- Update Bitmovin's native iOS SDK version to `3.106.0`
+
 ## [0.23.0] - 2025-12-18
 ### Changed
 - Update Bitmovin's native Android Player SDK version to `3.136.0`
