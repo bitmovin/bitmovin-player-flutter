@@ -7,6 +7,7 @@ class Controls extends StatelessWidget {
     required this.onPlayPressed,
     required this.onPausePressed,
     required this.onLoadPressed,
+    required this.onUnloadPressed,
     required this.onMutePressed,
     required this.onUnmutePressed,
     required this.onSkipForwardPressed,
@@ -17,6 +18,7 @@ class Controls extends StatelessWidget {
   final ControlAction onPlayPressed;
   final ControlAction onPausePressed;
   final ControlAction onLoadPressed;
+  final ControlAction onUnloadPressed;
   final ControlAction onMutePressed;
   final ControlAction onUnmutePressed;
   final ControlAction onSkipForwardPressed;
@@ -67,16 +69,35 @@ class Controls extends StatelessWidget {
                   spacing: 8,
                   children: [
                     OutlinedButton(
-                      onPressed: onLoadPressed,
-                      child: const Text('Reload'),
-                    ),
-                    OutlinedButton(
                       onPressed: onSkipBackwardPressed,
                       child: const Text('Skip Back'),
                     ),
                     OutlinedButton(
                       onPressed: onSkipForwardPressed,
                       child: const Text('Skip Forward'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+        Row(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: Wrap(
+                  spacing: 8,
+                  children: [
+                    OutlinedButton(
+                      onPressed: onLoadPressed,
+                      child: const Text('Reload'),
+                    ),
+                    OutlinedButton(
+                      onPressed: onUnloadPressed,
+                      child: const Text('Unload'),
                     ),
                   ],
                 ),

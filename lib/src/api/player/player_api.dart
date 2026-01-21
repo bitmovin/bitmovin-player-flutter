@@ -12,6 +12,10 @@ abstract class PlayerApi {
   /// the provided [SourceConfig].
   Future<void> loadSourceConfig(SourceConfig sourceConfig);
 
+  /// Unloads the currently loaded source from the player.
+  /// If no source is loaded, this is a no-op.
+  Future<void> unload();
+
   /// Starts or resumes playback.
   Future<void> play();
 

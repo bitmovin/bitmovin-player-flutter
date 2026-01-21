@@ -5,6 +5,7 @@ internal enum Methods {
     static let createPlayer = "createPlayer"
     static let loadWithSourceConfig = "loadWithSourceConfig"
     static let loadWithSource = "loadWithSource"
+    static let unload = "unload"
     static let play = "play"
     static let pause = "pause"
     static let mute = "mute"

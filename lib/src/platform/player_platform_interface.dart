@@ -39,6 +39,12 @@ abstract class PlayerPlatformInterface extends PlatformInterface
       widevineHandler = WidevineHandler(widevineConfig);
     }
   }
+
+  @override
+  Future<void> unload() async {
+    fairplayHandler = null;
+    widevineHandler = null;
+  }
 }
 
 class _AnalyticsApi implements AnalyticsApi {
