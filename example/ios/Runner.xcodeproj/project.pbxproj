@@ -282,7 +282,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\n(\n  cd ../../\n  if [ \"${CI:-}\" = \"1\" ]; then\n    echo \"Skipping SwiftLint in CI (handled by workflow)\"\n  else\n    ./scripts/lint_swift.sh\n  fi\n)\n";
+			shellScript = "if [[ \"$(uname -m)\" == arm64 ]]; then\n    export PATH=\"/opt/homebrew/bin:$PATH\"\nfi\n\n(\n  cd ../../\n  ./scripts/lint_swift.sh\n)\n";
 		};
 		C55F1090AB91C27A96CE3E21 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
