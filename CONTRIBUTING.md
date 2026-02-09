@@ -3,7 +3,6 @@
 ## Project Setup Guide
 If you want to play around with the code, implement a new feature or just run the example apps, follow along with this section. If you just want to use the player in your own flutter app, you can skip this and follow the instructions in the [Getting Started Guide](README.md#getting-started-guide) section.
 
-- [Install](https://docs.flutter.dev/get-started/install) `flutter` on your machine
 - Install `Node.js` and `npm` on your machine
 - Run `npm ci` in the root of the cloned repository
   - This will setup [husky](https://github.com/typicode/husky) powered pre-commit git hooks
@@ -11,6 +10,12 @@ If you want to play around with the code, implement a new feature or just run th
   - `ktlint` for linting Kotlin code
   - `swiftlint` for linting Swift code
 - Follow instructions under [Example App](#example-app) and [Integration Tests](#integration-tests) in order to have a fully working project setup, where the linter commands from the pre-commit hook succeeds
+
+The Flutter version is pinned via FVM:
+- Install [FVM](https://fvm.app/docs/getting_started/installation)
+- Run `fvm install` and `fvm use` to use the pinned version
+- Use `fvm flutter ...` when running Flutter commands to ensure you are running the pinned SDK.
+- If you don't use FVM, ensure your Flutter version matches the pinned one in `.fvmrc`
 
 ### For iOS Development
 To build the example project with your own developer account, create the config file 
