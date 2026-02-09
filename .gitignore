@@ -28,7 +28,6 @@ migrate_working_dir/
 .dart_tool/
 .packages
 build/
-.fvm/flutter_sdk
 codealike.json
 
 # Node
@@ -37,3 +36,6 @@ node_modules/
 # Envied related
 .env
 env.g.dart
+
+# FVM Version Cache
+.fvm/
