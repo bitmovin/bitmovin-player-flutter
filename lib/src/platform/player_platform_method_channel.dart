@@ -149,7 +149,7 @@ class PlayerPlatformMethodChannel extends PlayerPlatformInterface {
       return [];
     }
 
-    return jsonStringList.map((String jsonString) {
+    return jsonStringList.map((jsonString) {
       return fromJson(
         jsonDecode(jsonString) as Map<String, dynamic>,
       );

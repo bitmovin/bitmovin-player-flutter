@@ -141,7 +141,7 @@ class PlayerViewPlatformMethodChannel extends PlayerViewPlatformInterface {
           hitTestBehavior: PlatformViewHitTestBehavior.opaque,
         );
       },
-      onCreatePlatformView: (PlatformViewCreationParams params) {
+      onCreatePlatformView: (params) {
         final controller = PlatformViewsService.initExpensiveAndroidView(
           id: params.id,
           viewType: Channels.playerView,
