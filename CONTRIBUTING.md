@@ -45,7 +45,7 @@ Before creating a pull request, please
 - Code needs to be free of linter errors. Linting is done via a pre-commit git hook for Dart, Kotlin and Swift code. Linter commands that are used by the pre-commit hook:
     - Dart: `flutter analyze`
     - Kotlin: `ktlint`
-    - Swift: `swiftlint --strict`
+    - Swift: `./scripts/lint_swift.sh`
 - Public API that is exported via `lib/bitmovin_player.dart` has to be documented with a description that explains _what_ it does
 - Every code block that does not obviously explain itself should be commented with an explanation of _why_ and _what_ it does
 
