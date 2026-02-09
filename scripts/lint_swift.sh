@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 set -eu
 
-if [ -n "${CI:-}" ]; then
+if [ -n "${CI:-}" ] && [ "${SKIP_SWIFTLINT_IN_CI:-}" = "1" ]; then
   echo "Skipping SwiftLint in CI (handled by workflow)"
   exit 0
 fi
