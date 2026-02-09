@@ -5,6 +5,9 @@ runs:
   steps:
     - name: Install Flutter
       uses: subosito/flutter-action@v2
+    - name: Show Flutter version
+      shell: bash
+      run: flutter --version
     - name: Create env files
       shell: bash
       run: |
