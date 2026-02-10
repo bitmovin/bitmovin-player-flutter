@@ -11,4 +11,4 @@ if ! command -v swiftlint >/dev/null 2>&1; then
   exit 0
 fi
 
-swiftlint --strict --path ios/Classes
+swiftlint lint --strict ios/Classes
