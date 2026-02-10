@@ -12,10 +12,12 @@ If you want to play around with the code, implement a new feature or just run th
 - Follow instructions under [Example App](#example-app) and [Integration Tests](#integration-tests) in order to have a fully working project setup, where the linter commands from the pre-commit hook succeeds
 
 The Flutter version is pinned via FVM:
-- Install [FVM](https://fvm.app/docs/getting_started/installation)
-- Run `fvm install` and `fvm use` to use the pinned version
-- Use `fvm flutter ...` when running Flutter commands to ensure you are running the pinned SDK.
+- Install [FVM](https://fvm.app/documentation/getting-started/installation)
+- Run `fvm install` and `fvm use` to select the pinned version
 - If you don't use FVM, ensure your Flutter version matches the pinned one in `.fvmrc`
+
+> [!IMPORTANT]
+> Use `fvm flutter ...` when running Flutter commands to ensure you are running the pinned SDK.
 
 ### For iOS Development
 To build the example project with your own developer account, create the config file 
