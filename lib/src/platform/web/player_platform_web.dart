@@ -25,7 +25,7 @@ class PlayerPlatformWeb extends PlayerPlatformInterface {
     );
 
     _playerEventHandler = PlayerWebEventHandler(_player, _onPlatformEvent);
-    castManager.castMessageHandler = (String message) {
+    castManager.castMessageHandler = (message) {
       final result = _player.addMetadata('CAST', message.toJS);
       if (!result) {
         _logger.d('Failed to send CAST metadata to receiver');

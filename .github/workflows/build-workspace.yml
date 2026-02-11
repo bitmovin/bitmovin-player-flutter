@@ -25,7 +25,7 @@ jobs:
       - name: Analyze Kotlin
         run: ktlint
       - name: Analyze Swift
-        run: swiftlint --strict
+        run: ./scripts/lint_swift.sh
       - name: Check Dart format
         run: dart format --output=none --set-exit-if-changed .
   build_ios:
