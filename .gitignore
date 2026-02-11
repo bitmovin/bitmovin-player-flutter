@@ -36,3 +36,6 @@ node_modules/
 # Envied related
 .env
 env.g.dart
+
+# FVM Version Cache
+.fvm/

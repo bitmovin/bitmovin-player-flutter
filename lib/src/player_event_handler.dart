@@ -22,7 +22,7 @@ mixin PlayerEventHandler implements PlayerListener {
       _eventListeners[key] = [];
     }
 
-    _eventListeners[key]?.add((Event event) {
+    _eventListeners[key]?.add((event) {
       listener(event as T);
     });
   }
