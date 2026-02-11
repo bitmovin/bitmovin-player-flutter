@@ -68,7 +68,7 @@ class PlayerViewState extends State<PlayerView> {
     // references could change and become invalid.
     _playerViewPlatformInterface =
         BitmovinPlayerPlatformInterface.instance.createPlayerView(
-      onPlatformEvent: (Event event) => widget.onEvent(event),
+      onPlatformEvent: (event) => widget.onEvent(event),
       handleEnterFullscreen: () => widget.fullscreenHandler?.enterFullscreen(),
       handleExitFullscreen: () => widget.fullscreenHandler?.exitFullscreen(),
       onViewCreated: () => widget.onViewCreated?.call(),

@@ -3,8 +3,11 @@ description: Prepares dependencies and development environment
 runs:
   using: "composite"
   steps:
-    - name: Install Flutter
-      uses: subosito/flutter-action@v2
+    - name: Install Flutter from FVM config
+      uses: kuhnroyal/flutter-fvm-config-action/setup@v3
+    - name: Show Flutter version
+      shell: bash
+      run: flutter --version
     - name: Create env files
       shell: bash
       run: |
