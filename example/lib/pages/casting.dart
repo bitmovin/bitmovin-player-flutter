@@ -49,7 +49,7 @@ class _CastingState extends State<Casting> {
   _CastingState() {
     _playerState = createPlayerState(
       _sourceConfig,
-      (Event event) {
+      (event) {
         _onEvent(logger, event);
       },
     );
