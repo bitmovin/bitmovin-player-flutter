@@ -6,10 +6,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 ### Changed
-- Use latest Google Cast iOS sender SDK (4.8.4) in example app
-- Update Bitmovin's native iOS Player SDK version to `3.105.0`
-- Update Bitmovin's native Android Player SDK version to `3.139.0+jason`
 - Increased the Android `minSdkVersion` to 23
+- Bitmovin Player Web UI integration migrates to v4. Checkout [what's new](https://developer.bitmovin.com/playback/docs/whats-new-in-ui-v4) for details
+- Update Bitmovin's native iOS Player SDK version to `3.107.0`
+- Update Bitmovin's native Android Player SDK version to `3.139.0+jason`
+- Use latest Google Cast iOS sender SDK (4.8.4) in example app
 
 ## [0.23.0] - 2025-12-18
 ### Changed
