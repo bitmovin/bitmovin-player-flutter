@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
-## [Unreleased]
+## [0.24.0]
 ### Changed
 - Increased the Android `minSdkVersion` to 23
 - Bitmovin Player Web UI integration migrates to v4. Checkout [what's new](https://developer.bitmovin.com/playback/docs/whats-new-in-ui-v4) for details
