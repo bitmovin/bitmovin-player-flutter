@@ -3,13 +3,14 @@
 ## [Unreleased]
 ### Changed
 - Update Bitmovin's native Android SDK version to `3.146.0+jason`
+- Update Bitmovin's native iOS SDK version to `3.109.0`
 
 ## [0.24.0] - 2026-02-13
 ### Changed
 - Increased the Android `minSdkVersion` to 23
 - Bitmovin Player Web UI integration migrates to v4. Checkout [what's new](https://developer.bitmovin.com/playback/docs/whats-new-in-ui-v4) for details
-- Update Bitmovin's native iOS Player SDK version to `3.107.0`
 - Update Bitmovin's native Android Player SDK version to `3.141.0+jason`
+- Update Bitmovin's native iOS Player SDK version to `3.107.0`
 - Use latest Google Cast iOS sender SDK (4.8.4) in example app
 
 ## [0.23.0] - 2025-12-18
