@@ -1,6 +1,12 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-flutter analyze
+FLUTTER_BIN="./.fvm/flutter_sdk/bin/flutter"
+if [ ! -x "$FLUTTER_BIN" ]; then
+  echo "error: $FLUTTER_BIN not found. Run 'fvm use' in repo root."
+  exit 1
+fi
+
+"$FLUTTER_BIN" analyze
 ./scripts/lint_swift.sh
 ktlint
