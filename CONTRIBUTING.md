@@ -56,6 +56,31 @@ Before creating a pull request, please
 - Public API that is exported via `lib/bitmovin_player.dart` has to be documented with a description that explains _what_ it does
 - Every code block that does not obviously explain itself should be commented with an explanation of _why_ and _what_ it does
 
+## Release Prep
+
+Before starting a release, run:
+
+```bash
+scripts/pre_release_checks.sh
+```
+
+If you want to refresh dependencies as part of release preparation, run:
+
+```bash
+scripts/pre_release_checks.sh --apply-upgrades
+```
+
+This script is a local preflight helper. It checks dependency status for the main package and `player_testing`, runs a `pub.dev` publish dry-run, and can refresh `example/ios/Podfile.lock` via `pod install --repo-update`.
+
+For manual analysis, run each package in its own context:
+
+```bash
+fvm flutter analyze
+cd player_testing && fvm dart analyze
+```
+
+Actual releases are still performed through the `Start Release Train` and `Finish Release Train` GitHub workflows.
+
 ## Commit message convention
 
 While this is not enforced, feel free to follow the [conventional commits specification](https://www.conventionalcommits.org/en) for commit messages:
