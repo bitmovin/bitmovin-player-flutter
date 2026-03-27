@@ -42,14 +42,14 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/integration_test/ios"
 
 SPEC CHECKSUMS:
-  audio_session: 19e9480dbdd4e5f6c4543826b2e8b0e4ab6145fe
-  bitmovin_player: ce0770c9d5a60697007d2b6f1b78556883b52e62
+  audio_session: 9bb7f6c970f21241b19f5a3658097ae459681ba0
+  bitmovin_player: d812298b883983e3d2eaa1289d9b98d786881e75
   BitmovinAnalyticsCollector: f92a8315830618812e37f63dd8c3877713ce3056
   BitmovinPlayer: 112a440f4c1b61c4561a563857573fdfe31ecd17
   BitmovinPlayerCore: 5a9be686a097d51cc8d73180cbe65b55fcbacafa
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
   google-cast-sdk: 32f65af50d164e3c475e79ad123db3cc26fbcd37
-  integration_test: 252f60fa39af5e17c3aa9899d35d908a0721b573
+  integration_test: 4a889634ef21a45d28d50d622cf412dc6d9f586e
 
 PODFILE CHECKSUM: 66830397a34713def0a26177a8ef3e5804ad37cc
 
