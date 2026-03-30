@@ -22,6 +22,8 @@ jobs:
       - uses: ./.github/actions/prepare-dependencies
       - name: Analyze Dart
         run: flutter analyze
+      - name: Analyze Dart in player_testing
+        run: (cd player_testing && dart analyze)
       - name: Analyze Kotlin
         run: ktlint
       - name: Analyze Swift
