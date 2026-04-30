@@ -164,6 +164,7 @@ done
 
 echo "Pre-release checks for bitmovin-player-flutter"
 print_sdk_versions
+run_step "Link native SDK versions in CHANGELOG.md" python3 "$ROOT_DIR/scripts/link_sdk_versions.py"
 run_step "Check SDK version changes include changelog updates" check_sdk_changelog_sync
 run_outdated_checks
 run_publish_dry_run
