@@ -1,12 +1,20 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-FLUTTER_BIN="./.fvm/flutter_sdk/bin/flutter"
-if [ ! -x "$FLUTTER_BIN" ]; then
-  echo "error: $FLUTTER_BIN not found. Run 'fvm use' in repo root."
-  exit 1
+STAGED=$(git diff --cached --name-only)
+
+has_dart=$(echo "$STAGED" | grep -q '\.dart$' && echo 1 || echo 0)
+has_swift=$(echo "$STAGED" | grep -q '\.swift$' && echo 1 || echo 0)
+has_kotlin=$(echo "$STAGED" | grep -qE '\.(kt|kts)$' && echo 1 || echo 0)
+
+if [ "$has_dart" = "1" ]; then
+  FLUTTER_BIN="./.fvm/flutter_sdk/bin/flutter"
+  if [ ! -x "$FLUTTER_BIN" ]; then
+    echo "error: $FLUTTER_BIN not found. Run 'fvm use' in repo root."
+    exit 1
+  fi
+  "$FLUTTER_BIN" analyze
 fi
 
-"$FLUTTER_BIN" analyze
-./scripts/lint_swift.sh
-ktlint
+if [ "$has_swift" = "1" ]; then ./scripts/lint_swift.sh; fi
+if [ "$has_kotlin" = "1" ]; then ktlint; fi
