@@ -2,7 +2,7 @@
 """
 Link native SDK version references in CHANGELOG.md to Bitmovin release notes.
 
-Each changelog line mentioning "iOS" or "Android" with a version like `3.X.Y`
+Each changelog line mentioning "iOS" or "Android" with a version like `X.Y.Z`
 gets that version turned into a markdown link to the corresponding release notes
 section on developer.bitmovin.com.
 
