@@ -1,0 +1,167 @@
+name: Monthly Release PR
+
+on:
+  schedule:
+    - cron: '0 2 1 * *' # 1st of every month at 02:00 UTC
+  workflow_dispatch: {}
+
+env:
+  LC_ALL: en_US.UTF-8
+  LANG: en_US.UTF-8
+
+concurrency:
+  group: monthly-release-pr
+  cancel-in-progress: false
+
+jobs:
+  prepare-release-pr:
+    name: Compute next version and open release PR
+    runs-on: macos-14
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: ./.github/actions/prepare-dependencies
+
+      - name: Setup Git user
+        run: |
+          git config --global user.name "Bitmovin Release Automation"
+          git config --global user.email "support@bitmovin.com"
+
+      - name: Read current version
+        id: current
+        run: |
+          set -eu
+          # Strip build metadata (e.g. 0.25.0+1 → 0.25.0)
+          version=$(grep '^version:' pubspec.yaml | awk '{print $2}' | cut -d'+' -f1 || true)
+          if [ -z "$version" ]; then
+            echo "error: could not read version from pubspec.yaml" >&2
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "Current version: $version"
+
+      - name: Determine next version from CHANGELOG
+        id: next
+        run: |
+          set -eu
+          unreleased=$(awk '/^## \[Unreleased\]/{found=1; next} found && /^## \[/{exit} found{print}' CHANGELOG.md)
+
+          if [ -z "$(echo "$unreleased" | tr -d '[:space:]')" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "## Monthly Release PR — Skipped" >> "$GITHUB_STEP_SUMMARY"
+            echo "No unreleased changes in CHANGELOG.md." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+
+          # Any section other than Fixed → minor bump; Fixed-only → patch
+          non_fix=$(echo "$unreleased" | grep '^### ' | grep -v '^### Fixed' || true)
+          if [ -n "$non_fix" ]; then
+            bump=minor
+          else
+            bump=patch
+          fi
+
+          version="${{ steps.current.outputs.version }}"
+          major=$(echo "$version" | cut -d. -f1)
+          minor=$(echo "$version" | cut -d. -f2)
+          patch=$(echo "$version" | cut -d. -f3)
+
+          if [ "$bump" = minor ]; then
+            minor=$((minor + 1))
+            patch=0
+          else
+            patch=$((patch + 1))
+          fi
+
+          next="$major.$minor.$patch"
+          echo "next_version=$next" >> "$GITHUB_OUTPUT"
+          echo "bump=$bump" >> "$GITHUB_OUTPUT"
+          echo "Next version ($bump bump): $next"
+
+      - name: Pre-flight checks
+        id: guard
+        if: steps.next.outputs.skip != 'true'
+        run: |
+          set -eu
+          version="${{ steps.next.outputs.next_version }}"
+
+          last_tag=$(git describe --tags --abbrev=0 2>/dev/null || true)
+          if [ -n "$last_tag" ]; then
+            last_release_ts=$(git log -1 --format=%ct "$last_tag")
+            now_ts=$(date +%s)
+            days_since=$(( (now_ts - last_release_ts) / 86400 ))
+            if [ "$days_since" -lt 30 ]; then
+              echo "skip=true" >> "$GITHUB_OUTPUT"
+              echo "## Monthly Release PR — Skipped" >> "$GITHUB_STEP_SUMMARY"
+              echo "Last release \`$last_tag\` was $days_since days ago (< 30). Skipping." >> "$GITHUB_STEP_SUMMARY"
+              exit 0
+            fi
+          fi
+
+          existing_pr=$(gh pr list --head "release/$version" --state open --json number --jq '.[0].number')
+          existing_branch=$(git ls-remote --heads origin "refs/heads/release/$version" | wc -l | tr -d ' ')
+          if [ -n "$existing_pr" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "## Monthly Release PR — Skipped" >> "$GITHUB_STEP_SUMMARY"
+            echo "PR [#$existing_pr](../../pull/$existing_pr) already open for \`release/$version\`." >> "$GITHUB_STEP_SUMMARY"
+          elif [ "$existing_branch" != "0" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+            echo "## Monthly Release PR — Skipped" >> "$GITHUB_STEP_SUMMARY"
+            echo "Remote branch \`release/$version\` exists without an open PR. If the branch is ready, open the PR manually. Otherwise delete it to re-run." >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Create release branch
+        if: steps.next.outputs.skip != 'true' && steps.guard.outputs.skip != 'true'
+        run: git checkout -b "release/${{ steps.next.outputs.next_version }}"
+
+      - name: Bump CHANGELOG
+        if: steps.next.outputs.skip != 'true' && steps.guard.outputs.skip != 'true'
+        run: |
+          version="${{ steps.next.outputs.next_version }}"
+          sed -i'.bak' "s/\[Unreleased\]/[$version]/g" CHANGELOG.md
+          rm CHANGELOG.md.bak
+
+      - name: Bump package version
+        if: steps.next.outputs.skip != 'true' && steps.guard.outputs.skip != 'true'
+        run: |
+          dart pub global activate cider
+          dart pub global run cider version ${{ steps.next.outputs.next_version }}
+
+      - name: Run pre-release checks and upgrades
+        if: steps.next.outputs.skip != 'true' && steps.guard.outputs.skip != 'true'
+        run: scripts/pre_release_checks.sh --apply-upgrades
+
+      - name: Commit and push
+        if: steps.next.outputs.skip != 'true' && steps.guard.outputs.skip != 'true'
+        run: |
+          version="${{ steps.next.outputs.next_version }}"
+          git add CHANGELOG.md pubspec.yaml pubspec.lock \
+            example/pubspec.lock example/ios/Podfile.lock
+          git diff --staged --quiet || git commit -m "chore: prepare release $version"
+          git push origin "release/$version"
+
+      - name: Open PR
+        if: steps.next.outputs.skip != 'true' && steps.guard.outputs.skip != 'true'
+        run: |
+          version="${{ steps.next.outputs.next_version }}"
+          bump="${{ steps.next.outputs.bump }}"
+          gh pr create \
+            --base main \
+            --head "release/$version" \
+            --title "Release $version" \
+            --body "Automated monthly release PR for \`$version\` ($bump bump).
+
+          Review the changelog and version bumps, then merge when ready to ship.
+          Once merged, run **Start Release Train** and then **Finish Release Train** manually."
+          echo "## Monthly Release PR — Opened" >> "$GITHUB_STEP_SUMMARY"
+          echo "Created \`release/$version\` ($bump bump)." >> "$GITHUB_STEP_SUMMARY"
+        env:
+          GH_TOKEN: ${{ github.token }}
