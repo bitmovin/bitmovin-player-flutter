@@ -82,12 +82,26 @@ jobs:
           echo "bump=$bump" >> "$GITHUB_OUTPUT"
           echo "Next version ($bump bump): $next"
 
-      - name: Check for existing release PR or branch
+      - name: Pre-flight checks
         id: guard
         if: steps.next.outputs.skip != 'true'
         run: |
           set -eu
           version="${{ steps.next.outputs.next_version }}"
+
+          last_tag=$(git describe --tags --abbrev=0 2>/dev/null || true)
+          if [ -n "$last_tag" ]; then
+            last_release_ts=$(git log -1 --format=%ct "$last_tag")
+            now_ts=$(date +%s)
+            days_since=$(( (now_ts - last_release_ts) / 86400 ))
+            if [ "$days_since" -lt 30 ]; then
+              echo "skip=true" >> "$GITHUB_OUTPUT"
+              echo "## Monthly Release PR — Skipped" >> "$GITHUB_STEP_SUMMARY"
+              echo "Last release \`$last_tag\` was $days_since days ago (< 30). Skipping." >> "$GITHUB_STEP_SUMMARY"
+              exit 0
+            fi
+          fi
+
           existing_pr=$(gh pr list --head "release/$version" --state open --json number --jq '.[0].number')
           existing_branch=$(git ls-remote --heads origin "refs/heads/release/$version" | wc -l | tr -d ' ')
           if [ -n "$existing_pr" ]; then
