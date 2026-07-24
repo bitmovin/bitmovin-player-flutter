@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Changed
+
+- Update Bitmovin's native Android SDK version to `3.160.0+jason`
+
 ### Fixed
 
 - Avoid serializing native Android SDK source internals in source events.
