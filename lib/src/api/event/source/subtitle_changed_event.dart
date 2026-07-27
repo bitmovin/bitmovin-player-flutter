@@ -1,13 +1,12 @@
 import 'package:bitmovin_player/src/api/event/event.dart';
 import 'package:bitmovin_player/src/api/media/subtitle/subtitle_track.dart';
-import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'subtitle_changed_event.g.dart';
 
 /// Emitted when the selected [SubtitleTrack] is changed.
 @JsonSerializable(explicitToJson: true)
-class SubtitleChangedEvent extends Event with EquatableMixin {
+class SubtitleChangedEvent extends Event {
   const SubtitleChangedEvent({
     required super.timestamp,
     this.oldSubtitleTrack,

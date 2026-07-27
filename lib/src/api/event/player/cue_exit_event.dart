@@ -1,12 +1,11 @@
 import 'package:bitmovin_player/src/api/event/event.dart';
-import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'cue_exit_event.g.dart';
 
 /// Emitted when a subtitle cue transitions into the inactive status.
 @JsonSerializable(explicitToJson: true)
-class CueExitEvent extends Event with EquatableMixin {
+class CueExitEvent extends Event {
   const CueExitEvent({
     required super.timestamp,
     required this.start,
