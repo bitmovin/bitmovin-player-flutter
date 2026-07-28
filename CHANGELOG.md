@@ -1,5 +1,11 @@
 # Changelog
 
+## [Unreleased]
+
+### Fixed
+
+- Avoid serializing native Android SDK source internals in source events.
+
 ## [0.26.0] - 2026-05-04
 
 ### Changed
