@@ -1,6 +1,5 @@
 import 'package:bitmovin_player/src/api/event/event.dart';
 import 'package:bitmovin_player/src/source.dart';
-import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'source_loaded_event.g.dart';
@@ -8,7 +7,7 @@ part 'source_loaded_event.g.dart';
 /// Emitted when a [Source] was loaded. This does not mean that the source is
 /// immediately ready for playback.
 @JsonSerializable(explicitToJson: true)
-class SourceLoadedEvent extends Event with EquatableMixin {
+class SourceLoadedEvent extends Event {
   const SourceLoadedEvent({
     required this.source,
     required super.timestamp,

@@ -1,13 +1,12 @@
 import 'package:bitmovin_player/src/api/event/event.dart';
 import 'package:bitmovin_player/src/source.dart';
-import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'source_removed_event.g.dart';
 
 /// Emitted when a [Source] was removed from the player.
 @JsonSerializable(explicitToJson: true)
-class SourceRemovedEvent extends Event with EquatableMixin {
+class SourceRemovedEvent extends Event {
   const SourceRemovedEvent({
     required this.source,
     required super.timestamp,

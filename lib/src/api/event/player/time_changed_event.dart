@@ -1,12 +1,11 @@
 import 'package:bitmovin_player/src/api/event/event.dart';
-import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'time_changed_event.g.dart';
 
 /// Emitted when the current playback time has changed.
 @JsonSerializable(explicitToJson: true)
-class TimeChangedEvent extends Event with EquatableMixin {
+class TimeChangedEvent extends Event {
   const TimeChangedEvent({required this.time, required super.timestamp});
 
   factory TimeChangedEvent.fromJson(Map<String, dynamic> json) {
