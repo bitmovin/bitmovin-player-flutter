@@ -5,6 +5,7 @@ import com.bitmovin.player.api.Player
 import com.bitmovin.player.api.event.PlayerEvent
 import com.bitmovin.player.api.event.SourceEvent
 import com.bitmovin.player.flutter.json.JSubtitleTrack
+import com.bitmovin.player.flutter.json.sourceEventMap
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import io.flutter.plugin.common.EventChannel
@@ -57,10 +58,20 @@ open class EventListener {
                 broadcast("onSourceError", target)
             }
             on(SourceEvent.Load::class) {
-                broadcast("onSourceLoad", it)
+                val target =
+                    mapOf<String, Any?>(
+                        "source" to sourceEventMap(it.source),
+                        "timestamp" to it.timestamp,
+                    )
+                broadcast("onSourceLoad", target)
             }
             on(SourceEvent.Loaded::class) {
-                broadcast("onSourceLoaded", it)
+                val target =
+                    mapOf<String, Any?>(
+                        "source" to sourceEventMap(it.source),
+                        "timestamp" to it.timestamp,
+                    )
+                broadcast("onSourceLoaded", target)
             }
             on(SourceEvent.Unloaded::class) {
                 broadcast("onSourceUnloaded", it)
@@ -73,10 +84,22 @@ open class EventListener {
                 broadcast("onPlaybackFinished", it)
             }
             on(PlayerEvent.SourceAdded::class) {
-                broadcast("onSourceAdded", it)
+                val target =
+                    mapOf<String, Any?>(
+                        "source" to sourceEventMap(it.source),
+                        "index" to it.index,
+                        "timestamp" to it.timestamp,
+                    )
+                broadcast("onSourceAdded", target)
             }
             on(PlayerEvent.SourceRemoved::class) {
-                broadcast("onSourceRemoved", it)
+                val target =
+                    mapOf<String, Any?>(
+                        "source" to sourceEventMap(it.source),
+                        "index" to it.index,
+                        "timestamp" to it.timestamp,
+                    )
+                broadcast("onSourceRemoved", target)
             }
             on(PlayerEvent.TimeChanged::class) {
                 broadcast("onTimeChanged", it)

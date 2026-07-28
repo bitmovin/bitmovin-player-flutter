@@ -5,6 +5,7 @@ import com.bitmovin.player.api.Player
 import com.bitmovin.player.api.SeekMode
 import com.bitmovin.player.api.media.MediaFilter
 import com.bitmovin.player.api.media.subtitle.SubtitleTrack
+import com.bitmovin.player.api.source.Source
 import com.bitmovin.player.api.source.SourceType
 import com.bitmovin.player.api.source.TimelineReferencePoint
 import com.bitmovin.player.api.ui.ScalingMode
@@ -29,6 +30,11 @@ internal class JSource(
 ) : JStruct {
     val sourceConfig by structGetter(::JSourceConfig).require()
 }
+
+internal fun sourceEventMap(source: Source): Map<String, Any?> =
+    mapOf(
+        "sourceConfig" to source.config,
+    )
 
 internal class JSourceConfig(
     override var map: Map<*, *>,
