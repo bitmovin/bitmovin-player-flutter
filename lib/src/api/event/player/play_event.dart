@@ -1,12 +1,11 @@
 import 'package:bitmovin_player/bitmovin_player.dart';
-import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'play_event.g.dart';
 
 /// Emitted when the player receives an intention to play (i.e [Player.play]).
 @JsonSerializable(explicitToJson: true)
-class PlayEvent extends Event with EquatableMixin {
+class PlayEvent extends Event {
   const PlayEvent({
     required this.time,
     required super.timestamp,

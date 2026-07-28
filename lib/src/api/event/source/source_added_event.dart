@@ -1,13 +1,12 @@
 import 'package:bitmovin_player/src/api/event/event.dart';
 import 'package:bitmovin_player/src/source.dart';
-import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'source_added_event.g.dart';
 
 /// Emitted when a [Source] was added to the player.
 @JsonSerializable(explicitToJson: true)
-class SourceAddedEvent extends Event with EquatableMixin {
+class SourceAddedEvent extends Event {
   const SourceAddedEvent({
     required this.source,
     required super.timestamp,

@@ -1,5 +1,4 @@
 import 'package:bitmovin_player/src/api/event/event.dart';
-import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'time_shift_event.g.dart';
@@ -7,7 +6,7 @@ part 'time_shift_event.g.dart';
 /// Called when the player is about to time-shift to a new position.
 /// Only applies to live streams.
 @JsonSerializable(explicitToJson: true)
-class TimeShiftEvent extends Event with EquatableMixin {
+class TimeShiftEvent extends Event {
   const TimeShiftEvent({
     required this.position,
     required this.target,

@@ -1,12 +1,11 @@
 import 'package:bitmovin_player/src/api/event/event.dart';
-import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'cue_enter_event.g.dart';
 
 /// Emitted when a subtitle cue transitions into the active status.
 @JsonSerializable(explicitToJson: true)
-class CueEnterEvent extends Event with EquatableMixin {
+class CueEnterEvent extends Event {
   const CueEnterEvent({
     required super.timestamp,
     required this.start,

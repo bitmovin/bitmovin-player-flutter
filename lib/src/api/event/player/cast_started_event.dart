@@ -1,12 +1,11 @@
 import 'package:bitmovin_player/src/api/event/event.dart';
-import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'cast_started_event.g.dart';
 
 /// Emitted when the cast app is launched successfully.
 @JsonSerializable(explicitToJson: true)
-class CastStartedEvent extends Event with EquatableMixin {
+class CastStartedEvent extends Event {
   const CastStartedEvent({
     required super.timestamp,
     this.deviceName,
