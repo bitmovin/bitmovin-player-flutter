@@ -1,12 +1,11 @@
 import 'package:bitmovin_player/src/api/event/event.dart';
-import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'airplay_changed_event.g.dart';
 
 /// Emitted when AirPlay playback starts or stops.
 @JsonSerializable(explicitToJson: true)
-class AirPlayChangedEvent extends Event with EquatableMixin {
+class AirPlayChangedEvent extends Event {
   const AirPlayChangedEvent({
     required super.timestamp,
     required this.isAirPlayActive,

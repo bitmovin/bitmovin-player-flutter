@@ -1,5 +1,4 @@
 import 'package:bitmovin_player/bitmovin_player.dart';
-import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'info_event.g.dart';
@@ -7,7 +6,7 @@ part 'info_event.g.dart';
 /// The common supertype implemented by all different info events that are
 /// emitted by the [Player] or [Source].
 @JsonSerializable(explicitToJson: true)
-class InfoEvent extends Event with EquatableMixin {
+class InfoEvent extends Event {
   const InfoEvent({
     required super.timestamp,
     this.message,

@@ -1,12 +1,11 @@
 import 'package:bitmovin_player/src/api/event/event.dart';
-import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'unmuted_event.g.dart';
 
 /// Emitted when the player is unmuted.
 @JsonSerializable(explicitToJson: true)
-class UnmutedEvent extends Event with EquatableMixin {
+class UnmutedEvent extends Event {
   const UnmutedEvent({required super.timestamp});
 
   factory UnmutedEvent.fromJson(Map<String, dynamic> json) {

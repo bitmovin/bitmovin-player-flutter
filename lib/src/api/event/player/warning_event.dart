@@ -1,5 +1,4 @@
 import 'package:bitmovin_player/bitmovin_player.dart';
-import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'warning_event.g.dart';
@@ -7,7 +6,7 @@ part 'warning_event.g.dart';
 /// The common supertype implemented by all different warning events that are
 /// emitted by the [Player] or [Source].
 @JsonSerializable(explicitToJson: true)
-class WarningEvent extends Event with EquatableMixin {
+class WarningEvent extends Event {
   const WarningEvent({
     required super.timestamp,
     required this.code,

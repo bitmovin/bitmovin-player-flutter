@@ -1,5 +1,4 @@
 import 'package:bitmovin_player/bitmovin_player.dart';
-import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'picture_in_picture_exited_event.g.dart';
@@ -8,7 +7,7 @@ part 'picture_in_picture_exited_event.g.dart';
 ///
 /// Only available on iOS.
 @JsonSerializable(explicitToJson: true)
-class PictureInPictureExitedEvent extends Event with EquatableMixin {
+class PictureInPictureExitedEvent extends Event {
   const PictureInPictureExitedEvent({required super.timestamp});
 
   factory PictureInPictureExitedEvent.fromJson(Map<String, dynamic> json) {

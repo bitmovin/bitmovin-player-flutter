@@ -1,13 +1,12 @@
 import 'package:bitmovin_player/src/api/event/data/seek_position.dart';
 import 'package:bitmovin_player/src/api/event/event.dart';
-import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'seek_event.g.dart';
 
 /// Emitted when the player starts seeking. Only applies to VoD streams.
 @JsonSerializable(explicitToJson: true)
-class SeekEvent extends Event with EquatableMixin {
+class SeekEvent extends Event {
   const SeekEvent({
     required this.from,
     required this.to,
