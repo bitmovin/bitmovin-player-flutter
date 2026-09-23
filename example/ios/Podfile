@@ -33,8 +33,6 @@ target 'Runner' do
   use_modular_headers!
 
   # Only needed if the casting feature is used
-  #
-  # Both the Player and Google Cast require iOS 15 or later.
   pod 'google-cast-sdk', '4.8.4'
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
