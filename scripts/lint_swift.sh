@@ -11,4 +11,4 @@ if ! command -v swiftlint >/dev/null 2>&1; then
   exit 0
 fi
 
-swiftlint lint --strict ios/Classes
+swiftlint lint --strict ios/bitmovin_player/Sources/bitmovin_player

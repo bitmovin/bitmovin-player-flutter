@@ -15,7 +15,7 @@ jobs:
     name: Analyze Source Code
     runs-on: macos-26
     concurrency:
-      group: build-workspace-analyze-${{ inputs.ref || github.event.pull_request.number || github.ref }}
+      group: build-workspace-analyze-${{ github.event.pull_request.number || github.ref }}
       cancel-in-progress: true
     steps:
       - uses: actions/checkout@v4
@@ -34,23 +34,30 @@ jobs:
     name: Build for iOS
     runs-on: macos-26
     concurrency:
-      group: build-workspace-ios-${{ inputs.ref || github.event.pull_request.number || github.ref }}
+      group: build-workspace-ios-${{ github.event.pull_request.number || github.ref }}
       cancel-in-progress: true
+    defaults:
+      run:
+        working-directory: bitmovin_player
     steps:
       - uses: actions/checkout@v4
-      - uses: ./.github/actions/prepare-dependencies
+        with:
+          path: bitmovin_player
+      - uses: ./bitmovin_player/.github/actions/prepare-dependencies
+        with:
+          working-directory: bitmovin_player
       - name: Build
         run: cd example && flutter build ios --no-codesign
   build_android:
     name: Build for Android
     runs-on: ubuntu-latest
     concurrency:
-      group: build-workspace-android-${{ inputs.ref || github.event.pull_request.number || github.ref }}
+      group: build-workspace-android-${{ github.event.pull_request.number || github.ref }}
       cancel-in-progress: true
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/prepare-dependencies
-      - uses: actions/setup-java@v3
+      - uses: actions/setup-java@v4
         with:
             distribution: 'zulu'
             java-version: '17'

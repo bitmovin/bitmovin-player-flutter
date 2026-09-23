@@ -1,15 +1,23 @@
 name: Prepare dependencies and development environment
 description: Prepares dependencies and development environment
+inputs:
+  working-directory:
+    description: Repository checkout directory
+    default: .
 runs:
   using: "composite"
   steps:
     - name: Install Flutter from FVM config
       uses: kuhnroyal/flutter-fvm-config-action/setup@v3
+      with:
+        path: ${{ inputs.working-directory }}/.fvmrc
     - name: Show Flutter version
       shell: bash
+      working-directory: ${{ inputs.working-directory }}
       run: flutter --version
     - name: Create env files
       shell: bash
+      working-directory: ${{ inputs.working-directory }}
       run: |
         touch .env
         echo BITMOVIN_PLAYER_LICENSE_KEY=_UNUSED_ >> .env
@@ -17,17 +25,22 @@ runs:
         cp .env player_testing/.env
     - name: Install dependencies for player library
       shell: bash
+      working-directory: ${{ inputs.working-directory }}
       run: flutter pub get
     - name: Run code generation for player library
       shell: bash
+      working-directory: ${{ inputs.working-directory }}
       run: dart run build_runner build --delete-conflicting-outputs
     - name: Install dependencies for player testing library
       shell: bash
+      working-directory: ${{ inputs.working-directory }}
       run: (cd player_testing && dart pub get)
     - name: Run code generation for player testing library
       shell: bash
+      working-directory: ${{ inputs.working-directory }}
       run: (cd player_testing && dart run build_runner build)
     - name: Install brew dependencies
       shell: bash
+      working-directory: ${{ inputs.working-directory }}
       if: runner.os == 'macOS'
       run: brew bundle install

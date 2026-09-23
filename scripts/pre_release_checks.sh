@@ -5,7 +5,7 @@ ROOT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)"
 cd "$ROOT_DIR"
 
 APPLY_UPGRADES=0
-SKIP_POD_INSTALL=0
+SKIP_IOS_BUILD=0
 FAILURES=0
 
 usage() {
@@ -15,8 +15,8 @@ Usage: scripts/pre_release_checks.sh [options]
 Runs pre-release checks for this package.
 
 Options:
-  --apply-upgrades  Runs dependency upgrades before pod install.
-  --skip-pod-install Skips `pod install --repo-update` in example/ios.
+  --apply-upgrades  Runs dependency upgrades before the iOS build.
+  --skip-ios-build Skips the example iOS build after upgrades.
   -h, --help        Show this help.
 EOF
 }
@@ -57,7 +57,7 @@ run_step() {
 
   echo
   echo "==> $NAME"
-  if "$@"; then
+  if ( "$@" ); then
     echo "ok: $NAME"
   else
     echo "failed: $NAME"
@@ -67,7 +67,7 @@ run_step() {
 
 print_sdk_versions() {
   ANDROID_SDK_VERSION="$(sed -n "s/.*com\\.bitmovin\\.player:player:\\([^']*\\)'.*/\\1/p" android/build.gradle | head -n 1)"
-  IOS_SDK_VERSION="$(sed -n "s/.*s\\.dependency 'BitmovinPlayer', '\\([^']*\\)'.*/\\1/p" ios/bitmovin_player.podspec | head -n 1)"
+  IOS_SDK_VERSION="$(python3 scripts/ios_sdk_version.py)"
 
   echo "Configured native Player SDK versions:"
   echo "  Android: ${ANDROID_SDK_VERSION:-not found}"
@@ -77,7 +77,7 @@ print_sdk_versions() {
 
 check_sdk_changelog_sync() {
   if git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
-    if ! git diff --quiet -- ios/bitmovin_player.podspec android/build.gradle; then
+    if ! git diff --quiet -- ios/bitmovin_player/Package.swift android/build.gradle; then
       if git diff --quiet -- CHANGELOG.md; then
         echo "warning: native SDK version file changed but CHANGELOG.md is unchanged."
         return 1
@@ -104,21 +104,12 @@ run_upgrades() {
   run_step "Upgrade player_testing dependencies (major versions allowed)" upgrade_player_testing_dependencies
 }
 
-update_pods() {
-  if [ "$SKIP_POD_INSTALL" -eq 1 ]; then
-    echo
-    echo "==> Skipping pod install (requested)"
+build_ios() {
+  if [ "$SKIP_IOS_BUILD" -eq 1 ]; then
+    echo "Skipping example iOS build (requested)"
     return
   fi
-
-  if ! command -v pod >/dev/null 2>&1; then
-    echo
-    echo "failed: pod install --repo-update (CocoaPods not found)"
-    FAILURES=$((FAILURES + 1))
-    return
-  fi
-
-  run_step "Install iOS pods (example/ios)" install_example_pods
+  run_step "Build iOS example with SPM" build_ios_example
 }
 
 upgrade_example_dependencies() {
@@ -136,9 +127,9 @@ check_player_testing_outdated() {
   run_dart pub outdated
 }
 
-install_example_pods() {
-  cd "$ROOT_DIR/example/ios"
-  pod install --repo-update
+build_ios_example() {
+  cd "$ROOT_DIR/example"
+  run_flutter build ios --no-codesign || return $?
 }
 
 while [ "$#" -gt 0 ]; do
@@ -146,8 +137,8 @@ while [ "$#" -gt 0 ]; do
     --apply-upgrades)
       APPLY_UPGRADES=1
       ;;
-    --skip-pod-install)
-      SKIP_POD_INSTALL=1
+    --skip-ios-build)
+      SKIP_IOS_BUILD=1
       ;;
     -h|--help)
       usage
@@ -171,14 +162,14 @@ run_publish_dry_run
 
 if [ "$APPLY_UPGRADES" -eq 1 ]; then
   run_upgrades
-  update_pods
+  build_ios
 else
   echo
-  echo "Skipping upgrades and pod install."
+  echo "Skipping upgrades and the iOS build."
   echo "Run with '--apply-upgrades' to execute:"
   echo "  - flutter pub upgrade --major-versions (root + example)"
   echo "  - dart pub upgrade --major-versions in player_testing"
-  echo "  - pod install --repo-update in example/ios"
+  echo "  - flutter build ios --no-codesign in example"
 fi
 
 echo
