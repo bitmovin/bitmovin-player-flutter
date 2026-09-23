@@ -24,15 +24,16 @@ The Flutter version is pinned via FVM:
 Clone the repository into a directory named `bitmovin_player` when building the
 example locally. Flutter currently requires the checkout directory to match the
 Dart package name for local SPM plugins ([upstream issue](https://github.com/flutter/flutter/issues/186881)).
-The iOS CI jobs use this directory name too.
+The iOS CI jobs use this directory name too. For local development, use a path
+dependency pointing to that checkout. Direct Git dependencies with the repository
+name `bitmovin-player-flutter` are not supported with Flutter 3.44; use the published
+pub.dev package for applications until the upstream fix reaches a supported stable
+Flutter version.
 
 Use the Flutter version pinned in `.fvmrc`. The iOS plugin uses Swift Package Manager
 and requires iOS 15 or later. See the [migration guide](doc/ios-spm-migration.md).
 The example still needs CocoaPods for Google Cast. Flutter handles both dependency
 managers when building the example.
-
-Flutter may warn about a non-standard Podfile. This is expected because Google
-Cast still uses CocoaPods. Keep that integration; see the [warning explanation](doc/ios-spm-migration.md#expected-non-standard-podfile-warning) before following Flutter's removal suggestions.
 
 To build the example project with your own developer account, create the config file 
 `example/ios/Flutter/Developer.xcconfig`. In this file, add your development team like this:
@@ -40,6 +41,16 @@ To build the example project with your own developer account, create the config 
 ```yml
 DEVELOPMENT_TEAM = YOUR_TEAM_ID
 ```
+
+### Expected non-standard Podfile warning
+
+When building the example, Flutter may print:
+
+> All plugins found for ios are Swift Packages, but your project still has CocoaPods integration. Your project uses a non-standard Podfile and will need to be migrated to Swift Package Manager manually.
+
+The example uses SPM for Flutter plugins and CocoaPods for Google Cast, so this
+warning is expected. Keep the Podfile and CocoaPods includes in `Debug.xcconfig`
+and `Release.xcconfig`; do not run `pod deintegrate` while Cast still needs it.
 
 ## Example App
 To be able to use the example app, follow these steps:
