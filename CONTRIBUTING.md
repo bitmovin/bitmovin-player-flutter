@@ -20,6 +20,20 @@ The Flutter version is pinned via FVM:
 > Use `fvm flutter ...` when running Flutter commands to ensure you are running the pinned SDK.
 
 ### For iOS Development
+
+Clone the repository into a directory named `bitmovin_player` when building the
+example locally. Flutter currently requires the checkout directory to match the
+Dart package name for local SPM plugins ([upstream issue](https://github.com/flutter/flutter/issues/186881)).
+The iOS CI jobs use this directory name too.
+
+Use the Flutter version pinned in `.fvmrc`. The iOS plugin uses Swift Package Manager
+and requires iOS 15 or later. See the [migration guide](doc/ios-spm-migration.md).
+The example still needs CocoaPods for Google Cast. Flutter handles both dependency
+managers when building the example.
+
+Flutter may warn about a non-standard Podfile. This is expected because Google
+Cast still uses CocoaPods. Keep that integration; see the [warning explanation](doc/ios-spm-migration.md#expected-non-standard-podfile-warning) before following Flutter's removal suggestions.
+
 To build the example project with your own developer account, create the config file 
 `example/ios/Flutter/Developer.xcconfig`. In this file, add your development team like this:
 
