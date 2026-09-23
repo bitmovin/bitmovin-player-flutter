@@ -1,0 +1,10 @@
+targets:
+  $default:
+    # Keep native build directories and SDK symlinks out of code generation.
+    sources:
+      - lib/**
+      - example/lib/**
+      - test/**
+      - .env
+      - pubspec.*
+      - $package$
