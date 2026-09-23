@@ -4,6 +4,9 @@
 
 ### Changed
 
+- Require Flutter 3.44 or later.
+- Replace CocoaPods with Swift Package Manager for iOS integration.
+- Update Bitmovin's native iOS SDK version to [`3.124.0`](https://developer.bitmovin.com/playback/docs/release-notes-ios#31240), requiring iOS 15 or later.
 - Update Bitmovin's native Android SDK version to `3.166.0+jason`
 
 ### Fixed
