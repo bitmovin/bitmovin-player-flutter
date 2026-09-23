@@ -26,7 +26,7 @@ jobs:
       - name: Setup Git User
         run: |
           git config --global user.name "Bitmovin Release Automation"
-          git config --global user.email "support@bitmovin.com"
+          git config --global user.email "player-sdks@bitmovin.com"
 
       - name: Detect version number
         id: version_number
@@ -60,7 +60,7 @@ jobs:
       - name: Setup Git User
         run: |
           git config --global user.name "Bitmovin Release Automation"
-          git config --global user.email "support@bitmovin.com"
+          git config --global user.email "player-sdks@bitmovin.com"
 
       - name: Add tag
         run: |
@@ -82,7 +82,7 @@ jobs:
       - name: Setup Git User
         run: |
           git config --global user.name "Bitmovin Release Automation"
-          git config --global user.email "support@bitmovin.com"
+          git config --global user.email "player-sdks@bitmovin.com"
 
       - name: Create PR
         run: |

@@ -30,7 +30,7 @@ jobs:
       - name: Setup Git user
         run: |
           git config --global user.name "Bitmovin Release Automation"
-          git config --global user.email "support@bitmovin.com"
+          git config --global user.email "player-sdks@bitmovin.com"
 
       - name: Set release branch name
         id: branching
