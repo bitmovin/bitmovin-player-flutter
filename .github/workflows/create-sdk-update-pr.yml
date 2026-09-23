@@ -20,12 +20,17 @@ on:
 jobs:
   update:
     name: Update SDK version
-    runs-on: macos-15
+    runs-on: macos-26
     env:
       GH_TOKEN: ${{ secrets.PLAYER_CI_GH_TOKEN }}
+    defaults:
+      run:
+        working-directory: bitmovin_player
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          path: bitmovin_player
 
       - name: Setup git user
         run: |
@@ -36,21 +41,25 @@ jobs:
         id: branching
         run: |
           branch_name="update_${{ inputs.sdk_name }}_player_to_${{ inputs.version_number }}"
-          echo "branch_name=$branch_name" >> $GITHUB_OUTPUT
+          echo "branch_name=$branch_name" >> "$GITHUB_OUTPUT"
 
       - name: Create update branch
         run: |
           git push origin --delete ${{ steps.branching.outputs.branch_name }} || true
           git checkout -b ${{ steps.branching.outputs.branch_name }}
 
-      - uses: ./.github/actions/prepare-dependencies
+      - uses: ./bitmovin_player/.github/actions/prepare-dependencies
+        with:
+          working-directory: bitmovin_player
 
       - name: Bump iOS player SDK version
         if: ${{ inputs.sdk_name == 'ios' }}
+        env:
+          IOS_PLAYER_VERSION: ${{ inputs.version_number }}
         run: |
-          sed -i '' "s/s\.dependency 'BitmovinPlayer', '.*/s.dependency 'BitmovinPlayer', '${{ inputs.version_number }}'/g" ios/bitmovin_player.podspec
-          cd example/ios
-          pod install --repo-update || pod update --silent
+          python3 scripts/ios_sdk_version.py "$IOS_PLAYER_VERSION"
+          (cd example && flutter build ios --no-codesign)
+          python3 scripts/check_ios_spm.py
 
       - name: Bump Android player SDK version
         if: ${{ inputs.sdk_name == 'android' }}
@@ -62,7 +71,10 @@ jobs:
 
       - name: Commit version bump
         run: |
-          git add ios/bitmovin_player.podspec android/build.gradle example/ios/Podfile.lock CHANGELOG.md
+          git add ios/bitmovin_player/Package.swift android/build.gradle CHANGELOG.md
+          if [ "${{ inputs.sdk_name }}" = "ios" ]; then
+            git add example/ios/Podfile.lock example/ios/Runner.xcworkspace/xcshareddata/swiftpm/Package.resolved example/ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved
+          fi
           git commit --no-verify -m "chore(${{ inputs.sdk_name }}): update ${{ inputs.sdk_name }} player version to ${{ inputs.version_number }}"
           git push origin ${{ steps.branching.outputs.branch_name }}
 

@@ -10,8 +10,7 @@ This is an open-source project created to enable customers to integrate the Bitm
 ## Platform Support
 The **officially supported** platforms are:
 
-- **iOS / iPadOS:** 14.0+
-> Note: if using Google Cast SDK 4.8.4+ like our [example](example/ios/Podfile), a minimum deployment target of iOS 15 is required.
+- **iOS / iPadOS:** 15.0+
 - **Android:** 6.0+
 - **Web**
 
@@ -21,6 +20,12 @@ For more details regarding Bitmovin Player SDK platform and device support, plea
 Please refer to the [Features](https://developer.bitmovin.com/playback/docs/overview-flutter#features) section of our documentation for an up-to-date list of supported Player features.
 
 ## Documentation
+
+### iOS installation
+
+iOS requires Flutter 3.44 or later with Swift Package Manager enabled. The plugin
+resolves the native Player SDK through SPM; CocoaPods integration is no longer supported.
+Existing applications should follow the [SPM migration guide](doc/ios-spm-migration.md).
 
 ### Getting Started Guide
 Our [Getting Started Guide](https://developer.bitmovin.com/playback/docs/getting-started-flutter) walks you through setting up and configuring the Bitmovin Player in Flutter projects.

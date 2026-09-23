@@ -37,5 +37,9 @@ node_modules/
 .env
 env.g.dart
 
+# Swift Package Manager
+.build/
+.swiftpm/
+
 # FVM Version Cache
 .fvm/

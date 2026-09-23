@@ -20,12 +20,37 @@ The Flutter version is pinned via FVM:
 > Use `fvm flutter ...` when running Flutter commands to ensure you are running the pinned SDK.
 
 ### For iOS Development
+
+Clone the repository into a directory named `bitmovin_player` when building the
+example locally. Flutter currently requires the checkout directory to match the
+Dart package name for local SPM plugins ([upstream issue](https://github.com/flutter/flutter/issues/186881)).
+The iOS CI jobs use this directory name too. For local development, use a path
+dependency pointing to that checkout. Direct Git dependencies with the repository
+name `bitmovin-player-flutter` are not supported with Flutter 3.44; use the published
+pub.dev package for applications until the upstream fix reaches a supported stable
+Flutter version.
+
+Use the Flutter version pinned in `.fvmrc`. The iOS plugin uses Swift Package Manager
+and requires iOS 15 or later. See the [migration guide](doc/ios-spm-migration.md).
+The example still needs CocoaPods for Google Cast. Flutter handles both dependency
+managers when building the example.
+
 To build the example project with your own developer account, create the config file 
 `example/ios/Flutter/Developer.xcconfig`. In this file, add your development team like this:
 
 ```yml
 DEVELOPMENT_TEAM = YOUR_TEAM_ID
 ```
+
+### Expected non-standard Podfile warning
+
+When building the example, Flutter may print:
+
+> All plugins found for ios are Swift Packages, but your project still has CocoaPods integration. Your project uses a non-standard Podfile and will need to be migrated to Swift Package Manager manually.
+
+The example uses SPM for Flutter plugins and CocoaPods for Google Cast, so this
+warning is expected. Keep the Podfile and CocoaPods includes in `Debug.xcconfig`
+and `Release.xcconfig`; do not run `pod deintegrate` while Cast still needs it.
 
 ## Example App
 To be able to use the example app, follow these steps:
@@ -39,6 +64,16 @@ license key which can be obtained from [Bitmovin's Dashboard](https://bitmovin.c
 1. Run `dart run build_runner build --delete-conflicting-outputs` in the project root which should generate the missing `example/lib/env/env.g.dart` file
 1. Start the example app by running the command `flutter run` inside the `example/` directory
     1. If you see an error that signing for "Runner" requires a development team, follow the instructions in the section for [getting started with iOS development](#for-ios-development)
+
+## iOS release validation
+
+Before releasing changes to the iOS integration, build and run the example from a
+clean checkout using the license setup under [Example App](#example-app). Manually
+verify Player initialization, starting playback, advancing playback time, and
+pausing on an iOS device or simulator.
+
+CI builds the iOS example, checks the resolved native version, and rejects Bitmovin
+pods in the example lockfile. Playback verification is performed manually.
 
 ## Pull Requests
 
