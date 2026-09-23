@@ -44,7 +44,7 @@ Flutter 3.44 has a [known package identity issue](https://github.com/flutter/flu
 when a local checkout directory differs from the Dart package name. For local
 development, clone this repository into `bitmovin_player` and use a path dependency.
 Use the published pub.dev package for applications; direct Git dependencies with
-the repository name `bitmovin-player-flutter` are not supported by this draft.
+the repository name `bitmovin-player-flutter` are not supported with Flutter 3.44.
 The upstream fix must reach a supported stable Flutter version before lifting
 this restriction.
 
@@ -82,14 +82,3 @@ plugin version that includes a podspec, such as 0.26.0 (native Player 3.112.0).
 Those applications can use the already published native CocoaPods versions but
 will not receive new native Player releases. Disabling SPM is not supported by
 this release. Moving to native Player 3.124.0 also ends iOS 14 support.
-
-## Release validation
-
-Before releasing this migration, build and run the example from a clean checkout
-using the license setup in CONTRIBUTING.md. Manually verify Player initialization,
-starting playback, advancing playback time, and pausing on an iOS device or simulator.
-Player 3.124.0 is published through SPM and was absent from CocoaPods Trunk when
-this migration was drafted.
-
-CI builds the iOS example, checks the resolved native version, and rejects Bitmovin
-pods in the example lockfile. Playback verification is performed manually.

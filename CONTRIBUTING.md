@@ -54,6 +54,16 @@ license key which can be obtained from [Bitmovin's Dashboard](https://bitmovin.c
 1. Start the example app by running the command `flutter run` inside the `example/` directory
     1. If you see an error that signing for "Runner" requires a development team, follow the instructions in the section for [getting started with iOS development](#for-ios-development)
 
+## iOS release validation
+
+Before releasing changes to the iOS integration, build and run the example from a
+clean checkout using the license setup under [Example App](#example-app). Manually
+verify Player initialization, starting playback, advancing playback time, and
+pausing on an iOS device or simulator.
+
+CI builds the iOS example, checks the resolved native version, and rejects Bitmovin
+pods in the example lockfile. Playback verification is performed manually.
+
 ## Pull Requests
 
 Before creating a pull request, please
