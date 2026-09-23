@@ -34,8 +34,7 @@ target 'Runner' do
 
   # Only needed if the casting feature is used
   #
-  # Note: version 4.8.4+ requires a minimum deployment target of iOS 15.
-  #       To support iOS 14, use a Google Cast SDK version earlier than 4.8.4.
+  # Both the Player and Google Cast require iOS 15 or later.
   pod 'google-cast-sdk', '4.8.4'
 
   flutter_install_all_ios_pods File.dirname(File.realpath(__FILE__))
@@ -44,5 +43,11 @@ end
 post_install do |installer|
   installer.pods_project.targets.each do |target|
     flutter_additional_ios_build_settings(target)
+    target.build_configurations.each do |config|
+      minimum = config.build_settings['IPHONEOS_DEPLOYMENT_TARGET']
+      if minimum.nil? || Gem::Version.new(minimum) < Gem::Version.new('15.0')
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '15.0'
+      end
+    end
   end
 end
