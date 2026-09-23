@@ -130,6 +130,7 @@ check_player_testing_outdated() {
 build_ios_example() {
   cd "$ROOT_DIR/example"
   run_flutter build ios --no-codesign || return $?
+  python3 "$ROOT_DIR/scripts/check_ios_spm.py"
 }
 
 while [ "$#" -gt 0 ]; do

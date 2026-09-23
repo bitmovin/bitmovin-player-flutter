@@ -48,6 +48,8 @@ jobs:
           working-directory: bitmovin_player
       - name: Build
         run: cd example && flutter build ios --no-codesign
+      - name: Verify Bitmovin resolves through SPM
+        run: python3 scripts/check_ios_spm.py
   build_android:
     name: Build for Android
     runs-on: ubuntu-latest
