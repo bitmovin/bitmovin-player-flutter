@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.summary = package['description']
   s.homepage = package['homepage']
   s.license = { :file => '../LICENSE' }
-  s.author = { 'Bitmovin' => 'support@bitmovin.com' }
+  s.author = { 'Bitmovin' => 'player-sdks@bitmovin.com' }
   s.source = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
