@@ -9,18 +9,16 @@ published to CocoaPods.
 ## Existing applications
 
 1. Upgrade Flutter to 3.44 or later and update `bitmovin_player`.
-2. Ensure SPM has not been disabled. Flutter 3.44 enables it by default; remove
+1. Ensure SPM has not been disabled. Flutter 3.44 enables it by default; remove
    any `enable-swift-package-manager: false` override from your application's
    `pubspec.yaml`, or set it to `true`.
-3. Set Runner's iOS deployment target to at least 15.0 in Xcode and in any
+1. Set Runner's iOS deployment target to at least 15.0 in Xcode and in any
    retained Podfile.
-4. Remove manually added Bitmovin Player, Player Core, and Analytics pods,
+1. Remove manually added Bitmovin Player, Player Core, and Analytics pods,
    frameworks, or packages. The plugin supplies these dependencies through SPM.
-5. Run `flutter clean`, `flutter pub get`, and `flutter build ios --no-codesign`
+1. Run `flutter clean`, `flutter pub get`, and `flutter build ios --no-codesign`
    from your application to update the Xcode integration and remaining pods.
-6. Review and commit the project, scheme, workspace `Package.resolved`, and
-   `Podfile.lock` (if retained). Do not commit generated `Flutter/ephemeral` files.
-7. Run the app and verify Player initialization and playback.
+1. Run the app and verify Player initialization and playback.
 
 Flutter adds `FlutterGeneratedPluginSwiftPackage` to Runner and a
 `Run Prepare Flutter Framework Script` build pre-action. For custom schemes, follow
@@ -37,7 +35,7 @@ the Dart package name; see the [local development workaround](../CONTRIBUTING.md
 Keep CocoaPods while your app has dependencies that need it, such as Google Cast.
 After migration, `Podfile.lock` must not contain `bitmovin_player`, `BitmovinPlayer`,
 `BitmovinPlayerCore`, or `BitmovinAnalyticsCollector` entries. Once all dependencies
-have migrated, use Flutter's instructions above to remove CocoaPods integration.
+have migrated, follow [Flutter's CocoaPods removal instructions](https://docs.flutter.dev/packages-and-plugins/swift-package-manager/for-app-developers#how-to-remove-cocoapods-integration).
 
 ## Legacy applications
 
