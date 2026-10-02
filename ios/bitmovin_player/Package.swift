@@ -9,7 +9,7 @@ let package = Package(
     ],
     dependencies: [
         .package(name: "FlutterFramework", path: "../FlutterFramework"),
-        .package(url: "https://github.com/bitmovin/player-ios.git", exact: "3.124.0")
+        .package(url: "https://github.com/bitmovin/player-ios.git", exact: "3.126.0")
     ],
     targets: [
         .target(
