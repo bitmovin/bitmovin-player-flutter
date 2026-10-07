@@ -57,6 +57,11 @@ elif args[:2] == ["pr", "create"]:
     if not os.environ.get("GH_TEST_NO_CREATE"):
         state.write_text(json.dumps(prs))
     print("https://github.com/" + repo + "/pull/100")
+elif args[:2] == ["pr", "edit"]:
+    pr = next(pr for pr in prs if pr["number"] == int(args[2]))
+    pr["title"] = args[args.index("--title") + 1]
+    pr["body"] = args[args.index("--body") + 1]
+    state.write_text(json.dumps(prs))
 ''')
         fake.chmod(0o755)
         self.env = dict(os.environ, PATH=f"{root}:{os.environ['PATH']}",
@@ -146,6 +151,17 @@ elif args[:2] == ["pr", "create"]:
         self.assert_success(self.run_helper("prepare"))
         self.assertEqual(self.git("rev-parse", "HEAD"), sha)
 
+    def test_reused_pr_preserves_human_title_and_body(self):
+        self.remote_update()
+        pr = dict(self.pr(42, "3.100.0"), title="SDK update with customer regression fix",
+                  body="Issue #123. Manually validated playback on two devices.")
+        self.set_prs([pr])
+        self.assert_success(self.run_helper("prepare"))
+        self.assert_success(self.run_helper("finish"))
+        updated = json.loads(self.state.read_text())[0]
+        self.assertEqual(updated["title"], pr["title"])
+        self.assertEqual(updated["body"], pr["body"])
+
     def assert_refuses_commit(self, **kwargs):
         sha = self.remote_update(**kwargs)
         result = self.run_helper("prepare")
@@ -199,7 +215,7 @@ elif args[:2] == ["pr", "create"]:
         self.assertEqual(self.git("rev-parse", "HEAD"), sha)
         calls = self.gh_calls()
         self.assertEqual(sum(call[:2] == ["pr", "create"] for call in calls), 1)
-        self.assertEqual(sum(call[:2] == ["pr", "edit"] for call in calls), 1)
+        self.assertEqual(sum(call[:2] == ["pr", "edit"] for call in calls), 0)
 
     def test_closes_only_strictly_older_matching_prs_after_replacement(self):
         self.assert_success(self.run_helper("prepare"))

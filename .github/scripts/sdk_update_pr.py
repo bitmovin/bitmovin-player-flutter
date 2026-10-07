@@ -139,10 +139,8 @@ def finish(platform: str, version: str, base: str, repository: str, branch: str)
     label = "iOS" if platform == "ios" else "Android"
     title = f"Update {label} player to {version}"
     body = f"Automated {label} player version update to {version}"
-    if current:
-        run("gh", "pr", "edit", str(current["number"]), "--repo", repository,
-            "--title", title, "--body", body)
-    else:
+    # Reusing a PR must preserve human edits to its title and validation notes.
+    if current is None:
         run("gh", "pr", "create", "--repo", repository, "--base", base,
             "--head", branch, "--title", title, "--body", body)
     # A successful CLI mutation alone is insufficient: confirm the replacement is open.
