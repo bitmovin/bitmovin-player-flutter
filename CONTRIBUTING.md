@@ -77,6 +77,10 @@ pods in the example lockfile. Playback verification is performed manually.
 
 ## Pull Requests
 
+Use the current [PR template](.github/PULL_REQUEST_TEMPLATE.md) and
+[PR writing guide](doc/pull-request-writing.md) for concise descriptions,
+behavioral coverage summaries, and reviewer smoke tests.
+
 Before creating a pull request, please
 
 - Make sure all guidelines are followed
