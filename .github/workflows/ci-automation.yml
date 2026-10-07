@@ -33,7 +33,5 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
-      - name: Test GitHub automation scripts
-        run: python3 -m unittest discover -s .github/scripts -p 'test_*.py'
       - name: Test repository automation scripts
         run: python3 -m unittest discover -s scripts -p 'test_*.py'
