@@ -153,6 +153,7 @@ def finish(platform: str, version: str, base: str, repository: str, branch: str)
     current = existing_pr(prs, branch, base, repository)
     # Ordinary pushes preserve all history and reject concurrent remote changes.
     run("git", "push", "origin", f"HEAD:refs/heads/{branch}")
+    pushed_sha = run("git", "rev-parse", "HEAD")
     label = "iOS" if platform == "ios" else "Android"
     title = f"Update {label} player to {version}"
     body = f"Automated {label} player version update to {version}"
@@ -176,6 +177,19 @@ def finish(platform: str, version: str, base: str, repository: str, branch: str)
         except ValueError:
             continue
         if older and cleanup_history_is_automation(pr, platform, old_version, base):
+            live = open_prs(repository)
+            active_replacement = existing_pr(live, branch, base, repository)
+            if (active_replacement is None
+                    or active_replacement["head"].get("sha") != pushed_sha):
+                print("Stopping cleanup: replacement PR is no longer open at the published commit")
+                break
+            candidate = next((item for item in live if item["number"] == pr["number"]), None)
+            if (candidate is None or not same_repository(candidate, repository)
+                    or candidate["base"]["ref"] != base
+                    or candidate["head"]["ref"] != pr["head"]["ref"]
+                    or candidate["head"].get("sha") != pr["head"].get("sha")):
+                print(f"Skipping PR #{pr['number']}: cleanup eligibility changed")
+                continue
             run("gh", "pr", "close", str(pr["number"]), "--repo", repository,
                 "--comment", f"Closing because {label} Player SDK {old_version} is superseded "
                 f"by {version} in #{replacement['number']}.")

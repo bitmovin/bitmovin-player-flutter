@@ -49,7 +49,7 @@ if os.environ.get("GH_TEST_FAIL") == " ".join(args[:2]):
     sys.exit(7)
 prs = json.loads(state.read_text())
 if args[0] == "api":
-    print(json.dumps([prs]))
+    print(json.dumps([[pr for pr in prs if pr.get("state") != "closed"]]))
 elif args[:2] == ["pr", "create"]:
     def arg(name): return args[args.index(name) + 1]
     repo = arg("--repo")
@@ -62,6 +62,20 @@ elif args[:2] == ["pr", "edit"]:
     pr = next(pr for pr in prs if pr["number"] == int(args[2]))
     pr["title"] = args[args.index("--title") + 1]
     pr["body"] = args[args.index("--body") + 1]
+    state.write_text(json.dumps(prs))
+elif args[:2] == ["pr", "close"]:
+    closed = next(pr for pr in prs if pr["number"] == int(args[2]))
+    closed["state"] = "closed"
+    change = os.environ.get("GH_TEST_CHANGE_DURING_CLOSE")
+    if change:
+        for pr in prs:
+            if pr["number"] == 100 and change == "close-replacement":
+                pr["state"] = "closed"
+            elif pr["number"] == 2:
+                if change == "change-head":
+                    pr["head"]["sha"] = "0" * 40
+                else:
+                    pr["base"]["ref"] = "release"
     state.write_text(json.dumps(prs))
 ''')
         fake.chmod(0o755)
@@ -304,6 +318,26 @@ elif args[:2] == ["pr", "edit"]:
         (self.work / "android/build.gradle").write_text("update\n")
         self.assert_success(self.run_helper("finish"))
         self.assertFalse(any(call[:2] == ["pr", "close"] for call in self.gh_calls()))
+
+    def assert_cleanup_rechecks_live_state(self, change):
+        self.remote_update(version="3.98.0")
+        self.remote_update(version="3.99.0")
+        self.assert_success(self.run_helper("prepare"))
+        self.set_prs([self.pr(1, "3.98.0"), self.pr(2, "3.99.0")])
+        self.env["GH_TEST_CHANGE_DURING_CLOSE"] = change
+        (self.work / "android/build.gradle").write_text("update\n")
+        self.assert_success(self.run_helper("finish"))
+        closed = [call[2] for call in self.gh_calls() if call[:2] == ["pr", "close"]]
+        self.assertEqual(closed, ["1"])
+
+    def test_replacement_closure_during_cleanup_stops_later_closes(self):
+        self.assert_cleanup_rechecks_live_state("close-replacement")
+
+    def test_candidate_retargeting_during_cleanup_preserves_pr(self):
+        self.assert_cleanup_rechecks_live_state("retarget")
+
+    def test_candidate_head_change_during_cleanup_preserves_pr(self):
+        self.assert_cleanup_rechecks_live_state("change-head")
 
     def test_malformed_api_payload_fails_before_branch_creation(self):
         self.set_prs([{"message": "API failure"}])
