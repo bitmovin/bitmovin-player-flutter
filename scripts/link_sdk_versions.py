@@ -18,8 +18,14 @@ from pathlib import Path
 IOS_URL = "https://developer.bitmovin.com/playback/docs/release-notes-ios"
 ANDROID_URL = "https://developer.bitmovin.com/playback/docs/release-notes-android"
 
-# Matches `X.Y.Z` or `X.Y.Z+suffix` inside backticks (any major version)
-VERSION_RE = re.compile(r"`(\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?)`")
+SEMVER = r"\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?"
+# A version belongs to the immediately preceding platform/SDK clause. A later
+# Flutter or Kotlin requirement must not inherit that platform's release notes.
+SDK_REFERENCE_RE = re.compile(
+    rf"\b(?P<platform>iOS|Android)\b(?:\s+(?:Player|SDK|version|to))*\s+"
+    rf"(?P<citation>\[`(?P<linked>{SEMVER})`\]\((?P<url>[^)\r\n]*)\)|`(?P<bare>{SEMVER})`)",
+    re.IGNORECASE,
+)
 
 
 def version_to_anchor(version: str) -> str:
@@ -33,20 +39,17 @@ def transform_line(line: str) -> str:
         return line
 
     def make_link(m: re.Match) -> str:
-        if line[m.start() - 1:m.start()] == "[" and line[m.end():].startswith("]("):
+        if m["url"] is not None:
             return m.group(0)  # this version is already linked
-        prefix = line[:m.start()].lower()
-        platforms = re.findall(r"\b(?:ios|android)\b", prefix)
-        if not platforms:
-            return m.group(0)
-        if platforms[-1] == "ios":
+        if m["platform"].lower() == "ios":
             base_url = IOS_URL
         else:
             base_url = ANDROID_URL
-        anchor = version_to_anchor(m.group(1))
-        return f"[`{m.group(1)}`]({base_url}{anchor})"
+        anchor = version_to_anchor(m["bare"])
+        prefix = line[m.start():m.start("citation")]
+        return prefix + f"[`{m['bare']}`]({base_url}{anchor})"
 
-    return VERSION_RE.sub(make_link, line)
+    return SDK_REFERENCE_RE.sub(make_link, line)
 
 
 def main() -> int:

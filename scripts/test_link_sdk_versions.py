@@ -62,6 +62,18 @@ class LinkSdkVersionsTests(unittest.TestCase):
         self.assertEqual(links.transform_line(line), expected)
         self.assertEqual(links.transform_line(expected), expected)
 
+    def test_preserves_non_sdk_suffix_versions(self):
+        sdk = f"[`3.124.0`]({links.IOS_URL}#31240)"
+        suffix = ", requiring Flutter `3.44.0` and Kotlin `2.2.21` or later.\n"
+        for citation in ("`3.124.0`", sdk):
+            with self.subTest(citation=citation):
+                line = "- Update Bitmovin's native iOS SDK version to " + citation + suffix
+                expected = "- Update Bitmovin's native iOS SDK version to " + sdk + suffix
+                self.assertEqual(links.transform_line(line), expected)
+                result, after = self.run_script(expected, "--check")
+                self.assertEqual(result.returncode, 0, result.stderr)
+                self.assertEqual(after, expected)
+
     def test_check_missing_link_fails_without_writing(self):
         content = "# Changelog\r\n- Update Bitmovin Android SDK to `3.166.0+jason`\r\n"
         result, after = self.run_script(content, "--check")
