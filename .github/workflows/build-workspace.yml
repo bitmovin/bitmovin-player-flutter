@@ -63,5 +63,9 @@ jobs:
         with:
             distribution: 'zulu'
             java-version: '17'
+      - name: Set up Gradle cache
+        uses: gradle/actions/setup-gradle@v6
+        with:
+          cache-read-only: ${{ github.event_name != 'push' || github.ref != 'refs/heads/main' }}
       - name: Build
         run: cd example && flutter build apk
