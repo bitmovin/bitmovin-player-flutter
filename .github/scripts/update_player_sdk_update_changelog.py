@@ -11,7 +11,12 @@ from __future__ import annotations
 
 import sys
 import re
+from pathlib import Path
 from typing import Tuple
+
+# Share the same release-note links as the non-mutating CI check.
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
+from link_sdk_versions import transform_line
 
 
 CHANGELOG_FILE = "CHANGELOG.md"
@@ -59,8 +64,6 @@ def load_changelog(path: str) -> str:
 
 
 def write_changelog(path: str, content: str) -> None:
-    # Collapse 3+ blank lines to 2 to avoid excessive spacing
-    content = re.sub(r"\n{3,}", "\n\n", content)
     with open(path, "w", encoding="utf-8", newline="\n") as f:
         f.write(content)
 
@@ -68,10 +71,11 @@ def write_changelog(path: str, content: str) -> None:
 def build_entry(platform_key: str, version: str) -> Tuple[str, re.Pattern[str]]:
     platform_label = PLATFORMS[platform_key]
     entry_prefix = ENTRY_LINE_PREFIX.format(platform=platform_label)
-    new_entry = f"{entry_prefix}{version}`"
+    new_entry = transform_line(f"{entry_prefix}{version}`")
     # Pattern to find an existing entry for this platform regardless of version
     existing_pattern = re.compile(
-        rf"^{re.escape(entry_prefix)}{SEMVER_RE}`$",
+        rf"^{re.escape(entry_prefix[:-1])}"
+        rf"(?:`{SEMVER_RE}`|\[`{SEMVER_RE}`\]\([^)]+\))(?P<suffix>[^\n]*)$",
         flags=re.MULTILINE,
     )
     return new_entry, existing_pattern
@@ -105,7 +109,7 @@ def update_unreleased_changed_section(content: str, platform_key: str, version: 
 
             if existing_pattern.search(changed_body):
                 # Replace existing line for this platform
-                new_changed_body = existing_pattern.sub(new_entry, changed_body)
+                new_changed_body = existing_pattern.sub(lambda m: new_entry + m["suffix"], changed_body)
             else:
                 # Prepend new entry to keep fresh updates at the top
                 new_changed_body = new_entry + "\n" + changed_body
