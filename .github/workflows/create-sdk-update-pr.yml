@@ -54,6 +54,7 @@ jobs:
           # Keep the current helper available when reusing an older update branch.
           cp .github/scripts/sdk_update_pr.py "$RUNNER_TEMP/sdk_update_pr.py"
           cp .github/scripts/update_player_sdk_update_changelog.py "$RUNNER_TEMP/update_player_sdk_update_changelog.py"
+          cp scripts/link_sdk_versions.py "$RUNNER_TEMP/link_sdk_versions.py"
           python3 "$RUNNER_TEMP/sdk_update_pr.py" prepare "$SDK_PLATFORM" "$SDK_VERSION" "$SDK_BASE" "$SDK_REPOSITORY"
 
       - uses: ./bitmovin_player/.github/actions/prepare-dependencies

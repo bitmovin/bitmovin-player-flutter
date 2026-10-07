@@ -2,9 +2,11 @@
 import json
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import sys
 import tempfile
+import textwrap
 import unittest
 
 
@@ -101,6 +103,38 @@ elif args[:2] == ["pr", "create"]:
     def test_creates_branch_without_deleting_remote(self):
         self.assert_success(self.run_helper("prepare"))
         self.assertEqual(self.git("branch", "--show-current"), self.branch())
+
+    def test_frozen_changelog_helper_runs_when_reused_branch_lacks_helpers(self):
+        repository_root = SCRIPT.parents[2]
+        for name in (
+            ".github/scripts/sdk_update_pr.py",
+            ".github/scripts/update_player_sdk_update_changelog.py",
+            "scripts/link_sdk_versions.py",
+        ):
+            destination = self.work / name
+            destination.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(repository_root / name, destination)
+        runner_temp = Path(self.temp.name) / "runner-temp"
+        runner_temp.mkdir()
+        workflow = (repository_root / ".github/workflows/create-sdk-update-pr.yml").read_text()
+        step = workflow.split("      - name: Prepare safe update branch\n", 1)[1]
+        step = step.split("\n      - uses:", 1)[0]
+        script = runner_temp / "prepare.sh"
+        script.write_text("set -eu\n" + textwrap.dedent(step.split("run: |\n", 1)[1]))
+        env = dict(self.env, RUNNER_TEMP=str(runner_temp), SDK_PLATFORM="android",
+                   SDK_VERSION="3.100.0", SDK_BASE="main", SDK_REPOSITORY=REPO)
+        result = subprocess.run(["bash", str(script)], cwd=self.work, env=env,
+                                text=True, capture_output=True)
+        self.assert_success(result)
+        # An older branch can lack all of the helper sources kept by the workflow.
+        shutil.rmtree(self.work / ".github")
+        shutil.rmtree(self.work / "scripts")
+        result = subprocess.run(
+            [sys.executable, str(runner_temp / "update_player_sdk_update_changelog.py"),
+             "3.100.0", "android"], cwd=self.work, env=env, text=True, capture_output=True,
+        )
+        self.assert_success(result)
+        self.assertIn("release-notes-android#31000", (self.work / "CHANGELOG.md").read_text())
 
     def test_reuses_automation_commit_without_rewriting(self):
         sha = self.remote_update()
