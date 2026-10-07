@@ -369,6 +369,39 @@ elif args[:2] == ["pr", "close"]:
         self.assertIn("deleted", result.stderr)
         self.assertFalse(any(call[0] == "pr" for call in self.gh_calls()))
 
+    def prepare_ios_fixture(self):
+        manifest = "ios/bitmovin_player/Package.swift"
+        lock = "example/ios/Runner.xcworkspace/xcshareddata/swiftpm/Package.resolved"
+        project = "example/ios/Runner.xcodeproj/project.pbxproj"
+        for name in (manifest, lock, project):
+            path = self.work / name
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text("initial\n")
+        self.git("add", manifest, lock, project)
+        self.git("commit", "--no-verify", "-m", "Initial iOS project")
+        self.git("push", "origin", "main")
+        self.assert_success(self.run_helper("prepare", platform="ios"))
+        return manifest, lock, project
+
+    def test_ios_update_excludes_generated_project_changes_from_commit(self):
+        manifest, lock, project = self.prepare_ios_fixture()
+        for name in (manifest, lock, project, "CHANGELOG.md"):
+            (self.work / name).write_text("updated\n")
+        self.assert_success(self.run_helper("finish", platform="ios"))
+        committed = set(self.git("diff-tree", "--no-commit-id", "--name-only", "-r", "HEAD").splitlines())
+        self.assertEqual(committed, {manifest, lock, "CHANGELOG.md"})
+        self.assertEqual(self.git("diff", "--name-only"), project)
+        self.assertEqual((self.work / project).read_text(), "updated\n")
+
+    def test_ios_update_refuses_staged_generated_project_changes(self):
+        _, _, project = self.prepare_ios_fixture()
+        (self.work / project).write_text("generated migration\n")
+        self.git("add", project)
+        result = self.run_helper("finish", platform="ios")
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("must not be staged", result.stderr)
+        self.assertFalse(any(call[0] == "pr" for call in self.gh_calls()))
+
 
 if __name__ == "__main__":
     unittest.main()

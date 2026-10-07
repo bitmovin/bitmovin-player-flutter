@@ -27,6 +27,9 @@ FILES = {
         "example/ios/Runner.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved",
     },
 }
+# Flutter/CocoaPods rewrite this tracked project during iOS build preparation.
+# It is a build side effect, not part of the native SDK version update commit.
+IOS_BUILD_SIDE_EFFECTS = {"example/ios/Runner.xcodeproj/project.pbxproj"}
 
 
 def semver_key(version: str) -> tuple:
@@ -139,8 +142,13 @@ def finish(platform: str, version: str, base: str, repository: str, branch: str)
         raise ValueError("Not on the expected update branch")
     verify_automation_history("HEAD", platform, version, base)
     changed = set(run("git", "diff", "HEAD", "--name-only").splitlines())
-    if not changed <= FILES[platform]:
-        raise ValueError(f"Unexpected tracked changes: {sorted(changed - FILES[platform])}")
+    side_effects = IOS_BUILD_SIDE_EFFECTS if platform == "ios" else set()
+    unexpected = changed - FILES[platform] - side_effects
+    if unexpected:
+        raise ValueError(f"Unexpected tracked changes: {sorted(unexpected)}")
+    staged = set(run("git", "diff", "--cached", "--name-only").splitlines())
+    if staged & side_effects:
+        raise ValueError("Generated iOS project files must not be staged for an SDK update")
     deleted = run("git", "diff", "HEAD", "--diff-filter=D", "--name-only")
     if deleted:
         raise ValueError(f"SDK update files were deleted: {deleted}")
