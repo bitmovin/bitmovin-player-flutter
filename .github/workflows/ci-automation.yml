@@ -28,7 +28,7 @@ permissions:
 
 jobs:
   automation-checks:
-    name: Python automation
+    name: Python automation and native SDK changelog links
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
@@ -37,3 +37,5 @@ jobs:
         run: python3 -m unittest discover -s .github/scripts -p 'test_*.py'
       - name: Test repository automation scripts
         run: python3 -m unittest discover -s scripts -p 'test_*.py'
+      - name: Check native SDK changelog links
+        run: python3 scripts/link_sdk_versions.py --check CHANGELOG.md
