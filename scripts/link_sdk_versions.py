@@ -70,6 +70,23 @@ def main() -> int:
     new_lines = [transform_line(line) for line in lines]
     new_content = "".join(new_lines)
 
+    if args.check:
+        invalid = False
+        for number, line in enumerate(lines, 1):
+            if "bitmovin" not in line.lower():
+                continue
+            for match in SDK_REFERENCE_RE.finditer(line):
+                if match["url"] is None:
+                    continue
+                base_url = IOS_URL if match["platform"].lower() == "ios" else ANDROID_URL
+                expected = base_url + version_to_anchor(match["linked"])
+                if match["url"] != expected:
+                    print(f"{path}:{number}: native SDK release-note link must be {expected}",
+                          file=sys.stderr)
+                    invalid = True
+        if invalid:
+            return 1
+
     if new_content == content:
         print(f"No changes needed in {path}")
         return 0

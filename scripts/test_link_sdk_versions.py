@@ -87,6 +87,20 @@ class LinkSdkVersionsTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(after, content)
 
+    def test_check_rejects_wrong_release_note_destinations_without_rewriting(self):
+        for destination in (
+            "https://example.com/unrelated",
+            links.ANDROID_URL + "#31240",
+            links.IOS_URL + "#31230",
+        ):
+            with self.subTest(destination=destination):
+                content = f"- Update Bitmovin iOS SDK to [`3.124.0`]({destination})\r\n"
+                self.assertEqual(links.transform_line(content), content)
+                result, after = self.run_script(content, "--check")
+                self.assertEqual(result.returncode, 1, result.stderr)
+                self.assertIn(links.IOS_URL + "#31240", result.stderr)
+                self.assertEqual(after, content)
+
     def test_dry_run_shows_diff_without_writing(self):
         content = "- Bitmovin iOS `3.124.0`\n"
         result, after = self.run_script(content, "--dry-run")
