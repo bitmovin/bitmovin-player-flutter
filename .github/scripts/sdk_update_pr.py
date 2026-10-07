@@ -85,20 +85,37 @@ def existing_pr(prs: list[dict], branch: str, base: str, repository: str) -> dic
     return matches[0] if matches else None
 
 
-def verify_automation_history(tip: str, platform: str, version: str, base: str) -> None:
+def verify_automation_history(tip: str, platform: str, version: str, base: str) -> bool:
     label = "iOS" if platform == "ios" else "Android"
     subjects = {f"Update {label} player SDK to {version}",
                 f"chore({platform}): update {platform} player version to {version}"}
     base_sha = run("git", "rev-parse", f"refs/remotes/origin/{base}")
     # Fail explicitly if the histories are unrelated, rather than trusting an empty range.
     run("git", "merge-base", base_sha, tip)
-    for commit in run("git", "rev-list", f"{base_sha}..{tip}").splitlines():
+    commits = run("git", "rev-list", f"{base_sha}..{tip}").splitlines()
+    for commit in commits:
         details = run("git", "show", "-s", "--format=%ae%n%ce%n%s%n%P", commit).splitlines()
         paths = set(run("git", "diff-tree", "--no-commit-id", "--name-only", "-r", commit).splitlines())
         if (len(details) != 4 or details[0] != BOT_EMAIL or details[1] != BOT_EMAIL
                 or details[2] not in subjects or len(details[3].split()) != 1
                 or not paths or not paths <= FILES[platform]):
             raise ValueError(f"Refusing update branch containing non-automation commit {commit}")
+    return bool(commits)
+
+
+def cleanup_history_is_automation(pr: dict, platform: str, version: str, base: str) -> bool:
+    sha = pr["head"].get("sha")
+    if not isinstance(sha, str) or not re.fullmatch(r"(?:[0-9a-f]{40}|[0-9a-f]{64})", sha):
+        return False
+    ref = f"refs/sdk-update/cleanup/{pr['number']}/{sha}"
+    try:
+        run("git", "fetch", "origin", f"refs/heads/{pr['head']['ref']}:{ref}")
+        if run("git", "rev-parse", ref) != sha:
+            return False
+        return verify_automation_history(ref, platform, version, base)
+    except ValueError as error:
+        print(f"Skipping PR #{pr['number']}: {error}")
+        return False
 
 
 def prepare(platform: str, version: str, base: str, repository: str, branch: str) -> None:
@@ -158,7 +175,7 @@ def finish(platform: str, version: str, base: str, repository: str, branch: str)
             older = semver_key(old_version) < semver_key(version)
         except ValueError:
             continue
-        if older:
+        if older and cleanup_history_is_automation(pr, platform, old_version, base):
             run("gh", "pr", "close", str(pr["number"]), "--repo", repository,
                 "--comment", f"Closing because {label} Player SDK {old_version} is superseded "
                 f"by {version} in #{replacement['number']}.")

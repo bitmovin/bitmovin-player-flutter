@@ -39,7 +39,7 @@ class UpdateTests(unittest.TestCase):
         self.state.write_text("[]")
         fake = root / "gh"
         fake.write_text('''#!/usr/bin/env python3
-import json, os, sys
+import json, os, subprocess, sys
 from pathlib import Path
 args = sys.argv[1:]
 state = Path(os.environ["GH_TEST_STATE"])
@@ -53,7 +53,8 @@ if args[0] == "api":
 elif args[:2] == ["pr", "create"]:
     def arg(name): return args[args.index(name) + 1]
     repo = arg("--repo")
-    prs.append({"number": 100, "state": "open", "head": {"ref": arg("--head"), "repo": {"full_name": repo}}, "base": {"ref": arg("--base"), "repo": {"full_name": repo}}})
+    sha = subprocess.check_output(["git", "rev-parse", "HEAD"], text=True).strip()
+    prs.append({"number": 100, "state": "open", "head": {"ref": arg("--head"), "sha": sha, "repo": {"full_name": repo}}, "base": {"ref": arg("--base"), "repo": {"full_name": repo}}})
     if not os.environ.get("GH_TEST_NO_CREATE"):
         state.write_text(json.dumps(prs))
     print("https://github.com/" + repo + "/pull/100")
@@ -81,13 +82,14 @@ elif args[:2] == ["pr", "edit"]:
     def branch(self, version="3.100.0", platform="android"):
         return f"update_{platform}_player_to_{version}"
 
-    def remote_update(self, subject=None, author="update-bot@bitmovin.com", path="android/build.gradle"):
-        branch = self.branch()
+    def remote_update(self, subject=None, author="update-bot@bitmovin.com", path="android/build.gradle",
+                      version="3.100.0", platform="android"):
+        branch = self.branch(version, platform)
         self.git("checkout", "-b", branch)
         (self.work / path).write_text("updated\n")
         self.git("add", path)
         self.git("-c", f"user.email={author}", "commit", "--no-verify", "-m",
-                 subject or "Update Android player SDK to 3.100.0")
+                 subject or f"Update {'iOS' if platform == 'ios' else 'Android'} player SDK to {version}")
         self.git("push", "origin", branch)
         sha = self.git("rev-parse", "HEAD")
         self.git("checkout", "main")
@@ -95,8 +97,10 @@ elif args[:2] == ["pr", "edit"]:
         return sha
 
     def pr(self, number, version, platform="android", base="main", repo=REPO):
+        remote = self.git("ls-remote", "origin", f"refs/heads/{self.branch(version, platform)}")
         return {"number": number, "state": "open",
-                "head": {"ref": self.branch(version, platform), "repo": {"full_name": repo}},
+                "head": {"ref": self.branch(version, platform), "sha": remote.split()[0] if remote else None,
+                         "repo": {"full_name": repo}},
                 "base": {"ref": base, "repo": {"full_name": REPO}}}
 
     def set_prs(self, prs):
@@ -218,6 +222,8 @@ elif args[:2] == ["pr", "edit"]:
         self.assertEqual(sum(call[:2] == ["pr", "edit"] for call in calls), 0)
 
     def test_closes_only_strictly_older_matching_prs_after_replacement(self):
+        self.remote_update(version="3.99.0+jason")
+        self.remote_update(version="3.100.0-beta.10")
         self.assert_success(self.run_helper("prepare"))
         prs = [self.pr(1, "3.99.0+jason"), self.pr(2, "3.100.0+build"),
                self.pr(3, "3.101.0"), self.pr(4, "3.99.0", platform="ios"),
@@ -243,6 +249,7 @@ elif args[:2] == ["pr", "edit"]:
         self.assertFalse(any(call[:2] == ["pr", "close"] for call in self.gh_calls()))
 
     def test_prerelease_order_and_build_metadata(self):
+        self.remote_update(version="3.100.0-beta.2")
         self.assert_success(self.run_helper("prepare", "3.100.0-beta.10+jason"))
         self.set_prs([self.pr(1, "3.100.0-beta.2"), self.pr(2, "3.100.0-beta.10+other"),
                       self.pr(3, "3.100.0-beta.11"), self.pr(4, "3.100.0")])
@@ -281,6 +288,7 @@ elif args[:2] == ["pr", "edit"]:
         self.assertFalse(any(call[:2] == ["pr", "close"] for call in self.gh_calls()))
 
     def test_cleanup_failure_is_reported(self):
+        self.remote_update(version="3.99.0")
         self.assert_success(self.run_helper("prepare"))
         self.set_prs([self.pr(1, "3.99.0")])
         self.env["GH_TEST_FAIL"] = "pr close"
@@ -288,6 +296,14 @@ elif args[:2] == ["pr", "edit"]:
         result = self.run_helper("finish")
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("failed", result.stderr)
+
+    def test_cleanup_preserves_older_pr_with_human_commits(self):
+        self.remote_update(version="3.99.0", author="human@example.com", subject="Customer regression fix")
+        self.assert_success(self.run_helper("prepare"))
+        self.set_prs([self.pr(1, "3.99.0")])
+        (self.work / "android/build.gradle").write_text("update\n")
+        self.assert_success(self.run_helper("finish"))
+        self.assertFalse(any(call[:2] == ["pr", "close"] for call in self.gh_calls()))
 
     def test_malformed_api_payload_fails_before_branch_creation(self):
         self.set_prs([{"message": "API failure"}])
