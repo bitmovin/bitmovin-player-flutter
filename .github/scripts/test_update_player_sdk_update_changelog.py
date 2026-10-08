@@ -39,7 +39,7 @@ class UpdateSdkChangelogTests(unittest.TestCase):
         other_entry = f"- Update Bitmovin's native iOS SDK version to [`3.124.0`]({IOS_URL}#31240)\n"
         content = "# Changelog\n\n## [Unreleased]\n\n### Changed\n\n- Existing change.\n" + other_entry + HISTORY
         updated = changelog.update_unreleased_changed_section(content, "android", "3.167.0-beta.1+build")
-        self.assertIn(f"[`3.167.0-beta.1+build`]({ANDROID_URL}#31670)\n- Existing change.", updated)
+        self.assertIn(f"[`3.167.0-beta.1+build`]({ANDROID_URL})\n- Existing change.", updated)
         self.assertIn(other_entry, updated)
         self.assertTrue(updated.endswith(HISTORY))
         self.assertEqual(changelog.update_unreleased_changed_section(updated, "android", "3.167.0-beta.1+build"), updated)

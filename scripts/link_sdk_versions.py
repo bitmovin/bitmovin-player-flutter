@@ -29,8 +29,11 @@ SDK_REFERENCE_RE = re.compile(
 
 
 def version_to_anchor(version: str) -> str:
-    """'3.112.0' or '3.151.0+jason' -> '#31120' / '#31510'"""
-    semver = version.split("+")[0].split("-")[0]
+    """Stable versions use an anchor; prereleases use the release notes page."""
+    semver = version.split("+")[0]
+    # Release notes publish stable headings, not prerelease-specific sections.
+    if "-" in semver:
+        return ""
     return "#" + semver.replace(".", "")
 
 

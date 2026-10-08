@@ -27,6 +27,7 @@ class LinkSdkVersionsTests(unittest.TestCase):
         for platform, version, anchor, url in (
             ("iOS", "3.124.0", "#31240", links.IOS_URL),
             ("Android", "3.166.0+jason", "#31660", links.ANDROID_URL),
+            ("iOS", "3.125.0+build-beta.1", "#31250", links.IOS_URL),
         ):
             with self.subTest(platform=platform):
                 line = f"- Update Bitmovin's native {platform} SDK version to `{version}`\n"
@@ -35,12 +36,26 @@ class LinkSdkVersionsTests(unittest.TestCase):
                     line.replace(f"`{version}`", f"[`{version}`]({url}{anchor})"),
                 )
 
-    def test_links_prerelease_to_base_version_anchor(self):
-        line = "- Update Bitmovin iOS SDK to `3.125.0-beta.1+build.2`\n"
-        self.assertIn(
-            f"[`3.125.0-beta.1+build.2`]({links.IOS_URL}#31250)",
-            links.transform_line(line),
-        )
+    def test_links_prerelease_to_release_notes_page(self):
+        for platform, url in (("iOS", links.IOS_URL), ("Android", links.ANDROID_URL)):
+            for version in ("3.125.0-beta.1", "3.125.0-beta.1+build.2"):
+                with self.subTest(platform=platform, version=version):
+                    line = f"- Update Bitmovin {platform} SDK to `{version}`\n"
+                    self.assertEqual(
+                        links.transform_line(line),
+                        line.replace(f"`{version}`", f"[`{version}`]({url})"),
+                    )
+
+    def test_check_prerelease_requires_release_notes_page(self):
+        for platform, url in (("iOS", links.IOS_URL), ("Android", links.ANDROID_URL)):
+            for fragment, status in (("", 0), ("#31250", 1)):
+                with self.subTest(platform=platform, fragment=fragment):
+                    content = f"- Bitmovin {platform} [`3.125.0-beta.1+build.2`]({url}{fragment})\r\n"
+                    result, after = self.run_script(content, "--check")
+                    self.assertEqual(result.returncode, status, result.stderr)
+                    self.assertEqual(after, content)
+                    if status:
+                        self.assertTrue(result.stderr.endswith(f"must be {url}\n"))
 
     def test_preserves_existing_links_and_unrelated_content(self):
         lines = (
