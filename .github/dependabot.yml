@@ -6,6 +6,16 @@
 version: 2
 updates:
   - package-ecosystem: "pub"
-    directory: "/"
+    directories:
+      - "/"
+      - "/example"
+      - "/player_testing"
     schedule:
       interval: "weekly"
+  - package-ecosystem: "github-actions"
+    directories:
+      - "/"
+      - "/.github/actions/prepare-dependencies"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 5
