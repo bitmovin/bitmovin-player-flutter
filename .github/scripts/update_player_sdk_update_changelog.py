@@ -16,7 +16,7 @@ from typing import Tuple
 
 # Share the same release-note links as the non-mutating CI check.
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
-from link_sdk_versions import transform_line
+from link_sdk_versions import SEMVER, transform_line
 
 
 CHANGELOG_FILE = "CHANGELOG.md"
@@ -42,11 +42,8 @@ PLATFORM_ANDROID = "android"
 PLATFORM_IOS = "ios"
 PLATFORMS = {PLATFORM_ANDROID: "Android", PLATFORM_IOS: "iOS"}
 
-# SemVer: MAJOR.MINOR.PATCH with optional -pre-release and +build metadata
-SEMVER_RE = r"\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?"
-
 # Entry line template pieces
-ENTRY_LINE_PREFIX = "- Update Bitmovin's native {platform} SDK version to `"
+ENTRY_LINE_PREFIX = "- Update Bitmovin's native {platform} SDK version to "
 
 
 def normalize_newlines(text: str) -> str:
@@ -71,11 +68,11 @@ def write_changelog(path: str, content: str) -> None:
 def build_entry(platform_key: str, version: str) -> Tuple[str, re.Pattern[str]]:
     platform_label = PLATFORMS[platform_key]
     entry_prefix = ENTRY_LINE_PREFIX.format(platform=platform_label)
-    new_entry = transform_line(f"{entry_prefix}{version}`")
+    new_entry = transform_line(f"{entry_prefix}`{version}`")
     # Pattern to find an existing entry for this platform regardless of version
     existing_pattern = re.compile(
-        rf"^{re.escape(entry_prefix[:-1])}"
-        rf"(?:`{SEMVER_RE}`|\[`{SEMVER_RE}`\]\([^)]+\))(?P<suffix>[^\n]*)$",
+        rf"^{re.escape(entry_prefix)}"
+        rf"(?:`{SEMVER}`|\[`{SEMVER}`\]\([^)]+\))(?P<suffix>[^\n]*)$",
         flags=re.MULTILINE,
     )
     return new_entry, existing_pattern
@@ -152,7 +149,7 @@ def validate_inputs(version: str, platform: str) -> None:
     if platform not in PLATFORMS:
         print(ERROR_INVALID_PLATFORM)
         sys.exit(1)
-    if not re.fullmatch(SEMVER_RE, version):
+    if not re.fullmatch(SEMVER, version):
         print(ERROR_INVALID_VERSION)
         sys.exit(1)
 
