@@ -37,9 +37,20 @@ class ReleaseTrainTests(unittest.TestCase):
         self.assertEqual(result, PENDING.replace("## [Unreleased]", "## [Unreleased]\n\n## [0.27.0] - 2026-10-08"))
 
     def test_prepare_rejects_empty_headings_and_comments(self):
-        for body in ("", "\n### Fixed\n\n", "\n<!-- later -->\n\n### Changed\n"):
+        for body in ("", "\n### Fixed\n\n", "\n<!-- later -->\n\n### Changed\n",
+                     "\n-\n*\n+\n", "\n---\n***\n___\n", "\n[compare]: https://example.com/compare\n"):
             with self.subTest(body=body), self.assertRaises(ValueError):
                 self.release.prepare_changelog("# Changelog\n\n## [Unreleased]\n" + body, "0.27.0", "2026-10-08")
+
+    def test_changelog_content_accepts_real_bullets_and_prose(self):
+        for body in ("- Fix playback", "* **Fix playback**", "This release fixes playback."):
+            with self.subTest(body=body):
+                self.assertTrue(self.release.has_changes(body))
+
+    def test_finish_rejects_release_notes_containing_only_markdown_syntax(self):
+        content = self.prepared().replace("- A reviewed change", "---\n[compare]: https://example.com/compare")
+        with self.assertRaises(ValueError):
+            self.release.validate_merge(event(), "bitmovin/bitmovin-player-flutter", "a" * 40, "version: 0.27.0\n", content)
 
     def test_prepare_rejects_duplicate_or_misplaced_sections(self):
         for content in (PENDING + "\n## [Unreleased]\n- Another\n", PENDING.replace("Unreleased", "0.27.0")):

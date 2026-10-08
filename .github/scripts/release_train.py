@@ -33,7 +33,12 @@ def package_version(pubspec):
 
 def has_changes(body):
     body = re.sub(r"<!--.*?-->", "", body, flags=re.DOTALL)
-    return any(line.strip() and not line.lstrip().startswith("#") for line in body.splitlines())
+    return any(
+        line.strip(" \t-*+_>")
+        and not line.lstrip().startswith("#")
+        and not re.match(r"^\s*\[[^\]]+\]:", line)
+        for line in body.splitlines()
+    )
 
 
 def prepare_changelog(content, version, date):
