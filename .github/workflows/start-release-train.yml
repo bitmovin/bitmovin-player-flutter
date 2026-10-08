@@ -23,7 +23,7 @@ jobs:
     outputs:
       branch_name: ${{ steps.branching.outputs.branch_name }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - uses: ./.github/actions/prepare-dependencies
 
@@ -71,7 +71,7 @@ jobs:
     needs: create_release_branch
     runs-on: macos-14
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: ${{ needs.create_release_branch.outputs.branch_name }}
 
