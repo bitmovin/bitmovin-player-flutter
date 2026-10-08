@@ -93,3 +93,16 @@ jobs:
           --reviewer "${{ github.actor }}"
         env:
           GH_TOKEN: ${{ github.token }}
+
+      # The release tag is already pushed by trigger_publish. Only the release
+      # branch and its PR into main receive the restored Unreleased section.
+      - name: Restore Unreleased changelog section
+        run: |
+          python3 .github/scripts/ensure_unreleased_changelog.py
+          if git diff --quiet -- CHANGELOG.md; then
+            echo "CHANGELOG.md already contains the Unreleased section"
+          else
+            git add CHANGELOG.md
+            git commit --no-verify -m "Restore Unreleased changelog section"
+            git push origin "${{ github.ref }}"
+          fi
