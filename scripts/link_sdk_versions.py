@@ -59,7 +59,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     mode = parser.add_mutually_exclusive_group()
     mode.add_argument("--dry-run", action="store_true", help="Show changes without writing")
-    mode.add_argument("--check", action="store_true", help="Fail on missing links without writing")
+    mode.add_argument("--check", action="store_true", help="Fail on missing or incorrect links without writing")
     parser.add_argument("path", nargs="?", type=Path, default=Path("CHANGELOG.md"))
     args = parser.parse_args()
     path = args.path
@@ -70,8 +70,6 @@ def main() -> int:
     with path.open(encoding="utf-8", newline="") as file:
         content = file.read()
     lines = content.splitlines(keepends=True)
-    new_lines = [transform_line(line) for line in lines]
-    new_content = "".join(new_lines)
 
     if args.check:
         invalid = False
@@ -79,22 +77,26 @@ def main() -> int:
             if "bitmovin" not in line.lower():
                 continue
             for match in SDK_REFERENCE_RE.finditer(line):
-                if match["url"] is None:
-                    continue
                 base_url = IOS_URL if match["platform"].lower() == "ios" else ANDROID_URL
-                expected = base_url + version_to_anchor(match["linked"])
+                version = match["linked"] or match["bare"]
+                expected = base_url + version_to_anchor(version)
                 if match["url"] != expected:
                     print(f"{path}:{number}: native SDK release-note link must be {expected}",
                           file=sys.stderr)
                     invalid = True
         if invalid:
             return 1
+        print(f"No changes needed in {path}")
+        return 0
+
+    new_lines = [transform_line(line) for line in lines]
+    new_content = "".join(new_lines)
 
     if new_content == content:
         print(f"No changes needed in {path}")
         return 0
 
-    if args.dry_run or args.check:
+    if args.dry_run:
         diff = difflib.unified_diff(
             content.splitlines(keepends=True),
             new_content.splitlines(keepends=True),
@@ -106,7 +108,7 @@ def main() -> int:
         path.write_text(new_content, encoding="utf-8")
         changed = sum(1 for a, b in zip(lines, new_lines) if a != b)
         print(f"Updated {path} ({changed} line(s) linked)")
-    return 1 if args.check else 0
+    return 0
 
 
 if __name__ == "__main__":

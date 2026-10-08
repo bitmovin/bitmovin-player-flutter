@@ -93,7 +93,29 @@ class LinkSdkVersionsTests(unittest.TestCase):
         content = "# Changelog\r\n- Update Bitmovin Android SDK to `3.166.0+jason`\r\n"
         result, after = self.run_script(content, "--check")
         self.assertEqual(result.returncode, 1, result.stderr)
-        self.assertIn("release-notes-android#31660", result.stdout)
+        self.assertTrue(result.stderr.endswith(
+            f"CHANGELOG.md:2: native SDK release-note link must be {links.ANDROID_URL}#31660\n"
+        ))
+        self.assertEqual(result.stdout, "")
+        self.assertEqual(after, content)
+
+    def test_check_reports_missing_and_wrong_links_together(self):
+        content = (
+            "# Changelog\r\n"
+            f"- Bitmovin iOS [`3.124.0`]({links.IOS_URL}#31230)\r\n"
+            "- Bitmovin Android `3.166.0` and iOS `3.125.0-beta.1`\r\n"
+        )
+        result, after = self.run_script(content, "--check")
+        self.assertEqual(result.returncode, 1, result.stderr)
+        diagnostics = result.stderr.splitlines()
+        self.assertEqual(len(diagnostics), 3)
+        for diagnostic, number, url in zip(diagnostics, (2, 3, 3), (
+            links.IOS_URL + "#31240", links.ANDROID_URL + "#31660", links.IOS_URL,
+        )):
+            self.assertTrue(diagnostic.endswith(
+                f"CHANGELOG.md:{number}: native SDK release-note link must be {url}"
+            ), diagnostic)
+        self.assertEqual(result.stdout, "")
         self.assertEqual(after, content)
 
     def test_check_linked_file_passes_without_writing(self):
