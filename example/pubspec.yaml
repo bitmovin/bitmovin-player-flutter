@@ -25,7 +25,7 @@ dev_dependencies:
     sdk: flutter
   player_testing:
     path: ../player_testing
-  very_good_analysis: ^10.0.0
+  very_good_analysis: ^11.0.0
 
 flutter:
   config:
