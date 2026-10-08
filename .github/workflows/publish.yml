@@ -38,7 +38,7 @@ jobs:
 
       - name: Extract Changelog
         id: changelog
-        uses: ffurrer2/extract-release-notes@v1
+        uses: ffurrer2/extract-release-notes@v3
 
       - name: Create GitHub release
         uses: ncipollo/release-action@v1
