@@ -36,7 +36,7 @@ jobs:
     name: Generate documentation
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Prepare dependencies and development environment
         uses: ./.github/actions/prepare-dependencies
       - name: Analyze project source

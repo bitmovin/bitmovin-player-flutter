@@ -37,7 +37,7 @@ jobs:
         working-directory: bitmovin_player
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           path: bitmovin_player
           fetch-depth: 0

@@ -18,7 +18,7 @@ jobs:
       group: build-workspace-analyze-${{ github.event.pull_request.number || github.ref }}
       cancel-in-progress: true
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/prepare-dependencies
       - name: Analyze Dart
         run: flutter analyze
@@ -40,7 +40,7 @@ jobs:
       run:
         working-directory: bitmovin_player
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           path: bitmovin_player
       - uses: ./bitmovin_player/.github/actions/prepare-dependencies
@@ -57,7 +57,7 @@ jobs:
       group: build-workspace-android-${{ github.event.pull_request.number || github.ref }}
       cancel-in-progress: true
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: ./.github/actions/prepare-dependencies
       - uses: actions/setup-java@v6
         with:
