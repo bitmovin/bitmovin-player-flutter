@@ -54,6 +54,7 @@ def prepare_changelog(content, version, date):
 
 def start_state(version, prs, refs):
     validate_version(version)
+    prs = [pr for pr in prs if not pr.get("isCrossRepository", False)]
     branch = f"release/{version}"
     if f"refs/tags/{version}" in refs:
         raise ValueError("Release tag already exists")
@@ -154,7 +155,7 @@ def main():
         pubspec = read("pubspec.yaml")
         validate_version(args.version, package_version(pubspec))
         if args.command == "check-start":
-            prs = json.loads(run("gh", "pr", "list", "--repo", os.environ["GITHUB_REPOSITORY"], "--base", "main", "--state", "all", "--limit", "1000", "--json", "headRefName,url,state"))
+            prs = json.loads(run("gh", "pr", "list", "--repo", os.environ["GITHUB_REPOSITORY"], "--base", "main", "--state", "all", "--limit", "1000", "--json", "headRefName,url,state,isCrossRepository"))
             if len(prs) == 1000:
                 raise ValueError("PR query limit reached; release history must be inspected before continuing")
             refs = [line.split()[1] for line in run("git", "ls-remote", "--heads", "--tags", "origin").splitlines()]

@@ -80,6 +80,26 @@ class ReleaseTrainTests(unittest.TestCase):
         self.assertFalse(self.release.start_state("0.27.0", [{"headRefName": "release/0.27.0", "url": "url", "state": "OPEN"}], ["refs/heads/release/0.27.0"]))
         self.assertTrue(self.release.start_state("0.27.0", [], []))
 
+    def test_fork_release_prs_do_not_block_or_impersonate_repository_releases(self):
+        for branch, state in (("release/0.27.0", "OPEN"), ("release/0.28.0", "OPEN"),
+                              ("release/0.27.0", "CLOSED"), ("release/0.27.0", "MERGED")):
+            pr = {"headRefName": branch, "state": state, "url": "https://example.com/fork-pr", "isCrossRepository": True}
+            with self.subTest(branch=branch, state=state):
+                try:
+                    prepare = self.release.start_state("0.27.0", [pr], [])
+                except ValueError as error:
+                    self.fail(f"A fork PR blocked the repository's release: {error}")
+                self.assertTrue(prepare, "A fork PR impersonated the repository's release")
+
+    def test_fork_pr_cannot_hide_an_existing_repository_release_pr(self):
+        fork = {"headRefName": "release/0.27.0", "state": "OPEN", "url": "fork", "isCrossRepository": True}
+        repository = {"headRefName": "release/0.27.0", "state": "OPEN", "url": "repository", "isCrossRepository": False}
+        try:
+            prepare = self.release.start_state("0.27.0", [fork, repository], ["refs/heads/release/0.27.0"])
+        except ValueError as error:
+            self.fail(f"A fork PR hid the existing repository PR: {error}")
+        self.assertFalse(prepare)
+
     def test_start_does_not_reopen_closed_or_merged_release(self):
         for state in ("CLOSED", "MERGED"):
             with self.subTest(state=state), self.assertRaises(ValueError):
