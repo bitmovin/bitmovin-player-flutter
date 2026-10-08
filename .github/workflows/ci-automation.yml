@@ -1,0 +1,37 @@
+name: CI (automation)
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/ci-automation.yml'
+      - '.github/workflows/create-sdk-update-pr.yml'
+      - '.github/workflows/finish-release-train.yml'
+      - '.github/scripts/**'
+      - 'scripts/**'
+      - 'CHANGELOG.md'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/ci-automation.yml'
+      - '.github/workflows/create-sdk-update-pr.yml'
+      - '.github/workflows/finish-release-train.yml'
+      - '.github/scripts/**'
+      - 'scripts/**'
+      - 'CHANGELOG.md'
+
+concurrency:
+  group: ci-automation-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  automation-checks:
+    name: Python automation
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Test repository automation scripts
+        run: python3 -m unittest discover -s scripts -p 'test_*.py'
