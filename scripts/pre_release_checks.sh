@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 set -eu
 
-ROOT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)"
+ROOT_DIR="$(CDPATH='' cd -- "$(dirname -- "$0")/.." && pwd)"
 cd "$ROOT_DIR"
 
 APPLY_UPGRADES=0
@@ -15,7 +15,7 @@ Usage: scripts/pre_release_checks.sh [options]
 Runs pre-release checks for this package.
 
 Options:
-  --apply-upgrades  Runs dependency upgrades before the iOS build.
+  --apply-upgrades  Upgrades dependencies and regenerates code before validation.
   --skip-ios-build Skips the example iOS build after upgrades.
   -h, --help        Show this help.
 EOF
@@ -104,6 +104,16 @@ run_upgrades() {
   run_step "Upgrade player_testing dependencies (major versions allowed)" upgrade_player_testing_dependencies
 }
 
+regenerate_code() {
+  run_step "Regenerate root code after upgrades" run_dart run build_runner build --delete-conflicting-outputs
+  run_step "Regenerate player_testing code after upgrades" regenerate_player_testing
+}
+
+regenerate_player_testing() {
+  cd "$ROOT_DIR/player_testing"
+  run_dart run build_runner build --delete-conflicting-outputs
+}
+
 build_ios() {
   if [ "$SKIP_IOS_BUILD" -eq 1 ]; then
     echo "Skipping example iOS build (requested)"
@@ -158,11 +168,17 @@ echo "Pre-release checks for bitmovin-player-flutter"
 print_sdk_versions
 run_step "Link native SDK versions in CHANGELOG.md" python3 "$ROOT_DIR/scripts/link_sdk_versions.py"
 run_step "Check SDK version changes include changelog updates" check_sdk_changelog_sync
-run_outdated_checks
-run_publish_dry_run
-
 if [ "$APPLY_UPGRADES" -eq 1 ]; then
   run_upgrades
+  if [ "$FAILURES" -ne 0 ]; then
+    echo "Dependency upgrades failed; stopping before candidate validation."
+    exit 1
+  fi
+  regenerate_code
+  if [ "$FAILURES" -ne 0 ]; then
+    echo "Code generation failed; stopping before candidate validation."
+    exit 1
+  fi
   build_ios
 else
   echo
@@ -172,6 +188,9 @@ else
   echo "  - dart pub upgrade --major-versions in player_testing"
   echo "  - flutter build ios --no-codesign in example"
 fi
+
+run_outdated_checks
+run_publish_dry_run
 
 echo
 if [ "$FAILURES" -eq 0 ]; then
