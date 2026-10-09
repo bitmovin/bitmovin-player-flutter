@@ -45,7 +45,7 @@ jobs:
         run: dart doc .
       - uses: actions/setup-node@v6
         with:
-          node-version: 18
+          node-version: '24'
       - name: Install CI scripts
         run: |
           curl -sS -H "Authorization: token ${GH_TOKEN}" -L https://raw.githubusercontent.com/bitmovin-engineering/player-ci/master/install.sh | bash

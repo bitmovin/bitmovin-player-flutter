@@ -20,9 +20,18 @@ jobs:
 
       - uses: ./.github/actions/prepare-dependencies
 
+      - name: Read Flutter Dart SDK version
+        id: flutter-dart
+        run: |
+          dart_version=$(cat "$FLUTTER_ROOT/bin/cache/dart-sdk/version")
+          test -n "$dart_version"
+          echo "version=$dart_version" >> "$GITHUB_OUTPUT"
+
       # Setup Dart SDK with JWT token. This is needed to allow publishing to pub.dev from the CI without having to 
       # manually log-in in to pub.dev with an admin account.
       - uses: dart-lang/setup-dart@v1.6.0
+        with:
+          sdk: ${{ steps.flutter-dart.outputs.version }}
 
       - name: Publish dry run
         run: dart pub publish --dry-run
