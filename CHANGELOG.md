@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.27.0] - 2026-10-09
+
 ### Changed
 
 - Require Flutter 3.44 or later.
