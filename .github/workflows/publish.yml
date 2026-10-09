@@ -28,7 +28,7 @@ jobs:
 
       # Setup Dart SDK with JWT token. This is needed to allow publishing to pub.dev from the CI without having to 
       # manually log-in in to pub.dev with an admin account.
-      - uses: dart-lang/setup-dart@v1.6.0
+      - uses: dart-lang/setup-dart@v1.8.1
         with:
           sdk: ${{ steps.flutter-dart.outputs.version }}
 
