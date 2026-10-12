@@ -61,6 +61,9 @@ jobs:
         with:
           working-directory: bitmovin_player
 
+      - name: Verify example dependency lockfile is unchanged
+        run: git diff --exit-code HEAD -- example/pubspec.lock
+
       - name: Bump iOS player SDK version
         if: ${{ inputs.sdk_name == 'ios' }}
         run: |
