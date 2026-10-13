@@ -58,18 +58,25 @@ jobs:
 
       - name: Upgrade dependencies and validate the final candidate with SPM
         if: steps.guard.outputs.prepare == 'true'
-        run: sh scripts/pre_release_checks.sh --apply-upgrades
+        run: sh scripts/pre_release_checks.sh --apply-upgrades --skip-publish-dry-run
 
-      - name: Commit only release contents and push without replacing existing work
+      - name: Commit only release contents
         if: steps.guard.outputs.prepare == 'true'
-        env:
-          RELEASE_BRANCH: ${{ steps.guard.outputs.branch }}
         run: |
           git config user.name "Bitmovin Release Automation"
           git config user.email "player-sdks@bitmovin.com"
           git add -u -- CHANGELOG.md pubspec.yaml example/pubspec.yaml example/pubspec.lock player_testing/pubspec.yaml example/ios/Podfile.lock lib/src player_testing/lib
           git commit --no-verify -m "Prepare release $RELEASE_VERSION for review"
-          git push origin "HEAD:refs/heads/$RELEASE_BRANCH"
+
+      - name: Validate publishing the committed release candidate
+        if: steps.guard.outputs.prepare == 'true'
+        run: dart pub publish --dry-run
+
+      - name: Push without replacing existing release work
+        if: steps.guard.outputs.prepare == 'true'
+        env:
+          RELEASE_BRANCH: ${{ steps.guard.outputs.branch }}
+        run: git push origin "HEAD:refs/heads/$RELEASE_BRANCH"
 
       - name: Open release approval PR
         if: steps.guard.outputs.prepare == 'true'

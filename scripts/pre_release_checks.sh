@@ -6,6 +6,7 @@ cd "$ROOT_DIR"
 
 APPLY_UPGRADES=0
 SKIP_IOS_BUILD=0
+SKIP_PUBLISH_DRY_RUN=0
 FAILURES=0
 
 usage() {
@@ -17,6 +18,7 @@ Runs pre-release checks for this package.
 Options:
   --apply-upgrades  Upgrades dependencies and regenerates code before validation.
   --skip-ios-build Skips the example iOS build after upgrades.
+  --skip-publish-dry-run Defers publishing validation until release contents are committed.
   -h, --help        Show this help.
 EOF
 }
@@ -151,6 +153,9 @@ while [ "$#" -gt 0 ]; do
     --skip-ios-build)
       SKIP_IOS_BUILD=1
       ;;
+    --skip-publish-dry-run)
+      SKIP_PUBLISH_DRY_RUN=1
+      ;;
     -h|--help)
       usage
       exit 0
@@ -190,7 +195,11 @@ else
 fi
 
 run_outdated_checks
-run_publish_dry_run
+if [ "$SKIP_PUBLISH_DRY_RUN" -eq 1 ]; then
+  echo "Skipping publish dry run (deferred until release contents are committed)."
+else
+  run_publish_dry_run
+fi
 
 echo
 if [ "$FAILURES" -eq 0 ]; then
