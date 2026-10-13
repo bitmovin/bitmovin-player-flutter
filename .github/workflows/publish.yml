@@ -12,6 +12,7 @@ jobs:
     name: Publish to pub.dev
     environment: pub.dev
     permissions:
+      contents: read
       id-token: write # This is required for requesting the JWT
     runs-on: ubuntu-latest
     steps:
@@ -41,6 +42,8 @@ jobs:
   create_gh_release:
     name: Create GitHub release
     needs: [publish]
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
@@ -48,6 +51,8 @@ jobs:
       - name: Extract Changelog
         id: changelog
         uses: ffurrer2/extract-release-notes@v3
+        with:
+          prerelease: false # Skip the fresh empty Unreleased section on the tag.
 
       - name: Create GitHub release
         uses: ncipollo/release-action@v1

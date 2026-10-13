@@ -1,108 +1,53 @@
 name: Finish Release Train
 
-on: workflow_dispatch
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
 
-env:
-  LC_ALL: en_US.UTF-8
-  LANG: en_US.UTF-8
+permissions:
+  contents: read
 
 concurrency:
-  group: finish-release-train-${{ github.ref }}
-  cancel-in-progress: true
+  group: finish-release-train-${{ github.event.pull_request.head.ref }}
+  cancel-in-progress: false
 
 jobs:
-  prepare:
-    name: Extracts the version number from the release branch
+  tag_approved_release:
+    name: Tag the exact human-approved merged release
+    if: >-
+      github.event.pull_request.merged == true &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      startsWith(github.event.pull_request.head.ref, 'release/')
     runs-on: ubuntu-latest
-    outputs:
-      version_number: ${{ steps.version_number.outputs.version_number }}
-    steps:
-      - name: Verify release branch
-        if: "!contains(github.ref, 'release')"
-        run: exit 1
-
-      - uses: actions/checkout@v7
-
-      - name: Setup Git User
-        run: |
-          git config --global user.name "Bitmovin Release Automation"
-          git config --global user.email "player-sdks@bitmovin.com"
-
-      - name: Detect version number
-        id: version_number
-        run: |
-          version_number=$(echo "${{ github.ref }}" | rev | cut -d '/' -f1 | rev)
-          echo "Detected version number: $version_number"
-          echo "version_number=$version_number" >> $GITHUB_OUTPUT
-
-      - name: Update Changelog
-        run: |
-          sed -i "s/\[${{ steps.version_number.outputs.version_number }}\].*/\[${{ steps.version_number.outputs.version_number }}\] - $(date +'%Y-%m-%d')/g" CHANGELOG.md
-
-      - name: Commit changelog version bump
-        run: |
-          git add CHANGELOG.md
-          git commit -m "chore: bump changelog date to today"
-          git push origin ${{ github.ref }}
-
-  trigger_publish:
-    name: Push tag to trigger publishing to pub dev
-    needs: [prepare]
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v7
         with:
-          ref: ${{ github.ref }}
+          # Never resolve main or the release branch again after approval.
+          ref: ${{ github.event.pull_request.merge_commit_sha }}
+          fetch-depth: 0
           ssh-key: ${{ secrets.PLAYER_FLUTTER_DEPLOY_KEY }}
 
-      - name: Setup Git User
-        run: |
-          git config --global user.name "Bitmovin Release Automation"
-          git config --global user.email "player-sdks@bitmovin.com"
+      - name: Validate merged PR, package, changelog and existing tag
+        id: release
+        run: python3 .github/scripts/release_train.py finish
 
-      - name: Add tag
-        run: |
-          git tag ${{ needs.prepare.outputs.version_number }}
-
-      - name: Push tag
-        run: |
-          git push origin ${{ needs.prepare.outputs.version_number }}
-
-  create_pr:
-    name: Create PR
-    needs: [prepare, trigger_publish]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v7
-        with:
-          ref: ${{ github.ref }}
-
-      - name: Setup Git User
-        run: |
-          git config --global user.name "Bitmovin Release Automation"
-          git config --global user.email "player-sdks@bitmovin.com"
-
-      - name: Create PR
-        run: |
-          gh pr create \
-          --base "main" \
-          --title "Release ${{ needs.prepare.outputs.version_number }}" \
-          --body "Release ${{ needs.prepare.outputs.version_number }}. Please review and merge this PR." \
-          --reviewer "${{ github.actor }}"
+      - name: Tag and trigger publication using the deploy key
+        if: steps.release.outputs.create_tag == 'true'
         env:
-          GH_TOKEN: ${{ github.token }}
-
-      # The release tag is already pushed by trigger_publish. Only the release
-      # branch and its PR into main receive the restored Unreleased section.
-      - name: Restore Unreleased changelog section
+          RELEASE_VERSION: ${{ steps.release.outputs.version }}
         run: |
-          python3 .github/scripts/ensure_unreleased_changelog.py
-          if git diff --quiet -- CHANGELOG.md; then
-            echo "CHANGELOG.md already contains the Unreleased section"
+          git tag "$RELEASE_VERSION" HEAD
+          git push origin "refs/tags/$RELEASE_VERSION"
+
+      - name: Summarize release
+        env:
+          RELEASE_VERSION: ${{ steps.release.outputs.version }}
+          CREATE_TAG: ${{ steps.release.outputs.create_tag }}
+        run: |
+          if [ "$CREATE_TAG" = true ]; then
+            echo "Tagged the approved merged revision as $RELEASE_VERSION. The tag triggers package, release and documentation publication." >> "$GITHUB_STEP_SUMMARY"
           else
-            git add CHANGELOG.md
-            git commit --no-verify -m "Restore Unreleased changelog section"
-            git push origin "${{ github.ref }}"
+            echo "Skipped: $RELEASE_VERSION already tags the approved merged revision. No duplicate publication was triggered." >> "$GITHUB_STEP_SUMMARY"
           fi
